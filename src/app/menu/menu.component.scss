@@ -42,3 +42,15 @@ a[disabled] {
     text-decoration-line: line-through;
     -webkit-text-decoration-line: line-through;
 }
+
+button {
+  background-color: rgb(0, 40, 40); /* Green */
+  border-radius: 10%;
+  border: none;
+  color: white;
+  padding: 6px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}

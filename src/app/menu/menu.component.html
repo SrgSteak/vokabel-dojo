@@ -1,4 +1,4 @@
-<button (mousedown)="toggle()">---</button>
+<button (mousedown)="toggle()">♨︎</button>
 <div *ngIf="show" class="menu" #menu>
   <div class="links">
     <span class="label">Silben</span>
@@ -6,7 +6,10 @@
     <a routerLinkActive="active" routerLink="/learn" (click)="toggle()">Lernmodus</a>
     <span class="label">Vokabel</span>
     <a routerLinkActive="active" routerLink="/word-quiz">Hiragana</a>
-    <a href="" disabled>Katagana</a>
+    <a href="" disabled>Katakana</a>
     <a href="" disabled>Kanji</a>
+    <span class="label">Allgemein</span>
+    <a routerLinkActive="active" routerLink="/about">About</a>
+    <a href="japanischlernen.at/login/">Nihongo Gakuen</a>
   </div>
 </div>

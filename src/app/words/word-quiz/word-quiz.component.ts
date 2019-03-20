@@ -20,7 +20,7 @@ export class WordQuizComponent implements OnInit {
   displayError: boolean;
   displayStatistic: boolean;
 
-  constructor(private vocabularyService: VocabularyService) { 
+  constructor(public vocabularyService: VocabularyService) {
     this.deck = vocabularyService.getAll();
     this.questionMode = 'hiragana';
     this.answerMode = 'german';

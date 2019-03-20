@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild, HostListener, ElementRef } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-menu',
@@ -29,6 +30,6 @@ export class MenuComponent implements OnInit {
         this.show = false
       }
     }
-    
+
   }
 }
