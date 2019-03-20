@@ -10,17 +10,21 @@ import { MenuComponent } from './menu/menu.component';
 import { VocabularyService } from './vocabulary.service';
 import { WordQuizComponent } from './words/word-quiz/word-quiz.component';
 import { FlashcardService } from './flashcard.service';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
-  imports:      [ 
-    BrowserModule, 
+  imports:      [
+    BrowserModule,
     FormsModule,
     RouterModule.forRoot([
-      { path: '', pathMatch: 'full', redirectTo: '/quiz' },
-      { path: 'quiz', component: QuizComponent },
+      // { path: '', pathMatch: 'full', redirectTo: '/quiz' },
+      // { path: 'quiz', component: QuizComponent },
+      { path: '', component: QuizComponent },
       { path: 'learn', component: LearnComponent },
       { path: 'word-quiz', component: WordQuizComponent }
-    ])
+    ]),
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   declarations: [ AppComponent, LearnComponent, QuizComponent, MenuComponent, WordQuizComponent ],
   bootstrap:    [ AppComponent ],
