@@ -1,0 +1,26 @@
+<div class="word_quiz">
+  <div class="card">
+    {{ showCard[questionMode]}}
+  </div>
+  <div class="answer" *ngFor="let answer of answers" (click)="answerSelect(this.showCard, answer)"
+  [class.error]="displayError && answer.hiragana !== showCard.hiragana">
+    {{ answer[answerMode] }}
+  </div>
+  <div class="score" (click)="toggleStatistic()">
+    
+      Hits: <span class="hits">{{ vocabularyService.totalHits }}</span>
+      Misses: <span class="misses">{{ vocabularyService.totalMisses }}</span>
+    <div class="statistic" *ngIf="displayStatistic">
+      <ng-container *ngFor="let card of deck">
+        <p *ngIf="card.misses || card.hits" [class.error]="card.misses > card.hits">
+          {{ card.hiragana }}  <span class="hits">{{ card.hits }}</span> /  <span class="misses">{{ card.misses }}</span>
+        </p>
+      </ng-container>
+    <p (click)="reset()">Zurücksetzen</p>
+    </div>
+  </div>
+  <div class="modes">
+    <div class="mode" (click)="setMode('german', 'hiragana')">hiragana/deutsch</div>
+    <div class="mode" (click)="setMode('hiragana', 'german')">deutsch/hiragana</div>
+  </div>
+</div>

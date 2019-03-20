@@ -1,0 +1,63 @@
+.card {
+  width: 100%;
+  font-size: 200px;
+  background-color: azure;
+  text-align: center;
+}
+
+.modes {
+  width: 100%;
+  display: flex;
+}
+
+.cardbox {
+  background-color: azure;
+  font-size: 150px;
+  width: 100%;
+  bottom: 0px;
+  margin: 0;
+  display: flex;
+}
+
+.cardbox > .left {
+  background-color: azure;
+  width: 50%;
+  height: 250px;
+  text-align: center;
+}
+
+.cardbox > .right {
+  background-color:azure;
+  width: 50%;
+  height: 250px;
+  text-align: center;
+}
+
+.mode {
+  text-align: center;
+  color: white;
+  background-color: teal;
+  width: 33%;
+  margin: 10px;
+  padding: 10px;
+  transition: background-color 0.5s ease;
+}
+.mode:hover {
+  background-color: rgb(0,90,90);
+}
+
+.selected {
+  background-color: rgb(0, 100, 100);
+}
+
+a {
+  text-decoration: none;
+  background-color: teal;
+  color: white;
+  padding: 5px;
+   transition: background-color 0.5s ease;
+}
+
+a:hover {
+  background-color: rgb(0,100,100);
+}

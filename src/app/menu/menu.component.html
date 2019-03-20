@@ -1,0 +1,12 @@
+<button (mousedown)="toggle()">---</button>
+<div *ngIf="show" class="menu" #menu>
+  <div class="links">
+    <span class="label">Silben</span>
+    <a routerLinkActive="active" routerLink="/quiz" (click)="toggle()">Quizmodus</a>
+    <a routerLinkActive="active" routerLink="/learn" (click)="toggle()">Lernmodus</a>
+    <span class="label">Vokabel</span>
+    <a routerLinkActive="active" routerLink="/word-quiz">Hiragana</a>
+    <a href="" disabled>Katagana</a>
+    <a href="" disabled>Kanji</a>
+  </div>
+</div>
