@@ -16,7 +16,7 @@ export class VocabularyService extends FlashcardService {
       {hits: 0, misses: 0, hiragana: 'おおい', german: 'viel'},
       {hits: 0, misses: 0, hiragana: 'いえ', german: 'Haus'}
     ],
-    
+
     ka: [
       {hits: 0, misses: 0, hiragana: 'いく', german: 'gehen'},
       {hits: 0, misses: 0, hiragana: 'こえ', german: 'Stimme'},
@@ -29,7 +29,7 @@ export class VocabularyService extends FlashcardService {
       {hits: 0, misses: 0, hiragana: 'きかい', german: 'Gelegenheit, Maschine'},
       {hits: 0, misses: 0, hiragana: 'がいこく', german: 'Ausland'},
     ],
-    
+
     sa: [
       {hits: 0, misses: 0, hiragana: 'けさ', german: 'heute morgen'},
       {hits: 0, misses: 0, hiragana: 'さけ', german: 'Alkohol, jap. Reiswein'},
@@ -42,7 +42,7 @@ export class VocabularyService extends FlashcardService {
       {hits: 0, misses: 0, hiragana: 'あそこ', german: 'dort drüben'},
       {hits: 0, misses: 0, hiragana: 'かそく', german: 'Familie'}
     ],
-    
+
     ta: [
       {hits: 0, misses: 0, hiragana: 'あつい', german: 'heiß'},
       {hits: 0, misses: 0, hiragana: 'ちち', german: 'mein Vater'},
@@ -55,7 +55,7 @@ export class VocabularyService extends FlashcardService {
       {hits: 0, misses: 0, hiragana: 'さとう', german: 'Zucker'},
       {hits: 0, misses: 0, hiragana: 'くち', german: 'Mund'}
     ],
-    
+
     na: [
       {hits: 0, misses: 0, hiragana: 'あね', german: 'meine ältere Schwester'},
       {hits: 0, misses: 0, hiragana: 'ねこ', german: 'Katze'},
@@ -68,7 +68,7 @@ export class VocabularyService extends FlashcardService {
       {hits: 0, misses: 0, hiragana: 'にく', german: 'Fleisch'},
       {hits: 0, misses: 0, hiragana: 'くに', german: 'Land'}
     ],
-    
+
     ha: [
       {hits: 0, misses: 0, hiragana: 'ぼく', german: 'Ich (relativ höflich, verwendet von Männern)'},
       {hits: 0, misses: 0, hiragana: 'ふね', german: 'Boot'},
@@ -81,7 +81,7 @@ export class VocabularyService extends FlashcardService {
       {hits: 0, misses: 0, hiragana: 'はし', german: 'Stäbchen (zum Essen)'},
       {hits: 0, misses: 0, hiragana: 'ふく', german: 'Kleidung'}
     ],
-    
+
     ma: [
       {hits: 0, misses: 0, hiragana: 'めがね', german: 'Brille'},
       {hits: 0, misses: 0, hiragana: 'はさみ', german: 'Schere'},
@@ -94,7 +94,7 @@ export class VocabularyService extends FlashcardService {
       {hits: 0, misses: 0, hiragana: 'まど', german: 'Fenster'},
       {hits: 0, misses: 0, hiragana: 'どうも', german: 'Danke'}
     ],
-    
+
     ya: [
       {hits: 0, misses: 0, hiragana: 'やま', german: 'Berg'},
       {hits: 0, misses: 0, hiragana: 'よむ', german: 'Lesen'},
@@ -107,7 +107,7 @@ export class VocabularyService extends FlashcardService {
       {hits: 0, misses: 0, hiragana: 'やすい', german: 'billig'},
       {hits: 0, misses: 0, hiragana: 'おやすみ', german: 'gute Nacht (unter Freunden)'}
     ],
-    
+
     ra: [
       {hits: 0, misses: 0, hiragana: 'れい', german: 'Null, Beispiel'},
       {hits: 0, misses: 0, hiragana: 'ばら', german: 'Rose'},
@@ -120,7 +120,7 @@ export class VocabularyService extends FlashcardService {
       {hits: 0, misses: 0, hiragana: 'うるさい', german: 'laut, lästig'},
       {hits: 0, misses: 0, hiragana: 'くらい', german: 'dunkel'}
     ],
-    
+
     wa: [
       {hits: 0, misses: 0, hiragana: 'わるい', german: 'schlecht'},
       {hits: 0, misses: 0, hiragana: 'わかい', german: 'jung'},
@@ -133,7 +133,7 @@ export class VocabularyService extends FlashcardService {
       {hits: 0, misses: 0, hiragana: 'わがし', german: 'jap. traditionelle Süßigkeiten'},
       {hits: 0, misses: 0, hiragana: 'わし', german: 'jap. Papier'}
     ],
-    
+
     n: [
       {hits: 0, misses: 0, hiragana: 'かんぱい', german: 'Prost'},
       {hits: 0, misses: 0, hiragana: 'せんせい', german: 'Lehrer'},
@@ -146,7 +146,7 @@ export class VocabularyService extends FlashcardService {
       {hits: 0, misses: 0, hiragana: 'もんだい', german: 'Frage, Problem'},
       {hits: 0, misses: 0, hiragana: 'てんぷら', german: 'Tempura'}
     ],
-    
+
     combinations: [
       {hits: 0, misses: 0, hiragana: 'とうきょう', german: 'Tokio'},
       {hits: 0, misses: 0, hiragana: 'びょうき', german: 'krank'},
@@ -159,7 +159,7 @@ export class VocabularyService extends FlashcardService {
       {hits: 0, misses: 0, hiragana: 'でんしゃ', german: 'Zug'},
       {hits: 0, misses: 0, hiragana: 'じしょ', german: 'Wörterbuch'},
     ],
-    
+
     tsu: [
       {hits: 0, misses: 0, hiragana: 'きっぷ', german: 'Fahrkarte'},
       {hits: 0, misses: 0, hiragana: 'ざっし', german: 'Magazin, Zeitschrift'},
@@ -169,6 +169,91 @@ export class VocabularyService extends FlashcardService {
       {hits: 0, misses: 0, hiragana: 'いっぱい', german: 'viel, voll'},
       {hits: 0, misses: 0, hiragana: 'けっこん', german: 'Hochzeit, Heirat'},
       {hits: 0, misses: 0, hiragana: 'にっき', german: 'Tagebuch'},
+    ]
+  }
+
+  katakana = {
+    a: [
+      {hits: 0, misses: 0, katakana: 'アジア', german: 'Asien'},
+      {hits: 0, misses: 0, katakana: 'ケーキ', german: 'Kuchen'},
+      {hits: 0, misses: 0, katakana: 'ケース', german: 'Koffer, Behälter'},
+      {hits: 0, misses: 0, katakana: 'スイス', german: 'Schweiz'},
+      {hits: 0, misses: 0, katakana: 'ソーセージ', german: 'Würstchen'},
+      {hits: 0, misses: 0, katakana: 'スキー', german: 'Ski'}
+    ],
+    ta: [
+      {hits: 0, misses: 0, katakana: '', german: 'Rock (skirt)'},
+      {hits: 0, misses: 0, katakana: '', german: 'Skate'},
+      {hits: 0, misses: 0, katakana: '', german: 'Fußball (soccer)'},
+      {hits: 0, misses: 0, katakana: '', german: 'Taxi'},
+      {hits: 0, misses: 0, katakana: '', german: 'Anzug (suit)'},
+      {hits: 0, misses: 0, katakana: '', german: 'Thailand, Krawatte (tie)'},
+      {hits: 0, misses: 0, katakana: '', german: 'Gitarre'},
+      {hits: 0, misses: 0, katakana: '', german: 'Mantel (coat)'},
+      {hits: 0, misses: 0, katakana: '', german: 'Sweater'},
+      {hits: 0, misses: 0, katakana: '', german: 'Test, Prüfung'},
+      {hits: 0, misses: 0, katakana: '', german: 'Tür (door)'},
+      {hits: 0, misses: 0, katakana: '', german: 'Deutsch(land)'},
+      {hits: 0, misses: 0, katakana: '', german: 'Käse (cheese'}
+    ],
+    na: [
+      {hits: 0, misses: 0, katakana: '', german: 'Krawatte (lange Version)'},
+      {hits: 0, misses: 0, katakana: '', german: 'Messer (knife)'},
+      {hits: 0, misses: 0, katakana: '', german: 'Notiz(block)'},
+      {hits: 0, misses: 0, katakana: '', german: 'Bus'},
+      {hits: 0, misses: 0, katakana: '', german: 'Kanada'},
+      {hits: 0, misses: 0, katakana: '', german: 'Tennis'},
+      {hits: 0, misses: 0, katakana: '', german: 'Bar'},
+      {hits: 0, misses: 0, katakana: '', german: 'Kaffee'},
+      {hits: 0, misses: 0, katakana: '', german: 'Suppe'},
+      {hits: 0, misses: 0, katakana: '', german: 'Post, Postkasten'},
+      {hits: 0, misses: 0, katakana: '', german: 'Supermarkt'},
+      {hits: 0, misses: 0, katakana: '', german: 'Apartment, Wohnung'},
+      {hits: 0, misses: 0, katakana: '', german: 'Tasse (cup)'},
+      {hits: 0, misses: 0, katakana: '', german: 'Seite (page'},
+      {hits: 0, misses: 0, katakana: '', german: 'Video'},
+      {hits: 0, misses: 0, katakana: '', german: 'Pizza'},
+      {hits: 0, misses: 0, katakana: '', german: 'Kassette (tape)'},
+      {hits: 0, misses: 0, katakana: '', german: 'Kaufhaus (department store)'},
+      {hits: 0, misses: 0, katakana: '', german: 'Klavier (Piano)'}
+    ],
+    ma: [
+      {hits: 0, misses: 0, katakana: '', german: ''},
+      {hits: 0, misses: 0, katakana: '', german: ''},
+      {hits: 0, misses: 0, katakana: '', german: ''},
+      {hits: 0, misses: 0, katakana: '', german: ''},
+      {hits: 0, misses: 0, katakana: '', german: ''},
+      {hits: 0, misses: 0, katakana: '', german: ''},
+      {hits: 0, misses: 0, katakana: '', german: ''},
+      {hits: 0, misses: 0, katakana: '', german: ''},
+      {hits: 0, misses: 0, katakana: '', german: ''},
+      {hits: 0, misses: 0, katakana: '', german: ''},
+      {hits: 0, misses: 0, katakana: '', german: ''},
+      {hits: 0, misses: 0, katakana: '', german: ''},
+      {hits: 0, misses: 0, katakana: '', german: ''},
+      {hits: 0, misses: 0, katakana: '', german: ''},
+      {hits: 0, misses: 0, katakana: '', german: ''},
+      {hits: 0, misses: 0, katakana: '', german: ''},
+      {hits: 0, misses: 0, katakana: '', german: ''},
+      {hits: 0, misses: 0, katakana: '', german: ''}
+    ],
+    ya: [
+      {hits: 0, misses: 0, katakana: '', german: ''},
+      {hits: 0, misses: 0, katakana: '', german: ''},
+      {hits: 0, misses: 0, katakana: '', german: ''},
+      {hits: 0, misses: 0, katakana: '', german: ''},
+      {hits: 0, misses: 0, katakana: '', german: ''},
+      {hits: 0, misses: 0, katakana: '', german: ''},
+      {hits: 0, misses: 0, katakana: '', german: ''}
+    ],
+    aieo: [
+      {hits: 0, misses: 0, katakana: '', german: ''},
+      {hits: 0, misses: 0, katakana: '', german: ''},
+      {hits: 0, misses: 0, katakana: '', german: ''},
+      {hits: 0, misses: 0, katakana: '', german: ''},
+      {hits: 0, misses: 0, katakana: '', german: ''},
+      {hits: 0, misses: 0, katakana: '', german: ''},
+      {hits: 0, misses: 0, katakana: '', german: ''}
     ]
   }
 
