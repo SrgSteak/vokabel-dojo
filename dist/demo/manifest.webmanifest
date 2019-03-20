@@ -1,9 +1,12 @@
 {
   "name": "Angular Vokabeldojo",
   "short_name": "vokabeldojo",
+  "description": "A simple syllabels and vocabulary trainer for japanese.",
   "theme_color": "#1976d2",
   "background_color": "#fafafa",
-  "display": "standalone",
+  "display": "fullscreen",
+  "lang": "de-AT",
+  "orientation": "portrait",
   "scope": "/",
   "start_url": "/",
   "icons": [

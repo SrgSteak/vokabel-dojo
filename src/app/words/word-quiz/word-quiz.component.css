@@ -27,9 +27,9 @@ p {
   transition: background-color 0.3s ease;
 }
 
-.answer:hover {
-  //background-color: rgb(0,100,100);
-}
+/* .answer:hover {
+  background-color: rgb(0,100,100);
+} */
 
 .score {
   color: grey;
