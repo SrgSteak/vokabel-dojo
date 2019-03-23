@@ -182,91 +182,99 @@ export class VocabularyService extends FlashcardService {
       {hits: 0, misses: 0, katakana: 'スキー', german: 'Ski'}
     ],
     ta: [
-      {hits: 0, misses: 0, katakana: '', german: 'Rock (skirt)'},
-      {hits: 0, misses: 0, katakana: '', german: 'Skate'},
-      {hits: 0, misses: 0, katakana: '', german: 'Fußball (soccer)'},
-      {hits: 0, misses: 0, katakana: '', german: 'Taxi'},
-      {hits: 0, misses: 0, katakana: '', german: 'Anzug (suit)'},
-      {hits: 0, misses: 0, katakana: '', german: 'Thailand, Krawatte (tie)'},
-      {hits: 0, misses: 0, katakana: '', german: 'Gitarre'},
-      {hits: 0, misses: 0, katakana: '', german: 'Mantel (coat)'},
-      {hits: 0, misses: 0, katakana: '', german: 'Sweater'},
-      {hits: 0, misses: 0, katakana: '', german: 'Test, Prüfung'},
-      {hits: 0, misses: 0, katakana: '', german: 'Tür (door)'},
-      {hits: 0, misses: 0, katakana: '', german: 'Deutsch(land)'},
-      {hits: 0, misses: 0, katakana: '', german: 'Käse (cheese'}
+      {hits: 0, misses: 0, katakana: 'スカート', german: 'Rock (skirt)'},
+      {hits: 0, misses: 0, katakana: 'スケート', german: 'Skate'},
+      {hits: 0, misses: 0, katakana: 'サッカー', german: 'Fußball (soccer)'},
+      {hits: 0, misses: 0, katakana: 'タクシー', german: 'Taxi'},
+      {hits: 0, misses: 0, katakana: 'スーツ', german: 'Anzug (suit)'},
+      {hits: 0, misses: 0, katakana: 'タイ', german: 'Thailand, Krawatte (tie)'},
+      {hits: 0, misses: 0, katakana: 'ギター', german: 'Gitarre'},
+      {hits: 0, misses: 0, katakana: 'コート', german: 'Mantel (coat)'},
+      {hits: 0, misses: 0, katakana: 'セーター', german: 'Sweater'},
+      {hits: 0, misses: 0, katakana: 'テスト', german: 'Test, Prüfung'},
+      {hits: 0, misses: 0, katakana: 'ドア', german: 'Tür (door)'},
+      {hits: 0, misses: 0, katakana: 'ドイツ', german: 'Deutsch(land)'},
+      {hits: 0, misses: 0, katakana: 'チーズ', german: 'Käse (cheese'}
     ],
     na: [
-      {hits: 0, misses: 0, katakana: '', german: 'Krawatte (lange Version)'},
-      {hits: 0, misses: 0, katakana: '', german: 'Messer (knife)'},
-      {hits: 0, misses: 0, katakana: '', german: 'Notiz(block)'},
-      {hits: 0, misses: 0, katakana: '', german: 'Bus'},
-      {hits: 0, misses: 0, katakana: '', german: 'Kanada'},
-      {hits: 0, misses: 0, katakana: '', german: 'Tennis'},
-      {hits: 0, misses: 0, katakana: '', german: 'Bar'},
-      {hits: 0, misses: 0, katakana: '', german: 'Kaffee'},
-      {hits: 0, misses: 0, katakana: '', german: 'Suppe'},
-      {hits: 0, misses: 0, katakana: '', german: 'Post, Postkasten'},
-      {hits: 0, misses: 0, katakana: '', german: 'Supermarkt'},
-      {hits: 0, misses: 0, katakana: '', german: 'Apartment, Wohnung'},
-      {hits: 0, misses: 0, katakana: '', german: 'Tasse (cup)'},
-      {hits: 0, misses: 0, katakana: '', german: 'Seite (page'},
-      {hits: 0, misses: 0, katakana: '', german: 'Video'},
-      {hits: 0, misses: 0, katakana: '', german: 'Pizza'},
-      {hits: 0, misses: 0, katakana: '', german: 'Kassette (tape)'},
-      {hits: 0, misses: 0, katakana: '', german: 'Kaufhaus (department store)'},
-      {hits: 0, misses: 0, katakana: '', german: 'Klavier (Piano)'}
+      {hits: 0, misses: 0, katakana: 'ネクタイ', german: 'Krawatte (lange Version)'},
+      {hits: 0, misses: 0, katakana: 'ナイフ', german: 'Messer (knife)'},
+      {hits: 0, misses: 0, katakana: 'ノート', german: 'Notiz(block)'},
+      {hits: 0, misses: 0, katakana: 'バス', german: 'Bus'},
+      {hits: 0, misses: 0, katakana: 'カナダ', german: 'Kanada'},
+      {hits: 0, misses: 0, katakana: 'テニス', german: 'Tennis'},
+      {hits: 0, misses: 0, katakana: 'バー', german: 'Bar'},
+      {hits: 0, misses: 0, katakana: 'コーヒー', german: 'Kaffee'},
+      {hits: 0, misses: 0, katakana: 'スープ', german: 'Suppe'},
+      {hits: 0, misses: 0, katakana: 'ポスト', german: 'Post, Postkasten'},
+      {hits: 0, misses: 0, katakana: 'スーパー', german: 'Supermarkt'},
+      {hits: 0, misses: 0, katakana: 'アパート', german: 'Apartment, Wohnung'},
+      {hits: 0, misses: 0, katakana: 'コップ', german: 'Tasse (cup)'},
+      {hits: 0, misses: 0, katakana: 'ページ', german: 'Seite (page'},
+      {hits: 0, misses: 0, katakana: 'ビデオ', german: 'Video'},
+      {hits: 0, misses: 0, katakana: 'ピザ', german: 'Pizza'},
+      {hits: 0, misses: 0, katakana: 'テープ', german: 'Kassette (tape)'},
+      {hits: 0, misses: 0, katakana: 'デパート', german: 'Kaufhaus (department store)'},
+      {hits: 0, misses: 0, katakana: 'ピアノ', german: 'Klavier (Piano)'}
     ],
     ma: [
-      {hits: 0, misses: 0, katakana: '', german: ''},
-      {hits: 0, misses: 0, katakana: '', german: ''},
-      {hits: 0, misses: 0, katakana: '', german: ''},
-      {hits: 0, misses: 0, katakana: '', german: ''},
-      {hits: 0, misses: 0, katakana: '', german: ''},
-      {hits: 0, misses: 0, katakana: '', german: ''},
-      {hits: 0, misses: 0, katakana: '', german: ''},
-      {hits: 0, misses: 0, katakana: '', german: ''},
-      {hits: 0, misses: 0, katakana: '', german: ''},
-      {hits: 0, misses: 0, katakana: '', german: ''},
-      {hits: 0, misses: 0, katakana: '', german: ''},
-      {hits: 0, misses: 0, katakana: '', german: ''},
-      {hits: 0, misses: 0, katakana: '', german: ''},
-      {hits: 0, misses: 0, katakana: '', german: ''},
-      {hits: 0, misses: 0, katakana: '', german: ''},
-      {hits: 0, misses: 0, katakana: '', german: ''},
-      {hits: 0, misses: 0, katakana: '', german: ''},
-      {hits: 0, misses: 0, katakana: '', german: ''}
+      {hits: 0, misses: 0, katakana: 'ダンス', german: 'Tanz'},
+      {hits: 0, misses: 0, katakana: 'パソコン', german: 'PC (personal computer - Abk.)'},
+      {hits: 0, misses: 0, katakana: 'アメリカ', german: 'Amerika'},
+      {hits: 0, misses: 0, katakana: 'オーストリア', german: 'Österreich'},
+      {hits: 0, misses: 0, katakana: 'ワン', german: 'Wuff, wau (Hundelaut, Onomatopoesie)'},
+      {hits: 0, misses: 0, katakana: 'パチンコ', german: 'Pachinko'},
+      {hits: 0, misses: 0, katakana: 'コーラ', german: 'Cola'},
+      {hits: 0, misses: 0, katakana: 'テレビ', german: 'TV (Television)'},
+      {hits: 0, misses: 0, katakana: 'クラス', german: 'Klasse'},
+      {hits: 0, misses: 0, katakana: 'トイレ', german: 'Toilette'},
+      {hits: 0, misses: 0, katakana: 'レストラン', german: 'Restaurant (westliches)'},
+      {hits: 0, misses: 0, katakana: 'ヨーロッパ', german: 'Europa'},
+      {hits: 0, misses: 0, katakana: 'ビール', german: 'Bier'},
+      {hits: 0, misses: 0, katakana: 'ワイン', german: 'Wein'},
+      {hits: 0, misses: 0, katakana: 'ロツア', german: 'Russland'},
+      {hits: 0, misses: 0, katakana: 'カメラ', german: 'Kamera'},
+      {hits: 0, misses: 0, katakana: 'カン', german: 'Dose (can)'},
+      {hits: 0, misses: 0, katakana: 'ゼミ', german: 'Seminar'}
     ],
     ya: [
-      {hits: 0, misses: 0, katakana: '', german: ''},
-      {hits: 0, misses: 0, katakana: '', german: ''},
-      {hits: 0, misses: 0, katakana: '', german: ''},
-      {hits: 0, misses: 0, katakana: '', german: ''},
-      {hits: 0, misses: 0, katakana: '', german: ''},
-      {hits: 0, misses: 0, katakana: '', german: ''},
-      {hits: 0, misses: 0, katakana: '', german: ''}
+      {hits: 0, misses: 0, katakana: 'ジョギング', german: 'Jogging'},
+      {hits: 0, misses: 0, katakana: 'ニュース', german: 'Nachrichten, Neuigkeiten (news)'},
+      {hits: 0, misses: 0, katakana: 'メニュー', german: 'Speisekarte (menu)'},
+      {hits: 0, misses: 0, katakana: 'バック', german: 'Tasche (Handtasche)'},
+      {hits: 0, misses: 0, katakana: 'ジュース', german: 'Saft (juice)'},
+      {hits: 0, misses: 0, katakana: 'シャワー', german: 'Dusche (shower)'},
+      {hits: 0, misses: 0, katakana: 'ワイシャツ', german: 'Businesshemd (von white shirt)'}
     ],
     aieo: [
-      {hits: 0, misses: 0, katakana: '', german: ''},
-      {hits: 0, misses: 0, katakana: '', german: ''},
-      {hits: 0, misses: 0, katakana: '', german: ''},
-      {hits: 0, misses: 0, katakana: '', german: ''},
-      {hits: 0, misses: 0, katakana: '', german: ''},
-      {hits: 0, misses: 0, katakana: '', german: ''},
-      {hits: 0, misses: 0, katakana: '', german: ''}
+      {hits: 0, misses: 0, katakana: 'ウイーン', german: 'Wien'},
+      {hits: 0, misses: 0, katakana: 'ヂイスコ', german: 'Disko'},
+      {hits: 0, misses: 0, katakana: 'フォーク', german: 'Gabel (fork)'},
+      {hits: 0, misses: 0, katakana: 'チェス', german: 'Schach (chess)'},
+      {hits: 0, misses: 0, katakana: 'モーツァルト', german: 'Mozart'},
+      {hits: 0, misses: 0, katakana: 'ジェームス', german: 'James (engl. Name)'},
+      {hits: 0, misses: 0, katakana: 'シュニッツェル', german: 'Schnitzel'}
     ]
   }
 
-  getAll() {
+  getAllHiragana() {
     return this.getForRows(
-      ['a', 'ka', 'sa', 'ta', 'na', 'ha', 'ma', 'ya', 'ra', 'wa', 'n', 'combinations', 'tsu']
+      ['a', 'ka', 'sa', 'ta', 'na', 'ha', 'ma', 'ya', 'ra', 'wa', 'n', 'combinations', 'tsu'],
+      this.hiragana
     );
   }
 
-  getForRows(rows: Array<string>) {
+  getAllKatakana() {
+    return this.getForRows(
+      ['a', 'ta', 'na', 'ma', 'ya', 'aieo'],
+      this.katakana
+    );
+  }
+
+  getForRows(rows: Array<string>, deck: any) {
     let vocabs = [];
     rows.forEach(row => {
-      vocabs = vocabs.concat(this.hiragana[row]);
+      vocabs = vocabs.concat(deck[row]);
     });
     return vocabs;
   }

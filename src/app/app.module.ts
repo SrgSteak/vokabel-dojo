@@ -20,6 +20,7 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { NotificationcenterComponent } from './notificationcenter/notificationcenter.component';
+import { OverviewComponent } from './syllables/overview/overview.component';
 
 @NgModule({
   imports:      [
@@ -29,7 +30,9 @@ import { NotificationcenterComponent } from './notificationcenter/notificationce
       { path: '', pathMatch: 'full', redirectTo: 'quiz' },
       { path: 'quiz', component: QuizComponent},
       { path: 'learn', component: LearnComponent },
-      { path: 'word-quiz', component: WordQuizComponent },
+      { path: 'syllables/overview', component: OverviewComponent },
+      { path: 'word-quiz', redirectTo: 'word-quiz/hiragana' },
+      { path: 'word-quiz/:type', component: WordQuizComponent },
       { path: 'about', component: AboutComponent }
     ]),
     // automatically registered by pwa install
@@ -41,7 +44,7 @@ import { NotificationcenterComponent } from './notificationcenter/notificationce
     AngularFireAuthModule,
     AngularFireDatabaseModule
   ],
-  declarations: [ AppComponent, LearnComponent, QuizComponent, MenuComponent, WordQuizComponent, KatakanaComponent, AboutComponent, NotificationcenterComponent ],
+  declarations: [ AppComponent, LearnComponent, QuizComponent, MenuComponent, WordQuizComponent, KatakanaComponent, AboutComponent, NotificationcenterComponent, OverviewComponent ],
   bootstrap:    [ AppComponent ],
   providers: [VocabularyService, FlashcardService]
 })

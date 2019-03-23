@@ -23,14 +23,15 @@ export class AppComponent implements OnInit{
         }
       });
 
-      this.swPush.requestSubscription({
-        serverPublicKey: this.VAPID_PUBLIC_KEY
-      })
-      .then(sub => {
-        console.log(sub);
-        // this.subscriptionService.addSubscription(sub);
-      })
-      .catch(err => console.error("Could not subscribe to notifications", err));
+      // TODO: fix me!
+      // this.swPush.requestSubscription({
+      //   serverPublicKey: this.VAPID_PUBLIC_KEY
+      // })
+      // .then(sub => {
+      //   console.log(sub);
+      //   // this.subscriptionService.addSubscription(sub);
+      // })
+      // .catch(err => console.error("Could not subscribe to notifications", err));
     }
   }
 }

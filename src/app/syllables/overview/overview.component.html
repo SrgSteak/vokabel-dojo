@@ -1,0 +1,21 @@
+<div class="overview">
+  <table>
+    <tr class="label">
+      <th class="blank"></th>
+      <th>a</th>
+      <th>i</th>
+      <th>u</th>
+      <th>e</th>
+      <th>o</th>
+    </tr>
+    <tr *ngFor="let row of syllablesService.syllables | keyvalue">
+      <td class="label" *ngIf="row.key !== 'a'">{{ row.key }}</td>
+      <td class="label" *ngIf="row.key == 'a'">Vokale</td>
+      <td *ngFor="let syl of row.value">{{ syl[display] }}</td>
+    </tr>
+  </table>
+  <div class="modes">
+    <div class="mode" [class.selected]="display == 'hiragana'" (click)="display = 'hiragana'">Hiragana</div>
+    <div class="mode" [class.selected]="display == 'katakana'" (click)="display = 'katakana'">Katakana</div>
+  </div>
+</div>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { VocabularyService } from '../../vocabulary.service';
 import { wordFlashcard } from '../../interfaces/word-flashcard.interface';
 import { flashcard } from '../../interfaces/flashcard.interface';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-word-quiz',
@@ -20,9 +21,28 @@ export class WordQuizComponent implements OnInit {
   displayError: boolean;
   displayStatistic: boolean;
 
-  constructor(public vocabularyService: VocabularyService) {
-    this.deck = vocabularyService.getAll();
-    this.questionMode = 'hiragana';
+  constructor(public vocabularyService: VocabularyService, private route: ActivatedRoute) {
+    console.log();
+    if (route.snapshot.params.type === 'hiragana') {
+      this.deck = vocabularyService.getAllHiragana();
+      this.questionMode = 'hiragana';
+    } else {
+      this.questionMode = 'katakana';
+      this.deck = vocabularyService.getAllKatakana();
+    }
+
+    this.route.params.subscribe(params => {
+      if (params.type === 'hiragana') {
+        this.questionMode = 'hiragana';
+        this.deck = vocabularyService.getAllHiragana();
+        this.layout();
+      } else {
+        this.questionMode = 'katakana';
+        this.deck = vocabularyService.getAllKatakana();
+        this.layout();
+      }
+    });
+
     this.answerMode = 'german';
     this.displayError = false;
     this.displayStatistic = false;

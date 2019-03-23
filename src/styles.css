@@ -2,3 +2,26 @@
 body {
   margin: 0;
 }
+
+.modes {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.mode {
+  text-align: center;
+  color: white;
+  background-color: teal;
+  width: auto;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom: 10px;
+  padding: 10px;
+  transition: background-color 0.5s ease;
+  flex-grow: 1;
+}
+
+.mode:hover {
+  background-color: rgb(0,90,90);
+}
