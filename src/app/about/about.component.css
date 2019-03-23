@@ -1,12 +1,8 @@
-body {
-  background-color: rgb(0, 83, 83);
-  color: rgb(200, 230, 230);
-}
-
 .about {
   padding: 10px;
   font-family: Arial, Helvetica, sans-serif;
-
+  background-color: rgb(0, 83, 83);
+  color: rgb(200, 230, 230);
 }
 
 a {

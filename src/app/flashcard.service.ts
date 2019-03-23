@@ -5,6 +5,7 @@ export class FlashcardService {
 
   public totalHits = 0;
   public totalMisses = 0;
+  private pushSubscription: PushSubscription;
 
   shuffle<T>(deck: Array<T>): Array<T> {
     let currentIndex = deck.length, temporaryValue, randomIndex;
@@ -27,4 +28,11 @@ export class FlashcardService {
     this.totalHits = 0;
     this.totalMisses = 0;
   }
+
+  setPushSubscription(sub: PushSubscription): void {
+    this.pushSubscription = sub;
+    this.pushSubscription
+  }
+
+
 }

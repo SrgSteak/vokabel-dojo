@@ -14,6 +14,12 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { KatakanaComponent } from './words/katakana/katakana.component';
 import { AboutComponent } from './about/about.component';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireStorageModule } from '@angular/fire/storage';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { NotificationcenterComponent } from './notificationcenter/notificationcenter.component';
 
 @NgModule({
   imports:      [
@@ -26,9 +32,16 @@ import { AboutComponent } from './about/about.component';
       { path: 'word-quiz', component: WordQuizComponent },
       { path: 'about', component: AboutComponent }
     ]),
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+    // automatically registered by pwa install
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    // noSQL Database where all subscriptions are stored (to push them from the 'server')
+    AngularFireModule.initializeApp(environment.firebaseConfig, 'Vokabeldojo'),
+    AngularFirestoreModule,
+    AngularFireStorageModule, // Only required for storage features
+    AngularFireAuthModule,
+    AngularFireDatabaseModule
   ],
-  declarations: [ AppComponent, LearnComponent, QuizComponent, MenuComponent, WordQuizComponent, KatakanaComponent, AboutComponent ],
+  declarations: [ AppComponent, LearnComponent, QuizComponent, MenuComponent, WordQuizComponent, KatakanaComponent, AboutComponent, NotificationcenterComponent ],
   bootstrap:    [ AppComponent ],
   providers: [VocabularyService, FlashcardService]
 })

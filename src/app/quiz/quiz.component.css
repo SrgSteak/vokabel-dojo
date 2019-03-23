@@ -2,24 +2,48 @@ p {
   font-family: Lato;
 }
 
+.quiz {
+  background-color: azure;
+}
+
+.content {
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
 .error {
   color: red !important;
 }
 
+.flex-box {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .card {
   width: 100%;
-  font-size: 200px;
-  background-color: azure;
+  max-width: 4000px;
+  font-size: 60vw;
   text-align: center;
 }
 
+.answers {
+  width: 100%;
+  max-width: 400px;
+  flex-shrink: 1;
+  flex-grow: 1;
+}
+
 .answer {
-  font-size: 40px;
+
+  font-size: 10vw;
   text-align: center;
-  width: 90%;
-  height: 50px;
+  /* width: 100px; */
+  /* max-width: 80px; */
   background-color: teal;
   margin: auto;
+  margin-left: 20px;
+  margin-right: 20px;
   margin-top: 10px;
   transition: background-color 0.3s ease;
 }
@@ -37,15 +61,20 @@ p {
 .modes {
   width: 100%;
   display: flex;
+  flex-wrap: wrap;
+  /* padding: 10px; */
 }
 
 .mode {
   text-align: center;
   color: white;
   background-color: teal;
-  width: 33%;
-  margin: 10px;
+  width: auto;
   padding: 10px;
+  margin-bottom: 10px;
+  margin-right: 10px;
+  flex-shrink: 1;
+  flex-grow: 1;
   transition: background-color 0.5s ease;
 }
 

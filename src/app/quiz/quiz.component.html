@@ -1,24 +1,32 @@
-<div class="card">
-  {{ showCard[questionMode]}}
+<div class="quiz">
+  <div class="content">
+    <div class="flex-box">
+        <div class="card">
+          {{ showCard[questionMode]}}
+        </div>
+        <div class="answers">
+        <div class="answer" *ngFor="let answer of answers" (click)="answerSelect(this.showCard, answer)"
+        [class.error]="displayError && answer.hiragana !== showCard.hiragana">
+          {{ answer[answerMode] }}
+        </div>
+        <div class="score">Hits: {{ syllablesService.totalHits }}, Misses: {{ syllablesService.totalMisses }}</div>
+      </div>
+    </div>
+    <div class="modes">
+      <div class="mode" (click)="setMode('german', 'hiragana')">hiragana/deutsch</div>
+      <div class="mode" (click)="setMode('german', 'katakana')">katakana/deutsch</div>
+      <div class="mode" (click)="setMode('hiragana', 'katakana')">hiragana/katakana</div>
+    </div>
+    <select (change)="questionMode = $event.target.value">
+      <option value="hiragana" label="Hiragana" [selected]="'hiragana' === questionMode"></option>
+      <option value="katakana" label="Katakana" [selected]="'katakana' === questionMode"></option>
+      <option value="german" label="Deutsch" [selected]="'german' === questionMode"></option>
+    </select>
+    <select (change)="answerMode = $event.target.value">
+      <option value="hiragana" label="Hiragana" [selected]="'hiragana' === answerMode"></option>
+      <option value="katakana" label="Katakana" [selected]="'katakana' === answerMode"></option>
+      <option value="german" label="Deutsch" [selected]="'german' === answerMode"></option>
+    </select>
+    <a (click)="reset()">Zurücksetzen</a>
+  </div>
 </div>
-<div class="answer" *ngFor="let answer of answers" (click)="answerSelect(this.showCard, answer)"
-[class.error]="displayError && answer.hiragana !== showCard.hiragana">
-  {{ answer[answerMode] }}
-</div>
-<div class="score">Hits: {{ syllablesService.totalHits }}, Misses: {{ syllablesService.totalMisses }}</div>
-<div class="modes">
-  <div class="mode" (click)="setMode('german', 'hiragana')">hiragana/deutsch</div>
-  <div class="mode" (click)="setMode('german', 'katakana')">katakana/deutsch</div>
-  <div class="mode" (click)="setMode('hiragana', 'katakana')">hiragana/katakana</div>
-</div>
-<select (change)="questionMode = $event.target.value">
-  <option value="hiragana" label="Hiragana" [selected]="'hiragana' === questionMode"></option>
-  <option value="katakana" label="Katakana" [selected]="'katakana' === questionMode"></option>
-  <option value="german" label="Deutsch" [selected]="'german' === questionMode"></option>
-</select>
-<select (change)="answerMode = $event.target.value">
-  <option value="hiragana" label="Hiragana" [selected]="'hiragana' === answerMode"></option>
-  <option value="katakana" label="Katakana" [selected]="'katakana' === answerMode"></option>
-  <option value="german" label="Deutsch" [selected]="'german' === answerMode"></option>
-</select>
-<a (click)="reset()">Zurücksetzen</a>
