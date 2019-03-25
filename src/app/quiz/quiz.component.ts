@@ -4,7 +4,7 @@ import { SyllablesService, flashcard } from '../syllables.service';
 @Component({
   selector: 'app-quiz',
   templateUrl: './quiz.component.html',
-  styleUrls: [ './quiz.component.css' ]
+  styleUrls: [ './quiz.component.scss' ]
 })
 export class QuizComponent implements OnInit {
   showCard: flashcard;
@@ -81,7 +81,12 @@ export class QuizComponent implements OnInit {
   }
 
   getAnswersFor(card: flashcard) {
-    const cards = this.randomCards(3);
+    let idents;
+    let cards;
+    do {
+      cards = this.randomCards(3);
+      idents = cards.filter((checkMe) => { checkMe[this.questionMode] === card[this.questionMode]});
+    } while (idents.length > 0);
     cards.push(card);
 
     return this.shuffle(cards);

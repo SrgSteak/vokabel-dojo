@@ -1,3 +1,12 @@
+<div class="context-menu">
+  <div class="dropdown">
+    <button class="dropbtn">Modus</button>
+    <div class="dropdown-content">
+      <a (click)="setMode('german', deckMode)">あ/a</a>
+      <a (click)="setMode(deckMode, 'german')">a/あ</a>
+    </div>
+  </div>
+</div>
 <div class="word_quiz">
   <div class="card">
     {{ showCard[questionMode]}}
@@ -7,7 +16,7 @@
     {{ answer[answerMode] }}
   </div>
   <div class="score" (click)="toggleStatistic()">
-    
+
       Hits: <span class="hits">{{ vocabularyService.totalHits }}</span>
       Misses: <span class="misses">{{ vocabularyService.totalMisses }}</span>
     <div class="statistic" *ngIf="displayStatistic">
@@ -18,9 +27,5 @@
       </ng-container>
     <p (click)="reset()">Zurücksetzen</p>
     </div>
-  </div>
-  <div class="modes">
-    <div class="mode" (click)="setMode('german', 'hiragana')">hiragana/deutsch</div>
-    <div class="mode" (click)="setMode('hiragana', 'german')">deutsch/hiragana</div>
   </div>
 </div>

@@ -20,24 +20,29 @@ export class WordQuizComponent implements OnInit {
   answerMode: string;
   displayError: boolean;
   displayStatistic: boolean;
+  deckMode: string;
 
   constructor(public vocabularyService: VocabularyService, private route: ActivatedRoute) {
     console.log();
     if (route.snapshot.params.type === 'hiragana') {
       this.deck = vocabularyService.getAllHiragana();
       this.questionMode = 'hiragana';
+      this.deckMode = 'hiragana';
     } else {
       this.questionMode = 'katakana';
+      this.deckMode = 'katakana';
       this.deck = vocabularyService.getAllKatakana();
     }
 
     this.route.params.subscribe(params => {
       if (params.type === 'hiragana') {
         this.questionMode = 'hiragana';
+        this.deckMode = 'hiragana';
         this.deck = vocabularyService.getAllHiragana();
         this.layout();
       } else {
         this.questionMode = 'katakana';
+        this.deckMode = 'katakana';
         this.deck = vocabularyService.getAllKatakana();
         this.layout();
       }
@@ -90,6 +95,8 @@ export class WordQuizComponent implements OnInit {
   }
 
   setMode(question: string, answer: string) {
+    console.log('questionmode:', question);
+    console.log('answermode:', answer);
     this.questionMode = question;
     this.answerMode = answer;
   }

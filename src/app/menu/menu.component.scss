@@ -1,16 +1,17 @@
 .menu {
-  padding-top: 20px;
   display: block;
   height: 100%;
   width: 30%;
   color: white;
   font-family: arial;
   background-color: rgb(0, 50, 50);
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
   left: 0;
   top: 0;
   text-align: center;
+  overflow: scroll;
 }
 
 a {
@@ -44,10 +45,10 @@ a[disabled] {
 }
 
 button {
-  margin-left: 10px;
-  margin-top: 10px;
+  // bottom: 0;
+  margin: 10px;
   position: fixed;
-  background-color: rgb(0, 40, 40); /* Green */
+  background-color: rgb(0, 40, 40);
   border-radius: 10%;
   border: none;
   color: white;

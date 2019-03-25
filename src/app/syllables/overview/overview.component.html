@@ -1,3 +1,12 @@
+<div class="context-menu">
+  <div class="dropdown">
+    <button class="dropbtn">Modus</button>
+    <div class="dropdown-content">
+        <a [class.selected]="display == 'hiragana'" (click)="display = 'hiragana'">Hiragana</a>
+        <a [class.selected]="display == 'katakana'" (click)="display = 'katakana'">Katakana</a>
+    </div>
+  </div>
+</div>
 <div class="overview">
   <table>
     <tr class="label">
@@ -14,8 +23,4 @@
       <td *ngFor="let syl of row.value">{{ syl[display] }}</td>
     </tr>
   </table>
-  <div class="modes">
-    <div class="mode" [class.selected]="display == 'hiragana'" (click)="display = 'hiragana'">Hiragana</div>
-    <div class="mode" [class.selected]="display == 'katakana'" (click)="display = 'katakana'">Katakana</div>
-  </div>
 </div>
