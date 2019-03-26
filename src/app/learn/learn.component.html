@@ -19,13 +19,15 @@
     </div>
   </div>
 </div>
-<div class="learn">
-  <div *ngIf="displayMode=='always' || displayMode=='automatic'" class="card" (click)="displayMode == 'click' && clicked == false ? clicked = true : showNext()">
-    {{ hiragana[show][displayLeft]}}
-    <span>{{ hiragana[show][displayRight] }}</span>
-  </div>
-  <div *ngIf="displayMode=='click'" class="cardbox" (click)="displayMode == 'click' && clicked == false ? clicked = true : showNext()">
-    <div class="left">{{ hiragana[show][displayLeft]}}</div>
-    <div class="right" *ngIf="clicked">{{ hiragana[show][displayRight] }}</div>
+<div class="content">
+  <div class="learn">
+    <div *ngIf="displayMode=='always' || displayMode=='automatic'" class="card" (click)="displayMode == 'click' && clicked == false ? clicked = true : showNext()">
+      {{ hiragana[show][displayLeft]}}
+      <span>{{ hiragana[show][displayRight] }}</span>
+    </div>
+    <div *ngIf="displayMode=='click'" class="cardbox" (click)="displayMode == 'click' && clicked == false ? clicked = true : showNext()">
+      <div class="left">{{ hiragana[show][displayLeft]}}</div>
+      <div class="right" *ngIf="clicked">{{ hiragana[show][displayRight] }}</div>
+    </div>
   </div>
 </div>

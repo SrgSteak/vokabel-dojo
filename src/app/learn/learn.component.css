@@ -5,7 +5,6 @@
 .card {
   width: 100%;
   font-size: 200px;
-  background-color: azure;
   text-align: center;
 }
 
@@ -16,7 +15,6 @@
 }
 
 .cardbox {
-  background-color: azure;
   font-size: 150px;
   width: 100%;
   bottom: 0px;
@@ -25,14 +23,12 @@
 }
 
 .cardbox > .left {
-  background-color: azure;
   width: 50%;
   height: 250px;
   text-align: center;
 }
 
 .cardbox > .right {
-  background-color:azure;
   width: 50%;
   height: 250px;
   text-align: center;

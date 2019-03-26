@@ -1,6 +1,6 @@
 <div class="context-menu">
   <div class="dropdown">
-      <button class="dropbtn">Hits: {{ syllablesService.totalHits }}, Misses: {{ syllablesService.totalMisses }}</button>
+      <button class="dropbtn">Hits: {{ syllablesService.totalHits }} | Misses: {{ syllablesService.totalMisses }}</button>
   </div>
   <div class="dropdown">
       <button (click)="reset()" class="dropbtn">Zurücksetzen</button>
@@ -18,8 +18,8 @@
   </div>
 </div>
 
-<div class="quiz">
-  <div class="content">
+<div class="content">
+  <div class="quiz">
         <div class="card">
           {{ showCard[questionMode]}}
         </div>

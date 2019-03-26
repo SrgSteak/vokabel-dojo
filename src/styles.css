@@ -1,6 +1,21 @@
 /* Add application styles & imports to this file! */
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
 body {
   margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+
+/* the router component content*/
+.content {
+  height: 100%;
+  background-color: azure;
 }
 
 .modes {
@@ -89,7 +104,7 @@ body {
 }
 
 .context-menu {
-  right: 10px;
+  right: 6px;
   position: fixed;
 }
 .context-menu button{
