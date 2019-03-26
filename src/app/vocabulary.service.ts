@@ -194,7 +194,7 @@ export class VocabularyService extends FlashcardService {
       {hits: 0, misses: 0, katakana: 'テスト', german: 'Test, Prüfung'},
       {hits: 0, misses: 0, katakana: 'ドア', german: 'Tür (door)'},
       {hits: 0, misses: 0, katakana: 'ドイツ', german: 'Deutsch(land)'},
-      {hits: 0, misses: 0, katakana: 'チーズ', german: 'Käse (cheese'}
+      {hits: 0, misses: 0, katakana: 'チーズ', german: 'Käse (cheese)'}
     ],
     na: [
       {hits: 0, misses: 0, katakana: 'ネクタイ', german: 'Krawatte (lange Version)'},
@@ -210,7 +210,7 @@ export class VocabularyService extends FlashcardService {
       {hits: 0, misses: 0, katakana: 'スーパー', german: 'Supermarkt'},
       {hits: 0, misses: 0, katakana: 'アパート', german: 'Apartment, Wohnung'},
       {hits: 0, misses: 0, katakana: 'コップ', german: 'Tasse (cup)'},
-      {hits: 0, misses: 0, katakana: 'ページ', german: 'Seite (page'},
+      {hits: 0, misses: 0, katakana: 'ページ', german: 'Seite (page)'},
       {hits: 0, misses: 0, katakana: 'ビデオ', german: 'Video'},
       {hits: 0, misses: 0, katakana: 'ピザ', german: 'Pizza'},
       {hits: 0, misses: 0, katakana: 'テープ', german: 'Kassette (tape)'},

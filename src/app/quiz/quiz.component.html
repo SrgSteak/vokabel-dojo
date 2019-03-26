@@ -1,21 +1,21 @@
-<div class="context-menu">
-  <div class="dropdown">
-      <button class="dropbtn">Hits: {{ syllablesService.totalHits }} | Misses: {{ syllablesService.totalMisses }}</button>
+<button class="submenu" [class.open]="showSubmenu" (click)="showSubmenu ? showSubmenu = false : showSubmenu = true">✍︎</button>
+<div class="menu" *ngIf="showSubmenu">
+  <span class="label">Modus</span>
+  <div class="dropdown-content">
+    <a (click)="setMode('german', 'hiragana')">あ/a</a>
+    <a (click)="setMode('hiragana', 'german')">a/あ</a>
+    <a (click)="setMode('german', 'katakana')">ア/a</a>
+    <a (click)="setMode('katakana', 'german')">a/ア</a>
+    <a (click)="setMode('hiragana', 'katakana')">あ/ア</a>
+    <a (click)="setMode('katakana', 'hiragana')">ア/あ</a>
   </div>
-  <div class="dropdown">
-      <button (click)="reset()" class="dropbtn">Zurücksetzen</button>
-  </div>
-  <div class="dropdown">
-    <button class="dropbtn">Modus</button>
-    <div class="dropdown-content">
-      <a (click)="setMode('german', 'hiragana')">あ/a</a>
-      <a (click)="setMode('hiragana', 'german')">a/あ</a>
-      <a (click)="setMode('german', 'katakana')">ア/a</a>
-      <a (click)="setMode('katakana', 'german')">a/ア</a>
-      <a (click)="setMode('hiragana', 'katakana')">あ/ア</a>
-      <a (click)="setMode('katakana', 'hiragana')">ア/あ</a>
-    </div>
-  </div>
+  <span class="label">Schwierigkeitsgrad</span>
+    <a (click)="updateNumberAnswers(3)">Leicht</a>
+    <a (click)="updateNumberAnswers(5)">Mittel</a>
+    <a (click)="updateNumberAnswers(8)">Schwer</a>
+  <span class="label"></span>
+  <a>Hits: {{ syllablesService.totalHits }} | Misses: {{ syllablesService.totalMisses }}</a>
+  <a (click)="reset()">Zurücksetzen</a>
 </div>
 
 <div class="content">

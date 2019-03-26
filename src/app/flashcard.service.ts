@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { flashcard } from './syllables.service';
 
 @Injectable()
 export class FlashcardService {
@@ -22,6 +23,14 @@ export class FlashcardService {
       deck[randomIndex] = temporaryValue;
     }
     return deck;
+  }
+
+  draw<T>(deck: Array<T>, number: number): Array<T> {
+    const cards = [];
+    for (let index = 0; index < number; index++) {
+      cards.push(deck[index]);
+    }
+    return cards;
   }
 
   resetStatistic() {

@@ -7,10 +7,12 @@ import { SyllablesService, flashcard } from '../syllables.service';
   styleUrls: [ './quiz.component.scss' ]
 })
 export class QuizComponent implements OnInit {
+  showSubmenu = false;
   showCard: flashcard;
   answers: Array<flashcard>;
   questionMode: string;
   answerMode: string;
+  numberAnswers = 3;
   displayError: boolean;
   display: number;
   misses: number;
@@ -22,9 +24,9 @@ export class QuizComponent implements OnInit {
     this.hiragana = syllablesService.getAll();
     this.questionMode = "hiragana";
     this.answerMode = "german";
-    this.layout();
     this.displayError = false;
     this.display = 0;
+    this.layout();
   }
 
   ngOnInit() {
@@ -42,7 +44,7 @@ export class QuizComponent implements OnInit {
   }
 
   layout() {
-    this.shuffle(this.hiragana);
+    this.syllablesService.shuffle(this.hiragana);
     this.showCard = this.hiragana[this.display];
     this.answers = this.getAnswersFor(this.showCard);
   }
@@ -62,41 +64,19 @@ export class QuizComponent implements OnInit {
     }
   }
 
-  shuffle(cards: Array<flashcard>) {
-    var currentIndex = cards.length, temporaryValue, randomIndex;
-    // While there remain elements to shuffle...
-    while (0 !== currentIndex) {
-
-      // Pick a remaining element...
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex -= 1;
-
-      // And swap it with the current element.
-      temporaryValue = cards[currentIndex];
-      cards[currentIndex] = cards[randomIndex];
-      cards[randomIndex] = temporaryValue;
-    }
-    this.display = Math.floor(Math.random() * this.hiragana.length);
-    return cards;
-  }
-
   getAnswersFor(card: flashcard) {
-    let idents;
-    let cards;
-    do {
-      cards = this.randomCards(3);
-      idents = cards.filter((checkMe) => { checkMe[this.questionMode] === card[this.questionMode]});
-    } while (idents.length > 0);
-    cards.push(card);
-
-    return this.shuffle(cards);
+    const cards = [];
+    this.syllablesService.shuffle(this.hiragana);
+    const draw = this.syllablesService.draw(
+      this.hiragana.filter((value) => { return value[this.questionMode] !== card[this.questionMode]}),
+      this.numberAnswers
+    );
+    draw.push(card);
+    return this.syllablesService.shuffle<flashcard>(draw);
   }
 
-  randomCards(count: number) {
-    var cards = [];
-    for (var i = 0; i < count; i++) {
-      cards.push(this.hiragana[i]);
-    }
-    return cards;
+  updateNumberAnswers(number: number) {
+    this.numberAnswers = number;
+    this.layout();
   }
 }

@@ -84,7 +84,7 @@ export class SyllablesService extends FlashcardService {
 
     n: [
       {german: 'n', hiragana: 'ん', katakana: 'ン'}
-    ]
+    ],
   };
 
   getAll() {

@@ -1,4 +1,4 @@
-<button (mousedown)="toggle()">♨︎</button>
+<button (mousedown)="toggle()" [class.open]="show">♨︎</button>
 <div *ngIf="show" class="menu" #menu (click)="toggle()">
   <div class="links">
     <span class="label">Silben</span>
