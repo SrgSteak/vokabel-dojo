@@ -1,12 +1,22 @@
-<div class="context-menu">
-  <div class="dropdown">
-    <button class="dropbtn">Modus</button>
-    <div class="dropdown-content">
-      <a (click)="setMode('german', deckMode)">あ/a</a>
-      <a (click)="setMode(deckMode, 'german')">a/あ</a>
-    </div>
-  </div>
+<button class="submenu" [class.open]="showSubmenu" (click)="showSubmenu ? showSubmenu = false : showSubmenu = true">✍︎</button>
+<div class="menu" *ngIf="showSubmenu">
+  <span class="label">Modus</span>
+  <a (click)="setMode('german', deckMode)">あ/a</a>
+  <a (click)="setMode(deckMode, 'german')">a/あ</a>
+  <span class="label">Schwierigkeitsgrad</span>
+    <a (click)="updateNumberAnswers(3)">Leicht</a>
+    <a (click)="updateNumberAnswers(5)">Mittel</a>
+    <a (click)="updateNumberAnswers(8)">Schwer</a>
+  <span class="label">Statistik</span>
+      <a>Hits: <span class="hits">{{ vocabularyService.totalHits }}</span>
+      Misses: <span class="misses">{{ vocabularyService.totalMisses }}</span></a>
+  <a (click)="reset()">Zurücksetzen</a>
 </div>
+
+
+
+
+
 <div class="word_quiz">
   <div class="card">
     {{ showCard[questionMode]}}
@@ -25,7 +35,6 @@
           {{ card.hiragana }}  <span class="hits">{{ card.hits }}</span> /  <span class="misses">{{ card.misses }}</span>
         </p>
       </ng-container>
-    <p (click)="reset()">Zurücksetzen</p>
     </div>
   </div>
 </div>

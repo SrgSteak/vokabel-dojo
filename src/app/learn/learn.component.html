@@ -1,33 +1,54 @@
-<div class="context-menu">
-  <div class="dropdown">
-    <button class="dropbtn">Anzeige</button>
-    <div class="dropdown-content">
-      <a [class.selected]="displayMode=='always'" (click)="setMode('always')">Immer zeigen</a>
-      <a [class.selected]="displayMode=='click'" (click)="setMode('click'); clicked = false">Beim Klick</a>
-      <a [class.selected]="displayMode=='automatic'" (click)="setMode('automatic')">Automatisch</a>
-    </div>
-  </div>
-  <div class="dropdown">
-    <button class="dropbtn">Modus</button>
-    <div class="dropdown-content">
-      <a (click)="displayLeft = 'hiragana'; displayRight = 'german'">あ/a</a>
-      <a (click)="displayLeft = 'german'; displayRight = 'hiragana'">a/あ</a>
-      <a (click)="displayLeft = 'katakana'; displayRight = 'german'">ア/a</a>
-      <a (click)="displayLeft = 'german'; displayRight = 'katakana'">a/ア</a>
-      <a (click)="displayLeft = 'hiragana'; displayRight = 'katakana'">あ/ア</a>
-      <a (click)="displayLeft = 'katakana'; displayRight = 'hiragana'">ア/あ</a>
-    </div>
+<button class="submenu" [class.open]="showSubmenu" (click)="showSubmenu ? showSubmenu = false : showSubmenu = true">✍︎</button>
+<div class="menu" *ngIf="showSubmenu">
+  <span class="label">Anzeige</span>
+  <a [class.active]="displayMode=='always'" (click)="setMode('always')">Immer zeigen</a>
+  <a [class.active]="displayMode=='click'" (click)="setMode('click'); clicked = false">Beim Klick</a>
+  <a disabled [class.active]="displayMode=='automatic'" (click)="setMode('automatic')">Automatisch</a>
+  <span class="label">Modus</span>
+  <div class="dropdown-content">
+    <a
+      [class.active]="displayLeft == 'german' && displayRight == 'hiragana'"
+      (click)="displayLeft = 'german'; displayRight = 'hiragana'"
+    >a/あ</a>
+    <a
+      [class.active]="displayLeft == 'hiragana' && displayRight == 'german'"
+      (click)="displayLeft = 'hiragana'; displayRight = 'german'"
+    >あ/a</a>
+    <a
+      [class.active]="displayLeft == 'german' && displayRight == 'katakana'"
+      (click)="displayLeft = 'german'; displayRight = 'katakana'"
+    >a/ア</a>
+    <a
+      [class.active]="displayLeft == 'katakana' && displayRight == 'german'"
+      (click)="displayLeft = 'katakana'; displayRight = 'german'"
+    >ア/a</a>
+    <a
+      [class.active]="displayLeft == 'hiragana' && displayRight == 'katakana'"
+      (click)="displayLeft = 'hiragana'; displayRight = 'katakana'"
+    >あ/ア</a>
+    <a
+      [class.active]="displayLeft == 'katakana' && displayRight == 'hiragana'"
+      (click)="displayLeft = 'katakana'; displayRight = 'hiragana'"
+    >ア/あ</a>
   </div>
 </div>
+
+
+
+
+
 <div class="content">
-  <div class="learn">
-    <div *ngIf="displayMode=='always' || displayMode=='automatic'" class="card" (click)="displayMode == 'click' && clicked == false ? clicked = true : showNext()">
+  <div class="learn" (click)="showNext()">
+      <div class="card">{{ hiragana[show][displayLeft]}}</div>
+      <hr class="line">
+      <div class="card" *ngIf="displayMode == 'always' || (displayMode == 'click' && clicked)">{{ hiragana[show][displayRight] }}</div>
+    <!-- <div *ngIf="displayMode=='always' || displayMode=='automatic'" class="card" (click)="displayMode == 'click' && clicked == false ? clicked = true : showNext()">
       {{ hiragana[show][displayLeft]}}
       <span>{{ hiragana[show][displayRight] }}</span>
     </div>
     <div *ngIf="displayMode=='click'" class="cardbox" (click)="displayMode == 'click' && clicked == false ? clicked = true : showNext()">
       <div class="left">{{ hiragana[show][displayLeft]}}</div>
       <div class="right" *ngIf="clicked">{{ hiragana[show][displayRight] }}</div>
-    </div>
+    </div> -->
   </div>
 </div>

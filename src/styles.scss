@@ -16,6 +16,9 @@ body {
 .content {
   height: 100%;
   background-color: azure;
+  // background-image : url(http://api.thumbr.it/whitenoise-361x370.png?background=f2fff4ff&noise=626262&density=32&opacity=8);
+  // background-image : url(http://api.thumbr.it/whitenoise-361x370.png?background=f5f5f5ff&noise=626262&density=18&opacity=6);
+  background-image : url(assets/background.png);
 }
 
 .modes {
@@ -125,6 +128,10 @@ button {
   display: inline-block;
   font-size: 16px;
   min-width: 45px;
+}
+
+.submenu {
+  top: 35px;
 }
 
 button.open {

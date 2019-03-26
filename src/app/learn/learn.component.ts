@@ -13,6 +13,7 @@ export class LearnComponent  {
   displayRight='german';
   displayMode = 'always';
   clicked = false;
+  showSubmenu = false;
 
   constructor(private syllablesService: SyllablesService) {
     this.hiragana = syllablesService.getAll();
@@ -23,12 +24,16 @@ export class LearnComponent  {
   }
 
   showNext() {
-    this.show++;
-    if (this.show >= this.hiragana.length) {
-      this.show = 0;
-    }
-    if (this.displayMode == 'click') {
-      this.clicked = false;
+    if (this.displayMode === 'click' && this.clicked === false) {
+      this.clicked = true;
+    } else {
+      this.show++;
+      if (this.show >= this.hiragana.length) {
+        this.show = 0;
+      }
+      if (this.displayMode == 'click') {
+        this.clicked = false;
+      }
     }
   }
 
