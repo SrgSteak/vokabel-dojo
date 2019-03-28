@@ -1,4 +1,4 @@
-<button (mousedown)="toggle()" [class.open]="show">♨︎</button>
+<button (mousedown)="toggle()" [class.open]="show" class="no-print" title="Hauptmenü">♨︎</button>
 <div *ngIf="show" class="menu" #menu (click)="toggle()">
   <div class="links">
     <span class="label">Silben</span>
@@ -8,6 +8,8 @@
     <span class="label">Vokabel</span>
     <a routerLinkActive="active" routerLink="/word-quiz/hiragana">Hiragana</a>
     <a routerLinkActive="active" routerLink="/word-quiz/katakana">Katakana</a>
+    <a routerLinkActive="active" routerLink="/word-grid/hiragana">Grid</a>
+    <a routerLinkActive="active" routerLink="/word-list">Liste</a>
     <a href="" disabled>Kanji</a>
     <span class="label">Allgemein</span>
     <a routerLinkActive="active" routerLink="/about">About</a>

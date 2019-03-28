@@ -1,40 +1,36 @@
-<button class="submenu" [class.open]="showSubmenu" (click)="showSubmenu ? showSubmenu = false : showSubmenu = true">✍︎</button>
+<button class="submenu no-print" [class.open]="showSubmenu" (click)="showSubmenu ? showSubmenu = false : showSubmenu = true" title="Einstellungen Wortquiz">✍︎</button>
 <div class="menu" *ngIf="showSubmenu">
   <span class="label">Modus</span>
-  <a (click)="setMode('german', deckMode)">あ/a</a>
-  <a (click)="setMode(deckMode, 'german')">a/あ</a>
+  <a [class.active]="questionMode == 'hiragana'" (click)="setMode(deckMode, 'german')" *ngIf="deckMode == 'hiragana'">あ/a</a>
+  <a [class.active]="questionMode == 'german'" (click)="setMode('german', deckMode)" *ngIf="deckMode == 'hiragana'">a/あ</a>
+  <a [class.active]="questionMode == 'katakana'" (click)="setMode(deckMode, 'german')" *ngIf="deckMode == 'katakana'">ア/a</a>
+  <a [class.active]="questionMode == 'german'" (click)="setMode('german', deckMode)" *ngIf="deckMode == 'katakana'">a/ア</a>
   <span class="label">Schwierigkeitsgrad</span>
-    <a (click)="updateNumberAnswers(3)">Leicht</a>
-    <a (click)="updateNumberAnswers(5)">Mittel</a>
-    <a (click)="updateNumberAnswers(8)">Schwer</a>
+    <a [class.active]="numberAnswers == 3" (click)="updateNumberAnswers(3)">Leicht</a>
+    <a [class.active]="numberAnswers == 5" (click)="updateNumberAnswers(5)">Mittel</a>
+    <a [class.active]="numberAnswers == 8" (click)="updateNumberAnswers(8)">Schwer</a>
   <span class="label">Statistik</span>
       <a>Hits: <span class="hits">{{ vocabularyService.totalHits }}</span>
       Misses: <span class="misses">{{ vocabularyService.totalMisses }}</span></a>
   <a (click)="reset()">Zurücksetzen</a>
 </div>
-
-
-
-
-
-<div class="word_quiz">
-  <div class="card">
-    {{ showCard[questionMode]}}
-  </div>
-  <div class="answer" *ngFor="let answer of answers" (click)="answerSelect(this.showCard, answer)"
-  [class.error]="displayError && answer.hiragana !== showCard.hiragana">
-    {{ answer[answerMode] }}
-  </div>
-  <div class="score" (click)="toggleStatistic()">
-
-      Hits: <span class="hits">{{ vocabularyService.totalHits }}</span>
-      Misses: <span class="misses">{{ vocabularyService.totalMisses }}</span>
-    <div class="statistic" *ngIf="displayStatistic">
-      <ng-container *ngFor="let card of deck">
-        <p *ngIf="card.misses || card.hits" [class.error]="card.misses > card.hits">
-          {{ card.hiragana }}  <span class="hits">{{ card.hits }}</span> /  <span class="misses">{{ card.misses }}</span>
-        </p>
-      </ng-container>
+<div class="content">
+  <div class="word_quiz">
+    <div class="card">
+      {{ showCard[questionMode]}}
+    </div>
+    <div class="answer" *ngFor="let answer of answers" (click)="answerSelect(this.showCard, answer)"
+    [class.error]="displayError && answer[answerMode] !== showCard[answerMode]">
+      {{ answer[answerMode] }}
+    </div>
+    <div class="score" (click)="toggleStatistic()">
+      <div class="statistic" *ngIf="displayStatistic">
+        <ng-container *ngFor="let card of deck">
+          <p *ngIf="card.misses || card.hits" [class.error]="card.misses > card.hits">
+            {{ card.hiragana }}  <span class="hits">{{ card.hits }}</span> / <span class="misses">{{ card.misses }}</span>
+          </p>
+        </ng-container>
+      </div>
     </div>
   </div>
 </div>

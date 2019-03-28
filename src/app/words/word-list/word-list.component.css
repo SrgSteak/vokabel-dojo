@@ -1,0 +1,18 @@
+.word-list {
+  padding: 40px;
+}
+
+.word-list input {
+  padding: 6px;
+  width: 100%;
+  margin: 8px 0;
+  box-sizing: border-box;
+  display: inline-block;
+  border: 1px solid gray;
+  -webkit-appearance: none;
+}
+
+.word-list span {
+  width: 10%;
+  display: inline-block;
+}

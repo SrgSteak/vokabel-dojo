@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { LearnComponent } from './learn/learn.component';
@@ -12,7 +12,6 @@ import { WordQuizComponent } from './words/word-quiz/word-quiz.component';
 import { FlashcardService } from './flashcard.service';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
-import { KatakanaComponent } from './words/katakana/katakana.component';
 import { AboutComponent } from './about/about.component';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
@@ -21,11 +20,13 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { NotificationcenterComponent } from './notificationcenter/notificationcenter.component';
 import { OverviewComponent } from './syllables/overview/overview.component';
+import { WordListComponent } from './words/word-list/word-list.component';
+import { WordGridComponent } from './words/word-grid/word-grid.component';
 
 @NgModule({
   imports:      [
     BrowserModule,
-    FormsModule,
+    ReactiveFormsModule,
     RouterModule.forRoot([
       { path: '', pathMatch: 'full', redirectTo: 'quiz' },
       { path: 'quiz', component: QuizComponent},
@@ -33,6 +34,8 @@ import { OverviewComponent } from './syllables/overview/overview.component';
       { path: 'syllables/overview', component: OverviewComponent },
       { path: 'word-quiz', redirectTo: 'word-quiz/hiragana' },
       { path: 'word-quiz/:type', component: WordQuizComponent },
+      { path: 'word-grid/:type', component: WordGridComponent },
+      { path: 'word-list', component: WordListComponent },
       { path: 'about', component: AboutComponent }
     ]),
     // automatically registered by pwa install
@@ -44,7 +47,18 @@ import { OverviewComponent } from './syllables/overview/overview.component';
     AngularFireAuthModule,
     AngularFireDatabaseModule
   ],
-  declarations: [ AppComponent, LearnComponent, QuizComponent, MenuComponent, WordQuizComponent, KatakanaComponent, AboutComponent, NotificationcenterComponent, OverviewComponent ],
+  declarations: [
+    AppComponent,
+    LearnComponent,
+    QuizComponent,
+    MenuComponent,
+    WordQuizComponent,
+    AboutComponent,
+    NotificationcenterComponent,
+    OverviewComponent,
+    WordListComponent,
+    WordGridComponent
+  ],
   bootstrap:    [ AppComponent ],
   providers: [VocabularyService, FlashcardService]
 })

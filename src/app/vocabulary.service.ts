@@ -271,6 +271,22 @@ export class VocabularyService extends FlashcardService {
     );
   }
 
+  getHiraganaForRows(rows: Array<string>) {
+    let vocabs = [];
+    rows.forEach(row => {
+      vocabs = vocabs.concat(this.hiragana[row]);
+    });
+    return vocabs;
+  }
+
+  getKatakanaForRows(rows: Array<string>) {
+    let vocabs = [];
+    rows.forEach(row => {
+      vocabs = vocabs.concat(this.katakana[row]);
+    });
+    return vocabs;
+  }
+
   getForRows(rows: Array<string>, deck: any) {
     let vocabs = [];
     rows.forEach(row => {

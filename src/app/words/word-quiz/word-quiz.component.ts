@@ -18,18 +18,21 @@ export class WordQuizComponent implements OnInit {
   deck: Array<wordFlashcard>;
   questionMode: string;
   answerMode: string;
-  displayError: boolean;
+  displayError = false;
   displayStatistic: boolean;
   deckMode: string;
+  numberAnswers = 3;
+  showSubmenu = false;
 
   constructor(public vocabularyService: VocabularyService, private route: ActivatedRoute) {
-    console.log();
     if (route.snapshot.params.type === 'hiragana') {
       this.deck = vocabularyService.getAllHiragana();
       this.questionMode = 'hiragana';
+      this.answerMode = 'german'
       this.deckMode = 'hiragana';
     } else {
       this.questionMode = 'katakana';
+      this.answerMode = 'german'
       this.deckMode = 'katakana';
       this.deck = vocabularyService.getAllKatakana();
     }
@@ -37,11 +40,13 @@ export class WordQuizComponent implements OnInit {
     this.route.params.subscribe(params => {
       if (params.type === 'hiragana') {
         this.questionMode = 'hiragana';
+        this.answerMode = 'german';
         this.deckMode = 'hiragana';
         this.deck = vocabularyService.getAllHiragana();
         this.layout();
       } else {
         this.questionMode = 'katakana';
+        this.answerMode = 'german';
         this.deckMode = 'katakana';
         this.deck = vocabularyService.getAllKatakana();
         this.layout();
@@ -71,14 +76,17 @@ export class WordQuizComponent implements OnInit {
 
   layout() {
     this.vocabularyService.shuffle(this.deck);
-    this.showCard = this.deck[1];
-    this.answers = this.vocabularyService.shuffle(
-      [this.deck[1],this.deck[2],this.deck[3],this.deck[4]]
+    this.showCard = this.vocabularyService.draw(this.deck, 1)[0];
+    this.answers = this.vocabularyService.draw(
+      this.deck.filter((value) => { return value[this.questionMode] !== this.showCard[this.questionMode]}),
+      this.numberAnswers
     );
+    this.answers.push(this.showCard);
+    this.answers = this.vocabularyService.shuffle(this.answers);
   }
 
   answerSelect(question: wordFlashcard, answer: wordFlashcard) {
-    if (question.hiragana == answer.hiragana) {
+    if (question[this.answerMode] == answer[this.answerMode]) {
       this.vocabularyService.totalHits++;
       if (!this.displayError) {
         question.hits++;
@@ -86,6 +94,7 @@ export class WordQuizComponent implements OnInit {
       this.displayError = false;
       this.layout();
     } else {
+      console.log('not correct');
       if (!this.displayError) {
         question.misses++;
         this.vocabularyService.totalMisses++;
@@ -95,10 +104,13 @@ export class WordQuizComponent implements OnInit {
   }
 
   setMode(question: string, answer: string) {
-    console.log('questionmode:', question);
-    console.log('answermode:', answer);
     this.questionMode = question;
     this.answerMode = answer;
+  }
+
+  updateNumberAnswers(number: number) {
+    this.numberAnswers = number;
+    this.layout();
   }
 }
 

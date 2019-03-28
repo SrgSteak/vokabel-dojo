@@ -7,18 +7,18 @@ p {
 }
 
 .card {
-  width: 100%;
-  font-size: 20vw;
-  background-color: azure;
+  width: 80%;
+  margin: auto;
+  font-size: 15vw;
   text-align: center;
 }
 
 .answer {
-  font-size: 5vw;
+  font-size: 4vw;
   text-align: center;
   width: auto;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding-top: 16px;
+  padding-bottom: 16px;
   background-color: teal;
   margin: auto;
   margin-left: 20px;

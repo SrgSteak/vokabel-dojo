@@ -1,0 +1,28 @@
+.word-grid {
+  padding: 40px;
+}
+
+.word {
+  text-align: center;
+  font-size: 10vw;
+}
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  // justify-content: space-between;
+  width: 100%;
+  height: 100%;
+}
+
+.gridpart {
+  padding: 10px 15px 10px 15px;
+  margin: 1px;
+  background-color: teal;
+}
+
+.answer {
+  width: 100%;
+  height: 50px;
+}

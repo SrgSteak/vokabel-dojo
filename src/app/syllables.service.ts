@@ -85,6 +85,9 @@ export class SyllablesService extends FlashcardService {
     n: [
       {german: 'n', hiragana: 'ん', katakana: 'ン'}
     ],
+
+    dakuten: [],
+    handakuten: []
   };
 
   getAll() {
@@ -99,6 +102,20 @@ export class SyllablesService extends FlashcardService {
       selected_rows = selected_rows.concat(this.syllables[row]);
     });
     return selected_rows;
+  }
+
+  getCardsContaining(word: string, extras: number) {
+    const deck = [];
+    const syllables = this.getAll();
+    word.split('').forEach((char: string) => {
+      const syllable = syllables.find((card) => { return card.german === char || card.hiragana === char || card.katakana === char});
+      deck.push(syllable);
+    });
+    for (let index = 0; index < extras; index++) {
+      deck.push(this.shuffle(syllables)[0]);
+    }
+
+    return this.shuffle(deck);
   }
 }
 

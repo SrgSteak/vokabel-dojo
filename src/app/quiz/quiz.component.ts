@@ -65,7 +65,6 @@ export class QuizComponent implements OnInit {
   }
 
   getAnswersFor(card: flashcard) {
-    const cards = [];
     this.syllablesService.shuffle(this.hiragana);
     const draw = this.syllablesService.draw(
       this.hiragana.filter((value) => { return value[this.questionMode] !== card[this.questionMode]}),

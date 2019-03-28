@@ -1,4 +1,4 @@
-<button class="submenu" [class.open]="showSubmenu" (click)="showSubmenu ? showSubmenu = false : showSubmenu = true">✍︎</button>
+<button class="submenu no-print" [class.open]="showSubmenu" (click)="showSubmenu ? showSubmenu = false : showSubmenu = true" title="Einstellungen Silbentabelle">✍︎</button>
 <div class="menu" *ngIf="showSubmenu">
   <span class="label">Modus</span>
   <div class="dropdown-content">
@@ -10,13 +10,13 @@
 <div class="content">
   <div class="overview">
     <table>
-      <tr class="label">
+      <tr>
         <th class="blank"></th>
-        <th>a</th>
-        <th>i</th>
-        <th>u</th>
-        <th>e</th>
-        <th>o</th>
+        <th class="label">a</th>
+        <th class="label">i</th>
+        <th class="label">u</th>
+        <th class="label">e</th>
+        <th class="label">o</th>
       </tr>
       <tr *ngFor="let row of syllablesService.syllables | keyvalue">
         <td class="label" *ngIf="row.key !== 'a'">{{ row.key }}</td>
