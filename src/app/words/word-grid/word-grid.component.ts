@@ -17,6 +17,7 @@ export class WordGridComponent implements OnInit {
   mode = 'hiragana';
   currentWord: wordFlashcard;
   buildWord: Map<number, syllableFlashcard>;
+  buildWordString: string;
   currentGrid: Array<syllableFlashcard>;
   leftSide = 'german';
   rightSide = this.mode;
@@ -67,6 +68,7 @@ export class WordGridComponent implements OnInit {
 
   layout() {
     this.buildWord = new Map<number, syllableFlashcard>();
+    this.buildWordString = '';
     this.deck = this.vocabularyService.shuffle(this.deck);
     this.currentWord = this.deck[0];
     this.currentGrid = this.syllablesService.getCardsContaining(this.currentWord[this.mode], 24 - this.currentWord[this.mode].length);
@@ -96,24 +98,45 @@ export class WordGridComponent implements OnInit {
   }
 
   selectedChar(index: number, target: HTMLElement) {
-    // console.log(index);
-    // console.log(this.currentGrid[index]);
+    this.buildWordString = '';
     const answer = document.getElementsByClassName('answer')[0];
-    // console.log(answer.getBoundingClientRect());
     if (this.buildWord.get(index)) {
       this.buildWord.delete(index);
       target.removeAttribute('style');
     } else {
-      target.style.position = 'absolute';
-      target.style.top = (answer.getBoundingClientRect().top) + 'px';
-      target.style.left = ( answer.getBoundingClientRect().left + ((2 + target.getBoundingClientRect().width) * this.buildWord.size)) + 'px';
-      console.log(120); console.log(answer.getBoundingClientRect().left); console.log(target.getBoundingClientRect().width);
-      console.log(this.buildWord.size);
-      console.log(target.style.left);
+      // calculate offset cards to answerbox
+      const verticalOffset = (target.getBoundingClientRect().top - answer.getBoundingClientRect().top);
+      let horizontalOffset = (target.getBoundingClientRect().left - answer.getBoundingClientRect().left);
+
+      // remove width of number of cards
+      horizontalOffset = horizontalOffset - ((2 + target.getBoundingClientRect().width) * this.buildWord.size);
+      // decide if the card needs to move left or right
+      // if (horizontalOffset > 0) {
+        horizontalOffset *= -1;
+      // }
+      // set transform. css transition animates it.
+      target.style.transform = 'translate(' + horizontalOffset + 'px, -' + verticalOffset + 'px)';
+
+      // add char to buildWord
       this.buildWord.set(index, this.currentGrid[index]);
     }
     // console.log(this.buildWord);
+
+    this.buildWord.forEach((value, key) => {
+      this.buildWordString += value[this.mode];
+    });
+
+    if (this.buildWordString == this.currentWord[this.mode]) {
+      setTimeout(() => {
+        const cls = document.getElementsByClassName('gridpart');
+        for(var i = 0; i < cls.length; i++){
+          cls[i].removeAttribute("style");
+       }
+        this.layout();
+      }, 2000);
+    }
   }
+
 
   updateFilter() {
     const rows = [];
