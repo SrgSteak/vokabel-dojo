@@ -1,5 +1,4 @@
 .content {
-  // height: auto;
   height: 100%;
   width: 100%;
   display: table;
@@ -15,38 +14,6 @@
   @media screen and (min-width: 800px) {
     font-size: 25px;
   }
-}
-
-.slideout {
-  position: fixed;
-  top: 40px;
-  left: 0;
-  -webkit-transition-duration: 0.3s;
-  -moz-transition-duration: 0.3s;
-  -o-transition-duration: 0.3s;
-  transition-duration: 0.3s;
-}
-.slideout_inner {
-  position: fixed;
-  background-color: orange;
-  top: 40px;
-  left: -250px;
-  min-width: 200px;
-  min-height: 100px;
-  -webkit-transition-duration: 0.3s;
-  -moz-transition-duration: 0.3s;
-  -o-transition-duration: 0.3s;
-  transition-duration: 0.3s;
-}
-.slideout:hover {
-  left: 250px;
-}
-.slideout:hover .slideout_inner {
-  left: 0;
-}
-.tab {
-  padding:12px;
-  background-color: orange;
 }
 
 h2 {

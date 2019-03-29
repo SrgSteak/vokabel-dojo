@@ -42,8 +42,12 @@
           {{ showCard[questionMode]}}
         </div>
         <div class="answers">
-        <div class="answer" *ngFor="let answer of answers" (click)="answerSelect(this.showCard, answer)"
-        [class.error]="displayError && answer.hiragana !== showCard.hiragana">
+        <div
+          class="answer"
+          *ngFor="let answer of answers"
+          (click)="answerSelect(this.showCard, answer)"
+          [class.error]="displayError && answer.hiragana !== showCard.hiragana"
+        >
           {{ answer[answerMode] }}
         </div>
       </div>

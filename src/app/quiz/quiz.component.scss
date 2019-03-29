@@ -25,36 +25,35 @@
 }
 
 .answers {
-  padding-bottom: 10px;
-  // max-width: 350px;
-  // margin: auto;
+  padding-bottom: 20px;
   width: 100%;
   height: 100%;
   display: flex;
   flex-wrap: wrap;
-  flex-direction: column;
-  justify-content: flex-end;
-  // align-content: center;
-  // flex-shrink: 1;
-  // flex-grow: 1;
+  flex-direction: row;
+  justify-content: center;
+  // padding: 10px;
+  align-items: flex-end;
+  align-content: flex-end;
 }
 
 .answer {
-  // @media screen and (max-width: 799px) {
-  //   font-size: 4vw;
-  // }
-  // @media screen and (min-width: 800px) {
-  //      font-size: 30px;
-  // }
-  font-size: 30px;
+  @media screen and (max-width: 799px) {
+    font-size: 5vh;
+
+  }
+  @media screen and (min-width: 800px) {
+       font-size: 30px;
+  }
+  width: 110px;
   text-align: center;
-  // width: 100px;
-  // max-width: 80px;
   background-color: teal;
-  margin: 10px 40px;
-  margin-top: 10px;
+  margin: 6px;
+  // margin-top: 10px;
   transition: background-color 0.3s ease;
   padding: 5px;
+  border-radius: 4px;
+  // height: 30px;
 }
 
 .answer:hover {
