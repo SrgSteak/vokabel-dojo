@@ -18,7 +18,7 @@
         <th class="label">e</th>
         <th class="label">o</th>
       </tr>
-      <tr *ngFor="let row of syllablesService.syllables | keyvalue">
+      <tr *ngFor="let row of syllables | keyvalue">
         <td class="label" *ngIf="row.key !== 'a'">{{ row.key }}</td>
         <td class="label" *ngIf="row.key == 'a'">Vokale</td>
         <ng-container *ngIf="row.key !== 'w' && row.key !== 'y'">

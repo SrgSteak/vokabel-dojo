@@ -103,6 +103,7 @@ export class WordGridComponent implements OnInit {
     if (this.buildWord.get(index)) {
       this.buildWord.delete(index);
       target.removeAttribute('style');
+      target.classList.remove('card-selected');
     } else {
       // calculate offset cards to answerbox
       const verticalOffset = (target.getBoundingClientRect().top - answer.getBoundingClientRect().top);
@@ -116,6 +117,7 @@ export class WordGridComponent implements OnInit {
       // }
       // set transform. css transition animates it.
       target.style.transform = 'translate(' + horizontalOffset + 'px, -' + verticalOffset + 'px)';
+      target.classList.add('card-selected');
 
       // add char to buildWord
       this.buildWord.set(index, this.currentGrid[index]);
@@ -136,7 +138,6 @@ export class WordGridComponent implements OnInit {
       }, 2000);
     }
   }
-
 
   updateFilter() {
     const rows = [];

@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1553761008694,
+  "timestamp": 1553859683597,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -10,10 +10,10 @@
       "urls": [
         "/favicon.ico",
         "/index.html",
-        "/main.da9915129c731b850b70.js",
+        "/main.59434bb6fe012c5a4fa2.js",
         "/polyfills.497efbf031f2bcfa427c.js",
         "/runtime.26209474bfa8dc87a77c.js",
-        "/styles.41babbce4e2451c539fe.css"
+        "/styles.769a0ec5e9eb26393a91.css"
       ],
       "patterns": []
     },
@@ -32,6 +32,8 @@
         "/assets/icons/icon-72x72.png",
         "/assets/icons/icon-96x96.png",
         "/assets/splashscreens/splashscreen-1125x2436.png",
+        "/assets/splashscreens/splashscreen-1668x2224.png",
+        "/assets/splashscreens/splashscreen-2224x1668.png",
         "/assets/splashscreens/splashscreen-2436x1125.png",
         "/background.72a694cfe5773db45727.png"
       ],
@@ -49,15 +51,17 @@
     "/assets/icons/icon-512x512.png": "0466e5840869062aca6bb2dbed9c62ef12637dfb",
     "/assets/icons/icon-72x72.png": "8cf7b607c8cd2e94f19f0030155d8e3630f509f6",
     "/assets/icons/icon-96x96.png": "b31d097c47c1fc4c79221b414838bf1601fc984e",
-    "/assets/splashscreens/splashscreen-1125x2436.png": "72f2ae3bce3561d1e7fe8b6e2871e89d6833867d",
-    "/assets/splashscreens/splashscreen-2436x1125.png": "5036c426f06edceb5a9079b908261c670fd6a3dd",
+    "/assets/splashscreens/splashscreen-1125x2436.png": "288c29f7aa8d83dfa04a986a4ea33068a60532c8",
+    "/assets/splashscreens/splashscreen-1668x2224.png": "d74feea773b1ca6c7ed54d7ed4a6b6509d924f68",
+    "/assets/splashscreens/splashscreen-2224x1668.png": "a7c813066af521cbfd79a886b053684853b88054",
+    "/assets/splashscreens/splashscreen-2436x1125.png": "324aaffd8a8dde030535d7c643daa7be3822f4ad",
     "/background.72a694cfe5773db45727.png": "facbf5699e9d542897eb75baa85cc4fc9bac42a8",
     "/favicon.ico": "8cf7b607c8cd2e94f19f0030155d8e3630f509f6",
-    "/index.html": "41b6476edf45b80d7840ce87b01209ff62efab2f",
-    "/main.da9915129c731b850b70.js": "4cdc55018823de24df8944c714ffc5d69672c242",
+    "/index.html": "834c714dc46fa7ca3fcc4a5a44f0693243876e8e",
+    "/main.59434bb6fe012c5a4fa2.js": "ff914708ac7162a78f731f87be272ddf6344c294",
     "/polyfills.497efbf031f2bcfa427c.js": "b4093a55273efe2e49767a655df58d0a9377c3db",
     "/runtime.26209474bfa8dc87a77c.js": "b62956c2192bfe5516d6374e753773901ed50ec5",
-    "/styles.41babbce4e2451c539fe.css": "4401fd6290cfe213c9688d1fea68731a67ad4d35"
+    "/styles.769a0ec5e9eb26393a91.css": "cbb9a417f7d350e44692a1cf4aba86476151db93"
   },
   "navigationUrls": [
     {

@@ -86,13 +86,54 @@ export class SyllablesService extends FlashcardService {
       {german: 'n', hiragana: 'ん', katakana: 'ン'}
     ],
 
-    dakuten: [],
-    handakuten: []
+    dakuten_h: [
+      {german: 'ba', hiragana: 'ば', katakana: 'バ'},
+      {german: 'bi', hiragana: 'び', katakana: 'ビ'},
+      {german: 'bu', hiragana: 'ぶ', katakana: 'ブ'},
+      {german: 'be', hiragana: 'べ', katakana: 'ベ'},
+      {german: 'bo', hiragana: 'ぼ', katakana: 'ボ'}
+    ],
+    dakuten_k: [
+      {german: 'ga', hiragana: 'が', katakana: 'ガ'},
+      {german: 'gi', hiragana: 'ぎ', katakana: 'ギ'},
+      {german: 'gu', hiragana: 'ぐ', katakana: 'グ'},
+      {german: 'ge', hiragana: 'げ', katakana: 'ゲ'},
+      {german: 'go', hiragana: 'ご', katakana: 'ゴ'}
+    ],
+    dakuten_t: [
+      {german: 'da', hiragana: 'だ', katakana: 'ダ'},
+      {german: 'ji', hiragana: 'ぢ', katakana: 'ヂ'},
+      {german: 'zu', hiragana: 'づ', katakana: 'ヅ'},
+      {german: 'de', hiragana: 'で', katakana: 'デ'},
+      {german: 'do', hiragana: 'ど', katakana: 'ド'}
+    ],
+    dakuten_s: [
+      {german: 'za', hiragana: 'ざ', katakana: 'ザ'},
+      {german: 'ji', hiragana: 'じ', katakana: 'ジ'},
+      {german: 'zu', hiragana: 'ず', katakana: 'ズ'},
+      {german: 'ze', hiragana: 'ぜ', katakana: 'ゼ'},
+      {german: 'zo', hiragana: 'ぞ', katakana: 'ゾ'},
+    ],
+    handakuten_h: [
+      {german: 'pa', hiragana: 'ぱ', katakana: 'パ'},
+      {german: 'pi', hiragana: 'ぴ', katakana: 'ピ'},
+      {german: 'pu', hiragana: 'ぷ', katakana: 'プ'},
+      {german: 'pe', hiragana: 'ぺ', katakana: 'ペ'},
+      {german: 'po', hiragana: 'ぽ', katakana: 'ポ'}
+    ],
+    small_tsu: [
+      {german: 'tsu', hiragana: 'っ', katakana: 'ッ'}
+    ],
+    small_ya_yu_yo: [
+      {german: 'ya', hiragana: 'ゃ', katakana: 'ェ'},
+      {german: 'yu', hiragana: 'ゅ', katakana: 'ュ'},
+      {german: 'yo', hiragana: 'ょ', katakana: 'ョ'}
+    ]
   };
 
   getAll() {
     return this.getForRows(
-      ['a', 'k', 's', 't', 'na', 'h', 'm', 'y', 'r', 'w', 'n']
+      ['a', 'k', 's', 't', 'na', 'h', 'm', 'y', 'r', 'w', 'n', 'dakuten_h', 'dakuten_k', 'dakuten_t', 'dakuten_s', 'handakuten_h', 'small_tsu', 'small_ya_yu_yo']
     );
   }
 
@@ -106,13 +147,15 @@ export class SyllablesService extends FlashcardService {
 
   getCardsContaining(word: string, extras: number) {
     const deck = [];
-    const syllables = this.getAll();
+    let syllables = this.getAll();
     word.split('').forEach((char: string) => {
       const syllable = syllables.find((card) => { return card.german === char || card.hiragana === char || card.katakana === char});
       deck.push(syllable);
     });
+    syllables = this.shuffle(syllables);
     for (let index = 0; index < extras; index++) {
-      deck.push(this.shuffle(syllables)[0]);
+      // deck.push(this.shuffle(syllables)[0]);
+      deck.push(syllables[index]);
     }
 
     return this.shuffle(deck);
