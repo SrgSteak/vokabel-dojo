@@ -11,6 +11,8 @@ export class OverviewComponent implements OnInit {
 
   display = 'hiragana';
   syllables: any;
+  handakuten: any;
+  dakuten: any;
   showSubmenu = false;
 
   constructor(public syllablesService: SyllablesService) {
@@ -27,7 +29,15 @@ export class OverviewComponent implements OnInit {
       w: syllablesService.getForRows(['w']),
       n: syllablesService.getForRows(['n']),
     };
-
+    this.handakuten = {
+      p: syllablesService.getForRows(['handakuten_h'])
+    };
+    this.dakuten = {
+      b: syllablesService.getForRows(['dakuten_h']),
+      g: syllablesService.getForRows(['dakuten_k']),
+      d: syllablesService.getForRows(['dakuten_t']),
+      z: syllablesService.getForRows(['dakuten_s'])
+    };
   }
 
   ngOnInit() {

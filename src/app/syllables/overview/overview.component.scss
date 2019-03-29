@@ -7,10 +7,10 @@
 
 .overview {
   padding: 40px;
-  // padding-bottom: 20px;
-  // padding-top: 20px;
+  padding-bottom: 20px;
+  padding-top: 20px;
   @media screen and (max-width: 799px) {
-    font-size: 4vw;
+    font-size: 3.8vw;
   }
   @media screen and (min-width: 800px) {
     font-size: 25px;
@@ -47,4 +47,12 @@
 .tab {
   padding:12px;
   background-color: orange;
+}
+
+h2 {
+  margin-bottom: 0;
+}
+
+p {
+  margin-top: 0;
 }

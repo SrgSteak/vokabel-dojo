@@ -197,7 +197,7 @@ export class VocabularyService extends FlashcardService {
       {hits: 0, misses: 0, katakana: 'チーズ', german: 'Käse (cheese)'}
     ],
     na: [
-      {hits: 0, misses: 0, katakana: 'ネクタイ', german: 'Krawatte (lange Version)'},
+      {hits: 0, misses: 0, katakana: 'ネクタイ', german: 'Krawatte (lange Version)'},
       {hits: 0, misses: 0, katakana: 'ナイフ', german: 'Messer (knife)'},
       {hits: 0, misses: 0, katakana: 'ノート', german: 'Notiz(block)'},
       {hits: 0, misses: 0, katakana: 'バス', german: 'Bus'},

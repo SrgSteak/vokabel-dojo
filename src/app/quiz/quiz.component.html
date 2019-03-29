@@ -1,4 +1,4 @@
-<button class="submenu no-print" [class.open]="showSubmenu" (click)="showSubmenu ? showSubmenu = false : showSubmenu = true" title="Einstellungen Quizmodus">✍︎</button>
+<button class="submenu no-print" [class.open]="showSubmenu" [class.closed-menu]="!showSubmenu" (click)="showSubmenu ? showSubmenu = false : showSubmenu = true" title="Einstellungen Quizmodus">✍︎</button>
 <div class="menu" *ngIf="showSubmenu">
   <span class="label">Modus</span>
   <div class="dropdown-content">

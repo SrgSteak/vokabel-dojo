@@ -19,8 +19,6 @@ export class WordGridComponent implements OnInit {
   buildWord: Map<number, syllableFlashcard>;
   buildWordString: string;
   currentGrid: Array<syllableFlashcard>;
-  leftSide = 'german';
-  rightSide = this.mode;
   showSubmenu = false;
   hiraganaFormSub: Subscription;
   katakanaFormSub: Subscription;
@@ -85,16 +83,7 @@ export class WordGridComponent implements OnInit {
 
   setMode(mode: string) {
     this.mode = mode;
-    if (this.leftSide != 'german') {
-      this.leftSide = mode;
-    } else {
-      this.rightSide = mode;
-    }
-    if (this.mode == 'hiragana') {
-      this.updateFilter();
-    } else {
-      this.updateFilter();
-    }
+    this.updateFilter();
   }
 
   selectedChar(index: number, target: HTMLElement) {
@@ -112,9 +101,7 @@ export class WordGridComponent implements OnInit {
       // remove width of number of cards
       horizontalOffset = horizontalOffset - ((2 + target.getBoundingClientRect().width) * this.buildWord.size);
       // decide if the card needs to move left or right
-      // if (horizontalOffset > 0) {
-        horizontalOffset *= -1;
-      // }
+      horizontalOffset *= -1;
       // set transform. css transition animates it.
       target.style.transform = 'translate(' + horizontalOffset + 'px, -' + verticalOffset + 'px)';
       target.classList.add('card-selected');
@@ -122,7 +109,6 @@ export class WordGridComponent implements OnInit {
       // add char to buildWord
       this.buildWord.set(index, this.currentGrid[index]);
     }
-    // console.log(this.buildWord);
 
     this.buildWord.forEach((value, key) => {
       this.buildWordString += value[this.mode];
@@ -213,5 +199,6 @@ export class WordGridComponent implements OnInit {
         this.deck = this.vocabularyService.getAllKatakana();
       }
     }
+    this.layout();
   }
 }

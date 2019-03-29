@@ -1,4 +1,4 @@
-<button class="submenu no-print" [class.open]="showSubmenu" (click)="showSubmenu ? showSubmenu = false : showSubmenu = true" title="Einstellungen Vokabelliste">✍︎</button>
+<button class="submenu no-print" [class.open]="showSubmenu" [class.closed-menu]="!showSubmenu" (click)="showSubmenu ? showSubmenu = false : showSubmenu = true" title="Einstellungen Vokabelliste">✍︎</button>
 <div class="menu" *ngIf="showSubmenu">
   <span class="label">Modus</span>
   <a

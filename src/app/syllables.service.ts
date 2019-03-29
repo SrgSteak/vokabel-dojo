@@ -125,15 +125,24 @@ export class SyllablesService extends FlashcardService {
       {german: 'tsu', hiragana: 'っ', katakana: 'ッ'}
     ],
     small_ya_yu_yo: [
-      {german: 'ya', hiragana: 'ゃ', katakana: 'ェ'},
+      {german: 'ya', hiragana: 'ゃ', katakana: 'ャ'},
       {german: 'yu', hiragana: 'ゅ', katakana: 'ュ'},
       {german: 'yo', hiragana: 'ょ', katakana: 'ョ'}
+    ],
+    small_aeio: [
+      {german: 'e', hiragana: '', katakana: 'ェ'},
+      {german: 'a', hiragana: '', katakana: 'ァ'},
+      {german: 'i', hiragana: '', katakana: 'ィ'},
+      {german: 'o', hiragana: '', katakana: 'ォ'}
+    ],
+    choonpu: [
+      {german: 'ー', hiragana: 'ー', katakana: 'ー'}
     ]
   };
 
   getAll() {
     return this.getForRows(
-      ['a', 'k', 's', 't', 'na', 'h', 'm', 'y', 'r', 'w', 'n', 'dakuten_h', 'dakuten_k', 'dakuten_t', 'dakuten_s', 'handakuten_h', 'small_tsu', 'small_ya_yu_yo']
+      ['a', 'k', 's', 't', 'na', 'h', 'm', 'y', 'r', 'w', 'n', 'dakuten_h', 'dakuten_k', 'dakuten_t', 'dakuten_s', 'handakuten_h', 'small_tsu', 'small_ya_yu_yo', 'small_aeio', 'choonpu']
     );
   }
 
@@ -154,10 +163,8 @@ export class SyllablesService extends FlashcardService {
     });
     syllables = this.shuffle(syllables);
     for (let index = 0; index < extras; index++) {
-      // deck.push(this.shuffle(syllables)[0]);
       deck.push(syllables[index]);
     }
-
     return this.shuffle(deck);
   }
 }

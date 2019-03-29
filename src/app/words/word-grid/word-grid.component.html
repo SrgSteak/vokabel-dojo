@@ -1,4 +1,4 @@
-<button class="submenu no-print" [class.open]="showSubmenu" (click)="showSubmenu ? showSubmenu = false : showSubmenu = true">✍︎</button>
+<button class="submenu no-print" [class.open]="showSubmenu" [class.closed-menu]="!showSubmenu" (click)="showSubmenu ? showSubmenu = false : showSubmenu = true">✍︎</button>
 <div class="menu" *ngIf="showSubmenu">
   <span class="label">Modus</span>
   <a
@@ -9,15 +9,6 @@
   [class.active]="mode == 'katakana'"
   (click)="setMode('katakana')"
   >Katakana</a>
-  <span class="label">Anzeige</span>
-  <a
-    [class.active]="leftSide == 'german' && rightSide == mode"
-    (click)="leftSide = 'german'; rightSide = mode"
-  >a/あ</a>
-  <a
-    [class.active]="leftSide == mode && rightSide == 'german'"
-    (click)="leftSide = mode; rightSide = 'german'"
-  >あ/a</a>
   <span class="label">Silbenreihen</span>
   <form [formGroup]="hiraganaFilterForm" *ngIf="mode == 'hiragana'">
     <label class="container">あ|ア
@@ -144,7 +135,7 @@
     <div class="answer"></div>
     <div class="grid">
       <div class="gridpart" *ngFor="let char of this.currentGrid; let i = index" (click)="selectedChar(i, $event.target)">
-        {{ char.hiragana }}
+        {{ char[mode] }}
       </div>
     </div>
   </div>

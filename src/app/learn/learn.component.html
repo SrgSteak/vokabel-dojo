@@ -1,4 +1,4 @@
-<button class="submenu no-print" [class.open]="showSubmenu" (click)="showSubmenu ? showSubmenu = false : showSubmenu = true" title="Einstellungen Lernmodus">✍︎</button>
+<button class="submenu no-print" [class.open]="showSubmenu" [class.closed-menu]="!showSubmenu" (click)="showSubmenu ? showSubmenu = false : showSubmenu = true" title="Einstellungen Lernmodus">✍︎</button>
 <div class="menu" *ngIf="showSubmenu">
   <span class="label">Anzeige</span>
   <a [class.active]="displayMode=='always'" (click)="setMode('always')">Immer zeigen</a>

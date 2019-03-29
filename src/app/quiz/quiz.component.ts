@@ -21,7 +21,7 @@ export class QuizComponent implements OnInit {
   hiragana: Array<flashcard>;
 
   constructor(public syllablesService: SyllablesService) {
-    this.hiragana = syllablesService.getAll();
+    this.hiragana = syllablesService.getForRows(['a', 'k', 's', 't', 'na', 'h', 'm', 'y', 'r', 'w', 'n', 'dakuten_h', 'dakuten_k', 'dakuten_t', 'dakuten_s', 'handakuten_h']);
     this.questionMode = "hiragana";
     this.answerMode = "german";
     this.displayError = false;

@@ -1,4 +1,4 @@
-<button (mousedown)="toggle()" [class.open]="show" class="no-print" title="Hauptmenü">♨︎</button>
+<button (mousedown)="toggle()" [class.open]="show" [class.closed-menu]="!show" class="no-print" title="Hauptmenü">♨︎</button>
 <div *ngIf="show" class="menu" #menu (click)="toggle()">
   <div class="links">
     <span class="label">Silben</span>
