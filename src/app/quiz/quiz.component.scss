@@ -1,5 +1,12 @@
-p {
-  font-family: Lato;
+// p {
+//   font-family: Lato;
+// }
+.quiz {
+  display: flex;
+  flex-direction: column;
+  //justify-content: space-evenly;
+  height: 100%;
+  width: 100%;
 }
 
 .error {
@@ -9,29 +16,42 @@ p {
 .card {
   width: 100%;
   @media screen and (max-width: 799px) {
-    font-size: 40vw;
+    font-size: 19vw;
   }
   @media screen and (min-width: 800px) {
-       font-size: 120px;
+       font-size: 175px;
   }
   text-align: center;
 }
 
 .answers {
+  padding-bottom: 10px;
+  // max-width: 350px;
+  // margin: auto;
   width: 100%;
-  flex-shrink: 1;
-  flex-grow: 1;
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: flex-end;
+  // align-content: center;
+  // flex-shrink: 1;
+  // flex-grow: 1;
 }
 
 .answer {
-  font-size: 8vw;
+  // @media screen and (max-width: 799px) {
+  //   font-size: 4vw;
+  // }
+  // @media screen and (min-width: 800px) {
+  //      font-size: 30px;
+  // }
+  font-size: 30px;
   text-align: center;
-  /* width: 100px; */
-  /* max-width: 80px; */
+  // width: 100px;
+  // max-width: 80px;
   background-color: teal;
-  margin: auto;
-  margin-left: 20px;
-  margin-right: 20px;
+  margin: 10px 40px;
   margin-top: 10px;
   transition: background-color 0.3s ease;
   padding: 5px;
