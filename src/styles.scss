@@ -92,7 +92,7 @@ $labelColor: rgb(0,140,140);
   overflow: auto;
 }
 
-a {
+.menu a {
   cursor: pointer;
   color: white;
   padding: 8px;
@@ -113,7 +113,7 @@ a {
 }
 
 /* When you mouse over the navigation links, change their color */
-a:hover, .overlay a:focus {
+.menu a:hover, .overlay a:focus {
   background-color: $highlightColor;
 }
 

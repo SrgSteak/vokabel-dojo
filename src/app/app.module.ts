@@ -37,7 +37,7 @@ import { WordGridComponent } from './words/word-grid/word-grid.component';
       { path: 'word-grid/:type', component: WordGridComponent },
       { path: 'word-list', component: WordListComponent },
       { path: 'about', component: AboutComponent }
-    ]),
+    ], {anchorScrolling: 'enabled', scrollPositionRestoration: 'enabled'}),
     // automatically registered by pwa install
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     // noSQL Database where all subscriptions are stored (to push them from the 'server')

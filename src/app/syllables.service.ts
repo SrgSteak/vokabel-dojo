@@ -130,9 +130,9 @@ export class SyllablesService extends FlashcardService {
       {german: 'yo', hiragana: 'ょ', katakana: 'ョ'}
     ],
     small_aeio: [
-      {german: 'e', hiragana: '', katakana: 'ェ'},
       {german: 'a', hiragana: '', katakana: 'ァ'},
       {german: 'i', hiragana: '', katakana: 'ィ'},
+      {german: 'e', hiragana: '', katakana: 'ェ'},
       {german: 'o', hiragana: '', katakana: 'ォ'}
     ],
     choonpu: [

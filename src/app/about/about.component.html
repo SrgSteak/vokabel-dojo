@@ -1,40 +1,52 @@
+<div class="content">
 <div class="about">
   <h1>Vokabeldojo</h1>
   <p>Für den Japanischkurs in der <a href="www.japanischlernen.at">Nihongo Gakuen</a> als Lernhilfe erdacht und kreiert von <a href="mailto:schmidt91robin@icloud.com">Robin Schmidt</a></p>
   <h2>Index</h2>
   <ul>
-    <li>Funktionen</li>
-    <li>Silben
+    <li><a [routerLink] = "['/about']"  fragment="key">Legende</a></li>
+    <li><a [routerLink] = "['/about']"  fragment="functions">Funktionen</a></li>
+    <li><a [routerLink] = "['/about']"  fragment="syllables">Silben</a>
       <ul>
-        <li>Quizmodus</li>
-        <li>Lernmodus</li>
+        <li><a [routerLink] = "['/about']"  fragment="syllabels-quizmode">Quizmodus</a></li>
+        <li><a [routerLink] = "['/about']"  fragment="syllabels-learnmode">Lernmodus</a></li>
       </ul>
     </li>
-    <li>Vokabeln
+    <li><a [routerLink] = "['/about']"  fragment="words">Vokabeln</a>
       <ul>
-        <li>Hiragana</li>
-        <li>Katakana</li>
-        <li>Kanji</li>
+        <li><a [routerLink] = "['/about']"  fragment="words-hiragana">Hiragana</a></li>
+        <li><a [routerLink] = "['/about']"  fragment="words-katakana">Katakana</a></li>
+        <li><a [routerLink] = "['/about']"  fragment="words-list">Liste</a></li>
+        <li><a [routerLink] = "['/about']"  fragment="words-grid">Grid</a></li>
+        <li><a [routerLink] = "['/about']"  fragment="words-kanji">Kanji</a></li>
       </ul>
     </li>
-    <li>Fehler melden und weiterentwickeln</li>
+    <li><a [routerLink] = "['/about']" fragment="report-a-bug">Fehler melden und weiterentwickeln</a></li>
   </ul>
-  <h2>Funktionen</h2>
-  <h3>Silben</h3>
-  <h4>Quizmodus</h4>
+  <h2 id="key">Legende</h2>
+  <p>♨︎ = Hauptmenü. Deine Quelle für Japanisch!</p>
+  <p>✍︎ = Submenü. Hier kannst du für den Modus einstellungen vornehmen.</p>
+  <h2 id="functions">Funktionen</h2>
+  <h3 id="syllables">Silben</h3>
+  <h4 id='syllabels-quizmode'>Quizmodus</h4>
   <p>
     Startseite und für Anfänger wohl die wichtigste: Hiragana/Katakana Zeichen lernen! Oben wird die Silbe angezeigt, darunter als Ratespiel die Antwortmöglichkeiten. Mit hiragana/deutsch deutsch/hiragana hiragana/katakana kann die Kombination gewechselt werden.
     <br>Hits und Misses zeigen den bisherigen Fortschritt an. Antippen zeigt eine genauere Statistik (tba) an mit welchen Zeichen man noch schwierigkeiten hat. Erneut antippen verbirgt die Statistik.
   </p>
-  <h4>Lernmodus</h4>
+  <h4 id="syllabels-learnmode">Lernmodus</h4>
   <p>Im Lernmodus können ohne Stress die Zeichen wiederholt werden. Antippen zeigt das nächste Zeichen.<br>"Immer zeigen" lässt die Antwort zeitgleich mit der Silbe erscheinen, "Beim Klick" erst beim erneuten Antippen. "Automatisch" lässt die Antwort nach zwei Sekunden erscheinen. (tba)</p>
-  <h3>Vokabel</h3>
-  <h4>Hiragana</h4>
+  <h3 id="words">Vokabel</h3>
+  <h4 id="words-hiragana">Hiragana</h4>
   <p>So wie beim Silbenquiz lassen sich hier Wörter üben. Hiragana/Deutsch Deutsch/Hiragana wechselt Frage und Antwortsprache. Hits und Misses zeigen den Fortschritt, antippen zeigt bzw. verbirgt eine genauere Statistik der Treffer.</p>
-  <h4>Katakana</h4>
+  <h4 id="words-katakana">Katakana</h4>
   <p>Vokabelquiz für japanische Fremdwörter.</p>
-  <h4>Kanji (tba)</h4>
+  <h4 id="words-list">Liste</h4>
+  <p>Dein mini japanisch Wörterbuch! Alle Vokabeln auf einen Blick mit integrierter Suche und Filteroption nach Silbenreihen! Die Suche ist eine sogenannte "Fuzzy Search" und gibt dir alle Treffer die die gesuchten Zeichen enthalten. Egal wie viele Zeichen dazwischen sind. Unterstützt sowohl Romaji als auch Hiragana/Katakana eingaben.</p>
+  <h4 id="words-grid">Grid</h4>
+  <p>Trainiere deine Buchstabierkünste in diesem Modus! Oben wird ein Wort aus der Vokabelliste vorgegeben, unten findest du 24 Hiragana/Katakana um das gesuchte Wort auch japanisch zu buchstabieren. Tippe einfach der Reihe nach die "Kärtchen" an um das Wort zu bilden. Willst du ein Zeichen wieder zurücklegen, tippe es einfach oben erneut an. Ist das Wort korrekt, geht es automatisch weiter mit dem nächsten.</p>
+  <h4 id="words-kanji">Kanji (tba)</h4>
   <p>Vokabelquiz für Kanji.</p>
-  <h2>Fehler melden und weiterentwickeln</h2>
+  <h2 id="report-a-bug">Fehler melden und weiterentwickeln</h2>
   <p>Das Projekt findest du auf <a href="https://github.com/SrgSteak/vokabel-dojo">Github</a> und du kannst mir gerne eine <a href="mailto:schmidt91robin@icloud.com">E-Mail senden</a>.</p>
+</div>
 </div>
