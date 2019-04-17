@@ -31,11 +31,18 @@
     <a [class.active]="numberAnswers == 3" (click)="updateNumberAnswers(3)">Leicht</a>
     <a [class.active]="numberAnswers == 5" (click)="updateNumberAnswers(5)">Mittel</a>
     <a [class.active]="numberAnswers == 8" (click)="updateNumberAnswers(8)">Schwer</a>
-  <span class="label"></span>
-  <a>Hits: {{ syllablesService.totalHits }} | Misses: {{ syllablesService.totalMisses }}</a>
-  <a (click)="reset()">Zurücksetzen</a>
 </div>
-
+<app-modal>
+  <div class="content">
+    <div class="stat-grid">
+      <div class="stat" *ngFor="let char of scoredHiragana" [class.muted]="char.hits == 0 && char.misses == 0">{{ char[questionMode] }} {{ char.hits }}/{{ char.misses }}</div>
+    </div>
+    <a (click)="reset()">Zurücksetzen</a>
+  </div>
+  <div class="teaser">
+    Hits: {{ syllablesService.totalHits }} | Misses: {{ syllablesService.totalMisses }}
+  </div>
+</app-modal>
 <div class="content">
   <div class="quiz">
         <div class="card">

@@ -67,7 +67,10 @@ export class WordGridComponent implements OnInit {
   layout() {
     this.buildWord = new Map<number, syllableFlashcard>();
     this.buildWordString = '';
-    this.deck = this.vocabularyService.shuffle(this.deck);
+    this.currentWord = this.deck[0];
+    do {
+      this.deck = this.vocabularyService.shuffle(this.deck);
+    } while (this.currentWord[this.mode] == this.deck[0][this.mode]);
     this.currentWord = this.deck[0];
     this.currentGrid = this.syllablesService.getCardsContaining(this.currentWord[this.mode], 24 - this.currentWord[this.mode].length);
   }
@@ -88,25 +91,12 @@ export class WordGridComponent implements OnInit {
 
   selectedChar(index: number, target: HTMLElement) {
     this.buildWordString = '';
-    const answer = document.getElementsByClassName('answer')[0];
     if (this.buildWord.get(index)) {
       this.buildWord.delete(index);
       target.removeAttribute('style');
       target.classList.remove('card-selected');
     } else {
-      // calculate offset cards to answerbox
-      const verticalOffset = (target.getBoundingClientRect().top - answer.getBoundingClientRect().top);
-      let horizontalOffset = (target.getBoundingClientRect().left - answer.getBoundingClientRect().left);
-
-      // remove width of number of cards
-      horizontalOffset = horizontalOffset - ((2 + target.getBoundingClientRect().width) * this.buildWord.size);
-      // decide if the card needs to move left or right
-      horizontalOffset *= -1;
-      // set transform. css transition animates it.
-      target.style.transform = 'translate(' + horizontalOffset + 'px, -' + verticalOffset + 'px)';
-      target.classList.add('card-selected');
-
-      // add char to buildWord
+      this.updateCardPosition(target);
       this.buildWord.set(index, this.currentGrid[index]);
     }
 
@@ -122,6 +112,66 @@ export class WordGridComponent implements OnInit {
        }
         this.layout();
       }, 2000);
+    }
+  }
+
+  updateCardPosition(target: HTMLElement, number?: number) {
+    // get answer card box
+    const answer = document.getElementsByClassName('answer')[0];
+    // calculate offset of cards original position to answerbox (without transforms)
+
+    var style = getComputedStyle(target),
+        transform = style.transform;
+    var mat = transform.match(/^matrix3d\((.+)\)$/);
+    if(mat) return parseFloat(mat[1].split(', ')[13]);
+    mat = transform.match(/^matrix\((.+)\)$/);
+    const currentOffsetX = mat ? parseFloat(mat[1].split(', ')[4]) : 0;
+    const currentOffsetY = mat ? parseFloat(mat[1].split(', ')[5]) : 0;
+
+    let verticalOffset = answer.getBoundingClientRect().top - target.getBoundingClientRect().top;
+    let horizontalOffset = target.getBoundingClientRect().left - answer.getBoundingClientRect().left;
+
+    verticalOffset = verticalOffset + currentOffsetY;
+    horizontalOffset = horizontalOffset + currentOffsetX;
+    // remove width of number of cards
+    if (number) {
+      horizontalOffset = horizontalOffset - ((2 + target.getBoundingClientRect().width) * number);
+    } else {
+      horizontalOffset = horizontalOffset - ((2 + target.getBoundingClientRect().width) * this.buildWord.size);
+    }
+    // decide if the card needs to move left or right
+    horizontalOffset *= -1;
+    // set transform. css transition animates it.
+    target.classList.add('card-selected');
+    target.style.transform = 'translate(' + horizontalOffset + 'px, ' + verticalOffset + 'px)';
+  }
+
+  updateCardPositions() {
+    let gridparts = document.getElementsByClassName('gridpart');
+    let index = 0;
+    this.buildWord.forEach((value, key) => {
+      let target = gridparts[key] as HTMLElement;
+      this.updateCardPosition(target, index);
+      index++;
+    });
+  }
+
+  skipWord() {
+    let cls = document.getElementsByClassName('gridpart');
+    for(var i = 0; i < cls.length; i++){
+      cls[i].removeAttribute("style");
+    }
+    let word = this.currentWord[this.mode].split('');
+    let word_index = 0;
+    while(word_index < word.length) {
+      this.currentGrid.forEach((flashcard, key) => {
+        if (flashcard[this.mode] == word[word_index]) {
+          if (word_index < word.length) {
+            word_index++;
+            this.selectedChar(key, cls[key] as HTMLElement);
+          }
+        }
+      });
     }
   }
 

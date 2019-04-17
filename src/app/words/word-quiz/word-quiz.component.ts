@@ -7,7 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-word-quiz',
   templateUrl: './word-quiz.component.html',
-  styleUrls: ['./word-quiz.component.css']
+  styleUrls: ['./word-quiz.component.scss']
 })
 export class WordQuizComponent implements OnInit {
 
@@ -60,6 +60,18 @@ export class WordQuizComponent implements OnInit {
     this.misses = 0;
   }
 
+  get scoredWords() {
+    return this.deck.sort((a, b) => {
+      if (a.hits - a.misses > b.hits - b.misses) {
+        return -1
+      }
+      if (a.hits - a.misses < b.hits -b.misses) {
+        return 1
+      }
+      return 0;
+    });
+  }
+
   ngOnInit() {
     this.layout();
   }
@@ -75,7 +87,10 @@ export class WordQuizComponent implements OnInit {
   }
 
   layout() {
-    this.vocabularyService.shuffle(this.deck);
+    this.showCard = this.deck[0];
+    do {
+      this.vocabularyService.shuffle(this.deck);
+    } while (this.showCard[this.questionMode] == this.vocabularyService.draw(this.deck, 1)[0][this.questionMode]);
     this.showCard = this.vocabularyService.draw(this.deck, 1)[0];
     this.answers = this.vocabularyService.draw(
       this.deck.filter((value) => { return value[this.questionMode] !== this.showCard[this.questionMode]}),

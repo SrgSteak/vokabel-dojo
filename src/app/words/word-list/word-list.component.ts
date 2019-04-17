@@ -49,7 +49,7 @@ export class WordListComponent implements OnInit, OnDestroy {
   });
 
   constructor(private vocabularyService: VocabularyService) {
-    this.setMode('hiragana');
+    this.setMode('all');
   }
 
   ngOnInit() {
@@ -78,17 +78,11 @@ export class WordListComponent implements OnInit, OnDestroy {
 
   setMode(mode: string) {
     this.mode = mode;
+    this.updateFilter();
     if (this.leftSide != 'german') {
       this.leftSide = mode;
     } else {
       this.rightSide = mode;
-    }
-    if (this.mode == 'hiragana') {
-      // this.words = this.vocabularyService.getAllHiragana();
-      this.updateFilter();
-    } else {
-      // this.words = this.vocabularyService.getAllKatakana();
-      this.updateFilter();
     }
   }
 
@@ -140,7 +134,7 @@ export class WordListComponent implements OnInit, OnDestroy {
       } else {
         this.words = this.vocabularyService.getAllHiragana();
       }
-    } else {
+    } else if (this.mode == 'katakana') {
       if (this.katakanaFilterForm.get('row_a').value) {
         rows.push('a');
       }
@@ -165,6 +159,8 @@ export class WordListComponent implements OnInit, OnDestroy {
       } else {
         this.words = this.vocabularyService.getAllKatakana();
       }
+    } else { // both, all
+      this.words = this.vocabularyService.getAll();
     }
     if (this.searchForm.value) {
       const searcher = new FuzzySearch(this.words, ['german', 'hiragana', 'katakana'], {

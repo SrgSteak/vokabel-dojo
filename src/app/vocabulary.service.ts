@@ -232,7 +232,7 @@ export class VocabularyService extends FlashcardService {
       {hits: 0, misses: 0, katakana: 'ヨーロッパ', german: 'Europa'},
       {hits: 0, misses: 0, katakana: 'ビール', german: 'Bier'},
       {hits: 0, misses: 0, katakana: 'ワイン', german: 'Wein'},
-      {hits: 0, misses: 0, katakana: 'ロツア', german: 'Russland'},
+      {hits: 0, misses: 0, katakana: 'ロシア', german: 'Russland'},
       {hits: 0, misses: 0, katakana: 'カメラ', german: 'Kamera'},
       {hits: 0, misses: 0, katakana: 'カン', german: 'Dose (can)'},
       {hits: 0, misses: 0, katakana: 'ゼミ', german: 'Seminar'}
@@ -248,13 +248,19 @@ export class VocabularyService extends FlashcardService {
     ],
     aieo: [
       {hits: 0, misses: 0, katakana: 'ウイーン', german: 'Wien'},
-      {hits: 0, misses: 0, katakana: 'ヂイスコ', german: 'Disko'},
+      {hits: 0, misses: 0, katakana: 'ディスコ', german: 'Disko'},
       {hits: 0, misses: 0, katakana: 'フォーク', german: 'Gabel (fork)'},
       {hits: 0, misses: 0, katakana: 'チェス', german: 'Schach (chess)'},
       {hits: 0, misses: 0, katakana: 'モーツァルト', german: 'Mozart'},
       {hits: 0, misses: 0, katakana: 'ジェームス', german: 'James (engl. Name)'},
       {hits: 0, misses: 0, katakana: 'シュニッツェル', german: 'Schnitzel'}
     ]
+  }
+
+  getAll() {
+    let deck = this.getAllHiragana();
+    deck = deck.concat(this.getAllKatakana());
+    return deck;
   }
 
   getAllHiragana() {

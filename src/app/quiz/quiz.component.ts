@@ -20,6 +20,18 @@ export class QuizComponent implements OnInit {
 
   hiragana: Array<flashcard>;
 
+  get scoredHiragana() {
+    return this.hiragana.sort((a, b) => {
+      if (a.hits - a.misses > b.hits - b.misses) {
+        return -1
+      }
+      if (a.hits - a.misses < b.hits -b.misses) {
+        return 1
+      }
+      return 0;
+    });
+  }
+
   constructor(public syllablesService: SyllablesService) {
     this.hiragana = syllablesService.getForRows(['a', 'k', 's', 't', 'na', 'h', 'm', 'y', 'r', 'w', 'n', 'dakuten_h', 'dakuten_k', 'dakuten_t', 'dakuten_s', 'handakuten_h']);
     this.questionMode = "hiragana";
@@ -44,7 +56,9 @@ export class QuizComponent implements OnInit {
   }
 
   layout() {
-    this.syllablesService.shuffle(this.hiragana);
+    do {
+      this.syllablesService.shuffle(this.hiragana);
+    } while (this.showCard == this.hiragana[this.display]);
     this.showCard = this.hiragana[this.display];
     this.answers = this.getAnswersFor(this.showCard);
   }
@@ -55,12 +69,18 @@ export class QuizComponent implements OnInit {
 
   answerSelect(question: flashcard, answer: flashcard) {
     if (question.hiragana == answer.hiragana) {
-      this.syllablesService.totalHits++;
+      if (this.displayError == false) {
+        this.syllablesService.totalHits++;
+        question.hits++;
+      }
       this.displayError = false;
       this.layout();
     } else {
-      this.syllablesService.totalMisses++;
-      this.displayError = true;
+      if (this.displayError == false) {
+        question.misses++;
+        this.syllablesService.totalMisses++;
+        this.displayError = true;
+      }
     }
   }
 

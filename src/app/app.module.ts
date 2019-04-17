@@ -22,13 +22,16 @@ import { NotificationcenterComponent } from './notificationcenter/notificationce
 import { OverviewComponent } from './syllables/overview/overview.component';
 import { WordListComponent } from './words/word-list/word-list.component';
 import { WordGridComponent } from './words/word-grid/word-grid.component';
+import { WelcomeComponent } from './welcome/welcome.component';
+import { ModalComponent } from './shared/modal/modal.component';
 
 @NgModule({
   imports:      [
     BrowserModule,
     ReactiveFormsModule,
     RouterModule.forRoot([
-      { path: '', pathMatch: 'full', redirectTo: 'quiz' },
+      { path: '', pathMatch: 'full', redirectTo: 'home' },
+      { path: 'home', pathMatch: 'full', component: WelcomeComponent },
       { path: 'quiz', component: QuizComponent},
       { path: 'learn', component: LearnComponent },
       { path: 'syllables/overview', component: OverviewComponent },
@@ -57,7 +60,9 @@ import { WordGridComponent } from './words/word-grid/word-grid.component';
     NotificationcenterComponent,
     OverviewComponent,
     WordListComponent,
-    WordGridComponent
+    WordGridComponent,
+    WelcomeComponent,
+    ModalComponent
   ],
   bootstrap:    [ AppComponent ],
   providers: [VocabularyService, FlashcardService]

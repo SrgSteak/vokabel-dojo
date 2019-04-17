@@ -1,6 +1,9 @@
 <button class="submenu no-print" [class.open]="showSubmenu" [class.closed-menu]="!showSubmenu" (click)="showSubmenu ? showSubmenu = false : showSubmenu = true" title="Einstellungen Vokabelliste">✍︎</button>
 <div class="menu" *ngIf="showSubmenu">
   <span class="label">Modus</span>
+  <a [class.active]="mode == 'all'" (click)="setMode('all')">
+    Alle
+  </a>
   <a
   [class.active]="mode == 'hiragana'"
   (click)="setMode('hiragana')"
@@ -18,6 +21,8 @@
     [class.active]="leftSide == mode && rightSide == 'german'"
     (click)="leftSide = mode; rightSide = 'german'"
   >あ/a</a>
+  <ng-container *ngIf="mode != 'all'">
+
   <span class="label">Silbenreihen</span>
   <form [formGroup]="hiraganaFilterForm" *ngIf="mode == 'hiragana'">
     <label class="container">あ|ア
@@ -136,7 +141,8 @@
           <span class="checkmark_inner"></span>
         </span>
       </label>
-    </form>
+  </form>
+</ng-container>
 </div>
 <div class="content">
   <div class="word-list">
@@ -144,17 +150,19 @@
       <input type="search" [formControl]="searchForm" placeholder="Suche">
     </label>
     <table>
-      <tr *ngIf="leftSide == 'german'">
-        <th class="label">Deutsch</th>
-        <th class="label">Japanisch</th>
-      </tr>
-      <tr *ngIf="rightSide == 'german'">
-        <th class="label">Japanisch</th>
-        <th class="label">Deutsch</th>
-      </tr>
       <tr *ngFor="let word of words">
-        <td>{{ word[leftSide] }}</td>
-        <td>{{ word[rightSide] }}</td>
+        <ng-container *ngIf="leftSide == 'german' && rightSide == 'all'">
+          <td>{{ word['german'] }}</td>
+          <td>{{ word['hiragana'] ? word['hiragana'] : word['katakana'] }}</td>
+        </ng-container>
+        <ng-container *ngIf="leftSide == 'all' && rightSide == 'german'">
+          <td>{{ word['hiragana'] ? word['hiragana'] : word['katakana'] }}</td>
+            <td>{{ word['german'] }}</td>
+        </ng-container>
+        <ng-container *ngIf="leftSide != 'all' && rightSide != 'all'">
+          <td>{{ word[leftSide] }}</td>
+          <td>{{ word[rightSide] }}</td>
+        </ng-container>
       </tr>
     </table>
   </div>

@@ -116,7 +116,9 @@ $labelColor: rgb(0,140,140);
 
 /* When you mouse over the navigation links, change their color */
 .menu a:hover, .overlay a:focus {
-  background-color: $highlightColor;
+  @media(hover: hover) {
+    background-color: $highlightColor;
+  }
 }
 
 a[disabled] {
@@ -128,7 +130,6 @@ a[disabled] {
 
 button {
   // bottom: 0;
-  // z-index: 2;
   margin: 0px;
   margin-top: 10px;
   position: fixed;
@@ -283,3 +284,17 @@ table .label {
 .answer {
   cursor: pointer;
 }
+
+/* Text Colors and other Stuff */
+.hits {
+  color: rgb(0, 200, 100);
+}
+
+.misses {
+  color: rgb(200, 100, 100);
+}
+
+.muted {
+  color: gray;
+}
+/* Text Colors and other Stuff END */
