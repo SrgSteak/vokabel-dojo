@@ -1,148 +1,60 @@
-<button class="submenu no-print" [class.open]="showSubmenu" [class.closed-menu]="!showSubmenu" (click)="showSubmenu ? showSubmenu = false : showSubmenu = true" title="Einstellungen Vokabelliste">✍︎</button>
+<button class="submenu no-print" [class.open]="showSubmenu" [class.closed-menu]="!showSubmenu"
+  (click)="showSubmenu ? showSubmenu = false : showSubmenu = true" title="Einstellungen Vokabelliste">✍︎</button>
 <div class="menu" *ngIf="showSubmenu">
-  <span class="label">Modus</span>
-  <a [class.active]="mode == 'all'" (click)="setMode('all')">
-    Alle
-  </a>
-  <a
-  [class.active]="mode == 'hiragana'"
-  (click)="setMode('hiragana')"
-  >Hiragana</a>
-  <a
-  [class.active]="mode == 'katakana'"
-  (click)="setMode('katakana')"
-  >Katakana</a>
-  <span class="label">Anzeige</span>
-  <a
-    [class.active]="leftSide == 'german' && rightSide == mode"
-    (click)="leftSide = 'german'; rightSide = mode"
-  >a/あ</a>
-  <a
-    [class.active]="leftSide == mode && rightSide == 'german'"
-    (click)="leftSide = mode; rightSide = 'german'"
-  >あ/a</a>
-  <ng-container *ngIf="mode != 'all'">
-
-  <span class="label">Silbenreihen</span>
-  <form [formGroup]="hiraganaFilterForm" *ngIf="mode == 'hiragana'">
-    <label class="container">あ|ア
-      <input type="checkbox" formControlName="row_a">
+  <span class="label">Links</span>
+  <form [formGroup]="modeForm">
+    <label class=" container">Deutsch
+      <input type="radio" formControlName="left" value="german" name="left">
       <span class="checkmark">
         <span class="checkmark_inner"></span>
       </span>
     </label>
-    <label class="container">か|カ
-      <input type="checkbox" formControlName="row_k">
+    <label class="container">Hiragana
+      <input type="radio" formControlName="left" value="hiragana" name="left">
       <span class="checkmark">
         <span class="checkmark_inner"></span>
       </span>
     </label>
-    <label class="container">さ|サ
-      <input type="checkbox" formControlName="row_s">
+    <label class="container">Katakana
+      <input type="radio" formControlName="left" value="katakana" name="left">
       <span class="checkmark">
         <span class="checkmark_inner"></span>
       </span>
     </label>
-    <label class="container">た|タ
-      <input type="checkbox" formControlName="row_t">
-      <span class="checkmark">
-        <span class="checkmark_inner"></span>
-      </span>
-    </label>
-    <label class="container">な|ナ
-      <input type="checkbox" formControlName="row_na">
-      <span class="checkmark">
-        <span class="checkmark_inner"></span>
-      </span>
-    </label>
-    <label class="container">は|ハ
-      <input type="checkbox" formControlName="row_h">
-      <span class="checkmark">
-        <span class="checkmark_inner"></span>
-      </span>
-    </label>
-    <label class="container">ま|マ
-      <input type="checkbox" formControlName="row_m">
-      <span class="checkmark">
-        <span class="checkmark_inner"></span>
-      </span>
-    </label>
-    <label class="container">や|ヤ
-      <input type="checkbox" formControlName="row_y">
-      <span class="checkmark">
-        <span class="checkmark_inner"></span>
-      </span>
-    </label>
-    <label class="container">ら|ラ
-      <input type="checkbox" formControlName="row_r">
-      <span class="checkmark">
-        <span class="checkmark_inner"></span>
-      </span>
-    </label>
-    <label class="container">わ|ワ
-      <input type="checkbox" formControlName="row_w">
-      <span class="checkmark">
-        <span class="checkmark_inner"></span>
-      </span>
-    </label>
-    <label class="container">ん|ン
-      <input type="checkbox" formControlName="row_n">
-      <span class="checkmark">
-        <span class="checkmark_inner"></span>
-      </span>
-    </label>
-    <label class="container">Kombinationen
-      <input type="checkbox" formControlName="row_combinations">
-      <span class="checkmark">
-        <span class="checkmark_inner"></span>
-      </span>
-    </label>
-    <label class="container">つ
-      <input type="checkbox" formControlName="row_tsu">
+    <label class="container">Kanji
+      <input type="radio" formControlName="left" value="kanji" name="left">
       <span class="checkmark">
         <span class="checkmark_inner"></span>
       </span>
     </label>
   </form>
-  <form [formGroup]="katakanaFilterForm" *ngIf="mode == 'katakana'">
-      <label class="container">ア
-        <input type="checkbox" formControlName="row_a">
-        <span class="checkmark">
-          <span class="checkmark_inner"></span>
-        </span>
-      </label>
-      <label class="container">タ
-        <input type="checkbox" formControlName="row_t">
-        <span class="checkmark">
-          <span class="checkmark_inner"></span>
-        </span>
-      </label>
-      <label class="container">ナ
-        <input type="checkbox" formControlName="row_na">
-        <span class="checkmark">
-          <span class="checkmark_inner"></span>
-        </span>
-      </label>
-      <label class="container">マ
-        <input type="checkbox" formControlName="row_m">
-        <span class="checkmark">
-          <span class="checkmark_inner"></span>
-        </span>
-      </label>
-      <label class="container">ヤ
-        <input type="checkbox" formControlName="row_y">
-        <span class="checkmark">
-          <span class="checkmark_inner"></span>
-        </span>
-      </label>
-      <label class="container">アイエオ
-        <input type="checkbox" formControlName="row_aieo">
-        <span class="checkmark">
-          <span class="checkmark_inner"></span>
-        </span>
-      </label>
+  <span class="label">Rechts</span>
+  <form [formGroup]="modeForm">
+    <label class=" container">Deutsch
+      <input type="radio" formControlName="right" value="german" name="right">
+      <span class="checkmark">
+        <span class="checkmark_inner"></span>
+      </span>
+    </label>
+    <label class="container">Hiragana
+      <input type="radio" formControlName="right" value="hiragana" name="right">
+      <span class="checkmark">
+        <span class="checkmark_inner"></span>
+      </span>
+    </label>
+    <label class="container">Katakana
+      <input type="radio" formControlName="right" value="katakana" name="right">
+      <span class="checkmark">
+        <span class="checkmark_inner"></span>
+      </span>
+    </label>
+    <label class="container">Kanji
+      <input type="radio" formControlName="right" value="kanji" name="right">
+      <span class="checkmark">
+        <span class="checkmark_inner"></span>
+      </span>
+    </label>
   </form>
-</ng-container>
 </div>
 <div class="content">
   <div class="word-list">
@@ -157,7 +69,7 @@
         </ng-container>
         <ng-container *ngIf="leftSide == 'all' && rightSide == 'german'">
           <td>{{ word['hiragana'] ? word['hiragana'] : word['katakana'] }}</td>
-            <td>{{ word['german'] }}</td>
+          <td>{{ word['german'] }}</td>
         </ng-container>
         <ng-container *ngIf="leftSide != 'all' && rightSide != 'all'">
           <td>{{ word[leftSide] }}</td>

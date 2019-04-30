@@ -1,4 +1,5 @@
-<button (mousedown)="toggle()" [class.open]="show" [class.closed-menu]="!show" class="no-print" title="Hauptmenü">♨︎</button>
+<button (mousedown)="toggle()" [class.open]="show" [class.closed-menu]="!show" class="no-print menu-button"
+  title="Hauptmenü">♨︎</button>
 <div *ngIf="show" class="menu" #menu (click)="toggle()">
   <div class="links">
     <span class="label"></span>
@@ -9,10 +10,25 @@
     <a routerLinkActive="active" routerLink="/learn" (click)="toggle()">Lernmodus</a>
     <a routerLinkActive="active" routerLink="/syllables/overview" (click)="toggle()">Tabelle</a>
     <span class="label">Vokabel</span>
-    <a routerLinkActive="active" routerLink="/word-quiz/hiragana">Hiragana</a>
-    <a routerLinkActive="active" routerLink="/word-quiz/katakana">Katakana</a>
-    <a routerLinkActive="active" routerLink="/word-grid/hiragana">Buchstabieren</a>
-    <a href="" disabled>Kanji</a>
+    <a routerLinkActive="active" routerLink="/decks">Alle Decks</a>
+    <a routerLinkActive="active" routerLink="/cards">Alle Vokabel</a>
+    <span class="label">Mein Profil</span>
+    <div *ngIf="auth.user | async; then authenticated else guest">
+      <!-- template will replace this div -->
+    </div>
+    <ng-template #guest>
+      <button (click)="auth.googleLogin()">
+        Mit Google anmelden
+      </button>
+    </ng-template>
+    <ng-template #authenticated>
+      <ng-container *ngIf="auth.user | async as user">
+        <a routerLinkActive="active" routerLink="/decks">Meine Decks</a>
+        <a routerLinkActive="active" routerLink="/cards">Meine Vokabel</a>
+        <a (click)="auth.signOut()">Abmelden</a>
+      </ng-container>
+    </ng-template>
+
     <span class="label">Allgemein</span>
     <a routerLinkActive="active" routerLink="/about">Handbuch</a>
     <a href="https://www.japanischlernen.at/login/">Nihongo Gakuen</a>

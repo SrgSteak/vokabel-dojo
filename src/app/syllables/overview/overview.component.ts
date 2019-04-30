@@ -19,6 +19,7 @@ export class OverviewComponent implements OnInit {
     console.log(syllablesService.getForRows(['a']));
     this.syllables = {
       a: syllablesService.getForRows(['a']),
+      k: syllablesService.getForRows(['k']),
       s: syllablesService.getForRows(['s']),
       t: syllablesService.getForRows(['t']),
       na: syllablesService.getForRows(['na']),

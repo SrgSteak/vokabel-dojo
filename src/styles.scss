@@ -25,6 +25,31 @@ body {
   background-image : url(assets/background.png);
 }
 
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+
+  height: 100%;
+}
+
+.row {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.col {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  width: 100%;
+  @media screen and (min-width: 500px) {
+    width: 50%;
+  }
+}
+
 /* the router component content*/
 .content {
   height: 100%;
@@ -128,7 +153,26 @@ a[disabled] {
   -webkit-text-decoration-line: line-through;
 }
 
-button {
+button.menu-button {
+  // bottom: 0;
+  margin: 0px;
+  margin-top: 10px;
+  position: fixed;
+  background-color: $backgroundColor;
+  border-top-right-radius : 4px;
+  border-bottom-right-radius : 4px;
+  border: none;
+  color: white;
+  padding: 6px 7px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  min-width: 32px;
+  min-height: 54px;
+}
+
+button.submenu {
   // bottom: 0;
   margin: 0px;
   margin-top: 10px;
@@ -264,13 +308,13 @@ th {
   // background-color: teal;
   border-style: none;
   border: 1px solid;
-  height: 45px;
+  // height: 45px;
 }
 
 td {
   padding: 0;
   border: 1px solid;
-  height: 45px;
+  // height: 45px;
 }
 
 table .label {
@@ -298,3 +342,37 @@ table .label {
   color: gray;
 }
 /* Text Colors and other Stuff END */
+
+/* Forms */
+form > label {
+  font-size: 12px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+form > input {
+  width: 100%;
+  padding: 5px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+
+form > button {
+  margin: 0px;
+  margin-top: 10px;
+  margin-right: 10px;
+  background-color: $backgroundColor;
+  border-radius : 4px;
+  border: none;
+  color: white;
+  padding: 6px 7px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  // min-width: 32px;
+  // min-height: 54px;
+}
+
+form > button:hover {
+  background-color: $highlightColor;
+}

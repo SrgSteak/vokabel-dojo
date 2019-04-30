@@ -28,7 +28,9 @@ export class FlashcardService {
   draw<T>(deck: Array<T>, number: number): Array<T> {
     const cards = [];
     for (let index = 0; index < number; index++) {
-      cards.push(deck[index]);
+      if (deck[index]) {
+        cards.push(deck[index]);
+      }
     }
     return cards;
   }

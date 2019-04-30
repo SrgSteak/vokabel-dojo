@@ -1,0 +1,30 @@
+<div *ngIf="auth.user | async; then authenticated else guest">
+  <!-- template will replace this div -->
+</div>
+
+
+<!-- User NOT logged in -->
+<ng-template #guest>
+<h3>Howdy, GUEST</h3>
+<p>Login to get started...</p>
+
+<button (click)="auth.googleLogin()">
+  <i class="fa fa-google"></i> Connect Google
+</button>
+
+<button (click)="auth.emailLogin()">
+  <i class="fa fa-email"></i> Connect Email
+</button>
+
+</ng-template>
+
+
+<!-- User logged in -->
+<ng-template #authenticated>
+<div *ngIf="auth.user | async as user">
+  <h3>Howdy, {{ user.displayName }}</h3>
+  <p>Email: {{ user.email }}</p>
+  <p>UID: {{ user.uid }}</p>
+  <button (click)="auth.signOut()">Logout</button>
+</div>
+</ng-template>

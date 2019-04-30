@@ -19,8 +19,9 @@
         <th class="label">o</th>
       </tr>
       <tr *ngFor="let row of syllables | keyvalue">
-        <td class="label" *ngIf="row.key !== 'a'">{{ row.key }}</td>
+        <td class="label" *ngIf="row.key !== 'a' && row.key !== 'na'">{{ row.key }}</td>
         <td class="label" *ngIf="row.key == 'a'">Vokale</td>
+        <td class="label" *ngIf="row.key == 'na'">n</td>
         <ng-container *ngIf="row.key !== 'w' && row.key !== 'y'">
           <td *ngFor="let syl of row.value">{{ syl[display] }}</td>
         </ng-container>
@@ -74,5 +75,7 @@
         <td *ngFor="let syl of row.value">{{ syl[display] }}</td>
       </tr>
     </table>
+    <h2>Chōonpu / Verlängerungsstrich 「ー」</h2>
+    <p>Wird nur bei Katakana verwendet und verlängert den Selbstlaut</p>
   </div>
 </div>

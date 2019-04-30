@@ -1,5 +1,5 @@
 export interface flashcard {
-  hits: number;
-  misses: number;
+  hits?: number;
+  misses?: number;
   german: string;
 }

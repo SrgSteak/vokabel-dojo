@@ -31,6 +31,75 @@
     <a [class.active]="numberAnswers == 3" (click)="updateNumberAnswers(3)">Leicht</a>
     <a [class.active]="numberAnswers == 5" (click)="updateNumberAnswers(5)">Mittel</a>
     <a [class.active]="numberAnswers == 8" (click)="updateNumberAnswers(8)">Schwer</a>
+  <span class="label">Silbenreihen</span>
+    <form [formGroup]="filterForm">
+      <label class="container">あ|ア
+        <input type="checkbox" formControlName="row_a">
+        <span class="checkmark">
+          <span class="checkmark_inner"></span>
+        </span>
+      </label>
+      <label class="container">か|カ
+        <input type="checkbox" formControlName="row_k">
+        <span class="checkmark">
+          <span class="checkmark_inner"></span>
+        </span>
+      </label>
+      <label class="container">さ|サ
+        <input type="checkbox" formControlName="row_s">
+        <span class="checkmark">
+          <span class="checkmark_inner"></span>
+        </span>
+      </label>
+      <label class="container">た|タ
+        <input type="checkbox" formControlName="row_t">
+        <span class="checkmark">
+          <span class="checkmark_inner"></span>
+        </span>
+      </label>
+      <label class="container">な|ナ
+        <input type="checkbox" formControlName="row_na">
+        <span class="checkmark">
+          <span class="checkmark_inner"></span>
+        </span>
+      </label>
+      <label class="container">は|ハ
+        <input type="checkbox" formControlName="row_h">
+        <span class="checkmark">
+          <span class="checkmark_inner"></span>
+        </span>
+      </label>
+      <label class="container">ま|マ
+        <input type="checkbox" formControlName="row_m">
+        <span class="checkmark">
+          <span class="checkmark_inner"></span>
+        </span>
+      </label>
+      <label class="container">や|ヤ
+        <input type="checkbox" formControlName="row_y">
+        <span class="checkmark">
+          <span class="checkmark_inner"></span>
+        </span>
+      </label>
+      <label class="container">ら|ラ
+        <input type="checkbox" formControlName="row_r">
+        <span class="checkmark">
+          <span class="checkmark_inner"></span>
+        </span>
+      </label>
+      <label class="container">わ|ワ
+        <input type="checkbox" formControlName="row_w">
+        <span class="checkmark">
+          <span class="checkmark_inner"></span>
+        </span>
+      </label>
+      <label class="container">ん|ン
+        <input type="checkbox" formControlName="row_n">
+        <span class="checkmark">
+          <span class="checkmark_inner"></span>
+        </span>
+      </label>
+    </form>
 </div>
 <app-modal>
   <div class="content">

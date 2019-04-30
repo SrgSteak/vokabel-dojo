@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, HostListener, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from '../core/auth.service';
 
 @Component({
   selector: 'app-menu',
@@ -12,7 +13,7 @@ export class MenuComponent implements OnInit {
 
   @ViewChild('menu') menu: ElementRef;
 
-  constructor() { }
+  constructor(public auth: AuthService) { }
 
   ngOnInit() {
   }

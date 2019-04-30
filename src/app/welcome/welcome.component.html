@@ -1,7 +1,20 @@
 <div class="content">
   <div class="welcome">
+    <div *ngIf="auth.user | async; then authenticated else guest">
+      <!-- template will replace this div -->
+    </div>
+    <ng-template #guest>
+      <p>Was möchtest du heute trainieren?</p>
+      <button (click)="auth.googleLogin()">
+        Mit Google anmelden
+      </button>
+    </ng-template>
+    <ng-template #authenticated>
+      <ng-container *ngIf="auth.user | async as user">
+        <p>Willkommen zurück, {{ user.displayName }}. Was möchtest du heute trainieren?</p>
+      </ng-container>
+    </ng-template>
 
-    <p>Was möchtest du heute trainieren?</p>
     <div class="grid">
       <div class="row">
         <div class="col">

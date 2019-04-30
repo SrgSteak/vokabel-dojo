@@ -103,8 +103,7 @@ export class LearnComponent implements OnInit, OnDestroy  {
     if (this.filterForm.get('row_n').value) {
       rows.push('n');
     }
-    // console.log(this.filterForm.get('row_a').value);
-    // console.log(rows);
+
     if (rows.length > 0) {
       this.hiragana = this.syllablesService.getForRows(rows);
     } else {
