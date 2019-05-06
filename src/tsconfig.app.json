@@ -19,6 +19,9 @@
       "es2017",
       "dom"
     ],
+    "types": [
+      "jasmine"
+    ],
     "paths": {
       "core-js/es7/reflect": [
         "node_modules/core-js/proposals/reflect-metadata"

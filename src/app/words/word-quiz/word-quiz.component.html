@@ -1,26 +1,120 @@
-<div class="word_quiz">
-  <div class="card">
-    {{ showCard[questionMode]}}
-  </div>
-  <div class="answer" *ngFor="let answer of answers" (click)="answerSelect(this.showCard, answer)"
-  [class.error]="displayError && answer.hiragana !== showCard.hiragana">
-    {{ answer[answerMode] }}
-  </div>
-  <div class="score" (click)="toggleStatistic()">
-    
-      Hits: <span class="hits">{{ vocabularyService.totalHits }}</span>
-      Misses: <span class="misses">{{ vocabularyService.totalMisses }}</span>
-    <div class="statistic" *ngIf="displayStatistic">
-      <ng-container *ngFor="let card of deck">
-        <p *ngIf="card.misses || card.hits" [class.error]="card.misses > card.hits">
-          {{ card.hiragana }}  <span class="hits">{{ card.hits }}</span> /  <span class="misses">{{ card.misses }}</span>
-        </p>
+<button class="submenu2 no-print" [class.open]="showSubmenu" [class.closed-menu]="!showSubmenu"
+  (click)="showSubmenu ? showSubmenu = false : showSubmenu = true" title="Einstellungen Wortquiz">⋮</button>
+<div class="menu" *ngIf="showSubmenu">
+  <span class="label">Anzeige</span>
+  <form [formGroup]="modeForm">
+    <label class="container">Ruby (ルビ)
+      <input type="checkbox" formControlName="rubi" name="rubi">
+      <span class="checkmark">
+        <span class="checkmark_inner"></span>
+      </span>
+    </label>
+  </form>
+  <span class="label">Fragen</span>
+  <form [formGroup]="modeForm">
+    <label class="container">Deutsch
+      <input type="radio" formControlName="left" value="german" name="left">
+      <span class="checkmark">
+        <span class="checkmark_inner"></span>
+      </span>
+    </label>
+    <label class="container" *ngIf="this.enableKanji">Kanji
+      <input type="radio" formControlName="left" value="kanji" name="left">
+      <span class="checkmark">
+        <span class="checkmark_inner"></span>
+      </span>
+    </label>
+    <label class="container" *ngIf="this.enableHiragana">Hiragana
+      <input type="radio" formControlName="left" value="hiragana" name="left">
+      <span class="checkmark">
+        <span class="checkmark_inner"></span>
+      </span>
+    </label>
+    <label class="container" *ngIf="this.enableKatakana">Katakana
+      <input type="radio" formControlName="left" value="katakana" name="left">
+      <span class="checkmark">
+        <span class="checkmark_inner"></span>
+      </span>
+    </label>
+    <label class="container">Romaji
+      <input type="radio" formControlName="left" value="romaji" name="left">
+      <span class="checkmark">
+        <span class="checkmark_inner"></span>
+      </span>
+    </label>
+  </form>
+  <span class="label">Antworten</span>
+  <form [formGroup]="modeForm">
+    <label class="container">Deutsch
+      <input type="radio" formControlName="right" value="german" name="right">
+      <span class="checkmark">
+        <span class="checkmark_inner"></span>
+      </span>
+    </label>
+    <label class="container" *ngIf="this.enableKanji">Kanji
+      <input type="radio" formControlName="right" value="kanji" name="right">
+      <span class="checkmark">
+        <span class="checkmark_inner"></span>
+      </span>
+    </label>
+    <label class="container" *ngIf="this.enableHiragana">Hiragana
+      <input type="radio" formControlName="right" value="hiragana" name="right">
+      <span class="checkmark">
+        <span class="checkmark_inner"></span>
+      </span>
+    </label>
+    <label class="container" *ngIf="this.enableKatakana">Katakana
+      <input type="radio" formControlName="right" value="katakana" name="right">
+      <span class="checkmark">
+        <span class="checkmark_inner"></span>
+      </span>
+    </label>
+    <label class="container">Romaji
+      <input type="radio" formControlName="right" value="romaji" name="right">
+      <span class="checkmark">
+        <span class="checkmark_inner"></span>
+      </span>
+    </label>
+  </form>
+  <span class="label">Schwierigkeitsgrad</span>
+  <a [class.active]="numberAnswers == 3" (click)="updateNumberAnswers(3)">Leicht</a>
+  <a [class.active]="numberAnswers == 5" (click)="updateNumberAnswers(5)">Mittel</a>
+  <a [class.active]="numberAnswers == 8" (click)="updateNumberAnswers(8)">Schwer</a>
+</div>
+
+<app-modal>
+  <div class="content">
+    <div class="stat-grid">
+      <ng-container *ngFor="let card of scoredWords">
+        <div class="stat" [class.error]="card.misses > card.hits" [class.muted]="card.misses == 0 && card.hits == 0">
+          {{ card[questionMode] }} <span [class.hits]="card.hits > 0">{{ card.hits }}</span> / <span
+            [class.misses]="card.misses > 0">{{ card.misses }}</span>
+        </div>
       </ng-container>
-    <p (click)="reset()">Zurücksetzen</p>
     </div>
+    <a (click)="reset()">Zurücksetzen</a>
   </div>
-  <div class="modes">
-    <div class="mode" (click)="setMode('german', 'hiragana')">hiragana/deutsch</div>
-    <div class="mode" (click)="setMode('hiragana', 'german')">deutsch/hiragana</div>
+  <div class="teaser teaser2">
+    Hits: <span class="hits">{{ deckService.totalHits }}</span>
+    Misses: <span class="misses">{{ deckService.totalMisses }}</span>
+  </div>
+</app-modal>
+
+<div class="content">
+  <div class="word-quiz">
+    <div class="card" *ngIf="!rubi">
+      {{ reading(showCard, questionMode) }}
+    </div>
+    <div class="card" *ngIf="rubi">
+      <ruby>
+        {{ reading(showCard, questionMode) }}<rt>{{ reading(showCard, 'hiragana') }}</rt>
+      </ruby>
+    </div>
+    <div class="answers">
+      <div class="answer" *ngFor="let answer of answers" (click)="answerSelect(this.showCard, answer)"
+        [class.error]="displayError && answer.uid !== showCard.uid">
+        {{ reading(answer, answerMode) }}
+      </div>
+    </div>
   </div>
 </div>

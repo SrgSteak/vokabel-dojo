@@ -1,24 +1,131 @@
-<div class="card">
-  {{ showCard[questionMode]}}
+<button class="submenu no-print" [class.open]="showSubmenu" [class.closed-menu]="!showSubmenu" (click)="showSubmenu ? showSubmenu = false : showSubmenu = true" title="Einstellungen Quizmodus">✍︎</button>
+<div class="menu" *ngIf="showSubmenu">
+  <span class="label">Modus</span>
+  <div class="dropdown-content">
+    <a
+      [class.active]="questionMode == 'german' && answerMode == 'hiragana'"
+      (click)="setMode('german', 'hiragana')"
+    >a/あ</a>
+    <a
+      [class.active]="questionMode == 'hiragana' && answerMode == 'german'"
+      (click)="setMode('hiragana', 'german')"
+    >あ/a</a>
+    <a
+      [class.active]="questionMode == 'german' && answerMode == 'katakana'"
+      (click)="setMode('german', 'katakana')"
+    >a/ア</a>
+    <a
+      [class.active]="questionMode == 'katakana' && answerMode == 'german'"
+      (click)="setMode('katakana', 'german')"
+    >ア/a</a>
+    <a
+      [class.active]="questionMode == 'hiragana' && answerMode == 'katakana'"
+      (click)="setMode('hiragana', 'katakana')"
+    >あ/ア</a>
+    <a
+      [class.active]="questionMode == 'katakana' && answerMode == 'hiragana'"
+      (click)="setMode('katakana', 'hiragana')"
+    >ア/あ</a>
+  </div>
+  <span class="label">Schwierigkeitsgrad</span>
+    <a [class.active]="numberAnswers == 3" (click)="updateNumberAnswers(3)">Leicht</a>
+    <a [class.active]="numberAnswers == 5" (click)="updateNumberAnswers(5)">Mittel</a>
+    <a [class.active]="numberAnswers == 8" (click)="updateNumberAnswers(8)">Schwer</a>
+  <span class="label">Silbenreihen</span>
+    <form [formGroup]="filterForm">
+      <label class="container">あ|ア
+        <input type="checkbox" formControlName="row_a">
+        <span class="checkmark">
+          <span class="checkmark_inner"></span>
+        </span>
+      </label>
+      <label class="container">か|カ
+        <input type="checkbox" formControlName="row_k">
+        <span class="checkmark">
+          <span class="checkmark_inner"></span>
+        </span>
+      </label>
+      <label class="container">さ|サ
+        <input type="checkbox" formControlName="row_s">
+        <span class="checkmark">
+          <span class="checkmark_inner"></span>
+        </span>
+      </label>
+      <label class="container">た|タ
+        <input type="checkbox" formControlName="row_t">
+        <span class="checkmark">
+          <span class="checkmark_inner"></span>
+        </span>
+      </label>
+      <label class="container">な|ナ
+        <input type="checkbox" formControlName="row_na">
+        <span class="checkmark">
+          <span class="checkmark_inner"></span>
+        </span>
+      </label>
+      <label class="container">は|ハ
+        <input type="checkbox" formControlName="row_h">
+        <span class="checkmark">
+          <span class="checkmark_inner"></span>
+        </span>
+      </label>
+      <label class="container">ま|マ
+        <input type="checkbox" formControlName="row_m">
+        <span class="checkmark">
+          <span class="checkmark_inner"></span>
+        </span>
+      </label>
+      <label class="container">や|ヤ
+        <input type="checkbox" formControlName="row_y">
+        <span class="checkmark">
+          <span class="checkmark_inner"></span>
+        </span>
+      </label>
+      <label class="container">ら|ラ
+        <input type="checkbox" formControlName="row_r">
+        <span class="checkmark">
+          <span class="checkmark_inner"></span>
+        </span>
+      </label>
+      <label class="container">わ|ワ
+        <input type="checkbox" formControlName="row_w">
+        <span class="checkmark">
+          <span class="checkmark_inner"></span>
+        </span>
+      </label>
+      <label class="container">ん|ン
+        <input type="checkbox" formControlName="row_n">
+        <span class="checkmark">
+          <span class="checkmark_inner"></span>
+        </span>
+      </label>
+    </form>
 </div>
-<div class="answer" *ngFor="let answer of answers" (click)="answerSelect(this.showCard, answer)"
-[class.error]="displayError && answer.hiragana !== showCard.hiragana">
-  {{ answer[answerMode] }}
+<app-modal>
+  <div class="content">
+    <div class="stat-grid">
+      <div class="stat" *ngFor="let char of scoredHiragana" [class.muted]="char.hits == 0 && char.misses == 0">{{ char[questionMode] }} {{ char.hits }}/{{ char.misses }}</div>
+    </div>
+    <a (click)="reset()">Zurücksetzen</a>
+  </div>
+  <div class="teaser">
+    Hits: {{ syllablesService.totalHits }} | Misses: {{ syllablesService.totalMisses }}
+  </div>
+</app-modal>
+<div class="content">
+  <div class="quiz">
+        <div class="card">
+          {{ showCard[questionMode]}}
+        </div>
+        <div class="answers">
+        <div
+          class="answer"
+          *ngFor="let answer of answers"
+          (click)="answerSelect(this.showCard, answer)"
+          [class.error]="displayError && answer.hiragana !== showCard.hiragana"
+        >
+          {{ answer[answerMode] }}
+        </div>
+      </div>
+    </div>
 </div>
-<div class="score">Hits: {{ syllablesService.totalHits }}, Misses: {{ syllablesService.totalMisses }}</div>
-<div class="modes">
-  <div class="mode" (click)="setMode('german', 'hiragana')">hiragana/deutsch</div>
-  <div class="mode" (click)="setMode('german', 'katakana')">katakana/deutsch</div>
-  <div class="mode" (click)="setMode('hiragana', 'katakana')">hiragana/katakana</div>
-</div>
-<select (change)="questionMode = $event.target.value">
-  <option value="hiragana" label="Hiragana" [selected]="'hiragana' === questionMode"></option>
-  <option value="katakana" label="Katakana" [selected]="'katakana' === questionMode"></option>
-  <option value="german" label="Deutsch" [selected]="'german' === questionMode"></option>
-</select>
-<select (change)="answerMode = $event.target.value">
-  <option value="hiragana" label="Hiragana" [selected]="'hiragana' === answerMode"></option>
-  <option value="katakana" label="Katakana" [selected]="'katakana' === answerMode"></option>
-  <option value="german" label="Deutsch" [selected]="'german' === answerMode"></option>
-</select>
-<a (click)="reset()">Zurücksetzen</a>

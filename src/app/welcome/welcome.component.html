@@ -1,0 +1,51 @@
+<div class="content">
+  <div class="welcome">
+    <div *ngIf="auth.user | async; then authenticated else guest">
+      <!-- template will replace this div -->
+    </div>
+    <ng-template #guest>
+      <p>Was möchtest du heute trainieren?</p>
+    </ng-template>
+    <ng-template #authenticated>
+      <ng-container *ngIf="auth.user | async as user">
+        <p>Willkommen zurück, {{ user.displayName }}. Was möchtest du heute trainieren?</p>
+      </ng-container>
+    </ng-template>
+    <div class="grid">
+      <div class="row">
+        <div class="col" *ngIf="decks.length > 0">
+          <a [routerLink]="['/', 'user','decks', deck.uid, 'table']" class="grid-content" *ngFor="let deck of decks">
+            <p>🂠</p>
+            <span class="choice">{{ deck.name }}</span>
+          </a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+
+          <a class="grid-content" [routerLink]="['/user']">
+            <p>🔐</p>
+            <span class="choice">Loginbereich</span>
+          </a>
+
+          <a routerLink="/decks" class="grid-content">
+            <p>📚</p>
+            <span class="choice">Decks zum Kurs</span>
+          </a>
+          <a routerLink="/word-list" class="grid-content">
+            <p>☕︎</p>
+            <span class="choice">Wörterbuch</span>
+          </a>
+          <a routerLink="/about" class="grid-content" disabled>
+            <p>✪</p>
+            <span class="choice">Statistik</span>
+          </a>
+          <a routerLink="/about" class="grid-content">
+            <p>※</p>
+            <span class="choice">Handbuch</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

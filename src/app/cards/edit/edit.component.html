@@ -1,0 +1,38 @@
+<div class="content">
+  <div class="edit">
+
+    <form [formGroup]="cardForm" (ngSubmit)="onSubmit()">
+      <label for="german">
+        Deutsch
+      </label>
+      <input type="text" id="german" formControlName="german">
+      <label for="hiragana">
+        Hiragana
+      </label>
+      <input type="text" id="hiragana" formControlName="hiragana">
+      <label for="katakana">
+        Katakana
+      </label>
+      <input type="text" id="katakana" formControlName="katakana">
+      <label for="kanji">
+        Kanji
+      </label>
+      <input type="text" id="kanji" formControlName="kanji">
+      <label for="romaji">
+        Romaji
+      </label>
+      <input type="text" id="romaji" formControlName="romaji">
+      <div formArrayName="decks">
+
+        <label class="container" *ngFor="let deck of decks; let i = index">{{ deck.name }}
+          <input type="checkbox" [formControlName]="i">
+          <span class="checkmark">
+            <span class="checkmark_inner"></span>
+          </span>
+        </label>
+      </div>
+      <button type="submit">Speichern & Zurück</button>
+      <a (click)="onDelete()">Löschen</a>
+    </form>
+  </div>
+</div>

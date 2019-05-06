@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
+import { flashcard } from './syllables.service';
 
 @Injectable()
 export class FlashcardService {
 
   public totalHits = 0;
   public totalMisses = 0;
+  private pushSubscription: PushSubscription;
 
   shuffle<T>(deck: Array<T>): Array<T> {
     let currentIndex = deck.length, temporaryValue, randomIndex;
@@ -23,8 +25,25 @@ export class FlashcardService {
     return deck;
   }
 
+  draw<T>(deck: Array<T>, number: number): Array<T> {
+    const cards = [];
+    for (let index = 0; index < number; index++) {
+      if (deck[index]) {
+        cards.push(deck[index]);
+      }
+    }
+    return cards;
+  }
+
   resetStatistic() {
     this.totalHits = 0;
     this.totalMisses = 0;
   }
+
+  setPushSubscription(sub: PushSubscription): void {
+    this.pushSubscription = sub;
+    this.pushSubscription
+  }
+
+
 }

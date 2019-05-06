@@ -1,0 +1,433 @@
+/* Add this class to things you do not want to print!*/
+@media print
+{
+    .no-print, .no-print *
+    {
+        display: none !important;
+    }
+}
+
+/* Add application styles & imports to this file! */
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  // overflow: hidden;
+}
+/* the App background */
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  background-image : url(assets/background.png);
+}
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+
+  height: 100%;
+}
+
+.row {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.col {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  width: 100%;
+  @media screen and (min-width: 500px) {
+    width: 70%;
+  }
+}
+
+/* the router component content*/
+.content {
+  height: 100%;
+}
+
+.modes {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.mode {
+  text-align: center;
+  color: white;
+  background-color: teal;
+  width: auto;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom: 10px;
+  padding: 10px;
+  transition: background-color 0.5s ease;
+  flex-grow: 1;
+}
+
+.mode:hover {
+  @media(hover: hover) {
+    background-color: rgb(0,90,90);
+  }
+}
+
+.selected {
+  background-color: rgb(0, 100, 100);
+}
+
+
+/* MENU */
+// Menu and Button Background
+$backgroundColor: rgb(0, 40, 40);
+// Active (selected) Links
+$activeColor: rgb(0,30,30);
+// hover color on links
+$highlightColor: rgb(0, 60,60);
+// color of menu group labels
+$labelColor: rgb(0,140,140);
+
+$mutedColor: rgba(200,200,200, 0.3);
+
+.menu {
+  display: block;
+  height: 100%;
+  @media screen and (max-width: 799px) {
+    width: 35%;
+  }
+  @media screen and (max-width: 438px) {
+    width: 50%;
+  }
+  @media screen and (min-width: 800px) {
+    width: 280px;
+  }
+  color: white;
+  font-family: arial;
+  background-color: $backgroundColor;
+  // box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  text-align: center;
+  overflow: auto;
+}
+
+.menu a {
+  cursor: pointer;
+  color: white;
+  padding: 8px;
+  text-decoration: none;
+  display: block; /* Display block instead of inline */
+  transition: 0.3s; /* Transition effects on hover (color) */
+}
+
+.active {
+  background-color: $activeColor;
+}
+
+.menu .label {
+  color: $labelColor;
+  font-size: 12px;
+  display: block;
+  padding-top: 20px;
+}
+
+/* When you mouse over the navigation links, change their color */
+.menu a:hover, .overlay a:focus {
+  @media(hover: hover) {
+    background-color: $highlightColor;
+  }
+}
+
+.menu p {
+  font-size: 12px;
+  color: $labelColor;/* rgb(199, 199, 199); */
+  // text-align: left;
+  padding-left: 7px;
+  padding-right: 7px;
+}
+
+a[disabled] {
+  cursor: not-allowed;
+  pointer-events: none;
+  text-decoration-line: line-through;
+  -webkit-text-decoration-line: line-through;
+}
+
+.disabled {
+  cursor: not-allowed;
+  color: $mutedColor !important;
+  pointer-events: none;
+  text-decoration-line: line-through;
+  -webkit-text-decoration-line: line-through;
+}
+
+button.menu-button {
+  margin: 0px;
+  margin-top: 10px;
+  position: fixed;
+  background-color: $backgroundColor;
+  border-top-right-radius : 4px;
+  border-bottom-right-radius : 4px;
+  border: none;
+  color: white;
+  padding: 6px 7px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  min-width: 32px;
+  min-height: 54px;
+}
+
+button.submenu {
+  top: 60px;
+  margin: 0px;
+  margin-top: 10px;
+  position: fixed;
+  background-color: $backgroundColor;
+  border-top-right-radius : 4px;
+  border-bottom-right-radius : 4px;
+  border: none;
+  color: white;
+  padding: 6px 7px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  min-width: 32px;
+  min-height: 54px;
+}
+
+button.submenu2 {
+  top: 120px;
+  left: 0px;
+  margin: 0px;
+  margin-top: 10px;
+  position: fixed;
+  background-color: $backgroundColor;
+  border-top-right-radius : 4px;
+  border-bottom-right-radius : 4px;
+  border: none;
+  color: white;
+  padding: 6px 7px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  min-width: 32px;
+  min-height: 54px;
+}
+
+.closed-menu:hover {
+  @media(hover: hover) {
+    padding: 6px 11px;
+  }
+}
+
+button.open {
+  left: 30%;
+  @media screen and (max-width: 799px) {
+    left: 35%;
+  }
+  @media screen and (max-width: 438px) {
+    left: 50%;
+  }
+  @media screen and (min-width: 800px) {
+    left: 280px;
+  }
+}
+
+/* Hide the browser's default checkbox */
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+label.container {
+  padding: 8px;
+  display: block;
+  position: relative;
+  @media screen and (max-width: 438px) {
+    font-size: 14px;
+  }
+  @media screen and (max-width: 799px) {
+    padding-left: 12px;
+    text-align: left;
+  }
+}
+
+label.container:hover {
+  @media(hover: hover) {
+    background-color: $highlightColor;
+  }
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  right: 25px;
+  width: 20px;
+  height: 20px;
+  @media screen and (max-width: 438px) {
+    right: 15px;
+    width: 16px;
+    height: 16px;
+    top: 10px;
+  }
+  background: #ddd;
+  border-radius: 100%;
+  box-shadow: 0px 1px 3px rgba(0,0,0,0.5);
+}
+
+.checkmark_inner {
+	position: absolute;
+  left: 3px;
+  top: 3px;
+	width: 14px;
+  height: 14px;
+  @media screen and (max-width: 438px) {
+    // left: 3px;
+    // top: 3px;
+    width: 10px;
+    height: 10px;
+  }
+
+  border-radius: 100%;
+  background: #333;
+  box-shadow:inset 0px 1px 3px rgba(0,0,0,0.5);
+  transition: background-color .5s ease;
+}
+
+/* When the checkbox is checked, add a blue background */
+.container input:checked ~ .checkmark .checkmark_inner {
+  background-color: #26ca28;
+}
+/* MENU END*/
+
+/* TABLES */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  height: 80%;
+  /* border: 1px solid; */
+  /* background-color: rgb(200,250,250); */
+  text-align: center;
+  border: none;
+  -webkit-border-horizontal-spacing: 0;
+  -webkit-border-vertical-spacing: 0;
+}
+
+.blank {
+  /* background-color: azure; */
+  border-style: none;
+  /* border: 1px solid; */
+  width: 50;
+}
+
+th {
+  // background-color: teal;
+  border-style: none;
+  border: 1px solid;
+  // height: 45px;
+}
+
+td {
+  padding: 0;
+  border: 1px solid;
+  // height: 45px;
+}
+
+table .label {
+  background-color: teal;
+  font-weight: bold;
+  width: 50px;
+}
+/* TABLES END */
+
+/* quiz */
+.answer {
+  cursor: pointer;
+}
+
+/* Text Colors and other Stuff */
+.hits {
+  color: rgb(0, 200, 100);
+}
+
+.misses {
+  color: rgb(200, 100, 100);
+}
+
+.muted {
+  color: gray;
+}
+/* Text Colors and other Stuff END */
+
+/* Forms */
+form > label {
+  font-size: 12px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+form > input {
+  width: 100%;
+  padding: 5px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+
+form > button {
+  margin: 0px;
+  margin-top: 10px;
+  margin-right: 10px;
+  background-color: $backgroundColor;
+  border-radius : 4px;
+  border: none;
+  color: white;
+  padding: 6px 7px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  // min-width: 32px;
+  // min-height: 54px;
+}
+
+form > button:hover {
+  background-color: $highlightColor;
+}
+
+.button {
+  margin: 0px;
+  margin-top: 10px;
+  margin-right: 10px;
+  background-color: $backgroundColor;
+  border-radius : 4px;
+  border: none;
+  color: white;
+  padding: 6px 7px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  // min-width: 32px;
+  // min-height: 54px;
+}
+
+.button:hover {
+  background-color: $highlightColor;
+}
+

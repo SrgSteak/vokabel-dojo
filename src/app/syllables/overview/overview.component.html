@@ -1,0 +1,81 @@
+<button class="submenu no-print" [class.open]="showSubmenu" [class.closed-menu]="!showSubmenu" (click)="showSubmenu ? showSubmenu = false : showSubmenu = true" title="Einstellungen Silbentabelle">✍︎</button>
+<div class="menu" *ngIf="showSubmenu">
+  <span class="label">Modus</span>
+  <div class="dropdown-content">
+      <a [class.selected]="display == 'hiragana'" (click)="display = 'hiragana'">Hiragana</a>
+      <a [class.selected]="display == 'katakana'" (click)="display = 'katakana'">Katakana</a>
+  </div>
+</div>
+
+<div class="content">
+  <div class="overview">
+    <table>
+      <tr>
+        <th class="blank"></th>
+        <th class="label">a</th>
+        <th class="label">i</th>
+        <th class="label">u</th>
+        <th class="label">e</th>
+        <th class="label">o</th>
+      </tr>
+      <tr *ngFor="let row of syllables | keyvalue">
+        <td class="label" *ngIf="row.key !== 'a' && row.key !== 'na'">{{ row.key }}</td>
+        <td class="label" *ngIf="row.key == 'a'">Vokale</td>
+        <td class="label" *ngIf="row.key == 'na'">n</td>
+        <ng-container *ngIf="row.key !== 'w' && row.key !== 'y'">
+          <td *ngFor="let syl of row.value">{{ syl[display] }}</td>
+        </ng-container>
+        <ng-container *ngIf="row.key === 'w'">
+          <td> {{ row.value[0][display] }}</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td> {{ row.value[1][display] }}</td>
+        </ng-container>
+        <ng-container *ngIf="row.key === 'y'">
+            <td> {{ row.value[0][display] }}</td>
+            <td></td>
+            <td> {{ row.value[1][display] }}</td>
+            <td></td>
+            <td> {{ row.value[2][display] }}</td>
+          </ng-container>
+      </tr>
+    </table>
+    <h2>Dakuten / Nigori「 ゛」</h2>
+    <p>Nigori macht den Laut stimmhaft oder "getrübt" (soft).</p>
+    <table>
+      <tr>
+        <th class="blank"></th>
+        <th class="label">a</th>
+        <th class="label">i</th>
+        <th class="label">u</th>
+        <th class="label">e</th>
+        <th class="label">o</th>
+      </tr>
+      <tr *ngFor="let row of dakuten | keyvalue">
+        <td class="label">{{ row.key }}</td>
+        <td *ngFor="let syl of row.value">{{ syl[display] }}</td>
+      </tr>
+    </table>
+    <p *ngIf="display == 'katakana'">Beachte ジ (ji), ヂ (ji) und ヅ (zu)</p>
+    <p *ngIf="display == 'hiragana'">Beachte じ (ji), ぢ (ji) und づ (zu)</p>
+    <h2>Handakuten / Maru「 ゜」</h2>
+    <p>Maru macht den Laut "hart"</p>
+    <table>
+      <tr>
+        <th class="blank"></th>
+        <th class="label">a</th>
+        <th class="label">i</th>
+        <th class="label">u</th>
+        <th class="label">e</th>
+        <th class="label">o</th>
+      </tr>
+      <tr *ngFor="let row of handakuten | keyvalue">
+        <td class="label">{{ row.key }}</td>
+        <td *ngFor="let syl of row.value">{{ syl[display] }}</td>
+      </tr>
+    </table>
+    <h2>Chōonpu / Verlängerungsstrich 「ー」</h2>
+    <p>Wird nur bei Katakana verwendet und verlängert den Selbstlaut</p>
+  </div>
+</div>

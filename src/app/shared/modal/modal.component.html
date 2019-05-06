@@ -1,0 +1,12 @@
+<div class="modal">
+  <div class="modal-content noanimate" [class.modal-content-open]="open" #content>
+    <div class="modal-content-inner">
+      <ng-content select=".content"></ng-content>
+    </div>
+  </div>
+  <div class="modal-teaser noanimate no-print" [class.modal-teaser-open]="open" [class.closed-teaser]="!open"
+    (click)="toggle()" #teaser>
+    <ng-content select=".teaser"></ng-content>
+    <span class="modal-icon" [class.twist]="!open">×</span>
+  </div>
+</div>

@@ -1,0 +1,48 @@
+
+.word-grid {
+  padding: 0px 40px 0px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 100%;
+}
+
+.word {
+  text-align: center;
+  padding-top: 10px;
+  font-size: 10vw;
+  @media screen and (max-width: 768px) {
+    font-size: 35px;
+  }
+  height: 15%;
+}
+
+.success {
+  color: rgb(0, 200, 100);
+}
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: flex-end;
+  width: 100%;
+  padding-bottom: 15px;
+}
+
+.gridpart {
+  padding: 12px; //12px 12px 12px 12px;
+  margin: 1px;
+  font-size: 22px;
+  background-color: teal;
+  transition: all 0.5s ease 0s;
+  border-radius: 4px;
+}
+
+.answer {
+  width: 80%;
+  margin: auto;
+  height: 15%;
+  // background-color: white;
+  height: 100px;
+}
