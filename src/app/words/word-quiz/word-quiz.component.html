@@ -102,12 +102,12 @@
 
 <div class="content">
   <div class="word-quiz">
-    <div class="card" *ngIf="!rubi">
-      {{ reading(showCard, questionMode) }}
-    </div>
-    <div class="card" *ngIf="rubi">
+    <div class="card" (mousedown)="peekRubi = true" (mouseup)="peekRubi = false" (touchstart)="peekRubi = true"
+      (touchend)="peekRubi = false">
       <ruby>
-        {{ reading(showCard, questionMode) }}<rt>{{ reading(showCard, 'hiragana') }}</rt>
+        {{ reading(showCard, questionMode) }}<rt
+          *ngIf="(rubi && showCard['kanji'] &&  questionMode == 'kanji') || (peekRubi && questionMode == 'kanji' && showCard['kanji'])">
+          {{ reading(showCard, 'hiragana') }}</rt>
       </ruby>
     </div>
     <div class="answers">
