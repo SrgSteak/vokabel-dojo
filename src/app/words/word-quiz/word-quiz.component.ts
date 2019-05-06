@@ -124,10 +124,10 @@ export class WordQuizComponent implements OnInit {
       return word['hiragana'];
     }
     if (word['katakana']) {
-      return word['hiragana'];
+      return word['katakana'];
     }
     if (word['romaji']) {
-      return word['hiragana'];
+      return word['romaji'];
     }
   }
 
