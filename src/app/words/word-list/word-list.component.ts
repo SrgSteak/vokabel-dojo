@@ -22,7 +22,7 @@ export class WordListComponent implements OnInit, OnDestroy {
   @Input() allowEdit = false;
   words: Array<wordFlashcard>;
   leftSide = 'german';
-  rightSide = 'mixed';
+  rightSide = 'kanji';
   showSubmenu = false;
   modeSub: Subscription;
   searchFormSub: Subscription;
@@ -31,7 +31,7 @@ export class WordListComponent implements OnInit, OnDestroy {
 
   modeForm = new FormGroup({
     left: new FormControl('german'),
-    right: new FormControl('mixed')
+    right: new FormControl('kanji')
   });
 
   constructor(private router: Router, private cardService: CardService) { }
@@ -89,10 +89,10 @@ export class WordListComponent implements OnInit, OnDestroy {
       return word['hiragana'];
     }
     if (word['katakana']) {
-      return word['hiragana'];
+      return word['katakana'];
     }
     if (word['romaji']) {
-      return word['hiragana'];
+      return word['romaji'];
     }
   }
 
