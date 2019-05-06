@@ -5,51 +5,37 @@
     </div>
     <ng-template #guest>
       <p>Was möchtest du heute trainieren?</p>
-      <button (click)="auth.googleLogin()">
-        Mit Google anmelden
-      </button>
     </ng-template>
     <ng-template #authenticated>
       <ng-container *ngIf="auth.user | async as user">
         <p>Willkommen zurück, {{ user.displayName }}. Was möchtest du heute trainieren?</p>
       </ng-container>
     </ng-template>
-
     <div class="grid">
       <div class="row">
-        <div class="col">
-          <a routerLink="/quiz" class="grid-content">
-            <p>あ</p>
-            <span class="choice">Hiragana Silben</span>
-          </a>
-          <a routerLink="/quiz" class="grid-content">
-            <p>ア</p>
-            <span class="choice">Katakana Silben</span>
-          </a>
-        </div>
-        <div class="col">
-          <a routerLink="/word-quiz/hiragana" class="grid-content">
-            <p>あおい</p>
-            <span class="choice">Hiragana Vokabeln</span>
-          </a>
-          <a routerLink="/word-quiz/katakana" class="grid-content">
-            <p>アジア</p>
-            <span class="choice">Katakana Vokabeln</span>
+        <div class="col" *ngIf="decks.length > 0">
+          <a [routerLink]="['/', 'user','decks', deck.uid, 'table']" class="grid-content" *ngFor="let deck of decks">
+            <p>🂠</p>
+            <span class="choice">{{ deck.name }}</span>
           </a>
         </div>
       </div>
       <div class="row">
         <div class="col">
-          <a routerLink="/word-grid/hiragana" class="grid-content">
-            <p>✎</p>
-            <span class="choice">Buchstabieren</span>
+
+          <a class="grid-content" [routerLink]="['/user']">
+            <p>🔐</p>
+            <span class="choice">Loginbereich</span>
+          </a>
+
+          <a routerLink="/decks" class="grid-content">
+            <p>📚</p>
+            <span class="choice">Decks zum Kurs</span>
           </a>
           <a routerLink="/word-list" class="grid-content">
             <p>☕︎</p>
             <span class="choice">Wörterbuch</span>
           </a>
-        </div>
-        <div class="col">
           <a routerLink="/about" class="grid-content" disabled>
             <p>✪</p>
             <span class="choice">Statistik</span>

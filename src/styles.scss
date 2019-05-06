@@ -46,7 +46,7 @@ body {
   justify-content: space-around;
   width: 100%;
   @media screen and (min-width: 500px) {
-    width: 50%;
+    width: 70%;
   }
 }
 
@@ -94,6 +94,8 @@ $activeColor: rgb(0,30,30);
 $highlightColor: rgb(0, 60,60);
 // color of menu group labels
 $labelColor: rgb(0,140,140);
+
+$mutedColor: rgba(200,200,200, 0.3);
 
 .menu {
   display: block;
@@ -146,6 +148,14 @@ $labelColor: rgb(0,140,140);
   }
 }
 
+.menu p {
+  font-size: 12px;
+  color: $labelColor;/* rgb(199, 199, 199); */
+  // text-align: left;
+  padding-left: 7px;
+  padding-right: 7px;
+}
+
 a[disabled] {
   cursor: not-allowed;
   pointer-events: none;
@@ -153,8 +163,15 @@ a[disabled] {
   -webkit-text-decoration-line: line-through;
 }
 
+.disabled {
+  cursor: not-allowed;
+  color: $mutedColor !important;
+  pointer-events: none;
+  text-decoration-line: line-through;
+  -webkit-text-decoration-line: line-through;
+}
+
 button.menu-button {
-  // bottom: 0;
   margin: 0px;
   margin-top: 10px;
   position: fixed;
@@ -173,7 +190,27 @@ button.menu-button {
 }
 
 button.submenu {
-  // bottom: 0;
+  top: 60px;
+  margin: 0px;
+  margin-top: 10px;
+  position: fixed;
+  background-color: $backgroundColor;
+  border-top-right-radius : 4px;
+  border-bottom-right-radius : 4px;
+  border: none;
+  color: white;
+  padding: 6px 7px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  min-width: 32px;
+  min-height: 54px;
+}
+
+button.submenu2 {
+  top: 120px;
+  left: 0px;
   margin: 0px;
   margin-top: 10px;
   position: fixed;
@@ -195,10 +232,6 @@ button.submenu {
   @media(hover: hover) {
     padding: 6px 11px;
   }
-}
-
-.submenu {
-  top: 60px;
 }
 
 button.open {
@@ -376,3 +409,25 @@ form > button {
 form > button:hover {
   background-color: $highlightColor;
 }
+
+.button {
+  margin: 0px;
+  margin-top: 10px;
+  margin-right: 10px;
+  background-color: $backgroundColor;
+  border-radius : 4px;
+  border: none;
+  color: white;
+  padding: 6px 7px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  // min-width: 32px;
+  // min-height: 54px;
+}
+
+.button:hover {
+  background-color: $highlightColor;
+}
+

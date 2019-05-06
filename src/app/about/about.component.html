@@ -1,52 +1,139 @@
 <div class="content">
-<div class="about">
-  <h1>Vokabeldojo</h1>
-  <p>Für den Japanischkurs in der <a href="www.japanischlernen.at">Nihongo Gakuen</a> als Lernhilfe erdacht und kreiert von <a href="mailto:schmidt91robin@icloud.com">Robin Schmidt</a></p>
-  <h2>Index</h2>
-  <ul>
-    <li><a [routerLink] = "['/about']"  fragment="key">Legende</a></li>
-    <li><a [routerLink] = "['/about']"  fragment="functions">Funktionen</a></li>
-    <li><a [routerLink] = "['/about']"  fragment="syllables">Silben</a>
+  <div class="about">
+    <h1>Vokabeldojo</h1>
+    <p>Für den Japanischkurs in der <a href="www.japanischlernen.at">Nihongo Gakuen</a> als Lernhilfe erdacht und
+      kreiert von <a href="mailto:schmidt91robin@icloud.com">Robin Schmidt</a></p>
+    <h2>Index</h2>
+    <ul>
+      <li><a [routerLink]="['/about']" fragment="key">Legende</a></li>
+      <li><a [routerLink]="['/about']" fragment="functions">Funktionen</a></li>
+      <li><a [routerLink]="['/about']" fragment="login">Login</a>
+        <ul>
+          <li><a [routerLink]="['/about']" fragment="register">Account erstellen/anmelden</a></li>
+          <li><a [routerLink]="['/about']" fragment="logout">Abmelden</a></li>
+          <li><a [routerLink]="['/about']" fragment="decks-create">Deck anlegen</a></li>
+          <li><a [routerLink]="['/about']" fragment="decks-edit">Deck bearbeiten/löschen</a></li>
+          <li><a [routerLink]="['/about']" fragment="words-create">Lernkarten (Vokabeln) anlegen</a></li>
+          <li><a [routerLink]="['/about']" fragment="words-edit">Lernkarten bearbeiten/löschen</a></li>
+        </ul>
+      </li>
+      <li>
+        <a [routerLink]="['/about']" fragment="dictionary">Wörterbuch</a>
+      </li>
+      <li><a [routerLink]="['/about']" fragment="syllables">Silben</a>
+        <ul>
+          <li><a [routerLink]="['/about']" fragment="syllables-quizmode">Quizmodus</a></li>
+          <li><a [routerLink]="['/about']" fragment="syllables-learnmode">Lernmodus</a></li>
+          <li><a [routerLink]="['/about']" fragment="syllables-table">Tabelle</a></li>
+        </ul>
+      </li>
+      <li><a [routerLink]="['/about']" fragment="words">Vokabeln</a>
+        <ul>
+          <li><a [routerLink]="['/about']" fragment="public-decks">Alle Decks</a></li>
+        </ul>
+      </li>
+      <li><a [routerLink]="['/about']" fragment="modes">Lernmodi</a></li>
       <ul>
-        <li><a [routerLink] = "['/about']"  fragment="syllabels-quizmode">Quizmodus</a></li>
-        <li><a [routerLink] = "['/about']"  fragment="syllabels-learnmode">Lernmodus</a></li>
+        <li><a [routerLink]="['/about']" fragment="words-quiz">Quiz</a></li>
+        <li><a [routerLink]="['/about']" fragment="words-grid">Buchstabieren</a></li>
+        <li><a [routerLink]="['/about']" fragment="words-kanji">Kanji</a></li>
       </ul>
-    </li>
-    <li><a [routerLink] = "['/about']"  fragment="words">Vokabeln</a>
-      <ul>
-        <li><a [routerLink] = "['/about']"  fragment="words-hiragana">Hiragana</a></li>
-        <li><a [routerLink] = "['/about']"  fragment="words-katakana">Katakana</a></li>
-        <li><a [routerLink] = "['/about']"  fragment="words-list">Liste</a></li>
-        <li><a [routerLink] = "['/about']"  fragment="words-grid">Grid</a></li>
-        <li><a [routerLink] = "['/about']"  fragment="words-kanji">Kanji</a></li>
-      </ul>
-    </li>
-    <li><a [routerLink] = "['/about']" fragment="report-a-bug">Fehler melden und weiterentwickeln</a></li>
-  </ul>
-  <h2 id="key">Legende</h2>
-  <p>♨︎ = Hauptmenü. Deine Quelle für Japanisch!</p>
-  <p>✍︎ = Submenü. Hier kannst du für den Modus einstellungen vornehmen.</p>
-  <h2 id="functions">Funktionen</h2>
-  <h3 id="syllables">Silben</h3>
-  <h4 id='syllabels-quizmode'>Quizmodus</h4>
-  <p>
-    Startseite und für Anfänger wohl die wichtigste: Hiragana/Katakana Zeichen lernen! Oben wird die Silbe angezeigt, darunter als Ratespiel die Antwortmöglichkeiten. Mit hiragana/deutsch deutsch/hiragana hiragana/katakana kann die Kombination gewechselt werden.
-    <br>Hits und Misses zeigen den bisherigen Fortschritt an. Antippen zeigt eine genauere Statistik (tba) an mit welchen Zeichen man noch schwierigkeiten hat. Erneut antippen verbirgt die Statistik.
-  </p>
-  <h4 id="syllabels-learnmode">Lernmodus</h4>
-  <p>Im Lernmodus können ohne Stress die Zeichen wiederholt werden. Antippen zeigt das nächste Zeichen.<br>"Immer zeigen" lässt die Antwort zeitgleich mit der Silbe erscheinen, "Beim Klick" erst beim erneuten Antippen. "Automatisch" lässt die Antwort nach zwei Sekunden erscheinen. (tba)</p>
-  <h3 id="words">Vokabel</h3>
-  <h4 id="words-hiragana">Hiragana</h4>
-  <p>So wie beim Silbenquiz lassen sich hier Wörter üben. Hiragana/Deutsch Deutsch/Hiragana wechselt Frage und Antwortsprache. Hits und Misses zeigen den Fortschritt, antippen zeigt bzw. verbirgt eine genauere Statistik der Treffer.</p>
-  <h4 id="words-katakana">Katakana</h4>
-  <p>Vokabelquiz für japanische Fremdwörter.</p>
-  <h4 id="words-list">Liste</h4>
-  <p>Dein mini japanisch Wörterbuch! Alle Vokabeln auf einen Blick mit integrierter Suche und Filteroption nach Silbenreihen! Die Suche ist eine sogenannte "Fuzzy Search" und gibt dir alle Treffer die die gesuchten Zeichen enthalten. Egal wie viele Zeichen dazwischen sind. Unterstützt sowohl Romaji als auch Hiragana/Katakana eingaben.</p>
-  <h4 id="words-grid">Grid</h4>
-  <p>Trainiere deine Buchstabierkünste in diesem Modus! Oben wird ein Wort aus der Vokabelliste vorgegeben, unten findest du 24 Hiragana/Katakana um das gesuchte Wort auch japanisch zu buchstabieren. Tippe einfach der Reihe nach die "Kärtchen" an um das Wort zu bilden. Willst du ein Zeichen wieder zurücklegen, tippe es einfach oben erneut an. Ist das Wort korrekt, geht es automatisch weiter mit dem nächsten.</p>
-  <h4 id="words-kanji">Kanji (tba)</h4>
-  <p>Vokabelquiz für Kanji.</p>
-  <h2 id="report-a-bug">Fehler melden und weiterentwickeln</h2>
-  <p>Das Projekt findest du auf <a href="https://github.com/SrgSteak/vokabel-dojo">Github</a> und du kannst mir gerne eine <a href="mailto:schmidt91robin@icloud.com">E-Mail senden</a>.</p>
-</div>
+      <li><a [routerLink]="['/about']" fragment="report-a-bug">Fehler melden und weiterentwickeln</a></li>
+    </ul>
+    <h2 id="key">Legende</h2>
+    <p>♨︎ = Hauptmenü. Deine Quelle für Japanisch!</p>
+    <p>✍︎ = Submenü. Hier kannst du Einstellungen oder Aktionen vornehmen und den Modus eines Decks verändern.</p>
+    <p>⋮ = Funktionen. Hier kannst du für den aktuellen Modus Einstellungen vornehmen.</p>
+    <h2 id="functions">Funktionen</h2>
+    <h2 id="home">Home</h2>
+    <p><a routerLink="/home">Dein Hub</a> für die wichtigsten Funktionen. Hier findest du deine zuletzt verwendeten
+      Decks, das Handbuch (welches
+      du gerade liest!) und mehr.</p>
+    <h2 id="login">Login</h2>
+    <p>Du kannst dich nun <a routerLink="/user">Registrieren/Einloggen</a> um selbst Lernkarten zusammenzustellen!</p>
+    <h3 id="register">Account erstellen/Anmelden</h3>
+    <p>Die Registrierung erfolgt Passwortlos mit einem der <a href="https://de.wikipedia.org/wiki/OAuth">oAuth
+        Provider</a> oder via E-Mail (tba). Gehe einfach zum <a [routerLink]="['/user']">Loginbereich</a> und wähle
+      deinen gewünschten Anbieter.</p>
+    <h3 id="logout">Abmelden</h3>
+    <p>Den Logout findest du im <a [routerLink]="['/user']">Loginbereich</a>.</p>
+    <h3 id="decks-create">Deck anlegen</h3>
+    <p>Ein Deck ist eine Sammlung von Lernkarten (Vokabeln) mit denen du trainieren kannst. Bevor du Lernkarten
+      (Vokabeln) anlegen kannst musst du ein Deck erstellen.</p>
+    <p>Um ein Deck zu erstellen, gehe im Hauptmenü auf "Meine Decks" und wähle "+ Neues Deck". In dem darauf folgenden
+      Formular kannst du einen Namen und Beschreibungstext eingeben. Du kannst diesen Text jederzeit ändern.</p>
+    <h3 id="decks-edit">Deck bearbeiten/Löschen</h3>
+    <p>Du kannst den Namen und den Beschreibungstext eines Decks ändern indem zu zur Deckansicht gehst und im Submenü
+      auf "Bearbeiten" klickst. Hier kannst du auch das Deck aus der Datenbank löschen wenn du es nicht mehr benötigst.
+      Beachte dabei dass du auch sämtliche Lernkarten (Vokabeln), die in diesem Deck enthalten sind, löschst.</p>
+    <h3 id="words-create">Lernkarten (Vokabeln) anlegen</h3>
+    <p>Nachdem du ein Deck angelegt hast, kannst du beliebig viele Lernkarten (Vokabeln) hinzufügen. Gehe dazu in eines
+      deiner Decks -> "Übersicht" und wähle rechts oben "Neue Karte +" um das Formular einzublenden.</p>
+    <p>In dem eingeblendeten Formular gibt es 5 Felder: Deutsch, Hiragana, Katakana, Kanji sowie Romaji. Trage die
+      entsprechende Schreibweise in die Formularfelder und klicke "Anlegen". Du kannst Felder außer "Deutsch" auch Leer
+      lassen. Das Formular leert sich und ist sofort
+      bereit für den nächsten Vokabeleintrag. Klicke erneut "Neue Karte +" um das Formular wieder zu verbergen.</p>
+    <h3 id="words-edit">Lernkarten (Vokabel) bearbeiten & Löschen</h3>
+    <p>Du kannst Vokabeln bearbeiten indem du in in der Deckansicht auf "Liste" gehts und das Wort anklickst. In dem
+      Formular kannst du alle Felder editieren und auch die Lernkarte Löschen wenn du sie nicht mehr benötigst.</p>
+    <h2 id="dictionary">Wörterbuch</h2>
+    <p>Dein mini japanisch <a routerLink="/word-list">Wörterbuch</a>! Alle Vokabeln auf einen Blick mit integrierter
+      Suche! Die Suche ist eine
+      sogenannte "Fuzzy Search" und gibt dir alle Treffer die die gesuchten Zeichen
+      enthalten. Egal wie viele Zeichen dazwischen sind. Unterstützt sowohl Kanji, Romaji als auch Hiragana/Katakana
+      Eingaben.
+    </p>
+    <h2 id="syllables">Silben</h2>
+    <h3 id='syllables-quizmode'>Quizmodus</h3>
+    <p>
+      Startseite und für Anfänger wohl die wichtigste: Hiragana/Katakana Zeichen lernen! Oben wird die Silbe angezeigt,
+      darunter als <a routerLink="/quiz">Ratespiel</a> die Antwortmöglichkeiten. Im Submenü ✍︎ kann die Frage/Antwort
+      Kombination gewechselt
+      werden (a/あ, a/ア, etc.), Schwierigkeitsgrad erhöht oder senkt die möglichen Antwortmöglichkeiten. Mit
+      "Silbenreihen" lassen sich die Untergruppen an Hiragana/Katakana geziehlt lernen. Keine Auswahl nutzt alle
+      Zeichen.
+      <br>Hits und Misses zeigen den bisherigen Fortschritt an. Antippen zeigt eine genauere Statistik an mit welchen
+      Zeichen man noch schwierigkeiten hat. Erneut antippen verbirgt die Statistik.
+    </p>
+    <h3 id="syllables-learnmode">Lernmodus</h3>
+    <p>Im <a routerLink="/learn">Lernmodus</a> können ohne Stress die Zeichen wiederholt werden. Antippen zeigt das
+      nächste Zeichen.<br>"Immer
+      zeigen" lässt die Antwort zeitgleich mit der Silbe erscheinen, "Beim Klick" erst beim erneuten Antippen.
+      "Automatisch" lässt die Antwort nach zwei Sekunden erscheinen. (tba)</p>
+    <p>Modus wechselt zwischen der Anzeige von Hiragana, Katakana und Deutsch (Romaji) in Kombination, "Silbenreihen"
+      ermöglicht gezieltes lernen der einzelnen "Lautreihen".</p>
+    <h3 id="syllables-table">Tabelle</h3>
+    <p>Die <a routerLink="/syllables/overview">Zeichentabelle</a> aller Laute sowie deren abwandlungen mit Dakuten,
+      Handakuten und weiteren Merkmalen der
+      Japanischen Schrift</p>
+    <h2 id="words">Vokabel</h2>
+    <h3 id="public-decks">Alle Decks</h3>
+    <p>Hier findest du alle <a routerLink="/decks">öffentlichen Decks</a> voll mit Vokabeln (Lernkarten) mit denen du
+      trainieren kannst. Mit klick
+      auf ein Deck kommst du in die Übersicht sowie zu weiteren Lernmodi.</p>
+    <p>Wenn du einen Account angelegt hast, kannst du öffentliche Decks kopieren, bearbeiten und erweitern.</p>
+    <h2 id="modes">Lernmodi</h2>
+    <h3 id="words-quiz">Quiz</h3>
+    <p>Im Quizmodus werden alle Lernkarten gemischt und müssen mit einer Auswahl unten beantwortet werden. Ist die
+      Antwort richtig, erhöht sich rechts oben der "Hit" counter, ist sie falsch, erhöht sich der "Miss" counter und die
+      falschen Antworten werden rot markiert. Weiter geht es mit Auswahl der richtigen Antwort.
+      <br>
+      <p>Modus wechselt zwischen der Anzeige von Hiragana, Katakana und Deutsch (Romaji) in Kombination, "Silbenreihen"
+        ermöglicht gezieltes lernen der einzelnen "Lautreihen".</p>
+      <h3 id="words-list">Liste</h3>
+      <p>Die Liste gibt dir eine durchsuchbare Übersicht über alle Vokablen in dem ausgewählten Deck. Wenn es dein Deck
+        ist, kannst du mit Auswahl eine Lernkarte (Vokabel) bearbeiten oder löschen.</p>
+      <h3 id="words-grid">Buchstabieren</h3>
+      <p>Trainiere deine Buchstabierkünste in diesem Modus! Oben wird ein Wort aus der Vokabelliste vorgegeben, unten
+        findest du 24 Hiragana/Katakana um das gesuchte Wort auf japanisch zu buchstabieren. Tippe einfach der Reihe
+        nach
+        die "Kärtchen" an um das Wort zu bilden. Willst du ein Zeichen wieder zurücklegen, tippe es einfach oben erneut
+        an. Ist das Wort korrekt, geht es automatisch weiter mit dem nächsten. Derzeit wird nur Hiragana/Katakana
+        unterstützt.</p>
+      <h2 id="report-a-bug">Fehler melden und weiterentwickeln</h2>
+      <p>Das Projekt findest du auf <a href="https://github.com/SrgSteak/vokabel-dojo">Github</a> und du kannst mir
+        gerne
+        eine <a href="mailto:schmidt91robin@icloud.com">E-Mail senden</a>.
+      </p>
+  </div>
 </div>

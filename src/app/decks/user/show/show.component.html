@@ -1,0 +1,59 @@
+<button class="submenu no-print" [class.open]="showSubmenu" [class.closed-menu]="!showSubmenu"
+  (click)="showSubmenu ? showSubmenu = false : showSubmenu = true" title="Einstellungen Lernmodus">✍︎</button>
+<div class="menu" *ngIf="showSubmenu">
+  <ng-container *ngIf="deck">
+    <span class="label">{{ deck.name }}</span>
+    <p>{{ deck.description }}</p>
+  </ng-container>
+  <span class="label">Lernmodus</span>
+  <a routerLinkActive="active" [routerLink]="['/', 'user', 'decks', deck.uid, 'quiz']">Vokabelquiz</a>
+  <!-- <a routerLinkActive="active" [routerLink]="['/', 'user', 'decks', deck.uid, 'learn']">Lernen</a> -->
+  <a routerLinkActive="active" [routerLink]="['/', 'user', 'decks', deck.uid, 'grid']">Buchstabieren</a>
+  <a routerLinkActive="active" [routerLink]="['/', 'user', 'decks', deck.uid, 'list']">Liste</a>
+  <span class="label">Deck</span>
+  <a routerLinkActive="active" routerLink="/user/decks/{{deck.uid}}/table">Übersicht</a>
+  <a routerLinkActive=" active" routerLink="/user/decks/edit/{{deck.uid}}">Bearbeiten</a>
+  <a routerLinkActive="active" routerLink="/user/decks/new">Deck anlegen</a>
+  <!-- <span class="label">Karten</span>
+  <a (click)="modal.toggle(); showSubmenu = false" *ngIf="deck">Neue Karte</a> -->
+</div>
+<app-modal #modal *ngIf="deck && mode == 'table'">
+  <div class="content">
+    <app-new-card [deck]="deck" [user]="user" (newCard)="addCard($event)"></app-new-card>
+  </div>
+  <div class="teaser">
+    Neue Karte
+  </div>
+</app-modal>
+<div class="content">
+  <div class="show">
+    <ng-container *ngIf="cards.length > 0 && deck">
+      <app-word-list [allowEdit]="true" [cards]="cards" [user]="user" [deck]="deck" *ngIf="mode === 'list'">
+      </app-word-list>
+      <app-word-quiz [deck]="cards" *ngIf="mode === 'quiz'"></app-word-quiz>
+      <app-word-grid [deck]="cards" *ngIf="mode === 'grid'"></app-word-grid>
+    </ng-container>
+    <h1 *ngIf="mode == 'table' && deck">{{ deck.name }}</h1>
+    <p *ngIf="mode == 'table' && deck">{{ deck.description }}</p>
+    <ng-container *ngIf="cards.length < 1 && deck">
+      {{ deck.name }} beinhaltet noch keine Karten. Wähle "Neue Karte +" um Vokabeln anzulegen.
+    </ng-container>
+    <table *ngIf="mode == 'table'">
+      <tr>
+        <th>Deutsch</th>
+        <th>Romaji</th>
+        <th>Hiragana</th>
+        <th>Katakana</th>
+        <th>Kanji</th>
+      </tr>
+      <tr *ngFor="let card of cards">
+        <td>{{ card.german }}</td>
+        <td>{{ card.romaji }}</td>
+        <td>{{ card.hiragana ? card.hiragana : '-' }}</td>
+        <td>{{ card.katakana ? card.katakana : '-' }}</td>
+        <td>{{ card.kanji ? card.kanji : '-' }}</td>
+      </tr>
+    </table>
+
+  </div>
+</div>

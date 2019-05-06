@@ -8,10 +8,11 @@ import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firest
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
-interface User {
+export interface User {
   uid: string;
   email: string;
   displayName?: string;
+  role: string;
 }
 
 
@@ -69,7 +70,8 @@ export class AuthService {
     const data: User = {
       uid: user.uid,
       email: user.email,
-      displayName: user.displayName
+      displayName: user.displayName,
+      role: user.role ? user.role : 'user'
     }
 
     return userRef.set(data, { merge: true });

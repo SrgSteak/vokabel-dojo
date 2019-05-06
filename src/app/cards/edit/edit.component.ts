@@ -47,10 +47,16 @@ export class EditComponent implements OnInit {
           this.cardForm.get('kanji').setValue(this.card.kanji);
           this.cardForm.get('romaji').setValue(this.card.romaji);
         })
+        this.prepareDecks();
       } else {
-        this.card = { german: '' };
+        this.card = { german: '', decks: [] };
+        this.prepareDecks();
       }
     })
+
+  }
+
+  private prepareDecks() {
     this.deckService.loadAll().snapshotChanges().subscribe(data => {
       this.decks = data.map(e => {
         const deck = e.payload.doc.data() as Deck;
@@ -83,7 +89,7 @@ export class EditComponent implements OnInit {
         i++;
       });
       if (this.card.uid) {
-        this.cardService.update(this.card.uid, this.card);
+        this.cardService.update(this.card);
       } else {
         this.cardService.add(this.card);
       }
@@ -91,4 +97,10 @@ export class EditComponent implements OnInit {
     }
   }
 
+  onDelete() {
+    if (confirm('Karte löschen? Sie wird aus allen Decks entfernt in denen sie enthalten war.')) {
+      this.cardService.delete(this.card.uid);
+      this.router.navigate(['/cards']);
+    }
+  }
 }

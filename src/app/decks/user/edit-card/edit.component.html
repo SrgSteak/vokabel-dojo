@@ -22,15 +22,7 @@
         Romaji
       </label>
       <input type="text" id="romaji" formControlName="romaji">
-      <div formArrayName="decks">
 
-        <label class="container" *ngFor="let deck of decks; let i = index">{{ deck.name }}
-          <input type="checkbox" [formControlName]="i">
-          <span class="checkmark">
-            <span class="checkmark_inner"></span>
-          </span>
-        </label>
-      </div>
       <button type="submit">Speichern & Zurück</button>
       <a (click)="onDelete()">Löschen</a>
     </form>

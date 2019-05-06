@@ -4,6 +4,8 @@ import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firest
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { wordFlashcard } from 'src/app/interfaces/word-flashcard.interface';
+import { User } from '../auth.service';
+import { Deck } from './deck.service';
 
 export interface Card extends wordFlashcard {
   uid?: string;
@@ -24,19 +26,36 @@ export class CardService {
 
   constructor(private afs: AngularFirestore) { }
 
-  get(id: string) {
-    return this.afs.collection('Cards').doc<Card>(id);
+  get(id: string, deck_id?: string, user_id?: string) {
+    if (deck_id && user_id) {
+      return this.afs.collection('users').doc(user_id).collection('Decks').doc(deck_id).collection('Cards').doc<Card>(id);
+    } else {
+      return this.afs.collection('Cards').doc<Card>(id);
+    }
   }
 
-  add(card: Card) {
+  /**
+   * TODO: provide deck and user in users components!
+   * @param card New Card to add to Database
+   * @param deck
+   * @param user
+   */
+  add(card: Card, deck?: Deck, user?: User) {
     card.createdAt = new Date();
     card.updatedAt = new Date();
-    this.afs.collection('Cards').add(card);
+    if (user) {
+      this.afs.collection('users').doc(user.uid).collection('Decks').doc(deck.uid).collection('Cards').add(card);
+    } else {
+      this.afs.collection('Cards').add(card);
+    }
   }
 
-  update(id: string, card: Card) {
+  update(card: Card, deck?: string, user?: string) {
     card.updatedAt = new Date();
-    this.afs.collection('Cards').doc(id).set(card, { merge: true });
+    if (user) {
+      this.afs.collection('users').doc(user).collection('Decks').doc(deck).collection('Cards').doc(card.uid).set(card, { merge: true });
+    }
+    this.afs.collection('Cards').doc(card.uid).set(card, { merge: true });
   }
 
   delete(id: string) {
@@ -51,6 +70,6 @@ export class CardService {
   }
 
   loadForDeck(deck: string) {
-    return this.afs.firestore.collection('Cards').where('decks', 'array-contains', deck);
+    return this.afs.firestore.collection('Cards').orderBy('createdAt').where('decks', 'array-contains', deck);
   }
 }

@@ -8,14 +8,15 @@
 
 .grid-content {
   color: white;
-  width: 100px;
-  height: 170px;
+  width: 170px;
+  height: 100px;
   background-color: rgb(0,40,40);
   border-radius: 4px;
   margin: 5px;
   text-decoration: none;
   position: relative;
   transition: 0.3s;
+  padding: 10px;
 }
 
 .grid-content:hover {
@@ -25,8 +26,9 @@
   }
 }
 
+
 .deck_name {
-  text-align: center;
+  text-align: left;
 }
 
 .deck_description {
@@ -36,7 +38,7 @@
 .deck_created {
   position: absolute;
   font-size: 10px;
-  bottom: 0px;
-  right: 0px;
+  bottom: 5px;
+  right: 5px;
   text-align: right;
 }

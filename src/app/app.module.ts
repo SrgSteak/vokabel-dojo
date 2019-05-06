@@ -29,12 +29,16 @@ import { NumberPipe } from './shared/pipes/number.pipe';
 import { CoreModule } from './core/core.module';
 import { AuthGuard } from './core/auth.guard';
 import { UserProfileComponent } from './user-profile/user-profile.component';
-import { DecksComponent } from './decks/decks.component';
-import { EditComponent } from './decks/edit/edit.component';
+import { DecksComponent } from './decks/user/list/decks.component';
+import { EditComponent } from './decks/user/edit/edit.component';
+import { EditComponent as DeckPublicEdit } from './decks/public/edit/edit.component';
 import { ListComponent as CardListComponent } from './cards/list/list.component';
 import { EditComponent as CardEditComponent } from './cards/edit/edit.component';
-import { ShowComponent } from './decks/show/show.component';
-import { NewCardComponent } from './decks/new-card/new-card.component';
+import { ShowComponent } from './decks/user/show/show.component';
+import { ShowComponent as DeckPublicShow } from './decks/public/show/show.component';
+import { NewCardComponent } from './decks/user/new-card/new-card.component';
+import { ListComponent } from './decks/public/list/list.component';
+import { EditCardComponent } from './decks/user/edit-card/edit-card.component';
 
 @NgModule({
   imports: [
@@ -54,13 +58,23 @@ import { NewCardComponent } from './decks/new-card/new-card.component';
       { path: 'about', component: AboutComponent },
       { path: 'numbers', component: NumbersComponent, canActivate: [AuthGuard] },
       { path: 'user', component: UserProfileComponent },
-      // deck routes
-      { path: 'decks', component: DecksComponent },
-      { path: 'decks/new', component: EditComponent },
-      { path: 'decks/edit/:uid', component: EditComponent },
+
+      // user deck routes
+      { path: 'user/decks', component: DecksComponent },
+      { path: 'user/decks/new', component: EditComponent, canActivate: [AuthGuard] },
+      { path: 'user/decks/edit/:uid', component: EditComponent, canActivate: [AuthGuard] },
+      { path: 'user/decks/:uid', pathMatch: 'full', redirectTo: '/user/decks/:uid/list' },
+      { path: 'user/decks/:uid/:mode', component: ShowComponent, canActivate: [AuthGuard] },
+      { path: 'user/decks/:deck_uid/cards/:card_uid/edit', component: EditCardComponent, canActivate: [AuthGuard] },
+
+      // public deck routes
+      { path: 'decks', component: ListComponent },
+      { path: 'decks/new', component: DeckPublicEdit, canActivate: [AuthGuard] },
+      { path: 'decks/edit/:uid', component: DeckPublicEdit, canActivate: [AuthGuard] },
       { path: 'decks/:uid', redirectTo: 'decks/:uid/list' },
-      { path: 'decks/:uid/:mode', component: ShowComponent },
-      // card routes
+      { path: 'decks/:uid/:mode', component: DeckPublicShow },
+
+      // public card routes
       { path: 'cards', component: CardListComponent },
       { path: 'cards/new', component: CardEditComponent },
       { path: 'cards/edit/:uid', component: CardEditComponent }
@@ -95,7 +109,11 @@ import { NewCardComponent } from './decks/new-card/new-card.component';
     CardListComponent,
     CardEditComponent,
     ShowComponent,
-    NewCardComponent
+    NewCardComponent,
+    ListComponent,
+    DeckPublicShow,
+    DeckPublicEdit,
+    EditCardComponent
   ],
   bootstrap: [AppComponent],
   providers: [VocabularyService, FlashcardService]

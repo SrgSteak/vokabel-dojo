@@ -1,30 +1,55 @@
-<div *ngIf="auth.user | async; then authenticated else guest">
-  <!-- template will replace this div -->
+<div class="content">
+  <div class="user">
+    <div *ngIf="auth.user | async; then authenticated else guest">
+      <!-- template will replace this div -->
+    </div>
+
+
+    <!-- User NOT logged in -->
+    <ng-template #guest>
+      <h3>Loginbereich</h3>
+      <p>Mit einem Konto kannst du eigene Lernkarten und Decks anlegen. Dazu wird deine E-Mail Adresse in der Datenbank
+        von
+        Vokabeldojo gespeichert. Login via oAuth (Google) erfolgt zwischen dir und Google, Passwörter oä werden in
+        diesem
+        Fall nicht in Vokabeldojo gespeichert.</p>
+      <h3>Login/Registrierung</h3>
+      <button class="button" (click)="auth.googleLogin()">
+        <i class="fa fa-google"></i>Google
+      </button>
+      <button class="button disabled">
+        <i class="fa fa-google"></i> Facebook
+      </button>
+      <button class="button disabled">
+        <i class="fa fa-google"></i> Twitter
+      </button>
+      <button class="button disabled">
+        <i class="fa fa-google"></i> Github
+      </button>
+      <button class="button disabled">
+        <i class="fa fa-google"></i> Yahoo!
+      </button>
+      <button class="button disabled">
+        <i class="fa fa-google"></i> Microsoft
+      </button>
+
+      <button class="button disabled" disabled>
+        <i class="fa fa-email"></i> Connect Email
+      </button>
+
+    </ng-template>
+
+
+    <!-- User logged in -->
+    <ng-template #authenticated>
+      <div *ngIf="auth.user | async as user">
+        <p>Du bist derzeit angemeldet als:</p>
+        <h3>Username: {{ user.displayName }}</h3>
+        <p>Email: {{ user.email }}</p>
+        <p>UID: {{ user.uid }}</p>
+        <p><a [routerLink]="['/user/decks']">Meine Decks</a></p>
+        <button class="button" (click)="auth.signOut()">Logout</button>
+      </div>
+    </ng-template>
+  </div>
 </div>
-
-
-<!-- User NOT logged in -->
-<ng-template #guest>
-<h3>Howdy, GUEST</h3>
-<p>Login to get started...</p>
-
-<button (click)="auth.googleLogin()">
-  <i class="fa fa-google"></i> Connect Google
-</button>
-
-<button (click)="auth.emailLogin()">
-  <i class="fa fa-email"></i> Connect Email
-</button>
-
-</ng-template>
-
-
-<!-- User logged in -->
-<ng-template #authenticated>
-<div *ngIf="auth.user | async as user">
-  <h3>Howdy, {{ user.displayName }}</h3>
-  <p>Email: {{ user.email }}</p>
-  <p>UID: {{ user.uid }}</p>
-  <button (click)="auth.signOut()">Logout</button>
-</div>
-</ng-template>

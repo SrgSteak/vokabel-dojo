@@ -1,10 +1,16 @@
-<button class="submenu no-print" [class.open]="showSubmenu" [class.closed-menu]="!showSubmenu"
-  (click)="showSubmenu ? showSubmenu = false : showSubmenu = true" title="Einstellungen Vokabelliste">✍︎</button>
+<button class="submenu2 no-print" [class.open]="showSubmenu" [class.closed-menu]="!showSubmenu"
+  (click)="showSubmenu ? showSubmenu = false : showSubmenu = true" title="Einstellungen Vokabelliste">⋮</button>
 <div class="menu" *ngIf="showSubmenu">
   <span class="label">Links</span>
   <form [formGroup]="modeForm">
     <label class=" container">Deutsch
       <input type="radio" formControlName="left" value="german" name="left">
+      <span class="checkmark">
+        <span class="checkmark_inner"></span>
+      </span>
+    </label>
+    <label class="container">Kanji
+      <input type="radio" formControlName="left" value="kanji" name="left">
       <span class="checkmark">
         <span class="checkmark_inner"></span>
       </span>
@@ -21,17 +27,17 @@
         <span class="checkmark_inner"></span>
       </span>
     </label>
-    <label class="container">Kanji
-      <input type="radio" formControlName="left" value="kanji" name="left">
-      <span class="checkmark">
-        <span class="checkmark_inner"></span>
-      </span>
-    </label>
   </form>
   <span class="label">Rechts</span>
   <form [formGroup]="modeForm">
     <label class=" container">Deutsch
       <input type="radio" formControlName="right" value="german" name="right">
+      <span class="checkmark">
+        <span class="checkmark_inner"></span>
+      </span>
+    </label>
+    <label class="container">Kanji
+      <input type="radio" formControlName="right" value="kanji" name="right">
       <span class="checkmark">
         <span class="checkmark_inner"></span>
       </span>
@@ -48,12 +54,6 @@
         <span class="checkmark_inner"></span>
       </span>
     </label>
-    <label class="container">Kanji
-      <input type="radio" formControlName="right" value="kanji" name="right">
-      <span class="checkmark">
-        <span class="checkmark_inner"></span>
-      </span>
-    </label>
   </form>
 </div>
 <div class="content">
@@ -62,18 +62,10 @@
       <input type="search" [formControl]="searchForm" placeholder="Suche">
     </label>
     <table>
-      <tr *ngFor="let word of words">
-        <ng-container *ngIf="leftSide == 'german' && rightSide == 'all'">
-          <td>{{ word['german'] }}</td>
-          <td>{{ word['hiragana'] ? word['hiragana'] : word['katakana'] }}</td>
-        </ng-container>
-        <ng-container *ngIf="leftSide == 'all' && rightSide == 'german'">
-          <td>{{ word['hiragana'] ? word['hiragana'] : word['katakana'] }}</td>
-          <td>{{ word['german'] }}</td>
-        </ng-container>
-        <ng-container *ngIf="leftSide != 'all' && rightSide != 'all'">
-          <td>{{ word[leftSide] }}</td>
-          <td>{{ word[rightSide] }}</td>
+      <tr *ngFor="let word of words" (click)="show(word)">
+        <ng-container>
+          <td>{{ reading(word, leftSide) }}</td>
+          <td>{{ reading(word, rightSide) }}</td>
         </ng-container>
       </tr>
     </table>

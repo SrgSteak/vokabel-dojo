@@ -3,6 +3,7 @@ import { CardService, Card } from 'src/app/core/services/card.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Deck } from 'src/app/core/services/deck.service';
 import { Subscription } from 'rxjs';
+import { User } from 'src/app/core/auth.service';
 
 @Component({
   selector: 'app-new-card',
@@ -12,6 +13,7 @@ import { Subscription } from 'rxjs';
 export class NewCardComponent implements OnInit {
   card: Card;
   @Input() deck: Deck;
+  @Input() user: User;
   @Output() newCard: EventEmitter<Card> = new EventEmitter<Card>();
   cardFormSub: Subscription;
   cardForm = this.fb.group({
@@ -33,7 +35,7 @@ export class NewCardComponent implements OnInit {
   }
 
   private resetCard() {
-    this.card = { german: '', decks: [this.deck.uid] };
+    this.card = { german: '', decks: [this.deck.uid], hits: 0, misses: 0 };
   }
 
   onSubmit() {
@@ -43,7 +45,7 @@ export class NewCardComponent implements OnInit {
       this.card.hiragana = this.cardForm.get('hiragana').value;
       this.card.katakana = this.cardForm.get('katakana').value;
       this.card.kanji = this.cardForm.get('kanji').value;
-      this.cardService.add(this.card);
+      this.cardService.add(this.card, this.deck, this.user);
       this.newCard.emit(this.card);
       this.resetCard();
       this.cardForm.get('german').setValue('');

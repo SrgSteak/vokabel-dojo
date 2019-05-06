@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { DeckService, Deck } from '../../core/services/deck.service';
+import { DeckService, Deck } from '../../../core/services/deck.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-edit',
+  selector: 'app-deck-public-edit',
   templateUrl: './edit.component.html',
   styleUrls: ['./edit.component.css']
 })
@@ -36,7 +36,7 @@ export class EditComponent implements OnInit {
           this.deckForm.get('description').setValue(this.deck.description);
         });
       } else {
-        this.deck = { name: '', description: '', author: '', uid: '' };
+        this.deck = { name: '', description: '', author: '', uid: '', numberCards: 0 };
       }
     });
   }
