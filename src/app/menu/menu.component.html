@@ -12,18 +12,13 @@
     <span class="label">Vokabel</span>
     <a routerLinkActive="active" routerLink="/decks">Alle Decks</a>
     <span class="label">Mein Profil</span>
-    <div *ngIf="auth.user | async; then authenticated else guest">
-      <!-- template will replace this div -->
-    </div>
-    <ng-template #guest>
-      <a routerLinkActive="active" routerLink="/user">Loginbereich</a>
-    </ng-template>
-    <ng-template #authenticated>
-      <ng-container *ngIf="auth.user | async as user">
-        <a routerLinkActive="active" routerLink="/user/decks">Meine Decks</a>
-        <a (click)="auth.signOut()">Abmelden</a>
-      </ng-container>
-    </ng-template>
+    <a routerLinkActive="active" routerLink="/user" [routerLinkActiveOptions]="{exact: true}">Loginbereich</a>
+    <ng-container *ngIf=" auth.user | async as user">
+      <a routerLinkActive="active" routerLink="/user/decks" [routerLinkActiveOptions]="{exact: true}">Meine Decks</a>
+      <a routerLinkActive="active" routerLink="/user/decks/new" [routerLinkActiveOptions]="{exact: true}">Neues
+        Deck</a>
+      <a (click)="auth.signOut()">Abmelden</a>
+    </ng-container>
 
     <span class="label">Allgemein</span>
     <a routerLinkActive="active" routerLink="/about">Handbuch</a>

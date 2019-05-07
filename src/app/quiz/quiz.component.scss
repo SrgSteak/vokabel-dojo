@@ -1,7 +1,6 @@
 .quiz {
   display: flex;
   flex-direction: column;
-  //justify-content: space-evenly;
   height: 100%;
   width: 100%;
 }
@@ -29,7 +28,6 @@
   flex-wrap: wrap;
   flex-direction: row;
   justify-content: center;
-  // padding: 10px;
   align-items: flex-end;
   align-content: flex-end;
 }
@@ -42,15 +40,13 @@
   @media screen and (min-width: 800px) {
        font-size: 30px;
   }
-  width: 110px;
+  width: 95px;
   text-align: center;
   background-color: teal;
-  margin: 6px;
-  // margin-top: 10px;
+  margin: 5px;
   transition: background-color 0.3s ease;
   padding: 5px;
   border-radius: 4px;
-  // height: 30px;
 }
 
 .answer:hover {
@@ -69,7 +65,6 @@
   width: 100%;
   display: flex;
   flex-wrap: wrap;
-  /* padding: 10px; */
 }
 
 a {

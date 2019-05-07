@@ -31,6 +31,7 @@ export class WordQuizComponent implements OnInit {
   enableHiragana = false;
   enableKatakana = false;
   enableKanji = false;
+  peekRubi = false;
 
   get questionMode() {
     return this.modeForm.get('left').value;

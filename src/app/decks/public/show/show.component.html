@@ -24,7 +24,7 @@
 </div>
 <ng-container *ngIf="auth.user | async as user">
   <app-modal #modal *ngIf="deck && mode == 'table' && user.role == 'admin'">
-    <div class="content">
+    <div class="main-content">
       <app-new-card [deck]="deck" (newCard)="addCard($event)"></app-new-card>
     </div>
     <div class="teaser">
@@ -33,35 +33,36 @@
   </app-modal>
 </ng-container>
 <div class="content">
-  <div class="show">
-    <ng-container *ngIf="cards.length > 0">
-      <app-word-list [cards]="cards" [allowEdit]="allowEdit" *ngIf="mode === 'list'"></app-word-list>
-      <app-word-quiz [deck]="cards" *ngIf="mode === 'quiz'"></app-word-quiz>
-      <app-word-grid [deck]="cards" *ngIf="mode === 'grid'"></app-word-grid>
-    </ng-container>
-    <ng-container *ngIf="mode == 'table' && deck">
-      <h1>{{ deck.name }}</h1>
-      <p *ngIf="deck.description">{{ deck.description }}
-      </p>
-      <table *ngIf="mode !== 'list'">
-        <tr>
-          <th>Deutsch</th>
-          <th>Romaji</th>
-          <th>Hiragana</th>
-          <th>Katakana</th>
-          <th>Kanji</th>
-        </tr>
-        <tr *ngFor="let card of cards">
-          <td>{{ card.german }}</td>
-          <td>{{ card.romaji }}</td>
-          <td>{{ card.hiragana ? card.hiragana : '-' }}</td>
-          <td>{{ card.katakana ? card.katakana : '-' }}</td>
-          <td>{{ card.kanji ? card.kanji : '-' }}</td>
-        </tr>
-      </table>
+  <ng-container *ngIf="cards.length > 0">
+    <app-word-list [cards]="cards" [allowEdit]="allowEdit" *ngIf="mode === 'list'"></app-word-list>
+    <app-word-quiz [deck]="cards" *ngIf="mode === 'quiz'"></app-word-quiz>
+    <app-word-grid [deck]="cards" *ngIf="mode === 'grid'"></app-word-grid>
+  </ng-container>
+  <ng-container *ngIf="mode == 'table' && deck">
+    <h1>{{ deck.name }}</h1>
+    <p *ngIf="deck.description">{{ deck.description }}
+    </p>
+    <p>
       <button class="button no-print" (click)="addToCollection()" *ngIf="auth.user | async">+ Zu meinen Decks
         hinzufügen</button>
-    </ng-container>
-
-  </div>
+    </p>
+    <table *ngIf="mode !== 'list'">
+      <tr>
+        <th>Deutsch</th>
+        <th>Romaji</th>
+        <th>Hiragana</th>
+        <th>Katakana</th>
+        <th>Kanji</th>
+      </tr>
+      <tr *ngFor="let card of cards">
+        <td>{{ card.german }}</td>
+        <td>{{ card.romaji }}</td>
+        <td>{{ card.hiragana ? card.hiragana : '-' }}</td>
+        <td>{{ card.katakana ? card.katakana : '-' }}</td>
+        <td>{{ card.kanji ? card.kanji : '-' }}</td>
+      </tr>
+    </table>
+    <button class="button no-print" (click)="addToCollection()" *ngIf="auth.user | async">+ Zu meinen Decks
+      hinzufügen</button>
+  </ng-container>
 </div>

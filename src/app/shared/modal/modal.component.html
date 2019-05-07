@@ -1,7 +1,7 @@
 <div class="modal">
   <div class="modal-content noanimate" [class.modal-content-open]="open" #content>
     <div class="modal-content-inner">
-      <ng-content select=".content"></ng-content>
+      <ng-content select=".main-content"></ng-content>
     </div>
   </div>
   <div class="modal-teaser noanimate no-print" [class.modal-teaser-open]="open" [class.closed-teaser]="!open"

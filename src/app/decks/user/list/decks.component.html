@@ -1,33 +1,24 @@
 <div class="content">
   <div class="grid">
-    <div class="row">
-      <div class="col">
-
-        <a [routerLink]="['/user/decks/new']" class="grid-content new-deck">
-          <div class="deck_name">
-            + Neues Deck
-          </div>
-          <div class="deck_description">
-            Hier klicken um ein neues Deck anzulegen
-          </div>
-        </a>
-
-        <a [routerLink]="['/', 'user', 'decks', deck.uid, 'table']" class="grid-content" *ngFor="let deck of decks">
-          <div class="deck_name">
-            {{ deck.name }}
-          </div>
-          <div class="deck_description">
-            {{ deck.description }}
-          </div>
-          <div class="deck_created">
-            {{ deck.createdAt.toDate() | date:'H:m dd.MM.yy'}}
-          </div>
-        </a>
+    <a [routerLink]="['/user/decks/new']" class="grid-content new-deck">
+      <div class="deck_name">
+        + Neues Deck
       </div>
-    </div>
+      <div class="deck_description">
+        Hier klicken um ein neues Deck anzulegen
+      </div>
+    </a>
+
+    <a [routerLink]="['/', 'user', 'decks', deck.uid, 'table']" class="grid-content" *ngFor="let deck of decks">
+      <div class="deck_name">
+        {{ deck.name }}
+      </div>
+      <div class="deck_description">
+        {{ deck.description }}
+      </div>
+      <div class="deck_created">
+        {{ deck.createdAt.toDate() | date:'H:m dd.MM.yy'}}
+      </div>
+    </a>
   </div>
-  <p *ngIf="decks.length < 1">
-    Du hast noch keine persönlichen Decks. Du kannst entweder <a routerLink="">ein neues Deck anlegen</a> oder
-    <a routerLink="/decks">ein öffentliches Hinzufügen</a>.
-  </p>
 </div>

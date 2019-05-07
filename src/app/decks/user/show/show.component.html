@@ -18,14 +18,14 @@
   <a (click)="modal.toggle(); showSubmenu = false" *ngIf="deck">Neue Karte</a> -->
 </div>
 <app-modal #modal *ngIf="deck && mode == 'table'">
-  <div class="content">
+  <div class="main-content">
     <app-new-card [deck]="deck" [user]="user" (newCard)="addCard($event)"></app-new-card>
   </div>
   <div class="teaser">
     Neue Karte
   </div>
 </app-modal>
-<div class="content">
+<div class="main-content">
   <div class="show">
     <ng-container *ngIf="cards.length > 0 && deck">
       <app-word-list [allowEdit]="true" [cards]="cards" [user]="user" [deck]="deck" *ngIf="mode === 'list'">

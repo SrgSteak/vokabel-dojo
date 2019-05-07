@@ -1,13 +1,10 @@
-<div class="content">
-  <div class="word-grid">
-    <div class="word" [class.success]="buildWordString == currentWord[mode]" (click)="skipWord()">
-      {{ currentWord.german }}</div>
-    <div class="answer"></div>
-    <div class="grid">
-      <div class="gridpart" *ngFor="let char of this.currentGrid; let i = index"
-        (click)="selectedChar(i, $event.target)">
-        {{ char[mode] }}
-      </div>
+<div class="word-grid">
+  <div class="word" [class.success]="buildWordString == currentWord[mode]" (click)="skipWord()">
+    {{ currentWord.german }}</div>
+  <div class="answer"></div>
+  <div class="grid">
+    <div class="gridpart" *ngFor="let char of this.currentGrid; let i = index" (click)="selectedChar(i, $event.target)">
+      {{ char[mode] }}
     </div>
   </div>
 </div>

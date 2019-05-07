@@ -1,3 +1,5 @@
+$contentInset: 40px;
+
 /* Add this class to things you do not want to print!*/
 @media print
 {
@@ -53,6 +55,8 @@ body {
 /* the router component content*/
 .content {
   height: 100%;
+  padding-left: $contentInset;
+  padding-right: $contentInset;
 }
 
 .modes {

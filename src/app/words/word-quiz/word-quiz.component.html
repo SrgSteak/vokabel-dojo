@@ -83,11 +83,11 @@
 </div>
 
 <app-modal>
-  <div class="content">
+  <div class="main-content">
     <div class="stat-grid">
       <ng-container *ngFor="let card of scoredWords">
         <div class="stat" [class.error]="card.misses > card.hits" [class.muted]="card.misses == 0 && card.hits == 0">
-          {{ card[questionMode] }} <span [class.hits]="card.hits > 0">{{ card.hits }}</span> / <span
+          {{ reading(card, questionMode) }} <span [class.hits]="card.hits > 0">{{ card.hits }}</span> / <span
             [class.misses]="card.misses > 0">{{ card.misses }}</span>
         </div>
       </ng-container>
@@ -100,21 +100,19 @@
   </div>
 </app-modal>
 
-<div class="content">
-  <div class="word-quiz">
-    <div class="card" (mousedown)="peekRubi = true" (mouseup)="peekRubi = false" (touchstart)="peekRubi = true"
-      (touchend)="peekRubi = false">
-      <ruby>
-        {{ reading(showCard, questionMode) }}<rt
-          *ngIf="(rubi && showCard['kanji'] &&  questionMode == 'kanji') || (peekRubi && questionMode == 'kanji' && showCard['kanji'])">
-          {{ reading(showCard, 'hiragana') }}</rt>
-      </ruby>
-    </div>
-    <div class="answers">
-      <div class="answer" *ngFor="let answer of answers" (click)="answerSelect(this.showCard, answer)"
-        [class.error]="displayError && answer.uid !== showCard.uid">
-        {{ reading(answer, answerMode) }}
-      </div>
+<div class="word-quiz">
+  <div class="card" (mousedown)="peekRubi = true" (mouseup)="peekRubi = false" (touchstart)="peekRubi = true"
+    (touchend)="peekRubi = false">
+    <ruby>
+      {{ reading(showCard, questionMode) }}<rt
+        *ngIf="(rubi && showCard['kanji'] &&  questionMode == 'kanji') || (peekRubi && questionMode == 'kanji' && showCard['kanji'])">
+        {{ reading(showCard, 'hiragana') }}</rt>
+    </ruby>
+  </div>
+  <div class="answers">
+    <div class="answer" *ngFor="let answer of answers" (click)="answerSelect(this.showCard, answer)"
+      [class.error]="displayError && answer.uid !== showCard.uid">
+      {{ reading(answer, answerMode) }}
     </div>
   </div>
 </div>
