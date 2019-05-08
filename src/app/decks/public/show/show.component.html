@@ -9,6 +9,7 @@
   <a routerLinkActive="active" routerLink="/decks/{{deck.uid}}/quiz">Vokabelquiz</a>
   <!-- <a routerLinkActive="active" routerLink="/decks/{{deck.uid}}/learn">Lernen</a> -->
   <a routerLinkActive="active" routerLink="/decks/{{deck.uid}}/grid">Buchstabieren</a>
+  <a routerLinkActive="active" routerLink="/decks/{{deck.uid}}/learn">Wiederholen</a>
   <a routerLinkActive="active" routerLink="/decks/{{deck.uid}}/list">Liste</a>
   <span class="label">Deck</span>
   <a routerLinkActive="active" routerLink="/decks/{{deck.uid}}/table">Übersicht</a>
@@ -37,6 +38,7 @@
     <app-word-list [cards]="cards" [allowEdit]="allowEdit" *ngIf="mode === 'list'"></app-word-list>
     <app-word-quiz [deck]="cards" *ngIf="mode === 'quiz'"></app-word-quiz>
     <app-word-grid [deck]="cards" *ngIf="mode === 'grid'"></app-word-grid>
+    <app-word-learn [_cards]="cards" *ngIf="mode === 'learn'"></app-word-learn>
   </ng-container>
   <ng-container *ngIf="mode == 'table' && deck">
     <h1>{{ deck.name }}</h1>

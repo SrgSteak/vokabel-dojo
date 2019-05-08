@@ -36,7 +36,8 @@
       <ul>
         <li><a [routerLink]="['/about']" fragment="words-quiz">Quiz</a></li>
         <li><a [routerLink]="['/about']" fragment="words-grid">Buchstabieren</a></li>
-        <li><a [routerLink]="['/about']" fragment="words-kanji">Kanji</a></li>
+        <li><a [routerLink]="['/about']" fragment="words-learn">Wiederholen</a></li>
+        <li><a [routerLink]="['/about']" fragment="words-list">Liste</a></li>
       </ul>
       <li><a [routerLink]="['/about']" fragment="report-a-bug">Fehler melden und weiterentwickeln</a></li>
     </ul>
@@ -113,27 +114,31 @@
       auf ein Deck kommst du in die Übersicht sowie zu weiteren Lernmodi.</p>
     <p>Wenn du einen Account angelegt hast, kannst du öffentliche Decks kopieren, bearbeiten und erweitern.</p>
     <h2 id="modes">Lernmodi</h2>
-    <h3 id="words-quiz">Quiz</h3>
+    <h3 id="words-quiz">Vokabelquiz</h3>
     <p>Im Quizmodus werden alle Lernkarten gemischt und müssen mit einer Auswahl unten beantwortet werden. Ist die
       Antwort richtig, erhöht sich rechts oben der "Hit" counter, ist sie falsch, erhöht sich der "Miss" counter und die
       falschen Antworten werden rot markiert. Weiter geht es mit Auswahl der richtigen Antwort.
-      <br>
-      <p>Modus wechselt zwischen der Anzeige von Hiragana, Katakana und Deutsch (Romaji) in Kombination, "Silbenreihen"
-        ermöglicht gezieltes lernen der einzelnen "Lautreihen".</p>
-      <h3 id="words-list">Liste</h3>
-      <p>Die Liste gibt dir eine durchsuchbare Übersicht über alle Vokablen in dem ausgewählten Deck. Wenn es dein Deck
-        ist, kannst du mit Auswahl eine Lernkarte (Vokabel) bearbeiten oder löschen.</p>
-      <h3 id="words-grid">Buchstabieren</h3>
-      <p>Trainiere deine Buchstabierkünste in diesem Modus! Oben wird ein Wort aus der Vokabelliste vorgegeben, unten
-        findest du 24 Hiragana/Katakana um das gesuchte Wort auf japanisch zu buchstabieren. Tippe einfach der Reihe
-        nach
-        die "Kärtchen" an um das Wort zu bilden. Willst du ein Zeichen wieder zurücklegen, tippe es einfach oben erneut
-        an. Ist das Wort korrekt, geht es automatisch weiter mit dem nächsten. Derzeit wird nur Hiragana/Katakana
-        unterstützt.</p>
-      <h2 id="report-a-bug">Fehler melden und weiterentwickeln</h2>
-      <p>Das Projekt findest du auf <a href="https://github.com/SrgSteak/vokabel-dojo">Github</a> und du kannst mir
-        gerne
-        eine <a href="mailto:schmidt91robin@icloud.com">E-Mail senden</a>.
-      </p>
+      <br>Modus wechselt zwischen der Anzeige von Hiragana, Katakana und Deutsch (Romaji) in Kombination, "Silbenreihen"
+      ermöglicht gezieltes lernen der einzelnen "Lautreihen".</p>
+    <h3 id="words-grid">Buchstabieren</h3>
+    <p>Trainiere deine Buchstabierkünste in diesem Modus! Oben wird ein Wort aus der Vokabelliste vorgegeben, unten
+      findest du 24 Hiragana/Katakana um das gesuchte Wort auf japanisch zu buchstabieren. Tippe einfach der Reihe
+      nach
+      die "Kärtchen" an um das Wort zu bilden. Willst du ein Zeichen wieder zurücklegen, tippe es einfach oben erneut
+      an. Ist das Wort korrekt, geht es automatisch weiter mit dem nächsten. Derzeit wird nur Hiragana/Katakana
+      unterstützt.</p>
+    <h3 id="words-list">Wiederholen</h3>
+    <p>Wort für Wort, Lernkarte für Lernkarte Vokabeln herunterbeten. Oben wird Kanji/Hiragana/Katakana/Deutsch/Romaji
+      angezeigt, unter der Bruchlinie nach antippen die "Lösung". Nochmaliges antippen bringt dich zum nächsten Wort bis
+      zum Ende wieder mit dem ersten Wort begonnen wird. Die angezeigte Variante für oben und unten können im
+      Submenü umgestellt werden, ein klick auf "Mischen" ordnet die Reihenfolge der Vokabeln neu.</p>
+    <h3 id="words-list">Liste</h3>
+    <p>Die Liste gibt dir eine durchsuchbare Übersicht über alle Vokablen in dem ausgewählten Deck. Wenn es dein Deck
+      ist, kannst du mit Auswahl eine Lernkarte (Vokabel) bearbeiten oder löschen.</p>
+    <h2 id="report-a-bug">Fehler melden und weiterentwickeln</h2>
+    <p>Das Projekt findest du auf <a href="https://github.com/SrgSteak/vokabel-dojo">Github</a> und du kannst mir
+      gerne
+      eine <a href="mailto:schmidt91robin@icloud.com">E-Mail senden</a>.
+    </p>
   </div>
 </div>
