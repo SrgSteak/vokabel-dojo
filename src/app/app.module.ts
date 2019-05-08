@@ -39,6 +39,7 @@ import { ShowComponent as DeckPublicShow } from './decks/public/show/show.compon
 import { NewCardComponent } from './decks/user/new-card/new-card.component';
 import { ListComponent } from './decks/public/list/list.component';
 import { EditCardComponent } from './decks/user/edit-card/edit-card.component';
+import { WordLearnComponent } from './words/word-learn/word-learn.component';
 
 @NgModule({
   imports: [
@@ -113,7 +114,8 @@ import { EditCardComponent } from './decks/user/edit-card/edit-card.component';
     ListComponent,
     DeckPublicShow,
     DeckPublicEdit,
-    EditCardComponent
+    EditCardComponent,
+    WordLearnComponent
   ],
   bootstrap: [AppComponent],
   providers: [VocabularyService, FlashcardService]

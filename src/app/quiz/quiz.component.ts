@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-quiz',
   templateUrl: './quiz.component.html',
-  styleUrls: [ './quiz.component.scss' ]
+  styleUrls: ['./quiz.component.scss']
 })
 export class QuizComponent implements OnInit {
   showSubmenu = false;
@@ -21,27 +21,27 @@ export class QuizComponent implements OnInit {
 
   hiragana: Array<flashcard>;
   formSub: Subscription;
-    // settings
-    filterForm = new FormGroup({
-      row_a: new FormControl(''),
-      row_k: new FormControl(''),
-      row_s: new FormControl(''),
-      row_t: new FormControl(''),
-      row_na: new FormControl(''),
-      row_h: new FormControl(''),
-      row_m: new FormControl(''),
-      row_y: new FormControl(''),
-      row_r: new FormControl(''),
-      row_w: new FormControl(''),
-      row_n: new FormControl(''),
-    });
+  // settings
+  filterForm = new FormGroup({
+    row_a: new FormControl(''),
+    row_k: new FormControl(''),
+    row_s: new FormControl(''),
+    row_t: new FormControl(''),
+    row_na: new FormControl(''),
+    row_h: new FormControl(''),
+    row_m: new FormControl(''),
+    row_y: new FormControl(''),
+    row_r: new FormControl(''),
+    row_w: new FormControl(''),
+    row_n: new FormControl(''),
+  });
 
   get scoredHiragana() {
     return this.hiragana.sort((a, b) => {
       if (a.hits - a.misses > b.hits - b.misses) {
         return -1
       }
-      if (a.hits - a.misses < b.hits -b.misses) {
+      if (a.hits - a.misses < b.hits - b.misses) {
         return 1
       }
       return 0;
@@ -57,7 +57,7 @@ export class QuizComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.formSub = this.filterForm.valueChanges.subscribe( () => {
+    this.formSub = this.filterForm.valueChanges.subscribe(() => {
       this.setActiveRows();
     });
   }
@@ -86,7 +86,7 @@ export class QuizComponent implements OnInit {
   }
 
   answerSelect(question: flashcard, answer: flashcard) {
-    if (question.hiragana == answer.hiragana) {
+    if (question.uid == answer.uid) {
       if (this.displayError == false) {
         this.syllablesService.totalHits++;
         question.hits++;
@@ -103,13 +103,21 @@ export class QuizComponent implements OnInit {
   }
 
   getAnswersFor(card: flashcard) {
+    // TODO: edit answers depending on question. Prefer handakuten in handakuten questions.
+
     let nAnswer = this.numberAnswers;
     if (this.hiragana.length < this.numberAnswers) {
       nAnswer = this.hiragana.length;
     }
     this.syllablesService.shuffle(this.hiragana);
     const draw = this.syllablesService.draw(
-      this.hiragana.filter((value) => { return value[this.questionMode] !== card[this.questionMode]}),
+      this.hiragana.filter((value) => {
+        if ([58, 59, 63, 64].includes(card.uid)) { // prevent double meaning syllables
+          return value.uid !== card.uid && card.uid != 58 && card.uid != 59 && card.uid != 63 && card.uid != 64;
+        } else {
+          return value.uid !== card.uid
+        }
+      }),
       nAnswer
     );
     // console.log(draw);

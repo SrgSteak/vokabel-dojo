@@ -1,0 +1,112 @@
+<button class="submenu2 no-print" [class.open]="showSubmenu" [class.closed-menu]="!showSubmenu"
+  (click)="showSubmenu ? showSubmenu = false : showSubmenu = true" title="Einstellungen Lernmodus">⋮</button>
+<div class="menu" *ngIf="showSubmenu">
+  <span class="label">Anzeige</span>
+  <form [formGroup]="form">
+    <!-- <label class="container">Ruby (ルビ)
+      <input type="checkbox" formControlName="rubi" name="rubi">
+      <span class="checkmark">
+        <span class="checkmark_inner"></span>
+      </span>
+    </label> -->
+    <label class="container">Bei Auswahl
+      <input type="radio" formControlName="displayMode" value="click" name="displayMode">
+      <span class="checkmark">
+        <span class="checkmark_inner"></span>
+      </span>
+    </label>
+    <label class="container">Immer
+      <input type="radio" formControlName="displayMode" value="always" name="displayMode">
+      <span class="checkmark">
+        <span class="checkmark_inner"></span>
+      </span>
+    </label>
+    <label class="container">Automatisch
+      <input type="radio" formControlName="displayMode" value="automatic" name="displayMode">
+      <span class="checkmark">
+        <span class="checkmark_inner"></span>
+      </span>
+    </label>
+  </form>
+  <span class="label">Oben</span>
+  <form [formGroup]="form">
+    <label class="container">Deutsch
+      <input type="radio" formControlName="question" value="german" name="question">
+      <span class="checkmark">
+        <span class="checkmark_inner"></span>
+      </span>
+    </label>
+    <label class="container">Kanji
+      <input type="radio" formControlName="question" value="kanji" name="question">
+      <span class="checkmark">
+        <span class="checkmark_inner"></span>
+      </span>
+    </label>
+    <label class="container">Hiragana
+      <input type="radio" formControlName="question" value="hiragana" name="question">
+      <span class="checkmark">
+        <span class="checkmark_inner"></span>
+      </span>
+    </label>
+    <label class="container">Katakana
+      <input type="radio" formControlName="question" value="katakana" name="question">
+      <span class="checkmark">
+        <span class="checkmark_inner"></span>
+      </span>
+    </label>
+    <label class="container">Romaji
+      <input type="radio" formControlName="question" value="romaji" name="question">
+      <span class="checkmark">
+        <span class="checkmark_inner"></span>
+      </span>
+    </label>
+  </form>
+  <span class="label">Unten</span>
+  <form [formGroup]="form">
+    <label class="container">Deutsch
+      <input type="radio" formControlName="answer" value="german" name="answer">
+      <span class="checkmark">
+        <span class="checkmark_inner"></span>
+      </span>
+    </label>
+    <label class="container">Kanji
+      <input type="radio" formControlName="answer" value="kanji" name="answer">
+      <span class="checkmark">
+        <span class="checkmark_inner"></span>
+      </span>
+    </label>
+    <label class="container">Hiragana
+      <input type="radio" formControlName="answer" value="hiragana" name="answer">
+      <span class="checkmark">
+        <span class="checkmark_inner"></span>
+      </span>
+    </label>
+    <label class="container">Katakana
+      <input type="radio" formControlName="answer" value="katakana" name="answer">
+      <span class="checkmark">
+        <span class="checkmark_inner"></span>
+      </span>
+    </label>
+    <label class="container">Romaji
+      <input type="radio" formControlName="answer" value="romaji" name="answer">
+      <span class="checkmark">
+        <span class="checkmark_inner"></span>
+      </span>
+    </label>
+  </form>
+  <button class="button" (click)="showSubmenu = false; shuffle();">Mischen</button>
+</div>
+<div class="modal-teaser">
+  {{ show }} / {{ cards.length}}
+</div>
+<div class="content">
+  <div class="learn" (click)="next()">
+    <div class="card">{{ cards[show][question]}}</div>
+    <hr class="line">
+    <div class="card">
+      <ng-container *ngIf="displayMode == 'always' || (clicked)">
+        {{ cards[show][answer] }}
+      </ng-container>
+    </div>
+  </div>
+</div>

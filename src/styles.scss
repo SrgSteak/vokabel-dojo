@@ -431,6 +431,12 @@ form > button:hover {
   // min-height: 54px;
 }
 
+.menu .button {
+  border: solid;
+  border-width: 1px;
+  border-color: white;
+}
+
 .button:hover {
   background-color: $highlightColor;
 }
