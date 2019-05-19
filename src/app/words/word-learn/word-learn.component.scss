@@ -2,11 +2,18 @@
   height: 100%;
 }
 .line {
-  width: 80%;
+  // width: 80%;
   margin-block-start: 0;
   margin-block-end: 0;
   margin-inline-start: auto;
   margin-inline-end: auto;
+}
+
+.serif {
+  font-family: serif;
+}
+.sans-serif {
+  font-family: sans-serif;
 }
 
 .card {
@@ -28,6 +35,29 @@
     -moz-user-select: none; /* mozilla browsers */
     -khtml-user-select: none; /* webkit (konqueror) browsers */
     -ms-user-select: none; /* IE10+ */
+}
+
+.readings {
+  margin-left: 10px;
+}
+
+.readings hr {
+  margin-top: 3px;
+  margin-bottom: 3px;
+}
+
+li {
+  font-size: 3vw;
+
+}
+
+ul {
+  list-style-type: circle;
+  list-style-position: inside;
+  margin: 0;
+  margin-left: 0;
+  padding: 0;
+  text-align: left;
 }
 
 .modes {
@@ -71,4 +101,39 @@
   right: 40px;
   // transition: all .3s ease;
   // box-shadow: 4px 4px 16px 0px rgba(0,0,0,0.2);
+}
+
+.detail-content {
+  width: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.chevron {
+  // width: 5%;
+  padding: 20px;
+}
+.detail-content .kanji {
+  // min-width: 50%;
+  font-size: 7vw;
+}
+
+.detail {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.detail-content .line {
+  min-width: 238px;
+  width: 100%;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+.detail-content .example {
+  width: 100%;
+  font-size: 6vw;
+  text-align: center;
 }

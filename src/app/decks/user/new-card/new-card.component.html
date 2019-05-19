@@ -15,6 +15,29 @@
     Kanji
   </label>
   <input type="text" id="kanji" formControlName="kanji">
+
+  <div class="form_array" formArrayName="japanese_readings">
+    <label for="japanese_readings" (click)="addReading(japanese_readings)">
+      <button class="button">+</button>Japanische Lesungen
+    </label>
+    <div class="input_group" *ngFor="let japanese_reading of japanese_readings.controls; let i = index">
+      <button class="button" (click)="removeReadingAtIndex(japanese_readings,i)">-</button>
+      <input type="text" [formControlName]="i">
+    </div>
+  </div>
+  <div class="form_array" formArrayName="chinese_readings">
+    <label for="chinese_readings" (click)="addReading(chinese_readings)">
+      <button class="button">+</button>Chinesische Lesungen
+    </label>
+    <div class="input_group" *ngFor="let chinese_reading of chinese_readings.controls; let i = index">
+      <button class="button" (click)="removeReadingAtIndex(chinese_readings,i)">-</button>
+      <input type="text" [formControlName]="i">
+    </div>
+  </div>
+  <label for="reading">
+    Reading
+  </label>
+  <input type="text" id="reading" formControlName="reading">
   <label for="romaji">
     Romaji
   </label>

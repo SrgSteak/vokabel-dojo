@@ -34,8 +34,15 @@ export class WordLearnComponent implements OnInit, OnDestroy {
   get displayMode() {
     return this.form.get('displayMode').value;
   }
+  get rubi() {
+    return this.form.get('rubi').value;
+  }
   get fontMode() {
     return this.form.get('fontMode').value;
+  }
+
+  get card() {
+    return this.cards[this.show];
   }
 
   constructor(private deckService: DeckService) { }
@@ -50,6 +57,7 @@ export class WordLearnComponent implements OnInit, OnDestroy {
 
   shuffle() {
     this.cards = this.deckService.shuffle(this.cards);
+    this.show = 0;
   }
 
   next() {
@@ -60,6 +68,7 @@ export class WordLearnComponent implements OnInit, OnDestroy {
       if (this.show >= this.cards.length) {
         this.show = 0;
       }
+      console.log(this.cards[this.show]);
       if (this.displayMode == 'click') {
         this.clicked = false;
       }
@@ -70,5 +79,46 @@ export class WordLearnComponent implements OnInit, OnDestroy {
         }, 2000);
       }
     }
+  }
+
+  goToNext() {
+    this.show++;
+    if (this.show >= this.cards.length) {
+      this.show = 0;
+    }
+  }
+
+  goToPrevious() {
+    if (this.show === 0) {
+      this.show = this.cards.length - 1;
+    } else {
+      this.show--;
+    }
+  }
+
+  displayModeForCard(card: Card, mode: string): string {
+    console.log(mode);
+    // kanji, rubi active, card has reading
+    if (mode === 'kanji' && this.rubi && card.reading) {
+      console.log('kanji_with_rubi');
+      return 'kanji_with_rubi';
+
+      // kanji, rubi active, no reading but jap readings
+    } else if (mode === 'kanji' && this.rubi && card.japanese_readings) {
+      if (card.japanese_readings.length > 1) {
+        console.log('kanji_with_rubi_from_jap_readings');
+        return 'kanji_with_rubi_readings';
+      }
+      return 'kanji_with_rubi_from_jap_readings';
+
+      // kanji, rubi, no readings but hiragana
+    } else if (mode === 'kanji' && this.rubi && card.hiragana) {
+      console.log('kanji_with_rubi_from_hiragana');
+      return 'kanji_with_rubi_from_hiragana';
+    }
+
+    // nothing special, just display word
+    console.log('word');
+    return 'word';
   }
 }

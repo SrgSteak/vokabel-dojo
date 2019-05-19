@@ -31,7 +31,7 @@
           </span>
         </label>
       </div>
-      <button type="submit">Speichern & Zurück</button>
+      <button type="submit" [class.mute]="!cardForm.valid">Speichern & Zurück</button>
       <a (click)="onDelete()">Löschen</a>
     </form>
   </div>

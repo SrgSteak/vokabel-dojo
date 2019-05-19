@@ -387,10 +387,37 @@ form > label {
 }
 
 form > input {
+  -webkit-appearance: none;
   width: 100%;
   padding: 5px;
   margin-bottom: 10px;
   box-sizing: border-box;
+}
+
+.form_array {
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.input_group {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
+.input_group > input {
+  width: 90%;
+  padding: 5px;
+  // margin-bottom: 10px;
+  margin-top: 10px;
+  box-sizing: border-box;
+}
+
+.form_array .button {
+  border: solid;
+  border-width: 1px;
+  border-color: white;
 }
 
 form > button {
@@ -406,8 +433,6 @@ form > button {
   text-decoration: none;
   display: inline-block;
   font-size: 12px;
-  // min-width: 32px;
-  // min-height: 54px;
 }
 
 form > button:hover {
@@ -427,7 +452,7 @@ form > button:hover {
   text-decoration: none;
   display: inline-block;
   font-size: 12px;
-  // min-width: 32px;
+  min-width: 25px;
   // min-height: 54px;
 }
 

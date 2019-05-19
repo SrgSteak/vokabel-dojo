@@ -1,14 +1,28 @@
 <button class="submenu2 no-print" [class.open]="showSubmenu" [class.closed-menu]="!showSubmenu"
   (click)="showSubmenu ? showSubmenu = false : showSubmenu = true" title="Einstellungen Lernmodus">⋮</button>
 <div class="menu" *ngIf="showSubmenu">
-  <span class="label">Anzeige</span>
   <form [formGroup]="form">
-    <!-- <label class="container">Ruby (ルビ)
+    <span class="label">Anzeige</span>
+    <label class="container">Ruby (ルビ)
       <input type="checkbox" formControlName="rubi" name="rubi">
       <span class="checkmark">
         <span class="checkmark_inner"></span>
       </span>
-    </label> -->
+    </label>
+
+    <label class="container serif">Serif
+      <input type="radio" formControlName="fontMode" value="serif" name="fontMode">
+      <span class="checkmark">
+        <span class="checkmark_inner"></span>
+      </span>
+    </label>
+    <label class="container sans-serif">Sans-Serif
+      <input type="radio" formControlName="fontMode" value="sans-serif" name="fontMode">
+      <span class="checkmark">
+        <span class="checkmark_inner"></span>
+      </span>
+    </label>
+    <span class="label">Weiter</span>
     <label class="container">Bei Auswahl
       <input type="radio" formControlName="displayMode" value="click" name="displayMode">
       <span class="checkmark">
@@ -96,17 +110,114 @@
   </form>
   <button class="button" (click)="showSubmenu = false; shuffle();">Mischen</button>
 </div>
-<div class="modal-teaser">
-  {{ show }} / {{ cards.length}}
-</div>
-<div class="content">
-  <div class="learn" (click)="next()">
-    <div class="card">{{ cards[show][question]}}</div>
-    <hr class="line">
-    <div class="card">
-      <ng-container *ngIf="displayMode == 'always' || (clicked)">
-        {{ cards[show][answer] }}
-      </ng-container>
+<app-modal #modal>
+  <div class="main-content">
+    <div class="detail">
+      <div class="chevron" (click)="goToPrevious(); modal.positionModal()">←</div>
+      <div class="detail-content">
+        <ng-container *ngIf="card['kanji']">
+          <div class="kanji">
+            {{ card['kanji']}}
+          </div>
+          <div class="readings">
+            <ul>
+              <li *ngIf="card.reading">{{ card.reading }}</li>
+              <li *ngIf="card.hiragana">{{ card.hiragana }}</li>
+              <li *ngFor="let reading of card.japanese_readings">{{ reading }}</li>
+            </ul>
+            <hr class="line" *ngIf="card.chinese_readings">
+            <ul>
+              <li *ngFor="let reading of card.chinese_readings">{{ reading }}</li>
+            </ul>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="card.hiragana && !card.kanji">
+          <div class="kanji">
+            {{ card.hiragana }}
+          </div>
+        </ng-container>
+        <ng-container *ngIf="card.katakana && !card.kanji">
+          <div class="kanji">
+            {{ card.katakana }}
+          </div>
+        </ng-container>
+        <hr class="line">
+        <div class="example">{{ card.german }}</div>
+      </div>
+      <!-- TODO: add example words, sentences, etc -->
+      <div class="chevron" (click)="goToNext()">→</div>
     </div>
+  </div>
+  <div class="teaser">
+    {{ show + 1 }} / {{ cards.length }}
+  </div>
+</app-modal>
+
+
+<div class="learn" [class.serif]="fontMode === 'serif'" [class.sans-serif]="fontMode === 'sans-serif'"
+  (click)="next(); modal.positionModal()">
+  <div class="card">{{ cards[show][question]}}</div>
+  <hr class="line">
+  <div class="card">
+    <ng-container *ngIf="displayMode == 'always' || (clicked)">
+      <ng-container [ngSwitch]="displayModeForCard(card, answer)">
+        <ng-container *ngSwitchCase="'kanji_with_rubi'">
+          <ruby>{{ cards[show][answer] }}<rt>{{ cards[show]['reading'] }}</rt></ruby>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'kanji_with_rubi_from_hiragana'">
+          <ruby>{{ cards[show][answer] }}<rt>{{ cards[show]['hiragana'] }}</rt></ruby>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'kanji_with_rubi_from_jap_readings'">
+          <ruby>{{ cards[show][answer] }}<rt>{{ cards[show]['japanese_readings'][0] }}</rt></ruby>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'kanji_with_rubi_readings'">
+          <div class="kanji">
+            {{ cards[show][answer]}}
+          </div>
+          <div class="readings">
+            <ul>
+              <li *ngFor="let reading of cards[show].japanese_readings">{{ reading }}</li>
+            </ul>
+            <hr class="line">
+            <ul>
+              <li *ngFor="let reading of cards[show].chinese_readings">{{ reading }}</li>
+            </ul>
+          </div>
+        </ng-container>
+
+        <ng-container *ngSwitchDefault>
+          {{ cards[show][answer]}}
+        </ng-container>
+      </ng-container>
+
+
+      <!-- <ng-container *ngIf="rubi && answer == 'kanji' then withRubi else simple">
+      </ng-container>
+      <ng-template #withRubi>
+        <ng-container *ngIf="cards[show]['reading']">
+          <ruby>{{ cards[show][answer] }}<rt>{{ cards[show]['reading'] }}</rt></ruby>
+        </ng-container>
+        <ng-container *ngIf="!cards[show]['reading']">
+          <div class="kanji">
+            {{ cards[show][answer]}}
+          </div>
+          <div class="readings">
+            <ul>
+              <li *ngFor="let reading of cards[show].japanese_readings">{{ reading }}</li>
+            </ul>
+            <ul>
+              <li *ngFor="let reading of cards[show].chinese_readings">{{ reading }}</li>
+            </ul>
+          </div>
+        </ng-container>
+      </ng-template>
+      <ng-template #simple>
+        {{ cards[show][answer] }}
+      </ng-template> -->
+
+    </ng-container>
   </div>
 </div>

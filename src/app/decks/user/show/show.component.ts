@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { DeckService, Deck } from 'src/app/core/services/deck.service';
-import { CardService, Card } from 'src/app/core/services/card.service';
+import { CardService, Card as CardInterface } from 'src/app/core/services/card.service';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/core/auth.service';
+import { Card } from 'src/app/core/entities/card';
 
 @Component({
   selector: 'app-show',
@@ -29,7 +30,7 @@ export class ShowComponent implements OnInit {
         this.user = user;
         this.deckService.getCardsForDeck(params.get('uid'), user.uid).snapshotChanges().subscribe(data => {
           this.cards = data.map(e => {
-            const card = e.payload.doc.data();
+            const card = Card.createFromCardInterface(e.payload.doc.data());
             card.uid = e.payload.doc.id;
             return card;
           });
@@ -42,7 +43,7 @@ export class ShowComponent implements OnInit {
     });
   }
 
-  addCard(card: Card) {
+  addCard(card: CardInterface) {
     this.cards.push(card);
   }
 

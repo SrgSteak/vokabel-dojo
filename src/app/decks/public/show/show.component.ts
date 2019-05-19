@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { DeckService, Deck } from 'src/app/core/services/deck.service';
-import { CardService, Card } from 'src/app/core/services/card.service';
+import { CardService, Card as CardInterface } from 'src/app/core/services/card.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/core/auth.service';
+import { Card } from 'src/app/core/entities/card';
 
 @Component({
   selector: 'app-deck-public-show',
@@ -34,7 +35,7 @@ export class ShowComponent implements OnInit {
       this.mode = params.get('mode');
       this.cardService.loadForDeck(params.get('uid')).get().then(data => {
         this.cards = data.docs.map(e => {
-          const card = e.data();
+          const card = Card.createFromCardInterface(e.data());
           card.uid = e.id;
           return card;
         })
@@ -46,7 +47,7 @@ export class ShowComponent implements OnInit {
     });
   }
 
-  addCard(card: Card) {
+  addCard(card: CardInterface) {
     this.cards.push(card);
   }
 

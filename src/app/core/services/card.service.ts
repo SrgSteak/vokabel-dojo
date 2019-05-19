@@ -9,14 +9,18 @@ import { Deck } from './deck.service';
 
 export interface Card extends wordFlashcard {
   uid?: string;
-  german: string;
-  romaji?: string;
-  hiragana?: string;
-  katakana?: string;
-  kanji?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-  decks?: Array<string>;
+  german?: string;      // the german meaning
+  romaji?: string;      // the romaji writing
+  hiragana?: string;    // the hiragana writing
+  katakana?: string;    // the katakana writing
+  kanji?: string;       // the kanji writing      人
+  reading?: string;     // the reading of the word
+  chinese_readings?: Array<string>; // the chinese readings of the kanji
+  japanese_readings?: Array<string>; // the japanese readings of the kanji
+  examples?: Array<string>; // ids to other cards that use this kanji.
+  createdAt?: Date;     // date of creation
+  updatedAt?: Date;     // date of last edit
+  decks?: Array<string>;  // relation to decks
 }
 
 @Injectable({

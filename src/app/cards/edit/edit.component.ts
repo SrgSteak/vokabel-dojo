@@ -14,11 +14,14 @@ export class EditComponent implements OnInit {
   card: Card;
   decks: Array<Deck>;
   cardForm = this.fb.group({
-    german: ['', [Validators.required]],
+    german: [''],
     romaji: [''],
     hiragana: [''],
     katakana: [''],
     kanji: [''],
+    reading: [''],
+    japanese_readings: this.fb.array([]),
+    chinese_readings: this.fb.array([]),
     decks: this.fb.array([])
   });
 
@@ -71,6 +74,14 @@ export class EditComponent implements OnInit {
         this.deckForm.push(control);
       });
     });
+  }
+
+  addReading(form: FormArray) {
+    form.push(this.fb.control(''));
+  }
+
+  removeReading(form: FormArray) {
+    form.removeAt(form.length - 1);
   }
 
   onSubmit() {
