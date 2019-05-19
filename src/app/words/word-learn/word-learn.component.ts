@@ -104,8 +104,8 @@ export class WordLearnComponent implements OnInit, OnDestroy {
       return 'kanji_with_rubi';
 
       // kanji, rubi active, no reading but jap readings
-    } else if (mode === 'kanji' && card.kanji && this.rubi && card.japanese_readings) {
-      if (card.japanese_readings.length > 1) {
+    } else if (mode === 'kanji' && card.kanji && this.rubi && (card.japanese_readings.length || card.chinese_readings.length)) {
+      if (card.japanese_readings.length || card.chinese_readings.length) {
         // console.log('kanji_with_rubi_from_jap_readings');
         return 'kanji_with_rubi_readings';
       }
@@ -117,6 +117,15 @@ export class WordLearnComponent implements OnInit, OnDestroy {
       return 'kanji_with_rubi_from_hiragana';
     }
 
+    if (mode === 'german' && !card.german.length) {
+      // console.log('kanji_readings_only');
+      return 'kanji_readings_only';
+    }
+    if (mode === 'reading') {
+      if (!card.reading) {
+        return 'kanji_readings_only';
+      }
+    }
     // nothing special, just display word
     // console.log('word');
     return 'word';

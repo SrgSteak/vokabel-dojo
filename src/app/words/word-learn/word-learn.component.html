@@ -89,6 +89,12 @@
         <span class="checkmark_inner"></span>
       </span>
     </label>
+    <label class="container">Lesung
+      <input type="radio" formControlName="answer" value="reading" name="answer">
+      <span class="checkmark">
+        <span class="checkmark_inner"></span>
+      </span>
+    </label>
     <label class="container">Hiragana
       <input type="radio" formControlName="answer" value="hiragana" name="answer">
       <span class="checkmark">
@@ -125,7 +131,7 @@
               <li *ngIf="card.hiragana">{{ card.hiragana }}</li>
               <li *ngFor="let reading of card.japanese_readings">{{ reading }}</li>
             </ul>
-            <hr class="line" *ngIf="card.chinese_readings">
+            <hr *ngIf="card.chinese_readings.length && card.japanese_readings.length">
             <ul>
               <li *ngFor="let reading of card.chinese_readings">{{ reading }}</li>
             </ul>
@@ -142,10 +148,17 @@
           </div>
         </ng-container>
         <hr class="line">
-        <div class="example">{{ card.german }}</div>
+        <div class="example">
+          <ng-container *ngIf="card.german">
+            {{ card.german }}
+          </ng-container>
+          <ng-container *ngIf="!card.german">
+            <span class="info">Keine Übersetzung oder Beispiele vorhanden</span>
+          </ng-container>
+        </div>
       </div>
       <!-- TODO: add example words, sentences, etc -->
-      <div class="chevron" (click)="goToNext()">→</div>
+      <div class="chevron" (click)="goToNext(); modal.positionModal()">→</div>
     </div>
   </div>
   <div class="teaser">
@@ -184,7 +197,17 @@
           </ul>
         </div>
       </ng-container>
-
+      <ng-container *ngSwitchCase="'kanji_readings_only'">
+        <div class="readings">
+          <ul *ngIf="card.japanese_readings.length">
+            <li *ngFor="let reading of card.japanese_readings">{{ reading }}</li>
+          </ul>
+          <hr class="line" *ngIf="card.japanese_readings.length && card.chinese_readings.length">
+          <ul *ngIf="card.chinese_readings.length">
+            <li *ngFor="let reading of card.chinese_readings">{{ reading }}</li>
+          </ul>
+        </div>
+      </ng-container>
       <ng-container *ngSwitchDefault>
         {{ displayWithFallback(card, question)}}
       </ng-container>
@@ -220,37 +243,21 @@
             </ul>
           </div>
         </ng-container>
-
+        <ng-container *ngSwitchCase="'kanji_readings_only'">
+          <div class="readings">
+            <ul *ngIf="card.japanese_readings.length">
+              <li *ngFor="let reading of card.japanese_readings">{{ reading }}</li>
+            </ul>
+            <hr class="line" *ngIf="card.japanese_readings.length && card.chinese_readings.length">
+            <ul *ngIf="card.chinese_readings.length">
+              <li *ngFor="let reading of card.chinese_readings">{{ reading }}</li>
+            </ul>
+          </div>
+        </ng-container>
         <ng-container *ngSwitchDefault>
           {{ displayWithFallback(card, answer)}}
         </ng-container>
       </ng-container>
-
-
-      <!-- <ng-container *ngIf="rubi && answer == 'kanji' then withRubi else simple">
-      </ng-container>
-      <ng-template #withRubi>
-        <ng-container *ngIf="cards[show]['reading']">
-          <ruby>{{ cards[show][answer] }}<rt>{{ cards[show]['reading'] }}</rt></ruby>
-        </ng-container>
-        <ng-container *ngIf="!cards[show]['reading']">
-          <div class="kanji">
-            {{ cards[show][answer]}}
-          </div>
-          <div class="readings">
-            <ul>
-              <li *ngFor="let reading of cards[show].japanese_readings">{{ reading }}</li>
-            </ul>
-            <ul>
-              <li *ngFor="let reading of cards[show].chinese_readings">{{ reading }}</li>
-            </ul>
-          </div>
-        </ng-container>
-      </ng-template>
-      <ng-template #simple>
-        {{ cards[show][answer] }}
-      </ng-template> -->
-
     </ng-container>
   </div>
 </div>

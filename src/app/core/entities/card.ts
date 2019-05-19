@@ -59,7 +59,13 @@ export class Card implements CardInterface {
     card.hits = cardInterface.hits;
     card.misses = cardInterface.misses;
     card.japanese_readings = cardInterface.japanese_readings;
+    if (!card.japanese_readings) {
+      card.japanese_readings = [];
+    }
     card.chinese_readings = cardInterface.chinese_readings;
+    if (!card.chinese_readings) {
+      card.chinese_readings = [];
+    }
     return card;
   }
 }

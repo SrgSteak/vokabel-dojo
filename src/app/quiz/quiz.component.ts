@@ -113,7 +113,7 @@ export class QuizComponent implements OnInit {
     const draw = this.syllablesService.draw(
       this.hiragana.filter((value) => {
         if ([58, 59, 63, 64].includes(card.uid)) { // prevent double meaning syllables
-          return value.uid !== card.uid && card.uid != 58 && card.uid != 59 && card.uid != 63 && card.uid != 64;
+          return value.uid !== card.uid && value.uid !== 58 && value.uid !== 59 && value.uid !== 63 && value.uid !== 64;
         } else {
           return value.uid !== card.uid
         }
