@@ -156,7 +156,40 @@
 
 <div class="learn" [class.serif]="fontMode === 'serif'" [class.sans-serif]="fontMode === 'sans-serif'"
   (click)="next(); modal.positionModal()">
-  <div class="card">{{ cards[show][question]}}</div>
+  <div class="card">
+    <ng-container [ngSwitch]="displayModeForCard(card, question)">
+      <ng-container *ngSwitchCase="'kanji_with_rubi'">
+        <ruby>{{ cards[show][question] }}<rt>{{ cards[show]['reading'] }}</rt></ruby>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'kanji_with_rubi_from_hiragana'">
+        <ruby>{{ cards[show][question] }}<rt>{{ cards[show]['hiragana'] }}</rt></ruby>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'kanji_with_rubi_from_jap_readings'">
+        <ruby>{{ cards[show][question] }}<rt>{{ cards[show]['japanese_readings'][0] }}</rt></ruby>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'kanji_with_rubi_readings'">
+        <div class="kanji">
+          {{ cards[show][question]}}
+        </div>
+        <div class="readings">
+          <ul>
+            <li *ngFor="let reading of cards[show].japanese_readings">{{ reading }}</li>
+          </ul>
+          <hr class="line">
+          <ul>
+            <li *ngFor="let reading of cards[show].chinese_readings">{{ reading }}</li>
+          </ul>
+        </div>
+      </ng-container>
+
+      <ng-container *ngSwitchDefault>
+        {{ displayWithFallback(card, question)}}
+      </ng-container>
+    </ng-container>
+  </div>
   <hr class="line">
   <div class="card">
     <ng-container *ngIf="displayMode == 'always' || (clicked)">
@@ -189,7 +222,7 @@
         </ng-container>
 
         <ng-container *ngSwitchDefault>
-          {{ cards[show][answer]}}
+          {{ displayWithFallback(card, answer)}}
         </ng-container>
       </ng-container>
 

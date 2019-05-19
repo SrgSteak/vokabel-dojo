@@ -99,12 +99,12 @@ export class WordLearnComponent implements OnInit, OnDestroy {
   displayModeForCard(card: Card, mode: string): string {
     console.log(mode);
     // kanji, rubi active, card has reading
-    if (mode === 'kanji' && this.rubi && card.reading) {
+    if (mode === 'kanji' && card.kanji && this.rubi && card.reading) {
       console.log('kanji_with_rubi');
       return 'kanji_with_rubi';
 
       // kanji, rubi active, no reading but jap readings
-    } else if (mode === 'kanji' && this.rubi && card.japanese_readings) {
+    } else if (mode === 'kanji' && card.kanji && this.rubi && card.japanese_readings) {
       if (card.japanese_readings.length > 1) {
         console.log('kanji_with_rubi_from_jap_readings');
         return 'kanji_with_rubi_readings';
@@ -112,7 +112,7 @@ export class WordLearnComponent implements OnInit, OnDestroy {
       return 'kanji_with_rubi_from_jap_readings';
 
       // kanji, rubi, no readings but hiragana
-    } else if (mode === 'kanji' && this.rubi && card.hiragana) {
+    } else if (mode === 'kanji' && card.kanji && this.rubi && card.hiragana) {
       console.log('kanji_with_rubi_from_hiragana');
       return 'kanji_with_rubi_from_hiragana';
     }
@@ -120,5 +120,23 @@ export class WordLearnComponent implements OnInit, OnDestroy {
     // nothing special, just display word
     console.log('word');
     return 'word';
+  }
+
+  displayWithFallback(word: Card, mode: string) {
+    if (word[mode]) {
+      return word[mode];
+    }
+    if (word['kanji']) {
+      return word['kanji'];
+    }
+    if (word['hiragana']) {
+      return word['hiragana'];
+    }
+    if (word['katakana']) {
+      return word['katakana'];
+    }
+    if (word['romaji']) {
+      return word['romaji'];
+    }
   }
 }
