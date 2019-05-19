@@ -25,6 +25,13 @@ export class EditComponent implements OnInit {
     decks: this.fb.array([])
   });
 
+  get japanese_readings() {
+    return this.cardForm.get('japanese_readings') as FormArray;
+  }
+  get chinese_readings() {
+    return this.cardForm.get('chinese_readings') as FormArray;
+  }
+
   get deckForm() {
     return this.cardForm.get('decks') as FormArray;
   }
@@ -49,6 +56,12 @@ export class EditComponent implements OnInit {
           this.cardForm.get('katakana').setValue(this.card.katakana);
           this.cardForm.get('kanji').setValue(this.card.kanji);
           this.cardForm.get('romaji').setValue(this.card.romaji);
+          this.card.japanese_readings.forEach(reading => {
+            this.addReading(this.japanese_readings, reading);
+          });
+          this.card.chinese_readings.forEach(reading => {
+            this.addReading(this.chinese_readings, reading);
+          });
         })
         this.prepareDecks();
       } else {
@@ -76,8 +89,12 @@ export class EditComponent implements OnInit {
     });
   }
 
-  addReading(form: FormArray) {
-    form.push(this.fb.control(''));
+  addReading(form: FormArray, content = '') {
+    form.push(this.fb.control(content, [Validators.required]));
+  }
+
+  removeReadingAtIndex(form: FormArray, index) {
+    form.removeAt(index);
   }
 
   removeReading(form: FormArray) {
@@ -91,6 +108,8 @@ export class EditComponent implements OnInit {
       this.card.katakana = this.cardForm.get('katakana').value;
       this.card.romaji = this.cardForm.get('romaji').value;
       this.card.kanji = this.cardForm.get('kanji').value;
+      this.card.chinese_readings = this.chinese_readings.value;
+      this.card.japanese_readings = this.japanese_readings.value;
       let i = 0;
       this.card.decks = [];
       this.decks.forEach(deck => {

@@ -68,7 +68,7 @@ export class WordLearnComponent implements OnInit, OnDestroy {
       if (this.show >= this.cards.length) {
         this.show = 0;
       }
-      console.log(this.cards[this.show]);
+      // console.log(this.cards[this.show]);
       if (this.displayMode == 'click') {
         this.clicked = false;
       }
@@ -97,28 +97,28 @@ export class WordLearnComponent implements OnInit, OnDestroy {
   }
 
   displayModeForCard(card: Card, mode: string): string {
-    console.log(mode);
+    // console.log(mode);
     // kanji, rubi active, card has reading
     if (mode === 'kanji' && card.kanji && this.rubi && card.reading) {
-      console.log('kanji_with_rubi');
+      // console.log('kanji_with_rubi');
       return 'kanji_with_rubi';
 
       // kanji, rubi active, no reading but jap readings
     } else if (mode === 'kanji' && card.kanji && this.rubi && card.japanese_readings) {
       if (card.japanese_readings.length > 1) {
-        console.log('kanji_with_rubi_from_jap_readings');
+        // console.log('kanji_with_rubi_from_jap_readings');
         return 'kanji_with_rubi_readings';
       }
       return 'kanji_with_rubi_from_jap_readings';
 
       // kanji, rubi, no readings but hiragana
     } else if (mode === 'kanji' && card.kanji && this.rubi && card.hiragana) {
-      console.log('kanji_with_rubi_from_hiragana');
+      // console.log('kanji_with_rubi_from_hiragana');
       return 'kanji_with_rubi_from_hiragana';
     }
 
     // nothing special, just display word
-    console.log('word');
+    // console.log('word');
     return 'word';
   }
 
