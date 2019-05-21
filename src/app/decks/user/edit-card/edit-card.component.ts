@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { CardService, Card } from 'src/app/core/services/card.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, Validators, FormArray } from '@angular/forms';
 import { Deck, DeckService } from 'src/app/core/services/deck.service';
 import { AuthService } from 'src/app/core/auth.service';
+import { CardInterface } from 'src/app/core/entities/card-interface';
+import { CardService } from 'src/app/core/services/card.service';
 
 @Component({
   selector: 'app-user-card-edit',
@@ -14,19 +15,32 @@ export class EditCardComponent implements OnInit {
 
   user_uid: string;
   deck_uid: string;
-  card: Card;
+  card: CardInterface;
   decks: Array<Deck>;
   cardForm = this.fb.group({
-    german: ['', [Validators.required]],
-    romaji: [''],
-    hiragana: [''],
-    katakana: [''],
-    kanji: [''],
-    // decks: this.fb.array([])
+    german: this.fb.array([]),
+    japanese: [''],
+    japanese_readings: this.fb.array([]),
+    chinese_readings: this.fb.array([]),
+    examples: this.fb.array([])
   });
 
   get deckForm() {
     return this.cardForm.get('decks') as FormArray;
+  }
+
+  get german() {
+    return this.cardForm.get('german') as FormArray;
+  }
+  get japanese_readings() {
+    return this.cardForm.get('japanese_readings') as FormArray;
+  }
+  get chinese_readings() {
+    return this.cardForm.get('chinese_readings') as FormArray;
+  }
+
+  get examples() {
+    return this.cardForm.get('examples') as FormArray;
   }
 
   constructor(
@@ -48,40 +62,62 @@ export class EditCardComponent implements OnInit {
             this.card = data.payload.data();
             this.card.uid = data.payload.id;
             // prefill form;
-            this.cardForm.get('german').setValue(this.card.german);
-            this.cardForm.get('hiragana').setValue(this.card.hiragana);
-            this.cardForm.get('katakana').setValue(this.card.katakana);
-            this.cardForm.get('kanji').setValue(this.card.kanji);
-            this.cardForm.get('romaji').setValue(this.card.romaji);
+            this.card.german.forEach(german => {
+              this.addReading(this.german, german);
+            });
+            this.card.japanese_readings.forEach(reading => {
+              this.addReading(this.japanese_readings, reading);
+            });
+            this.card.chinese_readings.forEach(reading => {
+              this.addReading(this.chinese_readings, reading);
+            });
+            this.card.examples.forEach(example => {
+              this.addExample(this.examples, example);
+            })
           })
         } else {
-          this.card = { german: '', decks: [] };
+          this.card = { german: [], decks: [] };
         }
       })
-      // this.deckService.getAllDecksForUser(user.uid).snapshotChanges().subscribe(data => {
-      //   this.decks = data.map(e => {
-      //     const deck = e.payload.doc.data() as Deck;
-      //     deck.uid = e.payload.doc.id;
-      //     return deck;
-      //   });
-      //   this.decks.forEach(deck => {
-      //     const control = this.fb.control('');
-      //     if (this.card.decks && this.card.decks.includes(deck.uid)) {
-      //       control.setValue(true);
-      //     }
-      //     this.deckForm.push(control);
-      //   });
-      // });
     });
+  }
+
+  addExample(form: FormArray, example?: { japanese?: string, reading?: string, german?: string }) {
+    if (example) {
+      const exampleGroup = this.fb.group({
+        japanese: example.japanese,
+        reading: example.reading,
+        german: example.german
+      });
+      form.push(exampleGroup);
+    } else {
+      const exampleGroup = this.fb.group({
+        japanese: [''],
+        reading: [''],
+        german: ['']
+      });
+      form.push(exampleGroup);
+    }
+  }
+
+  addReading(form: FormArray, content = '') {
+    form.push(this.fb.control(content, [Validators.required]));
+  }
+
+  removeReadingAtIndex(form: FormArray, index) {
+    form.removeAt(index);
+  }
+
+  removeReading(form: FormArray) {
+    form.removeAt(form.length - 1);
   }
 
   onSubmit() {
     if (this.cardForm.valid) {
       this.card.german = this.cardForm.get('german').value;
-      this.card.hiragana = this.cardForm.get('hiragana').value;
-      this.card.katakana = this.cardForm.get('katakana').value;
-      this.card.romaji = this.cardForm.get('romaji').value;
-      this.card.kanji = this.cardForm.get('kanji').value;
+      this.card.japanese_readings = this.japanese_readings.value;
+      this.card.chinese_readings = this.chinese_readings.value;
+      this.card.examples = this.examples.value;
 
       if (this.card.uid) {
         this.cardService.update(this.card, this.deck_uid, this.user_uid);

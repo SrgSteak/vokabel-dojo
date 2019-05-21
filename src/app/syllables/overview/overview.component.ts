@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { SyllablesService } from 'src/app/syllables.service';
-import { syllableFlashcard } from 'src/app/interfaces/syllable-flashcard.interface';
 
 @Component({
   selector: 'app-overview',

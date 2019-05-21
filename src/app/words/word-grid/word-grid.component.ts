@@ -1,11 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { wordFlashcard } from 'src/app/interfaces/word-flashcard.interface';
-import { Subscription } from 'rxjs';
-import { FormControl, FormGroup } from '@angular/forms';
-import { VocabularyService } from 'src/app/vocabulary.service';
-import { syllableFlashcard } from 'src/app/interfaces/syllable-flashcard.interface';
 import { SyllablesService } from 'src/app/syllables.service';
 import { DeckService } from 'src/app/core/services/deck.service';
+import { CardInterface } from 'src/app/core/entities/card-interface';
 
 @Component({
   selector: 'app-word-grid',
@@ -13,13 +9,13 @@ import { DeckService } from 'src/app/core/services/deck.service';
   styleUrls: ['./word-grid.component.scss']
 })
 export class WordGridComponent implements OnInit {
-  @Input() deck: Array<wordFlashcard>;
-  syllables: Array<syllableFlashcard>;
+  @Input() deck: Array<CardInterface>;
+  syllables: Array<CardInterface>;
   mode = 'hiragana';
-  currentWord: wordFlashcard;
-  buildWord: Map<number, syllableFlashcard>;
+  currentWord: CardInterface;
+  buildWord: Map<number, CardInterface>;
   buildWordString: string;
-  currentGrid: Array<syllableFlashcard>;
+  currentGrid: Array<CardInterface>;
   showSubmenu = false;
 
   constructor(private vocabularyService: DeckService, private syllablesService: SyllablesService) {
@@ -31,7 +27,7 @@ export class WordGridComponent implements OnInit {
   }
 
   layout() {
-    this.buildWord = new Map<number, syllableFlashcard>();
+    this.buildWord = new Map<number, CardInterface>();
     this.buildWordString = '';
     this.currentWord = this.deck[0];
     do {

@@ -38,6 +38,17 @@
     Reading
   </label>
   <input type="text" id="reading" formControlName="reading">
+  <div class="form_array" formArrayName="examples">
+    <label for="examples" (click)="addExample(examples)">
+      <button class="button">+</button>Beispiel
+    </label>
+    <div class="input_group" *ngFor="let example of examples.controls; let i = index">
+      <button class="button" (click)="removeReadingAtIndex(examples,i)">-</button>
+
+      <input type="text" [formControlName]="i.japanese">
+      <input type="text" [formControlName]="i.german">
+    </div>
+  </div>
   <label for="romaji">
     Romaji
   </label>

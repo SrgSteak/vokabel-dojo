@@ -1,9 +1,10 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { CardService, Card } from 'src/app/core/services/card.service';
-import { FormBuilder, Validators, FormArray, RequiredValidator } from '@angular/forms';
+import { CardService } from 'src/app/core/services/card.service';
+import { FormBuilder, Validators, FormArray } from '@angular/forms';
 import { Deck } from 'src/app/core/services/deck.service';
 import { Subscription } from 'rxjs';
 import { User } from 'src/app/core/auth.service';
+import { CardInterface } from 'src/app/core/entities/card-interface';
 
 @Component({
   selector: 'app-new-card',
@@ -11,20 +12,22 @@ import { User } from 'src/app/core/auth.service';
   styleUrls: ['./new-card.component.css']
 })
 export class NewCardComponent implements OnInit {
-  card: Card;
+  card: CardInterface;
   @Input() deck: Deck;
   @Input() user: User;
-  @Output() newCard: EventEmitter<Card> = new EventEmitter<Card>();
+  @Output() newCard: EventEmitter<CardInterface> = new EventEmitter<CardInterface>();
   cardFormSub: Subscription;
   cardForm = this.fb.group({
-    german: [''],
     romaji: [''],
     hiragana: [''],
     katakana: [''],
-    kanji: [''],
+    kanji: [''], // do not use me anymore
+    german: [''],
+    japanese: this.fb.array([]),
     reading: [''],
     japanese_readings: this.fb.array([]),
     chinese_readings: this.fb.array([]),
+    examples: this.fb.array([]),
     decks: this.fb.array([])
   });
 
@@ -33,6 +36,9 @@ export class NewCardComponent implements OnInit {
   }
   get chinese_readings() {
     return this.cardForm.get('chinese_readings') as FormArray;
+  }
+  get examples() {
+    return this.cardForm.get('examples') as FormArray;
   }
 
   constructor(
@@ -45,11 +51,20 @@ export class NewCardComponent implements OnInit {
   }
 
   private resetCard() {
-    this.card = { german: '', decks: [this.deck.uid], hits: 0, misses: 0 };
+    this.card = { german: [], decks: [this.deck.uid] };
   }
 
   addReading(form: FormArray) {
     form.push(this.fb.control('', [Validators.required]));
+  }
+
+  addExample(form: FormArray) {
+    const exampleGroup = this.fb.group({
+      japanese: [''],
+      reading: [''],
+      german: ['']
+    });
+    this.examples.push(exampleGroup);
   }
 
   removeReadingAtIndex(form: FormArray, index) {
@@ -63,10 +78,7 @@ export class NewCardComponent implements OnInit {
   onSubmit() {
     if (this.cardForm.valid) {
       this.card.german = this.cardForm.get('german').value;
-      this.card.romaji = this.cardForm.get('romaji').value;
-      this.card.hiragana = this.cardForm.get('hiragana').value;
-      this.card.katakana = this.cardForm.get('katakana').value;
-      this.card.kanji = this.cardForm.get('kanji').value;
+      this.card.japanese = this.cardForm.get('japanese').value;
       this.card.chinese_readings = this.chinese_readings.value;
       this.card.japanese_readings = this.japanese_readings.value;
       this.cardService.add(this.card, this.deck, this.user);
@@ -77,6 +89,10 @@ export class NewCardComponent implements OnInit {
       this.cardForm.get('hiragana').setValue('');
       this.cardForm.get('katakana').setValue('');
       this.cardForm.get('kanji').setValue('');
+      this.cardForm.get('reading').setValue('');
+      this.japanese_readings.setValue([]);
+      this.chinese_readings.setValue([]);
+      this.examples.setValue([]);
     }
   }
 }

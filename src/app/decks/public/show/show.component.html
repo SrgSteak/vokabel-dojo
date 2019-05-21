@@ -51,17 +51,19 @@
     <table *ngIf="mode !== 'list'">
       <tr>
         <th>Deutsch</th>
-        <th>Romaji</th>
-        <th>Hiragana</th>
-        <th>Katakana</th>
-        <th>Kanji</th>
+        <th>Japanisch</th>
+        <th>Beispiele</th>
       </tr>
-      <tr *ngFor="let card of cards">
+      <tr *ngFor="let card of cards" (click)="editMe(card)">
         <td>{{ card.german }}</td>
-        <td>{{ card.romaji }}</td>
-        <td>{{ card.hiragana ? card.hiragana : '-' }}</td>
-        <td>{{ card.katakana ? card.katakana : '-' }}</td>
-        <td>{{ card.kanji ? card.kanji : '-' }}</td>
+        <td>{{ card.japanese }}</td>
+        <td>
+          <ul>
+            <li *ngFor="let example of card.examples">
+              <ruby>{{ example.japanese}}<rt>{{ example.reading }}</rt></ruby> {{ example.german }}
+            </li>
+          </ul>
+        </td>
       </tr>
     </table>
     <button class="button no-print" (click)="addToCollection()" *ngIf="auth.user | async">+ Zu meinen Decks

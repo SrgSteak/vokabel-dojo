@@ -1,13 +1,12 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
-import { wordFlashcard } from 'src/app/interfaces/word-flashcard.interface';
-import { VocabularyService } from 'src/app/vocabulary.service';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import FuzzySearch from 'fuzzy-search';
-import { Card, CardService } from 'src/app/core/services/card.service';
+import { CardService } from 'src/app/core/services/card.service';
 import { Router } from '@angular/router';
 import { User } from 'src/app/core/auth.service';
 import { Deck } from 'src/app/core/services/deck.service';
+import { CardInterface } from 'src/app/core/entities/card-interface';
 
 @Component({
   selector: 'app-word-list',
@@ -16,11 +15,11 @@ import { Deck } from 'src/app/core/services/deck.service';
 })
 export class WordListComponent implements OnInit, OnDestroy {
 
-  @Input() cards: Array<wordFlashcard>;
+  @Input() cards: Array<CardInterface>;
   @Input() user: User;
   @Input() deck: Deck;
   @Input() allowEdit = false;
-  words: Array<wordFlashcard>;
+  words: Array<CardInterface>;
   leftSide = 'german';
   rightSide = 'kanji';
   showSubmenu = false;
@@ -41,7 +40,7 @@ export class WordListComponent implements OnInit, OnDestroy {
     if (!this.words) {
       this.cardService.loadAll().snapshotChanges().subscribe(data => {
         this.cards = data.map(e => {
-          const card = e.payload.doc.data() as Card;
+          const card = e.payload.doc.data() as CardInterface;
           card.uid = e.payload.doc.id;
           return card;
         });
@@ -78,7 +77,7 @@ export class WordListComponent implements OnInit, OnDestroy {
     }
   }
 
-  reading(word: Card, mode: string) {
+  reading(word: CardInterface, mode: string) {
     if (word[mode]) {
       return word[mode];
     }
@@ -96,7 +95,43 @@ export class WordListComponent implements OnInit, OnDestroy {
     }
   }
 
-  show(card: Card) {
+  readingWithPreference(preference: string, card: CardInterface) {
+    switch (preference) {
+      case 'japanese':
+        if (card['kanji']) {
+          return card['kanji'];
+        }
+        if (card['hiragana']) {
+          return card['hiragana'];
+        }
+        if (card['katakana']) {
+          return card['katakana'];
+        }
+        break;
+      case 'reading':
+        if (card['reading']) {
+          return card['reading'];
+        }
+        if (card['japanese_readings']) {
+          if (card['chinese_readings']) {
+            return card['japanese_readings'].concat(card['chinese_readings'].join());
+          }
+          return card['japanese_readings'].join();
+        }
+        if (card['chinese_readings']) {
+          return card['chinese_readings'].join();
+        }
+
+        break;
+      case 'german':
+        if (card['german']) {
+          return card['german'];
+        }
+        break;
+    }
+  }
+
+  show(card: CardInterface) {
     if (this.allowEdit) {
       if (this.user) {
         this.router.navigate(['/', 'user', 'decks', this.deck.uid, 'cards', card.uid, 'edit']);

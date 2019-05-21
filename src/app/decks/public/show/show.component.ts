@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { DeckService, Deck } from 'src/app/core/services/deck.service';
-import { CardService, Card as CardInterface } from 'src/app/core/services/card.service';
+import { CardService } from 'src/app/core/services/card.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/core/auth.service';
 import { Card } from 'src/app/core/entities/card';
+import { CardInterface } from 'src/app/core/entities/card-interface';
 
 @Component({
   selector: 'app-deck-public-show',
@@ -49,6 +50,12 @@ export class ShowComponent implements OnInit {
 
   addCard(card: CardInterface) {
     this.cards.push(card);
+  }
+
+  editMe(card: CardInterface) {
+    if (this.allowEdit) {
+      this.router.navigate(['/', 'cards', 'edit', card.uid]);
+    }
   }
 
   addToCollection() {

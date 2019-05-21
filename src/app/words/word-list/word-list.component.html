@@ -64,8 +64,8 @@
     <table>
       <tr *ngFor="let word of words" (click)="show(word)">
         <ng-container>
-          <td>{{ reading(word, leftSide) }}</td>
-          <td>{{ reading(word, rightSide) }}</td>
+          <td>{{ readingWithPreference(leftSide, word) }}</td>
+          <td>{{ readingWithPreference(rightSide, word) }}</td>
         </ng-container>
       </tr>
     </table>

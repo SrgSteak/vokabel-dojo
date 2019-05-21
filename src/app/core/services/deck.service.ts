@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Card, CardService } from './card.service';
+import { CardService } from './card.service';
 import { FlashcardService } from 'src/app/flashcard.service';
 
 export interface Deck {

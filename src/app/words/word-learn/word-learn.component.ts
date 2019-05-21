@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { Card } from 'src/app/core/services/card.service';
 import { Subscription } from 'rxjs';
 import { FormGroup, FormControl } from '@angular/forms';
 import { DeckService } from 'src/app/core/services/deck.service';
+import { CardInterface } from 'src/app/core/entities/card-interface';
 
 @Component({
   selector: 'app-word-learn',
@@ -11,8 +11,8 @@ import { DeckService } from 'src/app/core/services/deck.service';
 })
 export class WordLearnComponent implements OnInit, OnDestroy {
 
-  @Input() _cards: Array<Card>;
-  cards: Array<Card>;
+  @Input() _cards: Array<CardInterface>;
+  cards: Array<CardInterface>;
   show = 0;
   clicked = false;
   showSubmenu = false;
@@ -96,15 +96,15 @@ export class WordLearnComponent implements OnInit, OnDestroy {
     }
   }
 
-  displayModeForCard(card: Card, mode: string): string {
+  displayModeForCard(card: CardInterface, mode: string): string {
     // console.log(mode);
     // kanji, rubi active, card has reading
-    if (mode === 'kanji' && card.kanji && this.rubi && card.reading) {
+    if (mode === 'kanji' && card.japanese && this.rubi && card.reading) {
       // console.log('kanji_with_rubi');
       return 'kanji_with_rubi';
 
       // kanji, rubi active, no reading but jap readings
-    } else if (mode === 'kanji' && card.kanji && this.rubi && (card.japanese_readings.length || card.chinese_readings.length)) {
+    } else if (mode === 'kanji' && card.japanese && this.rubi && (card.japanese_readings.length || card.chinese_readings.length)) {
       if (card.japanese_readings.length || card.chinese_readings.length) {
         // console.log('kanji_with_rubi_from_jap_readings');
         return 'kanji_with_rubi_readings';
@@ -112,10 +112,11 @@ export class WordLearnComponent implements OnInit, OnDestroy {
       return 'kanji_with_rubi_from_jap_readings';
 
       // kanji, rubi, no readings but hiragana
-    } else if (mode === 'kanji' && card.kanji && this.rubi && card.hiragana) {
-      // console.log('kanji_with_rubi_from_hiragana');
-      return 'kanji_with_rubi_from_hiragana';
     }
+    // else if (mode === 'kanji' && card.kanji && this.rubi && card.hiragana) {
+    //   // console.log('kanji_with_rubi_from_hiragana');
+    //   return 'kanji_with_rubi_from_hiragana';
+    // }
 
     if (mode === 'german' && !card.german.length) {
       // console.log('kanji_readings_only');
@@ -131,7 +132,7 @@ export class WordLearnComponent implements OnInit, OnDestroy {
     return 'word';
   }
 
-  displayWithFallback(word: Card, mode: string) {
+  displayWithFallback(word: CardInterface, mode: string) {
     if (word[mode]) {
       return word[mode];
     }

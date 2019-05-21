@@ -1,19 +1,21 @@
-import { Card as CardInterface } from '../services/card.service';
+import { CardInterface } from "./card-interface";
 
 export class Card implements CardInterface {
   uid?: string;
-  german?: string;
-  romaji?: string;
-  hiragana?: string;
-  katakana?: string;
-  kanji?: string;       // 月
+  german?: Array<string>;
+  japanese?: string;
   reading?: string;
   chinese_readings?: Array<string>; // ゲツ、ガツ
   japanese_readings?: Array<string>; // つき
-  examples?: Array<string>; // card ids, Mond, readings
+  examples?: [{
+    japanese?: string;                // あの人
+    reading?: string;                 // あのひと
+    german?: string;                  // diese Person
+  }];
   createdAt?: Date;
   updatedAt?: Date;
   decks?: string[];
+
   hits?: number;
   misses?: number;
 
@@ -21,43 +23,41 @@ export class Card implements CardInterface {
     this.hits = 0;
     this.misses = 0;
     this.reading = '';
+    this.german = [];
+    this.japanese = '';
     this.createdAt = new Date();
     this.updatedAt = new Date();
     this.decks = [];
   }
 
   getReading(mode: string): string {
-    if (this[mode]) {
-      return this[mode];
+    if (this.reading) {
+      return this.reading;
+    } else if (this.japanese_readings) {
+      return this.japanese_readings[0];
+    } else if (this.chinese_readings) {
+      return this.chinese_readings[0];
     }
-    if (this['kanji']) {
-      return this['kanji'];
-    }
-    if (this['hiragana']) {
-      return this['hiragana'];
-    }
-    if (this['katakana']) {
-      return this['katakana'];
-    }
-    if (this['romaji']) {
-      return this['romaji'];
+    return '';
+  }
+
+  getGerman(): string {
+    if (this.german) {
+      return this.german[0];
     }
     return '';
   }
 
   static createFromCardInterface(cardInterface: CardInterface) {
     const card = new Card();
-    card.createdAt = cardInterface.createdAt;
-    card.updatedAt = cardInterface.updatedAt;
-    card.uid = cardInterface.uid;
-    card.hiragana = cardInterface.hiragana;
-    card.katakana = cardInterface.katakana;
-    card.kanji = cardInterface.kanji;
-    card.german = cardInterface.german;
-    card.romaji = cardInterface.romaji;
+    for (const property in cardInterface) {
+      if (cardInterface.hasOwnProperty(property)) {
+        card[property] = cardInterface[property];
+      }
+    }
+
+    card.german = Array.isArray(cardInterface.german) ? cardInterface.german : [cardInterface.german];
     card.decks = cardInterface.decks;
-    card.hits = cardInterface.hits;
-    card.misses = cardInterface.misses;
     card.japanese_readings = cardInterface.japanese_readings;
     if (!card.japanese_readings) {
       card.japanese_readings = [];
