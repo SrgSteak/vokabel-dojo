@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, Validators, FormArray } from '@angular/forms';
+import { FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
 import { Deck, DeckService } from 'src/app/core/services/deck.service';
 import { AuthService } from 'src/app/core/auth.service';
 import { CardInterface } from 'src/app/core/entities/card-interface';
 import { CardService } from 'src/app/core/services/card.service';
+import { Card } from 'src/app/core/entities/card';
 
 @Component({
   selector: 'app-user-card-edit',
@@ -32,6 +33,9 @@ export class EditCardComponent implements OnInit {
   get german() {
     return this.cardForm.get('german') as FormArray;
   }
+  get japanese() {
+    return this.cardForm.get('japanese') as FormControl;
+  }
   get japanese_readings() {
     return this.cardForm.get('japanese_readings') as FormArray;
   }
@@ -45,7 +49,6 @@ export class EditCardComponent implements OnInit {
 
   constructor(
     private cardService: CardService,
-    private deckService: DeckService,
     private route: ActivatedRoute,
     private router: Router,
     private fb: FormBuilder,
@@ -59,21 +62,24 @@ export class EditCardComponent implements OnInit {
         this.deck_uid = params.get('deck_uid');
         if (params.has('card_uid')) {
           this.cardService.get(params.get('card_uid'), params.get('deck_uid'), user.uid).snapshotChanges().subscribe(data => {
-            this.card = data.payload.data();
+            this.card = Card.createFromCardInterface(data.payload.data());
             this.card.uid = data.payload.id;
             // prefill form;
             this.card.german.forEach(german => {
               this.addReading(this.german, german);
             });
+            this.japanese.setValue(this.card.japanese);
             this.card.japanese_readings.forEach(reading => {
               this.addReading(this.japanese_readings, reading);
             });
             this.card.chinese_readings.forEach(reading => {
               this.addReading(this.chinese_readings, reading);
             });
-            this.card.examples.forEach(example => {
-              this.addExample(this.examples, example);
-            })
+            if (this.card.examples) {
+              this.card.examples.forEach(example => {
+                this.addExample(this.examples, example);
+              })
+            }
           })
         } else {
           this.card = { german: [], decks: [] };
@@ -114,7 +120,8 @@ export class EditCardComponent implements OnInit {
 
   onSubmit() {
     if (this.cardForm.valid) {
-      this.card.german = this.cardForm.get('german').value;
+      this.card.german = this.german.value;
+      this.card.japanese = this.japanese.value;
       this.card.japanese_readings = this.japanese_readings.value;
       this.card.chinese_readings = this.chinese_readings.value;
       this.card.examples = this.examples.value;
@@ -130,8 +137,8 @@ export class EditCardComponent implements OnInit {
 
   onDelete() {
     if (confirm('Karte löschen? Sie wird aus allen Decks entfernt in denen sie enthalten war.')) {
-      this.cardService.delete(this.card.uid);
       this.router.navigate(['/', 'user', 'decks', this.deck_uid, 'list']);
+      this.cardService.delete(this.card.uid, this.deck_uid, this.user_uid);
     }
   }
 }

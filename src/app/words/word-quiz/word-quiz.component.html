@@ -12,32 +12,20 @@
   </form>
   <span class="label">Fragen</span>
   <form [formGroup]="modeForm">
-    <label class="container">Deutsch
+    <label class="container" [class.disabled]="answerMode === 'german'">Deutsch
       <input type="radio" formControlName="left" value="german" name="left">
       <span class="checkmark">
         <span class="checkmark_inner"></span>
       </span>
     </label>
-    <label class="container" *ngIf="this.enableKanji">Kanji
-      <input type="radio" formControlName="left" value="kanji" name="left">
+    <label class="container" [class.disabled]="answerMode === 'japanese'">Japanisch
+      <input type="radio" formControlName="left" value="japanese" name="left">
       <span class="checkmark">
         <span class="checkmark_inner"></span>
       </span>
     </label>
-    <label class="container" *ngIf="this.enableHiragana">Hiragana
-      <input type="radio" formControlName="left" value="hiragana" name="left">
-      <span class="checkmark">
-        <span class="checkmark_inner"></span>
-      </span>
-    </label>
-    <label class="container" *ngIf="this.enableKatakana">Katakana
-      <input type="radio" formControlName="left" value="katakana" name="left">
-      <span class="checkmark">
-        <span class="checkmark_inner"></span>
-      </span>
-    </label>
-    <label class="container">Romaji
-      <input type="radio" formControlName="left" value="romaji" name="left">
+    <label class="container" [class.disabled]="answerMode === 'reading'">Lesung
+      <input type="radio" formControlName="left" value="reading" name="left">
       <span class="checkmark">
         <span class="checkmark_inner"></span>
       </span>
@@ -45,32 +33,20 @@
   </form>
   <span class="label">Antworten</span>
   <form [formGroup]="modeForm">
-    <label class="container">Deutsch
+    <label class="container" [class.disabled]="questionMode === 'german'">Deutsch
       <input type="radio" formControlName="right" value="german" name="right">
       <span class="checkmark">
         <span class="checkmark_inner"></span>
       </span>
     </label>
-    <label class="container" *ngIf="this.enableKanji">Kanji
-      <input type="radio" formControlName="right" value="kanji" name="right">
+    <label class="container" [class.disabled]="questionMode === 'japanese'">Japanisch
+      <input type="radio" formControlName="right" value="japanese" name="right">
       <span class="checkmark">
         <span class="checkmark_inner"></span>
       </span>
     </label>
-    <label class="container" *ngIf="this.enableHiragana">Hiragana
-      <input type="radio" formControlName="right" value="hiragana" name="right">
-      <span class="checkmark">
-        <span class="checkmark_inner"></span>
-      </span>
-    </label>
-    <label class="container" *ngIf="this.enableKatakana">Katakana
-      <input type="radio" formControlName="right" value="katakana" name="right">
-      <span class="checkmark">
-        <span class="checkmark_inner"></span>
-      </span>
-    </label>
-    <label class="container">Romaji
-      <input type="radio" formControlName="right" value="romaji" name="right">
+    <label class="container" [class.disabled]="questionMode === 'reading'">Lesung
+      <input type="radio" formControlName="right" value="reading" name="right">
       <span class="checkmark">
         <span class="checkmark_inner"></span>
       </span>
@@ -87,7 +63,7 @@
     <div class="stat-grid">
       <ng-container *ngFor="let card of scoredWords">
         <div class="stat" [class.error]="card.misses > card.hits" [class.muted]="card.misses == 0 && card.hits == 0">
-          {{ reading(card, questionMode) }} <span [class.hits]="card.hits > 0">{{ card.hits }}</span> / <span
+          {{ card['japanese'] }} <span [class.hits]="card.hits > 0">{{ card.hits }}</span> / <span
             [class.misses]="card.misses > 0">{{ card.misses }}</span>
         </div>
       </ng-container>
@@ -103,16 +79,72 @@
 <div class="word-quiz">
   <div class="card" (mousedown)="peekRubi = true" (mouseup)="peekRubi = false" (touchstart)="peekRubi = true"
     (touchend)="peekRubi = false">
-    <ruby>
-      {{ reading(showCard, questionMode) }}<rt
-        *ngIf="(rubi && showCard['kanji'] &&  questionMode == 'kanji') || (peekRubi && questionMode == 'kanji' && showCard['kanji'])">
-        {{ reading(showCard, 'hiragana') }}</rt>
-    </ruby>
+    <ng-container [ngSwitch]="questionMode">
+      <ng-container *ngSwitchCase="'japanese'">
+        <ng-container *ngIf="showCard.hasOnlyOneReading()">
+          <ng-container *ngIf="peekRuby || rubi">
+            <ruby>{{ showCard['japanese'] }}<rt>{{ showCard.getReading() }}</rt></ruby>
+          </ng-container>
+          {{ showCard['japanese'] }}
+        </ng-container>
+        <ng-container *ngIf="!showCard.hasOnlyOneReading() && showCard.getGerman() !== ''">
+          {{ showCard.japanese }} - {{ showCard.japanese_readings.join() }} ({{ showCard.chinese_readings.join() }})
+        </ng-container>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'german'">
+        {{ showCard['german'].join() }}
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'reading'">
+        <ul>
+          <li *ngFor="let reading of showCard['japanese_readings']">{{ reading }}</li>
+          <li *ngFor="let reading of showCard['chinese_readings']">{{ reading }}</li>
+        </ul>
+      </ng-container>
+    </ng-container>
   </div>
   <div class="answers">
-    <div class="answer" *ngFor="let answer of answers" (click)="answerSelect(this.showCard, answer)"
+    <div class="answer" *ngFor="let answer of answers" (click)="answerSelect(showCard, answer)"
       [class.error]="displayError && answer.uid !== showCard.uid">
-      {{ reading(answer, answerMode) }}
+      <ng-container [ngSwitch]="answerMode">
+        <ng-container *ngSwitchCase="'japanese'">
+          <ruby *ngIf="answer['japanese_readings'].length">
+            {{ answer['japanese']}}<rt
+              *ngIf="(rubi &&  questionMode == 'japanese') || (peekRubi && questionMode == 'japanese' && answer['japanese'])">
+              {{ answer['japanese_readings'][0] }}</rt>
+          </ruby>
+          <ruby *ngIf="!answer['japanese_readings'].length && answer['chinese_readings'].length">
+            {{ answer['japanese']}}<rt
+              *ngIf="(rubi &&  questionMode == 'japanese') || (peekRubi && questionMode == 'japanese' && answer['japanese'])">
+              {{ answer['chinese_readings'][0] }}</rt>
+          </ruby>
+          <ng-container *ngIf="!answer['japanese_readings'].length && !answer['chinese_readings'][0]">
+            {{ answer['japanese']}}
+          </ng-container>
+        </ng-container>
+        <ng-container *ngSwitchCase="'german'">
+          <ng-container *ngIf="answer['german'].length && answer['german'][0] != null else reading">
+            {{ answer['german'] }}
+          </ng-container>
+          <ng-template #reading>
+            <ng-container>
+              {{ answer['japanese_readings'].join() }} ({{ answer['chinese_readings'].join() }})
+            </ng-container>
+          </ng-template>
+        </ng-container>
+        <ng-container *ngSwitchCase="'reading'">
+          <ng-container *ngIf="answer['japanese_readings'].length && answer['chinese_readings'].length">
+            {{ answer['japanese_readings'].join() }},{{ answer['chinese_readings'].join() }}
+          </ng-container>
+          <ng-container *ngIf="answer['japanese_readings'] && !answer['chinese_readings']">
+            {{ answer['japanese_readings'].join() }}
+          </ng-container>
+          <ng-container *ngIf="!answer['japanese_readings'] && answer['chinese_readings']">
+            {{ answer['chinese_readings'].join() }}
+          </ng-container>
+        </ng-container>
+      </ng-container>
     </div>
   </div>
 </div>

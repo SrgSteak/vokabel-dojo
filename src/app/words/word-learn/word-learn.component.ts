@@ -18,7 +18,7 @@ export class WordLearnComponent implements OnInit, OnDestroy {
   showSubmenu = false;
   formSub: Subscription;
   form = new FormGroup({
-    question: new FormControl('kanji'),     // display Questions
+    question: new FormControl('japanese'),     // display Questions
     answer: new FormControl('german'),      // display answers
     displayMode: new FormControl('click'),  // behaviour for next() function
     fontMode: new FormControl('serif'),     // setting for font of cards. serif or sans-serif.

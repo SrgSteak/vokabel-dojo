@@ -5,6 +5,7 @@ import { Deck } from 'src/app/core/services/deck.service';
 import { Subscription } from 'rxjs';
 import { User } from 'src/app/core/auth.service';
 import { CardInterface } from 'src/app/core/entities/card-interface';
+import { Card } from 'src/app/core/entities/card';
 
 @Component({
   selector: 'app-new-card',
@@ -18,18 +19,20 @@ export class NewCardComponent implements OnInit {
   @Output() newCard: EventEmitter<CardInterface> = new EventEmitter<CardInterface>();
   cardFormSub: Subscription;
   cardForm = this.fb.group({
-    romaji: [''],
-    hiragana: [''],
-    katakana: [''],
-    kanji: [''], // do not use me anymore
-    german: [''],
-    japanese: this.fb.array([]),
-    reading: [''],
+    japanese: ['', Validators.required],
     japanese_readings: this.fb.array([]),
     chinese_readings: this.fb.array([]),
-    examples: this.fb.array([]),
-    decks: this.fb.array([])
+    german: this.fb.array([]),
+    decks: this.fb.array([]),
+    examples: this.fb.array([])
   });
+
+  get german() {
+    return this.cardForm.get('german') as FormArray;
+  }
+  get japanese() {
+    return this.cardForm.get('japanese') as FormArray;
+  }
 
   get japanese_readings() {
     return this.cardForm.get('japanese_readings') as FormArray;
@@ -48,10 +51,11 @@ export class NewCardComponent implements OnInit {
 
   ngOnInit() {
     this.resetCard();
+    this.setForm();
   }
 
   private resetCard() {
-    this.card = { german: [], decks: [this.deck.uid] };
+    this.card = new Card();
   }
 
   addReading(form: FormArray) {
@@ -75,6 +79,17 @@ export class NewCardComponent implements OnInit {
     form.removeAt(form.length - 1);
   }
 
+  setForm() {
+    this.cardForm = this.fb.group({
+      japanese: ['', Validators.required],
+      japanese_readings: this.fb.array([]),
+      chinese_readings: this.fb.array([]),
+      german: this.fb.array([]),
+      decks: this.fb.array([]),
+      examples: this.fb.array([])
+    });
+  }
+
   onSubmit() {
     if (this.cardForm.valid) {
       this.card.german = this.cardForm.get('german').value;
@@ -84,15 +99,7 @@ export class NewCardComponent implements OnInit {
       this.cardService.add(this.card, this.deck, this.user);
       this.newCard.emit(this.card);
       this.resetCard();
-      this.cardForm.get('german').setValue('');
-      this.cardForm.get('romaji').setValue('');
-      this.cardForm.get('hiragana').setValue('');
-      this.cardForm.get('katakana').setValue('');
-      this.cardForm.get('kanji').setValue('');
-      this.cardForm.get('reading').setValue('');
-      this.japanese_readings.setValue([]);
-      this.chinese_readings.setValue([]);
-      this.examples.setValue([]);
+      this.setForm();
     }
   }
 }

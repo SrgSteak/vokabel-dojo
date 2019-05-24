@@ -15,6 +15,12 @@ p {
 }
 
 .card {
+  display: flex;
+  // align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  height: 50%;
   width: 100%;
   padding: 10px;
   padding-top: 20px;
@@ -30,7 +36,7 @@ p {
 .answers {
   padding-bottom: 20px;
   width: 100%;
-  height: 100%;
+  height: 50%;
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
@@ -41,13 +47,14 @@ p {
 
 .answer {
   @media screen and (max-width: 799px) {
-    font-size: 4vh;
+    font-size: 3vh;
     width: 100%;
   }
   @media screen and (min-width: 800px) {
        font-size: 20px;
   }
   min-width: 250px;
+  min-height: 30px;
   padding: 5px;
   text-align: center;
   background-color: teal;

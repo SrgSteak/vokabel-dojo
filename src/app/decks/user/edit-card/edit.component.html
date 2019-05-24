@@ -1,53 +1,62 @@
-<div class="content">
-  <div class="edit">
-    <form [formGroup]="cardForm" (ngSubmit)="onSubmit()">
-      <label for="japanese">
-        Japanisch
+<div class="edit">
+  <h1>Lernkarte bearbeiten</h1>
+  <form [formGroup]="cardForm" (ngSubmit)="onSubmit()">
+    <label for="japanese">
+      Japanisch
+    </label>
+    <input type="text" id="japanese" formControlName="japanese" placeholder="漢字、ひらがな、カタカナ">
+    <div class="form_array" formArrayName="german">
+      <label for="german" (click)="addReading(german)">
+        <button class="button">+</button>Übersetzung/Bedeutung
       </label>
-      <input type="text" id="japanese" formControlName="japanese">
-
-      <div class="form_array">
-        <label for="examples" (click)="addExample(examples)">
-          <button class="button">+</button>Beispiel
-        </label>
-        <ng-container formArrayName="examples" *ngFor="let example of examples.controls; let i = index">
-          <div class="input_group" [formGroupName]="i">
-            <button class="button" (click)="removeReadingAtIndex(examples,i)">-</button>
-            <label for="japanese">Japanisch
-
-              <input type="text" formControlName="japanese">
-            </label>
-            <label for="japanese">Lesung
-
-              <input type="text" formControlName="reading">
-            </label>
-            <label for="japanese">Übersetzung
-
-              <input type="text" formControlName="german">
-            </label>
-          </div>
-        </ng-container>
+      <div class="input_group" *ngFor="let _german of german.controls; let i = index">
+        <button class="button" (click)="removeReadingAtIndex(german, i)">-</button>
+        <input type="text" [formControlName]="i" placeholder="Kanji, Hiragana, Katakana Übersetzung">
       </div>
-      <div class="form_array" formArrayName="japanese_readings">
-        <label for="japanese_readings" (click)="addReading(japanese_readings)">
-          <button class="button">+</button>Japanische Lesungen
-        </label>
-        <div class="input_group" *ngFor="let japanese_reading of japanese_readings.controls; let i = index">
-          <button class="button" (click)="removeReadingAtIndex(japanese_readings,i)">-</button>
-          <input type="text" [formControlName]="i">
+    </div>
+
+    <div class="form_array" formArrayName="japanese_readings">
+      <label for="japanese_readings" (click)="addReading(japanese_readings)">
+        <button class="button">+</button>Japanische Lesungen (<ruby>訓<rt>くん</rt>読<rt>よ</rt>み</ruby>)
+      </label>
+      <div class="input_group" *ngFor="let japanese_reading of japanese_readings.controls; let i = index">
+        <button class="button" (click)="removeReadingAtIndex(japanese_readings,i)">-</button>
+        <input type="text" [formControlName]="i" placeholder="ひと">
+      </div>
+    </div>
+    <div class="form_array" formArrayName="chinese_readings">
+      <label for="chinese_readings" (click)="addReading(chinese_readings)">
+        <button class="button">+</button>Chinesische Lesungen (<ruby>音<rt>おん</rt>読<rt>よ</rt>み</ruby>)
+      </label>
+      <div class="input_group" *ngFor="let chinese_reading of chinese_readings.controls; let i = index">
+        <button class="button" (click)="removeReadingAtIndex(chinese_readings,i)">-</button>
+        <input type="text" [formControlName]="i" placeholder="ジン">
+      </div>
+    </div>
+
+    <div class="form_array">
+      <label for="examples" (click)="addExample(examples)">
+        <button class="button">+</button>Beispiel
+      </label>
+      <ng-container formArrayName="examples" *ngFor="let example of examples.controls; let i = index">
+        <div class="input_group" [formGroupName]="i">
+          <button class="button" (click)="removeReadingAtIndex(examples,i)">-</button>
+          <label>Japanisch
+            <input type="text" formControlName="japanese">
+          </label>
+          <label>Lesung
+
+            <input type="text" formControlName="reading">
+          </label>
+          <label>Übersetzung
+
+            <input type="text" formControlName="german">
+          </label>
         </div>
-      </div>
-      <div class="form_array" formArrayName="chinese_readings">
-        <label for="chinese_readings" (click)="addReading(chinese_readings)">
-          <button class="button">+</button>Chinesische Lesungen
-        </label>
-        <div class="input_group" *ngFor="let chinese_reading of chinese_readings.controls; let i = index">
-          <button class="button" (click)="removeReadingAtIndex(chinese_readings,i)">-</button>
-          <input type="text" [formControlName]="i">
-        </div>
-      </div>
-      <button type="submit">Speichern & Zurück</button>
-      <a (click)="onDelete()">Löschen</a>
-    </form>
-  </div>
+      </ng-container>
+    </div>
+
+    <button type="submit" [class.disabled]="!cardForm.valid">Speichern & Zurück</button>
+    <a (click)="onDelete()">Löschen</a>
+  </form>
 </div>

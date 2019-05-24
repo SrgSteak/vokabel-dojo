@@ -9,13 +9,6 @@
   margin-inline-end: auto;
 }
 
-.serif {
-  font-family: serif;
-}
-.sans-serif {
-  font-family: sans-serif;
-}
-
 .card {
   height: 49%;
   width: 100%;
@@ -86,16 +79,13 @@ ul {
 }
 
 .detail-content {
-  width: 90%;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
 }
-.chevron {
-  // width: 5%;
-  padding: 20px;
-}
+
 .detail-content .kanji {
   font-size: 7vw;
 }
@@ -135,11 +125,18 @@ ul {
   margin-bottom: 15px;
 }
 
-.detail-content .example {
+.detail-content .full-example {
   width: 100%;
   font-size: 6vw;
   text-align: center;
 }
+
+.detail-content .example {
+  width: 50%;
+  font-size: 6vw;
+  text-align: center;
+}
+
 
 .info {
   font-style: italic;

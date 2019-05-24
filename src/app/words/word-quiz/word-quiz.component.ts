@@ -21,7 +21,7 @@ export class WordQuizComponent implements OnInit {
   numberAnswers = 3;
   modeSub: Subscription;
   modeForm = new FormGroup({
-    left: new FormControl('kanji'),
+    left: new FormControl('japanese'),
     right: new FormControl('german'),
     rubi: new FormControl('')
   });
@@ -105,25 +105,6 @@ export class WordQuizComponent implements OnInit {
   updateNumberAnswers(number: number) {
     this.numberAnswers = number;
     this.layout();
-  }
-
-  reading(word: CardInterface, mode: string) {
-    if (word[mode]) {
-      return word[mode];
-    }
-
-    if (word['kanji']) {
-      return word['kanji'];
-    }
-    if (word['hiragana']) {
-      return word['hiragana'];
-    }
-    if (word['katakana']) {
-      return word['katakana'];
-    }
-    if (word['romaji']) {
-      return word['romaji'];
-    }
   }
 }
 

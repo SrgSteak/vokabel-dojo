@@ -18,6 +18,14 @@
   display: inline-block;
 }
 
+tr {
+  min-height: 25px;
+}
+
+li {
+  text-align: center;
+}
+
 tr:nth-child(odd) {
   background-color: rgba(100, 100, 100, 0.1);
 }

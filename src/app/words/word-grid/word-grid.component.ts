@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { SyllablesService } from 'src/app/syllables.service';
 import { DeckService } from 'src/app/core/services/deck.service';
 import { CardInterface } from 'src/app/core/entities/card-interface';
+import { Card } from 'src/app/core/entities/card';
 
 @Component({
   selector: 'app-word-grid',
@@ -9,32 +10,42 @@ import { CardInterface } from 'src/app/core/entities/card-interface';
   styleUrls: ['./word-grid.component.scss']
 })
 export class WordGridComponent implements OnInit {
-  @Input() deck: Array<CardInterface>;
+  @Input() deck: Array<Card>;
   syllables: Array<CardInterface>;
-  mode = 'hiragana';
-  currentWord: CardInterface;
+  mode = 'japanese';
+  currentWord: Card;
   buildWord: Map<number, CardInterface>;
   buildWordString: string;
   currentGrid: Array<CardInterface>;
   showSubmenu = false;
+  show = 0;
+  characterSet: Array<string> = [];
+  currentQuestion: string;
+  currentAnswer: string;
 
   constructor(private vocabularyService: DeckService, private syllablesService: SyllablesService) {
   }
 
   ngOnInit() {
-    this.setMode('hiragana');
+    this.characterSet = this.syllablesService.createCharactersetFromCard(this.deck);
+    // TODO: loop characterSet to get length
+    if (this.characterSet.length < 25) {
+      this.characterSet = this.characterSet.concat(this.characterSet).concat(this.characterSet);
+    }
+    this.setMode('japanese');
     this.layout();
   }
 
   layout() {
-    this.buildWord = new Map<number, CardInterface>();
+    this.buildWord = new Map<number, Card>();
     this.buildWordString = '';
-    this.currentWord = this.deck[0];
-    do {
-      this.deck = this.vocabularyService.shuffle(this.deck);
-    } while (this.currentWord[this.mode] == this.deck[0][this.mode] && this.deck.length > 1);
-    this.currentWord = this.deck[0];
-    this.currentGrid = this.syllablesService.getCardsContaining(this.currentWord[this.mode], 24 - this.currentWord[this.mode].length);
+    this.currentWord = this.deck[this.show];
+    this.currentQuestion = this.currentWord.getReading();
+    // TODO: check currentWord against mode. If not available, skip.
+    this.currentAnswer = this.currentWord.japanese;
+    this.currentGrid = this.syllablesService.getCardsContaining(this.currentAnswer, 24 - this.currentAnswer.length, this.characterSet);
+    console.log('currentQuestion: ' + this.currentQuestion);
+    console.log('currentAnswer: ' + this.currentAnswer);
   }
 
   ngOnDestroy() {
@@ -57,14 +68,20 @@ export class WordGridComponent implements OnInit {
     }
 
     this.buildWord.forEach((value, key) => {
-      this.buildWordString += value[this.mode];
+      this.buildWordString += value;
     });
-
-    if (this.buildWordString == this.currentWord[this.mode]) {
+    console.log('searching for: ' + this.currentAnswer);
+    console.log('typed: ' + this.buildWordString);
+    if (this.buildWordString == this.currentAnswer) {
       setTimeout(() => {
         const cls = document.getElementsByClassName('gridpart');
         for (var i = 0; i < cls.length; i++) {
           cls[i].removeAttribute("style");
+        }
+        if (this.show >= this.deck.length - 1) {
+          this.show = 0;
+        } else {
+          this.show++;
         }
         this.layout();
       }, 2000);
@@ -113,6 +130,7 @@ export class WordGridComponent implements OnInit {
   }
 
   skipWord() {
+    return "";
     let cls = document.getElementsByClassName('gridpart');
     for (var i = 0; i < cls.length; i++) {
       cls[i].removeAttribute("style");

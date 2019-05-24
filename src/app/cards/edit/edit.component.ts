@@ -18,7 +18,6 @@ export class EditComponent implements OnInit {
   cardForm = this.fb.group({
     german: this.fb.array([]),
     japanese: [''],
-    reading: [''],
     japanese_readings: this.fb.array([]),
     chinese_readings: this.fb.array([]),
     decks: this.fb.array([]),

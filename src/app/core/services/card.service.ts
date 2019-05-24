@@ -29,9 +29,9 @@ export class CardService {
     card.createdAt = new Date();
     card.updatedAt = new Date();
     if (user) {
-      this.afs.collection('users').doc(user.uid).collection('Decks').doc(deck.uid).collection('Cards').add(card);
+      this.afs.collection('users').doc(user.uid).collection('Decks').doc(deck.uid).collection('Cards').add(Object.assign({}, card));
     } else {
-      this.afs.collection('Cards').add(card);
+      this.afs.collection('Cards').add(Object.assign({}, card));
     }
   }
 
@@ -44,8 +44,12 @@ export class CardService {
     this.afs.collection('Cards').doc(card.uid).set(Object.assign({}, card), { merge: true });
   }
 
-  delete(id: string) {
-    this.afs.collection('Cards').doc(id).delete();
+  delete(id: string, deck?: string, user?: string) {
+    if (user) {
+      this.afs.collection('users').doc(user).collection('Decks').doc(deck).collection('Cards').doc(id).delete();
+    } else {
+      this.afs.collection('Cards').doc(id).delete();
+    }
   }
 
   loadAll() {

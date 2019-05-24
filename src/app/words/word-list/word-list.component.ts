@@ -20,8 +20,6 @@ export class WordListComponent implements OnInit, OnDestroy {
   @Input() deck: Deck;
   @Input() allowEdit = false;
   words: Array<CardInterface>;
-  leftSide = 'german';
-  rightSide = 'kanji';
   showSubmenu = false;
   modeSub: Subscription;
   searchFormSub: Subscription;
@@ -29,9 +27,20 @@ export class WordListComponent implements OnInit, OnDestroy {
   searchForm = new FormControl('');
 
   modeForm = new FormGroup({
-    left: new FormControl('german'),
-    right: new FormControl('kanji')
+    left: new FormControl('japanese'),
+    right: new FormControl('german'),
+    fontMode: new FormControl('serif')
   });
+
+  get leftSide() {
+    return this.modeForm.get('left').value;
+  }
+  get rightSide() {
+    return this.modeForm.get('right').value;
+  }
+  get fontMode() {
+    return this.modeForm.get('fontMode').value;
+  }
 
   constructor(private router: Router, private cardService: CardService) { }
 
@@ -65,10 +74,8 @@ export class WordListComponent implements OnInit, OnDestroy {
   }
 
   updateFilter() {
-    this.leftSide = this.modeForm.get('left').value
-    this.rightSide = this.modeForm.get('right').value
     if (this.searchForm.value) {
-      const searcher = new FuzzySearch(this.cards, ['german', 'hiragana', 'katakana', 'romaji', 'kanji'], {
+      const searcher = new FuzzySearch(this.cards, ['german', 'japanese', 'examples.german', 'examples.japanese', 'examples.reading', 'japanese_readings', 'chinese_readings'], {
         caseSensitive: false,
       });
       this.words = searcher.search(this.searchForm.value);
@@ -98,6 +105,9 @@ export class WordListComponent implements OnInit, OnDestroy {
   readingWithPreference(preference: string, card: CardInterface) {
     switch (preference) {
       case 'japanese':
+        if (card['japanese']) {
+          return card['japanese'];
+        }
         if (card['kanji']) {
           return card['kanji'];
         }
@@ -109,9 +119,6 @@ export class WordListComponent implements OnInit, OnDestroy {
         }
         break;
       case 'reading':
-        if (card['reading']) {
-          return card['reading'];
-        }
         if (card['japanese_readings']) {
           if (card['chinese_readings']) {
             return card['japanese_readings'].concat(card['chinese_readings'].join());
@@ -124,10 +131,10 @@ export class WordListComponent implements OnInit, OnDestroy {
 
         break;
       case 'german':
-        if (card['german']) {
-          return card['german'];
+        if (card['german'][0] != '') {
+          return card['german'][0];
         }
-        break;
+        return this.readingWithPreference('reading', card);
     }
   }
 

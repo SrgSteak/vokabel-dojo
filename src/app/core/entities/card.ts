@@ -3,7 +3,7 @@ import { CardInterface } from "./card-interface";
 export class Card implements CardInterface {
   uid?: string;
   german?: Array<string>;
-  japanese?: string;
+  japanese: string;
   reading?: string;
   chinese_readings?: Array<string>; // ゲツ、ガツ
   japanese_readings?: Array<string>; // つき
@@ -30,22 +30,49 @@ export class Card implements CardInterface {
     this.decks = [];
   }
 
-  getReading(mode: string): string {
+  getReading(): string {
     if (this.reading) {
       return this.reading;
-    } else if (this.japanese_readings) {
+    } else if (this.hasJapReadings()) {
       return this.japanese_readings[0];
-    } else if (this.chinese_readings) {
+    } else if (this.hasChineseReadings()) {
       return this.chinese_readings[0];
     }
     return '';
   }
 
   getGerman(): string {
-    if (this.german) {
+    if (this.german && this.german[0] !== null && this.german[0] !== undefined) {
       return this.german[0];
     }
     return '';
+  }
+
+  hasGerman() {
+    return this.getGerman() !== '';
+  }
+  hasExamples() {
+    return this.examples && this.examples[0] !== '' && this.examples[0] !== undefined;
+  }
+  hasJapReadings() {
+    return this.japanese_readings.length && (this.japanese_readings[0] !== null || this.japanese_readings[0] !== '');
+  }
+  hasChineseReadings() {
+    return this.chinese_readings.length && (this.chinese_readings[0] !== null || this.chinese_readings[0] !== '');
+  }
+  hasOnlyOneReading() {
+    if (this.hasJapReadings() && this.hasChineseReadings()) {
+      return false;
+    }
+
+    if (this.hasJapReadings()) {
+      return this.japanese_readings.length < 2;
+    }
+    if (this.hasChineseReadings()) {
+      return this.chinese_readings.length < 2;
+    }
+
+    return false;
   }
 
   static createFromCardInterface(cardInterface: CardInterface) {

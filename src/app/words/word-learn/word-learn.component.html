@@ -3,7 +3,7 @@
 <div class="menu" *ngIf="showSubmenu">
   <form [formGroup]="form">
     <span class="label">Anzeige</span>
-    <label class="container">Ruby (ルビ)
+    <label class="container" [class.disabled]="question === 'reading' || answer === 'reading'">Ruby (ルビ)
       <input type="checkbox" formControlName="rubi" name="rubi">
       <span class="checkmark">
         <span class="checkmark_inner"></span>
@@ -22,6 +22,7 @@
         <span class="checkmark_inner"></span>
       </span>
     </label>
+
     <span class="label">Weiter</span>
     <label class="container">Bei Auswahl
       <input type="radio" formControlName="displayMode" value="click" name="displayMode">
@@ -42,34 +43,23 @@
       </span>
     </label>
   </form>
+
   <span class="label">Oben</span>
   <form [formGroup]="form">
-    <label class="container">Deutsch
+    <label class="container" [class.disabled]="answer === 'german'">Deutsch
       <input type="radio" formControlName="question" value="german" name="question">
       <span class="checkmark">
         <span class="checkmark_inner"></span>
       </span>
     </label>
-    <label class="container">Kanji
-      <input type="radio" formControlName="question" value="kanji" name="question">
+    <label class="container" [class.disabled]="answer === 'japanese'">Japanisch
+      <input type="radio" formControlName="question" value="japanese" name="question">
       <span class="checkmark">
         <span class="checkmark_inner"></span>
       </span>
     </label>
-    <label class="container">Hiragana
-      <input type="radio" formControlName="question" value="hiragana" name="question">
-      <span class="checkmark">
-        <span class="checkmark_inner"></span>
-      </span>
-    </label>
-    <label class="container">Katakana
-      <input type="radio" formControlName="question" value="katakana" name="question">
-      <span class="checkmark">
-        <span class="checkmark_inner"></span>
-      </span>
-    </label>
-    <label class="container">Romaji
-      <input type="radio" formControlName="question" value="romaji" name="question">
+    <label class="container" [class.disabled]="answer === 'reading'" (click)="this.form.get('rubi').setValue()">Lesung
+      <input type="radio" formControlName="question" value="reading" name="question">
       <span class="checkmark">
         <span class="checkmark_inner"></span>
       </span>
@@ -77,38 +67,20 @@
   </form>
   <span class="label">Unten</span>
   <form [formGroup]="form">
-    <label class="container">Deutsch
+    <label class="container" [class.disabled]="question === 'german'">Deutsch
       <input type="radio" formControlName="answer" value="german" name="answer">
       <span class="checkmark">
         <span class="checkmark_inner"></span>
       </span>
     </label>
-    <label class="container">Kanji
-      <input type="radio" formControlName="answer" value="kanji" name="answer">
+    <label class="container" [class.disabled]="question === 'japanese'">Japanisch
+      <input type="radio" formControlName="answer" value="japanese" name="answer">
       <span class="checkmark">
         <span class="checkmark_inner"></span>
       </span>
     </label>
-    <label class="container">Lesung
+    <label class="container" [class.disabled]="question === 'reading'" (click)="this.form.get('rubi').setValue()">Lesung
       <input type="radio" formControlName="answer" value="reading" name="answer">
-      <span class="checkmark">
-        <span class="checkmark_inner"></span>
-      </span>
-    </label>
-    <label class="container">Hiragana
-      <input type="radio" formControlName="answer" value="hiragana" name="answer">
-      <span class="checkmark">
-        <span class="checkmark_inner"></span>
-      </span>
-    </label>
-    <label class="container">Katakana
-      <input type="radio" formControlName="answer" value="katakana" name="answer">
-      <span class="checkmark">
-        <span class="checkmark_inner"></span>
-      </span>
-    </label>
-    <label class="container">Romaji
-      <input type="radio" formControlName="answer" value="romaji" name="answer">
       <span class="checkmark">
         <span class="checkmark_inner"></span>
       </span>
@@ -119,46 +91,40 @@
 <app-modal #modal>
   <div class="main-content">
     <div class="detail">
-      <div class="chevron" (click)="goToPrevious(); modal.positionModal()">←</div>
       <div class="detail-content">
-        <ng-container *ngIf="card['kanji']">
-          <div class="kanji">
-            {{ card['kanji']}}
-          </div>
-          <div class="readings">
-            <ul>
-              <li *ngIf="card.reading">{{ card.reading }}</li>
-              <li *ngIf="card.hiragana">{{ card.hiragana }}</li>
-              <li *ngFor="let reading of card.japanese_readings">{{ reading }}</li>
-            </ul>
-            <hr *ngIf="card.chinese_readings.length && card.japanese_readings.length">
-            <ul>
-              <li *ngFor="let reading of card.chinese_readings">{{ reading }}</li>
-            </ul>
-          </div>
-        </ng-container>
-        <ng-container *ngIf="card.hiragana && !card.kanji">
-          <div class="kanji">
-            {{ card.hiragana }}
-          </div>
-        </ng-container>
-        <ng-container *ngIf="card.katakana && !card.kanji">
-          <div class="kanji">
-            {{ card.katakana }}
-          </div>
-        </ng-container>
-        <hr class="line">
-        <div class="example">
-          <ng-container *ngIf="card.german">
-            {{ card.german }}
-          </ng-container>
-          <ng-container *ngIf="!card.german">
-            <span class="info">Keine Übersetzung oder Beispiele vorhanden</span>
-          </ng-container>
+        <div class="kanji" *ngIf="card.hasOnlyOneReading(); else simple">
+          <ruby>
+            {{ card.japanese}}
+            <rt>{{ card.getReading() }}</rt>
+          </ruby>
         </div>
+        <ng-template #simple>
+          <div class="kanji">
+            {{ card.japanese }}
+          </div>
+        </ng-template>
+        <div class="readings" *ngIf="!card.hasOnlyOneReading()">
+          <ul>
+            <li *ngFor="let reading of card.japanese_readings">{{ reading }}</li>
+            <hr *ngIf="card.hasJapReadings() && card.hasChineseReadings()">
+            <li *ngFor="let reading of card.chinese_readings">{{ reading }}</li>
+          </ul>
+        </div>
+        <hr class="line">
+        <div *ngIf="card.hasGerman()" [class.example]="card.hasExamples()" [class.full-example]="!card.hasExamples()">
+          {{ card.german }}
+        </div>
+        <div *ngIf="card.hasExamples()" [class.example]="card.hasGerman()" [class.full]="!card.hasGerman()">
+          <ul>
+            <li *ngFor="let example of card.examples"><ruby>{{ example.japanese }}<rt>{{ example.reading }}</rt>
+              </ruby> -
+              {{ example.german }}</li>
+          </ul>
+        </div>
+        <ng-container *ngIf="!card.hasGerman() && !card.hasExamples()">
+          <span class="info">Keine Übersetzung oder Beispiele vorhanden</span>
+        </ng-container>
       </div>
-      <!-- TODO: add example words, sentences, etc -->
-      <div class="chevron" (click)="goToNext(); modal.positionModal()">→</div>
     </div>
   </div>
   <div class="teaser">
@@ -170,92 +136,79 @@
 <div class="learn" [class.serif]="fontMode === 'serif'" [class.sans-serif]="fontMode === 'sans-serif'"
   (click)="next(); modal.positionModal()">
   <div class="card">
-    <ng-container [ngSwitch]="displayModeForCard(card, question)">
-      <ng-container *ngSwitchCase="'kanji_with_rubi'">
-        <ruby>{{ cards[show][question] }}<rt>{{ cards[show]['reading'] }}</rt></ruby>
+    <ng-container [ngSwitch]="question">
+      <ng-container *ngSwitchCase="'german'">
+        {{ card.german.join() }}
       </ng-container>
 
-      <ng-container *ngSwitchCase="'kanji_with_rubi_from_hiragana'">
-        <ruby>{{ cards[show][question] }}<rt>{{ cards[show]['hiragana'] }}</rt></ruby>
+      <ng-container *ngSwitchCase="'japanese'">
+        <ng-container *ngIf="rubi">
+          <ruby *ngIf="card.hasOnlyOneReading() else multiple">{{ card.japanese }}<rt>{{ card.getReading() }}</rt>
+          </ruby>
+          <ng-template #multiple>
+            {{ card.japanese }}
+            <ul>
+              <li *ngFor="let reading of card.japanese_readings">{{ reading }}</li>
+              <hr *ngIf="card.hasChineseReadings() && card.hasJapReadings()" class="line">
+              <li *ngFor="let reading of card.chinese_readings">{{ reading }}</li>
+            </ul>
+          </ng-template>
+        </ng-container>
+        <ng-container *ngIf="!rubi">
+          {{ card.japanese }}
+        </ng-container>
       </ng-container>
 
-      <ng-container *ngSwitchCase="'kanji_with_rubi_from_jap_readings'">
-        <ruby>{{ cards[show][question] }}<rt>{{ cards[show]['japanese_readings'][0] }}</rt></ruby>
-      </ng-container>
-
-      <ng-container *ngSwitchCase="'kanji_with_rubi_readings'">
-        <div class="kanji">
-          {{ cards[show][question]}}
-        </div>
-        <div class="readings">
-          <ul>
-            <li *ngFor="let reading of cards[show].japanese_readings">{{ reading }}</li>
-          </ul>
-          <hr class="line">
-          <ul>
-            <li *ngFor="let reading of cards[show].chinese_readings">{{ reading }}</li>
-          </ul>
-        </div>
-      </ng-container>
-      <ng-container *ngSwitchCase="'kanji_readings_only'">
-        <div class="readings">
-          <ul *ngIf="card.japanese_readings.length">
-            <li *ngFor="let reading of card.japanese_readings">{{ reading }}</li>
-          </ul>
-          <hr class="line" *ngIf="card.japanese_readings.length && card.chinese_readings.length">
-          <ul *ngIf="card.chinese_readings.length">
-            <li *ngFor="let reading of card.chinese_readings">{{ reading }}</li>
-          </ul>
-        </div>
-      </ng-container>
-      <ng-container *ngSwitchDefault>
-        {{ displayWithFallback(card, question)}}
+      <ng-container *ngSwitchCase="'reading'">
+        <ul>
+          <li *ngFor="let reading of card.japanese_readings">{{ reading }}</li>
+          <hr *ngIf="card.hasChineseReadings() && card.hasJapReadings()" class="line">
+          <li *ngFor="let reading of card.chinese_readings">{{ reading }}</li>
+        </ul>
       </ng-container>
     </ng-container>
   </div>
   <hr class="line">
   <div class="card">
     <ng-container *ngIf="displayMode == 'always' || (clicked)">
-      <ng-container [ngSwitch]="displayModeForCard(card, answer)">
-        <ng-container *ngSwitchCase="'kanji_with_rubi'">
-          <ruby>{{ cards[show][answer] }}<rt>{{ cards[show]['reading'] }}</rt></ruby>
-        </ng-container>
-
-        <ng-container *ngSwitchCase="'kanji_with_rubi_from_hiragana'">
-          <ruby>{{ cards[show][answer] }}<rt>{{ cards[show]['hiragana'] }}</rt></ruby>
-        </ng-container>
-
-        <ng-container *ngSwitchCase="'kanji_with_rubi_from_jap_readings'">
-          <ruby>{{ cards[show][answer] }}<rt>{{ cards[show]['japanese_readings'][0] }}</rt></ruby>
-        </ng-container>
-
-        <ng-container *ngSwitchCase="'kanji_with_rubi_readings'">
-          <div class="kanji">
-            {{ cards[show][answer]}}
-          </div>
-          <div class="readings">
+      <ng-container [ngSwitch]="answer">
+        <ng-container *ngSwitchCase="'german'">
+          <ng-container *ngIf="card.hasGerman()">
+            {{ card.german.join() }}
+          </ng-container>
+          <ng-container *ngIf="!card.hasGerman()">
             <ul>
-              <li *ngFor="let reading of cards[show].japanese_readings">{{ reading }}</li>
-            </ul>
-            <hr class="line">
-            <ul>
-              <li *ngFor="let reading of cards[show].chinese_readings">{{ reading }}</li>
-            </ul>
-          </div>
-        </ng-container>
-        <ng-container *ngSwitchCase="'kanji_readings_only'">
-          <div class="readings">
-            <ul *ngIf="card.japanese_readings.length">
               <li *ngFor="let reading of card.japanese_readings">{{ reading }}</li>
-            </ul>
-            <hr class="line" *ngIf="card.japanese_readings.length && card.chinese_readings.length">
-            <ul *ngIf="card.chinese_readings.length">
+              <hr *ngIf="card.hasChineseReadings() && card.hasJapReadings()" class="line">
               <li *ngFor="let reading of card.chinese_readings">{{ reading }}</li>
             </ul>
-          </div>
+          </ng-container>
         </ng-container>
-        <ng-container *ngSwitchDefault>
-          {{ displayWithFallback(card, answer)}}
+
+        <ng-container *ngSwitchCase="'japanese'">
+          <ng-container *ngIf="rubi">
+            <ruby *ngIf="card.hasOnlyOneReading() else multiple">{{ card.japanese }}<rt>{{ card.getReading() }}</rt>
+            </ruby>
+            <ng-template #multiple>
+              {{ card.japanese }}
+              <ul>
+                <li *ngFor="let reading of card.japanese_readings">{{ reading }}</li>
+                <hr *ngIf="card.hasChineseReadings() && card.hasJapReadings()" class="line">
+                <li *ngFor="let reading of card.chinese_readings">{{ reading }}</li>
+              </ul>
+            </ng-template>
+          </ng-container>
+          <ng-container *ngIf="!rubi">
+            {{ card.japanese }}
+          </ng-container>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'reading'">
+          <ul>
+            <li *ngFor="let reading of card.japanese_readings">{{ reading }}</li>
+            <hr *ngIf="card.hasChineseReadings() && card.hasJapReadings()" class="line">
+            <li *ngFor="let reading of card.chinese_readings">{{ reading }}</li>
+          </ul>
         </ng-container>
       </ng-container>
     </ng-container>
