@@ -1,5 +1,14 @@
 <app-modal #modal>
   <div class="main-content">
+    <div class="detail">
+      <div class="detail-content">
+
+        <hr class="line">
+        <ul>
+          <li *ngFor="let example of currentWord.examples">{{ example.german }}</li>
+        </ul>
+      </div>
+    </div>
   </div>
   <div class="teaser">
     {{ show + 1 }} / {{ deck.length }}

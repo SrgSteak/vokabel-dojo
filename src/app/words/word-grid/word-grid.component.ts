@@ -23,15 +23,15 @@ export class WordGridComponent implements OnInit {
   currentQuestion: string;
   currentAnswer: string;
 
-  constructor(private vocabularyService: DeckService, private syllablesService: SyllablesService) {
+  constructor(private syllablesService: SyllablesService) {
   }
 
   ngOnInit() {
     this.characterSet = this.syllablesService.createCharactersetFromCard(this.deck);
     // TODO: loop characterSet to get length
-    if (this.characterSet.length < 25) {
-      this.characterSet = this.characterSet.concat(this.characterSet).concat(this.characterSet);
-    }
+    // if (this.characterSet.length < 25) {
+    //   this.characterSet = this.characterSet.concat(this.characterSet).concat(this.characterSet);
+    // }
     this.setMode('japanese');
     this.layout();
   }
@@ -43,9 +43,15 @@ export class WordGridComponent implements OnInit {
     this.currentQuestion = this.currentWord.getReading();
     // TODO: check currentWord against mode. If not available, skip.
     this.currentAnswer = this.currentWord.japanese;
-    this.currentGrid = this.syllablesService.getCardsContaining(this.currentAnswer, 24 - this.currentAnswer.length, this.characterSet);
+    let sizeGrid = 24;
+    if (sizeGrid > this.characterSet.length) {
+      sizeGrid = this.characterSet.length;
+    }
+    this.currentGrid = this.syllablesService.getCardsContaining(this.currentAnswer, sizeGrid - this.currentAnswer.length, this.characterSet);
     console.log('currentQuestion: ' + this.currentQuestion);
     console.log('currentAnswer: ' + this.currentAnswer);
+    console.log(this.characterSet);
+    console.log(this.currentGrid);
   }
 
   ngOnDestroy() {
