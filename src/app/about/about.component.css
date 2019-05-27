@@ -24,3 +24,8 @@ h4 {
 p {
   margin-top: 5px;
 }
+
+ul {
+  list-style: circle;
+  margin-left: 10px;
+}

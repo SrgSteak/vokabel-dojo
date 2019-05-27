@@ -54,14 +54,5 @@
     </ng-container>
   </div>
 
-  <div formArrayName="decks">
-
-    <label class="container" *ngFor="let deck of decks; let i = index">{{ deck.name }}
-      <input type="checkbox" [formControlName]="i">
-      <span class="checkmark">
-        <span class="checkmark_inner"></span>
-      </span>
-    </label>
-  </div>
   <button type="submit" [class.disabled]="!cardForm.valid">Anlegen</button>
 </form>

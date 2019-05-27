@@ -12,7 +12,6 @@
   <a routerLinkActive="active" routerLink="/decks/{{deck.uid}}/learn">Wiederholen</a>
   <a routerLinkActive="active" routerLink="/decks/{{deck.uid}}/list">Liste</a>
   <span class="label">Deck</span>
-  <a routerLinkActive="active" routerLink="/decks/{{deck.uid}}/table">Übersicht</a>
   <ng-container *ngIf="auth.user | async as user">
     <ng-container *ngIf="user.role == 'admin'">
 
@@ -24,7 +23,7 @@
   </ng-container>
 </div>
 <ng-container *ngIf="auth.user | async as user">
-  <app-modal #modal *ngIf="deck && mode == 'table' && user.role == 'admin'">
+  <app-modal #modal *ngIf="deck && mode == 'list' && user.role == 'admin'">
     <div class="main-content">
       <app-new-card [deck]="deck" (newCard)="addCard($event)"></app-new-card>
     </div>
@@ -34,13 +33,7 @@
   </app-modal>
 </ng-container>
 <div class="content">
-  <ng-container *ngIf="cards.length > 0">
-    <app-word-list [cards]="cards" [allowEdit]="allowEdit" *ngIf="mode === 'list'"></app-word-list>
-    <app-word-quiz [deck]="cards" *ngIf="mode === 'quiz'"></app-word-quiz>
-    <app-word-grid [deck]="cards" *ngIf="mode === 'grid'"></app-word-grid>
-    <app-word-learn [_cards]="cards" *ngIf="mode === 'learn'"></app-word-learn>
-  </ng-container>
-  <ng-container *ngIf="mode == 'table' && deck">
+  <ng-container *ngIf="mode == 'list' && deck">
     <h1>{{ deck.name }}</h1>
     <p *ngIf="deck.description">{{ deck.description }}
     </p>
@@ -48,25 +41,11 @@
       <button class="button no-print" (click)="addToCollection()" *ngIf="auth.user | async">+ Zu meinen Decks
         hinzufügen</button>
     </p>
-    <table *ngIf="mode !== 'list'">
-      <tr>
-        <th>Deutsch</th>
-        <th>Japanisch</th>
-        <th>Beispiele</th>
-      </tr>
-      <tr *ngFor="let card of cards" (click)="editMe(card)">
-        <td>{{ card.german }}</td>
-        <td>{{ card.japanese }}</td>
-        <td>
-          <ul>
-            <li *ngFor="let example of card.examples">
-              <ruby>{{ example.japanese}}<rt>{{ example.reading }}</rt></ruby> {{ example.german }}
-            </li>
-          </ul>
-        </td>
-      </tr>
-    </table>
-    <button class="button no-print" (click)="addToCollection()" *ngIf="auth.user | async">+ Zu meinen Decks
-      hinzufügen</button>
+  </ng-container>
+  <ng-container *ngIf="cards.length > 0">
+    <app-word-list [cards]="cards" [allowEdit]="allowEdit" *ngIf="mode === 'list'"></app-word-list>
+    <app-word-quiz [deck]="cards" *ngIf="mode === 'quiz'"></app-word-quiz>
+    <app-word-grid [deck]="cards" *ngIf="mode === 'grid'"></app-word-grid>
+    <app-word-learn [_cards]="cards" *ngIf="mode === 'learn'"></app-word-learn>
   </ng-container>
 </div>

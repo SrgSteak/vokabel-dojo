@@ -20,7 +20,7 @@ export class EditCardComponent implements OnInit {
   decks: Array<Deck>;
   cardForm = this.fb.group({
     german: this.fb.array([]),
-    japanese: [''],
+    japanese: ['', Validators.required],
     japanese_readings: this.fb.array([]),
     chinese_readings: this.fb.array([]),
     examples: this.fb.array([])
@@ -98,7 +98,7 @@ export class EditCardComponent implements OnInit {
       form.push(exampleGroup);
     } else {
       const exampleGroup = this.fb.group({
-        japanese: [''],
+        japanese: ['', Validators.required],
         reading: [''],
         german: ['']
       });

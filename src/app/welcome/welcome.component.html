@@ -14,7 +14,7 @@
     <div class="grid">
       <div class="row">
         <div class="col" *ngIf="decks.length > 0">
-          <a [routerLink]="['/', 'user','decks', deck.uid, 'table']" class="grid-content" *ngFor="let deck of decks">
+          <a [routerLink]="['/', 'user','decks', deck.uid, 'list']" class="grid-content" *ngFor="let deck of decks">
             <p>🂠</p>
             <span class="choice">{{ deck.name }}</span>
           </a>
@@ -32,7 +32,7 @@
             <p>📚</p>
             <span class="choice">Decks zum Kurs</span>
           </a>
-          <a routerLink="/word-list" class="grid-content">
+          <a routerLink="/dictionary" class="grid-content">
             <p>☕︎</p>
             <span class="choice">Wörterbuch</span>
           </a>

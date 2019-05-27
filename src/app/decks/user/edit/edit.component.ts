@@ -51,10 +51,10 @@ export class EditComponent implements OnInit {
     this.auth.user.subscribe(user => {
       if (this.deck.uid) {
         this.DeckService.update(this.deck.uid, this.deck, user.uid);
-        this.router.navigate(['/user/decks', this.deck.uid, 'table']);
+        this.router.navigate(['/user/decks', this.deck.uid, 'list']);
       } else {
         this.DeckService.add(this.deck, user.uid).then(reference => {
-          this.router.navigate(['/user/decks', reference.id, 'table']);
+          this.router.navigate(['/user/decks', reference.id, 'list']);
         })
       }
     });

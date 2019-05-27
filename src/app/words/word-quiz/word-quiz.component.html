@@ -3,7 +3,7 @@
 <div class="menu" *ngIf="showSubmenu">
   <span class="label">Anzeige</span>
   <form [formGroup]="modeForm">
-    <label class="container">Ruby (ルビ)
+    <label class="container" [class.disabled]="answerMode === 'reading' || questionMode === 'reading'">Ruby (ルビ)
       <input type="checkbox" formControlName="rubi" name="rubi">
       <span class="checkmark">
         <span class="checkmark_inner"></span>
@@ -24,7 +24,8 @@
         <span class="checkmark_inner"></span>
       </span>
     </label>
-    <label class="container" [class.disabled]="answerMode === 'reading'">Lesung
+    <label class="container" [class.disabled]="answerMode === 'reading'"
+      (click)="this.modeForm.get('rubi').setValue()">Lesung
       <input type="radio" formControlName="left" value="reading" name="left">
       <span class="checkmark">
         <span class="checkmark_inner"></span>
@@ -45,7 +46,8 @@
         <span class="checkmark_inner"></span>
       </span>
     </label>
-    <label class="container" [class.disabled]="questionMode === 'reading'">Lesung
+    <label class="container" [class.disabled]="questionMode === 'reading'"
+      (click)="this.modeForm.get('rubi').setValue()">Lesung
       <input type="radio" formControlName="right" value="reading" name="right">
       <span class="checkmark">
         <span class="checkmark_inner"></span>
@@ -81,19 +83,29 @@
     (touchend)="peekRubi = false">
     <ng-container [ngSwitch]="questionMode">
       <ng-container *ngSwitchCase="'japanese'">
-        <ng-container *ngIf="showCard.hasOnlyOneReading()">
-          <ng-container *ngIf="peekRuby || rubi">
+        <ng-container *ngIf="peekRubi || rubi else simple">
+          <ng-container *ngIf="showCard.hasOnlyOneReading() else multiple">
             <ruby>{{ showCard['japanese'] }}<rt>{{ showCard.getReading() }}</rt></ruby>
           </ng-container>
+          <ng-template #multiple>
+            {{ showCard.japanese }} - {{ showCard.japanese_readings.join() }} ({{ showCard.chinese_readings.join() }})
+          </ng-template>
+        </ng-container>
+        <ng-template #simple>
           {{ showCard['japanese'] }}
-        </ng-container>
-        <ng-container *ngIf="!showCard.hasOnlyOneReading() && showCard.getGerman() !== ''">
-          {{ showCard.japanese }} - {{ showCard.japanese_readings.join() }} ({{ showCard.chinese_readings.join() }})
-        </ng-container>
+        </ng-template>
       </ng-container>
 
       <ng-container *ngSwitchCase="'german'">
-        {{ showCard['german'].join() }}
+        <ng-template *ngIf="showCard.hasGerman()">
+          {{ showCard['german'].join() }}
+        </ng-template>
+        <ng-template *ngIf="!showCard.hasGerman() && answerMode !== 'japanese'">
+          {{ showCard.japanese_readings.join() }} ({{ showCard.chinese_readings.join() }})
+        </ng-template>
+        <ng-template *ngIf="!showCard.hasGerman() && answerMode !== 'reading'">
+          {{ showCard.japanese }}
+        </ng-template>
       </ng-container>
 
       <ng-container *ngSwitchCase="'reading'">
@@ -124,23 +136,21 @@
           </ng-container>
         </ng-container>
         <ng-container *ngSwitchCase="'german'">
-          <ng-container *ngIf="answer['german'].length && answer['german'][0] != null else reading">
+          <ng-container *ngIf="answer.hasGerman() else reading">
             {{ answer['german'] }}
           </ng-container>
           <ng-template #reading>
-            <ng-container>
-              {{ answer['japanese_readings'].join() }} ({{ answer['chinese_readings'].join() }})
-            </ng-container>
+            {{ answer['japanese_readings'].join() }} ({{ answer['chinese_readings'].join() }})
           </ng-template>
         </ng-container>
         <ng-container *ngSwitchCase="'reading'">
-          <ng-container *ngIf="answer['japanese_readings'].length && answer['chinese_readings'].length">
+          <ng-container *ngIf="answer.hasJapReadings() && answer.hasChineseReadings()">
             {{ answer['japanese_readings'].join() }},{{ answer['chinese_readings'].join() }}
           </ng-container>
-          <ng-container *ngIf="answer['japanese_readings'] && !answer['chinese_readings']">
+          <ng-container *ngIf="answer.hasJapReadings() && !answer.hasChineseReadings()">
             {{ answer['japanese_readings'].join() }}
           </ng-container>
-          <ng-container *ngIf="!answer['japanese_readings'] && answer['chinese_readings']">
+          <ng-container *ngIf="!answer.hasJapReadings() && answer.hasChineseReadings()">
             {{ answer['chinese_readings'].join() }}
           </ng-container>
         </ng-container>

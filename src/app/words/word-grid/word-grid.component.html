@@ -18,7 +18,13 @@
 
 <div class="word-grid">
   <div class="word" [class.success]="buildWordString == currentWord[mode]" (click)="skipWord()">
-    {{ currentWord.japanese_readings.join() }} ({{ currentWord.chinese_readings.join() }})
+    <ng-container *ngIf="!currentWord.hasReadings()">
+      {{ currentWord.german.join() }}
+    </ng-container>
+    <ng-container *ngIf="currentWord.hasReadings()">
+
+      {{ currentWord.japanese_readings.join() }} ({{ currentWord.chinese_readings.join() }})
+    </ng-container>
   </div>
   <div class="answer"></div>
   <div class="grid">

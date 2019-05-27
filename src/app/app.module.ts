@@ -40,6 +40,7 @@ import { NewCardComponent } from './decks/user/new-card/new-card.component';
 import { ListComponent } from './decks/public/list/list.component';
 import { EditCardComponent } from './decks/user/edit-card/edit-card.component';
 import { WordLearnComponent } from './words/word-learn/word-learn.component';
+import { DictionaryComponent } from './dictionary/dictionary.component';
 
 @NgModule({
   imports: [
@@ -51,6 +52,7 @@ import { WordLearnComponent } from './words/word-learn/word-learn.component';
       { path: 'home', pathMatch: 'full', component: WelcomeComponent },
       { path: 'quiz', component: QuizComponent },
       { path: 'learn', component: LearnComponent },
+      { path: 'dictionary', component: DictionaryComponent },
       { path: 'syllables/overview', component: OverviewComponent },
       { path: 'word-quiz', redirectTo: 'word-quiz/hiragana' },
       { path: 'word-quiz/:type', component: WordQuizComponent },
@@ -115,7 +117,8 @@ import { WordLearnComponent } from './words/word-learn/word-learn.component';
     DeckPublicShow,
     DeckPublicEdit,
     EditCardComponent,
-    WordLearnComponent
+    WordLearnComponent,
+    DictionaryComponent
   ],
   bootstrap: [AppComponent],
   providers: [VocabularyService, FlashcardService]

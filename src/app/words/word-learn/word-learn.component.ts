@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 import { FormGroup, FormControl } from '@angular/forms';
 import { DeckService } from 'src/app/core/services/deck.service';
 import { CardInterface } from 'src/app/core/entities/card-interface';
+import { Card } from 'src/app/core/entities/card';
 
 @Component({
   selector: 'app-word-learn',
@@ -11,8 +12,8 @@ import { CardInterface } from 'src/app/core/entities/card-interface';
 })
 export class WordLearnComponent implements OnInit, OnDestroy {
 
-  @Input() _cards: Array<CardInterface>;
-  cards: Array<CardInterface>;
+  @Input() _cards: Array<Card>;
+  cards: Array<Card>;
   show = 0;
   clicked = false;
   showSubmenu = false;

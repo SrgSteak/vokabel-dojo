@@ -64,7 +64,7 @@ export class NewCardComponent implements OnInit {
 
   addExample(form: FormArray) {
     const exampleGroup = this.fb.group({
-      japanese: [''],
+      japanese: ['', Validators.required],
       reading: [''],
       german: ['']
     });

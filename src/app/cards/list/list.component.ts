@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CardService } from 'src/app/core/services/card.service';
 import { CardInterface } from 'src/app/core/entities/card-interface';
+import { Card } from 'src/app/core/entities/card';
 
 @Component({
   selector: 'app-list',
@@ -14,7 +15,7 @@ export class ListComponent implements OnInit {
   constructor(cardService: CardService) {
     cardService.loadAll().snapshotChanges().subscribe(data => {
       this.cards = data.map(e => {
-        const card = e.payload.doc.data() as CardInterface;
+        const card = Card.createFromCardInterface(e.payload.doc.data());
         card.uid = e.payload.doc.id;
         return card;
       })

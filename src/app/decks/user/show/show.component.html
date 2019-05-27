@@ -6,18 +6,22 @@
     <p>{{ deck.description }}</p>
   </ng-container>
   <span class="label">Deck</span>
-  <a routerLinkActive="active" routerLink="/user/decks" [routerLinkActiveOptions]="{exact: true}">Meine Decks</a>
-  <a routerLinkActive="active" routerLink="/user/decks/{{deck.uid}}/list">Liste</a>
   <a routerLinkActive=" active" routerLink="/user/decks/edit/{{deck.uid}}">Bearbeiten</a>
+  <a routerLinkActive="active" routerLink="/user/decks" [routerLinkActiveOptions]="{exact: true}">Meine Decks</a>
   <a routerLinkActive="active" routerLink="/user/decks/new">Deck anlegen</a>
   <span class="label">Lernmodus</span>
+  <a routerLinkActive="active" [routerLink]="['/', 'user', 'decks', deck.uid, 'list']">Liste</a>
   <a routerLinkActive="active" [routerLink]="['/', 'user', 'decks', deck.uid, 'quiz']">Vokabelquiz</a>
   <a routerLinkActive="active" [routerLink]="['/', 'user', 'decks', deck.uid, 'grid']">Buchstabieren</a>
   <a routerLinkActive="active" [routerLink]="['/', 'user', 'decks', deck.uid, 'learn']">Wiederholen</a>
 </div>
 <app-modal #modal *ngIf="deck && mode == 'list'">
   <div class="main-content">
-    <app-new-card [deck]="deck" [user]="user" (newCard)="addCard($event)"></app-new-card>
+    <div class="detail">
+      <div class="detail-content">
+        <app-new-card [deck]="deck" [user]="user" (newCard)="addCard($event)"></app-new-card>
+      </div>
+    </div>
   </div>
   <div class="teaser">
     Neue Karte
@@ -30,8 +34,7 @@
     <ng-container *ngIf="cards.length < 1 && deck">
       {{ deck.name }} beinhaltet noch keine Karten. Wähle "Neue Karte +" um Vokabeln anzulegen.
     </ng-container>
-    <app-word-list [allowEdit]="true" [cards]="cards" [user]="user" [deck]="deck"
-      *ngIf="mode === 'list' || mode ==='table'">
+    <app-word-list [allowEdit]="true" [cards]="cards" [user]="user" [deck]="deck" *ngIf="mode === 'list'">
     </app-word-list>
     <app-word-quiz [deck]="cards" *ngIf="mode === 'quiz'"></app-word-quiz>
     <app-word-grid [deck]="cards" *ngIf="mode === 'grid'"></app-word-grid>

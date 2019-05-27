@@ -54,6 +54,10 @@ export class Card implements CardInterface {
   hasExamples() {
     return this.examples && this.examples[0] !== '' && this.examples[0] !== undefined;
   }
+
+  hasReadings() {
+    return this.hasJapReadings() || this.hasChineseReadings();
+  }
   hasJapReadings() {
     return this.japanese_readings.length && (this.japanese_readings[0] !== null || this.japanese_readings[0] !== '');
   }
@@ -80,6 +84,19 @@ export class Card implements CardInterface {
     for (const property in cardInterface) {
       if (cardInterface.hasOwnProperty(property)) {
         card[property] = cardInterface[property];
+      }
+    }
+
+    // helper
+    if (!card.japanese) {
+      if (cardInterface['hiragana']) {
+        card.japanese = cardInterface['hiragana'];
+      }
+      if (cardInterface['katakana']) {
+        card.japanese = cardInterface['katakana'];
+      }
+      if (cardInterface['kanji']) {
+        card.japanese = cardInterface['kanji'];
       }
     }
 

@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { User } from 'src/app/core/auth.service';
 import { Deck } from 'src/app/core/services/deck.service';
 import { CardInterface } from 'src/app/core/entities/card-interface';
+import { Card } from 'src/app/core/entities/card';
 
 @Component({
   selector: 'app-word-list',
@@ -15,11 +16,11 @@ import { CardInterface } from 'src/app/core/entities/card-interface';
 })
 export class WordListComponent implements OnInit, OnDestroy {
 
-  @Input() cards: Array<CardInterface>;
+  @Input() cards: Array<Card>;
   @Input() user: User;
   @Input() deck: Deck;
   @Input() allowEdit = false;
-  words: Array<CardInterface>;
+  words: Array<Card>;
   showSubmenu = false;
   modeSub: Subscription;
   searchFormSub: Subscription;
@@ -31,6 +32,9 @@ export class WordListComponent implements OnInit, OnDestroy {
     right: new FormControl('german'),
     fontMode: new FormControl('serif')
   });
+  showGerman: boolean;
+  showExamples: boolean;
+  showReadings: boolean;
 
   get leftSide() {
     return this.modeForm.get('left').value;
@@ -49,12 +53,15 @@ export class WordListComponent implements OnInit, OnDestroy {
     if (!this.words) {
       this.cardService.loadAll().snapshotChanges().subscribe(data => {
         this.cards = data.map(e => {
-          const card = e.payload.doc.data() as CardInterface;
+          const card = Card.createFromCardInterface(e.payload.doc.data());
           card.uid = e.payload.doc.id;
           return card;
         });
         this.words = this.cards;
+        this.updateTable();
       });
+    } else {
+      this.updateTable();
     }
     this.modeSub = this.modeForm.valueChanges.subscribe(() => {
       this.updateFilter();
@@ -82,6 +89,14 @@ export class WordListComponent implements OnInit, OnDestroy {
     } else {
       this.words = this.cards;
     }
+    this.updateTable();
+  }
+
+  updateTable() {
+    console.log('update table!');
+    this.showGerman = this.containsGerman();
+    this.showExamples = this.containsExamples();
+    this.showReadings = this.containsReadings();
   }
 
   reading(word: CardInterface, mode: string) {
@@ -136,6 +151,36 @@ export class WordListComponent implements OnInit, OnDestroy {
         }
         return this.readingWithPreference('reading', card);
     }
+  }
+
+  containsReadings() {
+    let asdf = false;
+    this.words.forEach(card => {
+      if (card.hasReadings()) {
+        asdf = true;
+      }
+    });
+    return asdf;
+  }
+
+  containsGerman() {
+    let asdf = false;
+    this.words.forEach(card => {
+      if (card.hasGerman()) {
+        asdf = true;
+      }
+    });
+    return asdf;
+  }
+
+  containsExamples() {
+    let asdf = false
+    this.words.forEach(card => {
+      if (card.hasExamples()) {
+        asdf = true;
+      }
+    });
+    return asdf;
   }
 
   show(card: CardInterface) {

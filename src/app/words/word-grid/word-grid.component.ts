@@ -28,10 +28,6 @@ export class WordGridComponent implements OnInit {
 
   ngOnInit() {
     this.characterSet = this.syllablesService.createCharactersetFromCard(this.deck);
-    // TODO: loop characterSet to get length
-    // if (this.characterSet.length < 25) {
-    //   this.characterSet = this.characterSet.concat(this.characterSet).concat(this.characterSet);
-    // }
     this.setMode('japanese');
     this.layout();
   }
@@ -48,10 +44,10 @@ export class WordGridComponent implements OnInit {
       sizeGrid = this.characterSet.length;
     }
     this.currentGrid = this.syllablesService.getCardsContaining(this.currentAnswer, sizeGrid - this.currentAnswer.length, this.characterSet);
-    console.log('currentQuestion: ' + this.currentQuestion);
-    console.log('currentAnswer: ' + this.currentAnswer);
-    console.log(this.characterSet);
-    console.log(this.currentGrid);
+    // console.log('currentQuestion: ' + this.currentQuestion);
+    // console.log('currentAnswer: ' + this.currentAnswer);
+    // console.log(this.characterSet);
+    // console.log(this.currentGrid);
   }
 
   ngOnDestroy() {

@@ -15,35 +15,6 @@
         <span class="checkmark_inner"></span>
       </span>
     </label>
-    <span class="label">Links</span>
-    <label class=" container" (click)="modeForm.get('right').setValue('japanese')">Deutsch
-      <input type="radio" formControlName="left" value="german" name="left">
-      <span class="checkmark">
-        <span class="checkmark_inner"></span>
-      </span>
-    </label>
-    <label class=" container" (click)="modeForm.get('right').setValue('german')">Japanisch
-      <input type="radio" formControlName="left" value="japanese" name="left">
-      <span class="checkmark">
-        <span class="checkmark_inner"></span>
-      </span>
-    </label>
-  </form>
-  <span class="label">Rechts</span>
-  <form [formGroup]="modeForm">
-    <label class=" container" (click)="modeForm.get('left').setValue('japanese')">Deutsch
-      <input type="radio" formControlName="right" value="german" name="right">
-      <span class="checkmark">
-        <span class="checkmark_inner"></span>
-      </span>
-    </label>
-    <label class=" container" (click)="modeForm.get('left').setValue('german')">Japanisch
-      <input type="radio" formControlName="right" value="japanese" name="right">
-      <span class="checkmark">
-        <span class="checkmark_inner"></span>
-      </span>
-    </label>
-
   </form>
 </div>
 <div class="word-list" [class.serif]="fontMode === 'serif'" [class.sans-serif]="fontMode === 'sans-serif'">
@@ -52,16 +23,20 @@
   </label>
   <table>
     <tr *ngFor="let word of words" (click)="show(word)">
-      <td>{{ readingWithPreference(leftSide, word) }}</td>
-      <td>
+      <td>{{ word.japanese }}</td>
+      <td *ngIf="showReadings">
         <ul>
-          <li *ngFor="let reading of word.japanese_readings">{{ reading }}</li>
+          <ng-container *ngIf="word.japanese_readings">
+            <li *ngFor="let reading of word.japanese_readings">{{ reading }}</li>
+          </ng-container>
           <hr *ngIf="word.japanese_readings.length && word.chinese_readings.length">
           <li *ngFor="let reading of word.chinese_readings">{{ reading }}</li>
         </ul>
       </td>
-      <td>{{ readingWithPreference(rightSide, word) }}</td>
-      <td>
+      <td *ngIf="showGerman">
+        {{ word.getGerman() }}
+      </td>
+      <td *ngIf="showExamples">
         <ul style="padding-left: 10px">
           <li *ngFor="let example of word.examples" style="text-align: left">
             <ruby>

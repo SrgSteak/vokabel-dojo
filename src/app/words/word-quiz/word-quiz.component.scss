@@ -5,7 +5,7 @@ p {
 .word-quiz {
   display: flex;
   flex-direction: column;
-  //justify-content: space-evenly;
+  justify-content: space-around;
   height: 100%;
   width: 100%;
 }
@@ -16,11 +16,9 @@ p {
 
 .card {
   display: flex;
-  // align-items: center;
   flex-direction: column;
   justify-content: center;
   align-content: center;
-  height: 50%;
   width: 100%;
   padding: 10px;
   padding-top: 20px;
@@ -36,7 +34,7 @@ p {
 .answers {
   padding-bottom: 20px;
   width: 100%;
-  height: 50%;
+  align-self: flex-end;
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
@@ -59,11 +57,9 @@ p {
   text-align: center;
   background-color: teal;
   margin: 6px;
-  // margin-top: 10px;
   transition: background-color 0.3s ease;
   padding: 5px;
   border-radius: 4px;
-  // height: 30px;
 }
 
 .answer:hover {
