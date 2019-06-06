@@ -15,7 +15,6 @@ import { Card } from 'src/app/core/entities/card';
 export class NewCardComponent implements OnInit {
   card: CardInterface;
   @Input() deck: Deck;
-  @Input() user: User;
   @Output() newCard: EventEmitter<CardInterface> = new EventEmitter<CardInterface>();
   cardFormSub: Subscription;
   cardForm = this.fb.group({
@@ -30,6 +29,7 @@ export class NewCardComponent implements OnInit {
   get german() {
     return this.cardForm.get('german') as FormArray;
   }
+
   get japanese() {
     return this.cardForm.get('japanese') as FormArray;
   }
@@ -37,15 +37,16 @@ export class NewCardComponent implements OnInit {
   get japanese_readings() {
     return this.cardForm.get('japanese_readings') as FormArray;
   }
+
   get chinese_readings() {
     return this.cardForm.get('chinese_readings') as FormArray;
   }
+
   get examples() {
     return this.cardForm.get('examples') as FormArray;
   }
 
   constructor(
-    private cardService: CardService,
     private fb: FormBuilder
   ) { }
 
@@ -56,6 +57,9 @@ export class NewCardComponent implements OnInit {
 
   private resetCard() {
     this.card = new Card();
+    if (this.deck) {
+      this.card.decks.push(this.deck.uid);
+    }
   }
 
   addReading(form: FormArray) {
@@ -96,7 +100,7 @@ export class NewCardComponent implements OnInit {
       this.card.japanese = this.cardForm.get('japanese').value;
       this.card.chinese_readings = this.chinese_readings.value;
       this.card.japanese_readings = this.japanese_readings.value;
-      this.cardService.add(this.card, this.deck, this.user);
+      // this.cardService.add(this.card, this.deck, this.user);
       this.newCard.emit(this.card);
       this.resetCard();
       this.setForm();

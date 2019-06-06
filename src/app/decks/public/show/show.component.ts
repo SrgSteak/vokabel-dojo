@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DeckService, Deck } from 'src/app/core/services/deck.service';
 import { CardService } from 'src/app/core/services/card.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from 'src/app/core/auth.service';
+import { AuthService, User } from 'src/app/core/auth.service';
 import { Card } from 'src/app/core/entities/card';
 import { CardInterface } from 'src/app/core/entities/card-interface';
 
@@ -18,6 +18,7 @@ export class ShowComponent implements OnInit {
   mode: string;
   allowEdit = false;
   showSubmenu = false;
+  user: User;
 
   constructor(
     private deckService: DeckService,
@@ -29,6 +30,7 @@ export class ShowComponent implements OnInit {
   ngOnInit() {
     this.auth.user.subscribe(user => {
       if (user) {
+        this.user = user;
         this.allowEdit = user.role === 'admin';
       }
     });
@@ -50,6 +52,7 @@ export class ShowComponent implements OnInit {
 
   addCard(card: CardInterface) {
     this.cards.push(card);
+    this.cardService.add(card, this.deck);
   }
 
   editMe(card: CardInterface) {
@@ -58,6 +61,9 @@ export class ShowComponent implements OnInit {
     }
   }
 
+  /**
+   * TODO: add loading indicator, show copy progress, redirect
+   */
   addToCollection() {
     if (confirm('Dieses Deck jetzt kopieren?')) {
       this.auth.user.subscribe(user => {

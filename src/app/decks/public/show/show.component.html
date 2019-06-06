@@ -7,14 +7,12 @@
   </ng-container>
   <span class="label">Lernmodus</span>
   <a routerLinkActive="active" routerLink="/decks/{{deck.uid}}/quiz">Vokabelquiz</a>
-  <!-- <a routerLinkActive="active" routerLink="/decks/{{deck.uid}}/learn">Lernen</a> -->
   <a routerLinkActive="active" routerLink="/decks/{{deck.uid}}/grid">Buchstabieren</a>
   <a routerLinkActive="active" routerLink="/decks/{{deck.uid}}/learn">Wiederholen</a>
   <a routerLinkActive="active" routerLink="/decks/{{deck.uid}}/list">Liste</a>
   <span class="label">Deck</span>
   <ng-container *ngIf="auth.user | async as user">
     <ng-container *ngIf="user.role == 'admin'">
-
       <a routerLinkActive=" active" routerLink="/decks/edit/{{deck.uid}}">Bearbeiten</a>
       <a routerLinkActive="active" routerLink="/decks/new">Deck anlegen</a>
       <span class="label">Karten</span>
@@ -22,17 +20,17 @@
     </ng-container>
   </ng-container>
 </div>
-<ng-container *ngIf="auth.user | async as user">
-  <app-modal #modal *ngIf="deck && mode == 'list' && user.role == 'admin'">
-    <div class="main-content">
-      <app-new-card [deck]="deck" (newCard)="addCard($event)"></app-new-card>
-    </div>
-    <div class="teaser">
-      Neue Karte
-    </div>
-  </app-modal>
-</ng-container>
 <div class="content">
+  <ng-container *ngIf="auth.user | async as user">
+    <app-modal #modal *ngIf="deck && mode == 'list' && user.role == 'admin'">
+      <div class="main-content">
+        <app-new-card [deck]="deck" (newCard)="addCard($event)"></app-new-card>
+      </div>
+      <div class="teaser">
+        Neue Karte
+      </div>
+    </app-modal>
+  </ng-container>
   <ng-container *ngIf="mode == 'list' && deck">
     <h1>{{ deck.name }}</h1>
     <p *ngIf="deck.description">{{ deck.description }}

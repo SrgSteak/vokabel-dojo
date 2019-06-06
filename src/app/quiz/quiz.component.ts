@@ -36,6 +36,14 @@ export class QuizComponent implements OnInit {
     row_n: new FormControl(''),
   });
 
+  settingsForm = new FormGroup({
+    font: new FormControl('serif')
+  });
+
+  get font() {
+    return this.settingsForm.get('font').value;
+  }
+
   get scoredHiragana() {
     return this.hiragana.sort((a, b) => {
       if (a.hits - a.misses > b.hits - b.misses) {

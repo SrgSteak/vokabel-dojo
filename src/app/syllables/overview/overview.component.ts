@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SyllablesService } from 'src/app/syllables.service';
+import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-overview',
@@ -14,8 +15,15 @@ export class OverviewComponent implements OnInit {
   dakuten: any;
   showSubmenu = false;
 
+  settingsForm = new FormGroup({
+    font: new FormControl('serif')
+  });
+
+  get font() {
+    return this.settingsForm.get('font').value;
+  }
+
   constructor(public syllablesService: SyllablesService) {
-    console.log(syllablesService.getForRows(['a']));
     this.syllables = {
       a: syllablesService.getForRows(['a']),
       k: syllablesService.getForRows(['k']),

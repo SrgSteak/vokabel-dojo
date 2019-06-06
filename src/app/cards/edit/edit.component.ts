@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { CardService } from 'src/app/core/services/card.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
@@ -12,6 +12,9 @@ import { Card } from 'src/app/core/entities/card';
   styleUrls: ['./edit.component.css']
 })
 export class EditComponent implements OnInit {
+
+  @Output() updateCard = new EventEmitter<CardInterface>();
+  @Output() deleteCard = new EventEmitter();
 
   card: CardInterface;
   decks: Array<Deck>;
@@ -155,14 +158,16 @@ export class EditComponent implements OnInit {
       } else {
         this.cardService.add(this.card);
       }
-      this.router.navigate(['/cards']);
+      this.updateCard.emit(this.card);
+      this.router.navigate(['/dictionary']);
     }
   }
 
   onDelete() {
     if (confirm('Karte löschen? Sie wird aus allen Decks entfernt in denen sie enthalten war.')) {
       this.cardService.delete(this.card.uid);
-      this.router.navigate(['/cards']);
+      this.deleteCard.emit();
+      this.router.navigate(['/dictionary']);
     }
   }
 }

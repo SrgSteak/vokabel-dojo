@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import FuzzySearch from 'fuzzy-search';
@@ -20,6 +20,7 @@ export class WordListComponent implements OnInit, OnDestroy {
   @Input() user: User;
   @Input() deck: Deck;
   @Input() allowEdit = false;
+  @Output() selectedCard = new EventEmitter<CardInterface>();
   words: Array<Card>;
   showSubmenu = false;
   modeSub: Subscription;
@@ -184,6 +185,7 @@ export class WordListComponent implements OnInit, OnDestroy {
   }
 
   show(card: CardInterface) {
+    this.selectedCard.emit(card);
     if (this.allowEdit) {
       if (this.user) {
         this.router.navigate(['/', 'user', 'decks', this.deck.uid, 'cards', card.uid, 'edit']);

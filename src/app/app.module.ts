@@ -78,7 +78,6 @@ import { DictionaryComponent } from './dictionary/dictionary.component';
       { path: 'decks/:uid/:mode', component: DeckPublicShow },
 
       // public card routes
-      { path: 'cards', component: CardListComponent },
       { path: 'cards/new', component: CardEditComponent },
       { path: 'cards/edit/:uid', component: CardEditComponent }
     ], { anchorScrolling: 'enabled', scrollPositionRestoration: 'enabled' }),

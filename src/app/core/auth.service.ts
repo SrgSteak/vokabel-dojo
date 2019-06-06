@@ -6,7 +6,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 
 import { Observable, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, tap, startWith } from 'rxjs/operators';
 
 export interface User {
   uid: string;
@@ -35,7 +35,10 @@ export class AuthService {
         } else {
           return of(null)
         }
-      })
+      }),
+      // Add these lines to set/read the user data to local storage
+      tap(user => localStorage.setItem('user', JSON.stringify(user))),
+      startWith(JSON.parse(localStorage.getItem('user')))
     )
   }
 

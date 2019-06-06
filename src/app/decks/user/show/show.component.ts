@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/core/auth.service';
 import { Card } from 'src/app/core/entities/card';
 import { CardInterface } from 'src/app/core/entities/card-interface';
+import { CardService } from 'src/app/core/services/card.service';
 
 @Component({
   selector: 'app-show',
@@ -20,6 +21,7 @@ export class ShowComponent implements OnInit {
 
   constructor(
     private deckService: DeckService,
+    private cardService: CardService,
     private route: ActivatedRoute,
     private auth: AuthService) { }
 
@@ -45,6 +47,7 @@ export class ShowComponent implements OnInit {
 
   addCard(card: CardInterface) {
     this.cards.push(card);
+    this.cardService.add(card, this.deck, this.user);
   }
 
   addToCollection() {
