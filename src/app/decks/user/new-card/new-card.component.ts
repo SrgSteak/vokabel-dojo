@@ -100,6 +100,7 @@ export class NewCardComponent implements OnInit {
       this.card.japanese = this.cardForm.get('japanese').value;
       this.card.chinese_readings = this.chinese_readings.value;
       this.card.japanese_readings = this.japanese_readings.value;
+      this.card.examples = this.examples.value;
       // this.cardService.add(this.card, this.deck, this.user);
       this.newCard.emit(this.card);
       this.resetCard();
