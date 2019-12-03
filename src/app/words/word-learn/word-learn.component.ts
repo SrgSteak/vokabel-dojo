@@ -4,6 +4,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { DeckService } from 'src/app/core/services/deck.service';
 import { CardInterface } from 'src/app/core/entities/card-interface';
 import { Card } from 'src/app/core/entities/card';
+import { FontSwitcherService } from 'src/app/core/services/font-switcher.service';
 
 @Component({
   selector: 'app-word-learn',
@@ -22,7 +23,6 @@ export class WordLearnComponent implements OnInit, OnDestroy {
     question: new FormControl('japanese'),     // display Questions
     answer: new FormControl('german'),      // display answers
     displayMode: new FormControl('click'),  // behaviour for next() function
-    fontMode: new FormControl('serif'),     // setting for font of cards. serif or sans-serif.
     rubi: new FormControl('')               // display ruby characters or not
   });
 
@@ -39,14 +39,15 @@ export class WordLearnComponent implements OnInit, OnDestroy {
     return this.form.get('rubi').value;
   }
   get fontMode() {
-    return this.form.get('fontMode').value;
+    // todo
+    return this.fontSwitcherService.currentStyle;
   }
 
   get card() {
     return this.cards[this.show];
   }
 
-  constructor(private deckService: DeckService) { }
+  constructor(private deckService: DeckService, private fontSwitcherService: FontSwitcherService) { }
 
   ngOnInit() {
     this.cards = this._cards;
@@ -69,7 +70,6 @@ export class WordLearnComponent implements OnInit, OnDestroy {
       if (this.show >= this.cards.length) {
         this.show = 0;
       }
-      // console.log(this.cards[this.show]);
       if (this.displayMode == 'click') {
         this.clicked = false;
       }
@@ -98,29 +98,19 @@ export class WordLearnComponent implements OnInit, OnDestroy {
   }
 
   displayModeForCard(card: CardInterface, mode: string): string {
-    // console.log(mode);
     // kanji, rubi active, card has reading
     if (mode === 'kanji' && card.japanese && this.rubi && card.reading) {
-      // console.log('kanji_with_rubi');
       return 'kanji_with_rubi';
 
       // kanji, rubi active, no reading but jap readings
     } else if (mode === 'kanji' && card.japanese && this.rubi && (card.japanese_readings.length || card.chinese_readings.length)) {
       if (card.japanese_readings.length || card.chinese_readings.length) {
-        // console.log('kanji_with_rubi_from_jap_readings');
         return 'kanji_with_rubi_readings';
       }
       return 'kanji_with_rubi_from_jap_readings';
-
-      // kanji, rubi, no readings but hiragana
     }
-    // else if (mode === 'kanji' && card.kanji && this.rubi && card.hiragana) {
-    //   // console.log('kanji_with_rubi_from_hiragana');
-    //   return 'kanji_with_rubi_from_hiragana';
-    // }
 
     if (mode === 'german' && !card.german.length) {
-      // console.log('kanji_readings_only');
       return 'kanji_readings_only';
     }
     if (mode === 'reading') {
@@ -128,8 +118,7 @@ export class WordLearnComponent implements OnInit, OnDestroy {
         return 'kanji_readings_only';
       }
     }
-    // nothing special, just display word
-    // console.log('word');
+
     return 'word';
   }
 

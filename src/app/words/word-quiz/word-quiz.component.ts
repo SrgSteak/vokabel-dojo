@@ -4,6 +4,7 @@ import { DeckService } from 'src/app/core/services/deck.service';
 import { Subscription } from 'rxjs';
 import { FormGroup, FormControl } from '@angular/forms';
 import { CardInterface } from 'src/app/core/entities/card-interface';
+import { FontSwitcherService } from 'src/app/core/services/font-switcher.service';
 
 @Component({
   selector: 'app-word-quiz',
@@ -43,7 +44,7 @@ export class WordQuizComponent implements OnInit {
   }
 
 
-  constructor(private route: ActivatedRoute, public deckService: DeckService) {
+  constructor(private route: ActivatedRoute, public deckService: DeckService, public fontSwitcher: FontSwitcherService) {
   }
 
   get scoredWords() {

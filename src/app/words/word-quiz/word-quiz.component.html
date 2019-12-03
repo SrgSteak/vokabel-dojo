@@ -10,6 +10,7 @@
       </span>
     </label>
   </form>
+  <app-font-switcher></app-font-switcher>
   <span class="label">Fragen</span>
   <form [formGroup]="modeForm">
     <label class="container" [class.disabled]="answerMode === 'german'">Deutsch
@@ -78,7 +79,7 @@
   </div>
 </app-modal>
 
-<div class="word-quiz">
+<div class="word-quiz {{ fontSwitcher.currentStyle }}">
   <div class="card" (mousedown)="peekRubi = true" (mouseup)="peekRubi = false" (touchstart)="peekRubi = true"
     (touchend)="peekRubi = false">
     <ng-container [ngSwitch]="questionMode">
@@ -137,7 +138,7 @@
         </ng-container>
         <ng-container *ngSwitchCase="'german'">
           <ng-container *ngIf="answer.hasGerman() else reading">
-            {{ answer['german'] }}
+            {{ answer['german'].join() }}
           </ng-container>
           <ng-template #reading>
             {{ answer['japanese_readings'].join() }} ({{ answer['chinese_readings'].join() }})

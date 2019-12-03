@@ -13,6 +13,11 @@ export interface User {
   email: string;
   displayName?: string;
   role: string;
+  settings?: Settings;
+}
+
+interface Settings {
+  fontStyle: string;
 }
 
 
@@ -66,7 +71,7 @@ export class AuthService {
   // }
 
 
-  private updateUserData(user) {
+  public updateUserData(user) {
     // Sets user data to firestore on login
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
 
@@ -74,7 +79,8 @@ export class AuthService {
       uid: user.uid,
       email: user.email,
       displayName: user.displayName,
-      role: user.role ? user.role : 'user'
+      role: user.role,
+      settings: user.settings
     }
 
     return userRef.set(data, { merge: true });

@@ -3,6 +3,7 @@ import { SyllablesService } from 'src/app/syllables.service';
 import { DeckService } from 'src/app/core/services/deck.service';
 import { CardInterface } from 'src/app/core/entities/card-interface';
 import { Card } from 'src/app/core/entities/card';
+import { FontSwitcherService } from 'src/app/core/services/font-switcher.service';
 
 @Component({
   selector: 'app-word-grid',
@@ -23,7 +24,7 @@ export class WordGridComponent implements OnInit {
   currentQuestion: string;
   currentAnswer: string;
 
-  constructor(private syllablesService: SyllablesService) {
+  constructor(private syllablesService: SyllablesService, public fontSwitcherService: FontSwitcherService) {
   }
 
   ngOnInit() {

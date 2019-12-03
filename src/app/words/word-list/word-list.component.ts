@@ -8,6 +8,7 @@ import { User } from 'src/app/core/auth.service';
 import { Deck } from 'src/app/core/services/deck.service';
 import { CardInterface } from 'src/app/core/entities/card-interface';
 import { Card } from 'src/app/core/entities/card';
+import { FontSwitcherService } from 'src/app/core/services/font-switcher.service';
 
 @Component({
   selector: 'app-word-list',
@@ -30,8 +31,7 @@ export class WordListComponent implements OnInit, OnDestroy {
 
   modeForm = new FormGroup({
     left: new FormControl('japanese'),
-    right: new FormControl('german'),
-    fontMode: new FormControl('serif')
+    right: new FormControl('german')
   });
   showGerman: boolean;
   showExamples: boolean;
@@ -43,11 +43,12 @@ export class WordListComponent implements OnInit, OnDestroy {
   get rightSide() {
     return this.modeForm.get('right').value;
   }
+
   get fontMode() {
-    return this.modeForm.get('fontMode').value;
+    return this.fontSwitcherService.currentStyle;
   }
 
-  constructor(private router: Router, private cardService: CardService) { }
+  constructor(private router: Router, private cardService: CardService, public fontSwitcherService: FontSwitcherService) { }
 
   ngOnInit() {
     this.words = this.cards;

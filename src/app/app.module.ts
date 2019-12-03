@@ -41,6 +41,8 @@ import { ListComponent } from './decks/public/list/list.component';
 import { EditCardComponent } from './decks/user/edit-card/edit-card.component';
 import { WordLearnComponent } from './words/word-learn/word-learn.component';
 import { DictionaryComponent } from './dictionary/dictionary.component';
+import { Angular2CsvModule } from 'angular2-csv';
+import { CalendarComponent } from './time/calendar/calendar.component';
 
 @NgModule({
   imports: [
@@ -88,7 +90,8 @@ import { DictionaryComponent } from './dictionary/dictionary.component';
     AngularFirestoreModule,
     AngularFireStorageModule, // Only required for storage features
     AngularFireAuthModule,
-    AngularFireDatabaseModule
+    AngularFireDatabaseModule,
+    Angular2CsvModule
   ],
   declarations: [
     AppComponent,
@@ -117,7 +120,8 @@ import { DictionaryComponent } from './dictionary/dictionary.component';
     DeckPublicEdit,
     EditCardComponent,
     WordLearnComponent,
-    DictionaryComponent
+    DictionaryComponent,
+    CalendarComponent
   ],
   bootstrap: [AppComponent],
   providers: [VocabularyService, FlashcardService]

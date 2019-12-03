@@ -1,10 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FontSwitcherComponent } from './components/font-switcher/font-switcher.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [],
+  declarations: [FontSwitcherComponent],
   imports: [
-    CommonModule
+    CommonModule,
+    ReactiveFormsModule
+  ],
+  exports: [
+    FontSwitcherComponent
   ]
 })
 export class CoreModule { }

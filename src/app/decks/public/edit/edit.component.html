@@ -12,6 +12,8 @@
       <input type="text" id="description" formControlName="description">
       <button type="submit">Speichern</button>
       <a (click)="onDelete()" class="muted" *ngIf="deck.uid">Löschen</a>
+      <angular2csv [data]="data" filename="vokabeldojo_example.csv" [options]="options"></angular2csv>
+      <input type="file" accept=".csv" (change)="importCSVCards($event.target)" />
     </form>
   </div>
 </div>

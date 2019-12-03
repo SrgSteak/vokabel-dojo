@@ -1,23 +1,11 @@
 <button class="submenu2 no-print" [class.open]="showSubmenu" [class.closed-menu]="!showSubmenu"
   (click)="showSubmenu ? showSubmenu = false : showSubmenu = true" title="Einstellungen Lernmodus">⋮</button>
 <div class="menu" *ngIf="showSubmenu">
+  <span class="label">Anzeige</span>
+  <app-font-switcher></app-font-switcher>
   <form [formGroup]="form">
-    <span class="label">Anzeige</span>
     <label class="container" [class.disabled]="question === 'reading' || answer === 'reading'">Ruby (ルビ)
       <input type="checkbox" formControlName="rubi" name="rubi">
-      <span class="checkmark">
-        <span class="checkmark_inner"></span>
-      </span>
-    </label>
-
-    <label class="container serif">Serif
-      <input type="radio" formControlName="fontMode" value="serif" name="fontMode">
-      <span class="checkmark">
-        <span class="checkmark_inner"></span>
-      </span>
-    </label>
-    <label class="container sans-serif">Sans-Serif
-      <input type="radio" formControlName="fontMode" value="sans-serif" name="fontMode">
       <span class="checkmark">
         <span class="checkmark_inner"></span>
       </span>
