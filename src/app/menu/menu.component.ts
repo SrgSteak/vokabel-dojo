@@ -11,7 +11,7 @@ export class MenuComponent implements OnInit {
 
   show = false;
 
-  @ViewChild('menu') menu: ElementRef;
+  @ViewChild('menu', { static: false }) menu: ElementRef;
 
   constructor(public auth: AuthService) { }
 

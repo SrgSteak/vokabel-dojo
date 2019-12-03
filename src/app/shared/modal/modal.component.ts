@@ -7,8 +7,8 @@ import { Component, OnInit, ViewChild, ElementRef, HostListener, AfterViewInit }
 })
 export class ModalComponent implements OnInit, AfterViewInit {
 
-  @ViewChild('content') content: ElementRef;
-  @ViewChild('teaser') teaser: ElementRef;
+  @ViewChild('content', { static: true }) content: ElementRef;
+  @ViewChild('teaser', { static: true }) teaser: ElementRef;
 
   open = false;
 
