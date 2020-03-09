@@ -40,7 +40,6 @@ export class CardService {
     if (user) {
       this.afs.collection('users').doc(user).collection('Decks').doc(deck).collection('Cards').doc(card.uid).set(Object.assign({}, card), { merge: true });
     }
-    console.log(Object.assign({}, card));
     this.afs.collection('Cards').doc(card.uid).set(Object.assign({}, card), { merge: true });
   }
 
@@ -59,7 +58,11 @@ export class CardService {
     );
   }
 
-  loadForDeck(deck: string) {
-    return this.afs.firestore.collection('Cards').orderBy('createdAt').where('decks', 'array-contains', deck);
+  loadForDeck(deck: string, uid: string) {
+    return this.afs.firestore.collection('Cards').orderBy('createdAt').where('decks', 'array-contains', { name: deck, uid: uid });
+  }
+
+  loadForDeckLegacy(uid: string) {
+    return this.afs.firestore.collection('Cards').orderBy('createdAt').where('decks', 'array-contains', uid);
   }
 }

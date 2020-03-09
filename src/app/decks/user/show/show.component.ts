@@ -32,7 +32,7 @@ export class ShowComponent implements OnInit {
         this.user = user;
         this.deckService.getCardsForDeck(params.get('uid'), user.uid).snapshotChanges().subscribe(data => {
           this.cards = data.map(e => {
-            const card = Card.createFromCardInterface(e.payload.doc.data());
+            const card = Card.createFromCardInterface(e.payload.doc.data() as CardInterface);
             card.uid = e.payload.doc.id;
             return card;
           });

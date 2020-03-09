@@ -18,9 +18,10 @@ export class DictionaryComponent implements OnInit {
 
   editCard(card: CardInterface) {
     this.auth.user.subscribe(user => {
-      if (user.role === 'admin') {
-        this.router.navigate(['/', 'cards', 'edit', card.uid]);
-      }
+      this.router.navigate([{ outlets: { modal: ['card', card.uid] } }]);
+      // if (user.role === 'admin') {
+      //   this.router.navigate(['/', 'cards', 'edit', card.uid]);
+      // }
     });
   }
 

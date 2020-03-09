@@ -14,6 +14,7 @@ import { CardInterface } from 'src/app/core/entities/card-interface';
 export class ShowComponent implements OnInit {
 
   cards = [];
+  oldCards = [];
   deck: Deck;
   mode: string;
   allowEdit = false;
@@ -36,9 +37,9 @@ export class ShowComponent implements OnInit {
     });
     this.route.paramMap.subscribe(params => {
       this.mode = params.get('mode');
-      this.cardService.loadForDeck(params.get('uid')).get().then(data => {
-        this.cards = data.docs.map(e => {
-          const card = Card.createFromCardInterface(e.data());
+      this.cardService.loadForDeckLegacy(params.get('uid')).get().then(data => {
+        this.oldCards = data.docs.map(e => {
+          const card = Card.createFromCardInterface(e.data() as CardInterface);
           card.uid = e.id;
           return card;
         })
@@ -46,6 +47,13 @@ export class ShowComponent implements OnInit {
       this.deckService.get(params.get('uid')).snapshotChanges().subscribe(data => {
         this.deck = data.payload.data();
         this.deck.uid = data.payload.id;
+        this.cardService.loadForDeck(this.deck.name, this.deck.uid).get().then(data => {
+          this.cards = data.docs.map(e => {
+            const card = Card.createFromCardInterface(e.data() as CardInterface);
+            card.uid = e.id;
+            return card;
+          })
+        });
       });
     });
   }

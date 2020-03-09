@@ -10,28 +10,8 @@
   <table>
     <tr *ngFor="let word of words" (click)="show(word)">
       <td>{{ word.japanese }}</td>
-      <td *ngIf="showReadings">
-        <ul>
-          <ng-container *ngIf="word.japanese_readings">
-            <li *ngFor="let reading of word.japanese_readings">{{ reading }}</li>
-          </ng-container>
-          <hr *ngIf="word.japanese_readings.length && word.chinese_readings.length">
-          <li *ngFor="let reading of word.chinese_readings">{{ reading }}</li>
-        </ul>
-      </td>
       <td *ngIf="showGerman">
         {{ word.getGerman() }}
-      </td>
-      <td *ngIf="showExamples">
-        <ul style="padding-left: 10px">
-          <li *ngFor="let example of word.examples" style="text-align: left">
-            <ruby>
-              {{ example.japanese }}
-              <rt>{{ example.reading }}</rt>
-            </ruby>
-            - {{ example.german}}
-          </li>
-        </ul>
       </td>
     </tr>
   </table>

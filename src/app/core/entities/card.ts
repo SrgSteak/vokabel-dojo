@@ -1,6 +1,11 @@
 import { CardInterface } from "./card-interface";
+import { CardType, WordType, VerbType, AdjectiveType } from './card-type';
 
 export class Card implements CardInterface {
+  cardType: CardType;
+  wordType?: WordType;
+  verbType?: VerbType;
+  adjectiveType?: AdjectiveType;
   uid?: string;
   german?: Array<string>;
   japanese: string;
@@ -14,7 +19,7 @@ export class Card implements CardInterface {
   }];
   createdAt?: Date;
   updatedAt?: Date;
-  decks?: string[];
+  decks?: Array<{ name: string; uid: string }>;
 
   hits?: number;
   misses?: number;
@@ -28,6 +33,7 @@ export class Card implements CardInterface {
     this.createdAt = new Date();
     this.updatedAt = new Date();
     this.decks = [];
+    this.cardType = CardType.simple;
   }
 
   getReading(): string {
@@ -83,7 +89,9 @@ export class Card implements CardInterface {
     const card = new Card();
     for (const property in cardInterface) {
       if (cardInterface.hasOwnProperty(property)) {
-        card[property] = cardInterface[property];
+        if (property != 'decks') {
+          card[property] = cardInterface[property];
+        }
       }
     }
 
@@ -101,7 +109,9 @@ export class Card implements CardInterface {
     }
 
     card.german = Array.isArray(cardInterface.german) ? cardInterface.german : [cardInterface.german];
-    card.decks = cardInterface.decks;
+    if (cardInterface.decks) {
+      card.decks = card.decks.concat(cardInterface.decks);
+    }
     card.japanese_readings = cardInterface.japanese_readings;
     if (!card.japanese_readings) {
       card.japanese_readings = [];

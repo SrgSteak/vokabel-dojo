@@ -2,6 +2,16 @@
   title="Hauptmenü">♨︎</button>
 <div *ngIf="show" class="menu" #menu (click)="toggle()">
   <div class="links">
+    <ng-container *ngIf="auth.user | async as user else login">
+      <a routerLinkActive="active" routerLink="/user" [routerLinkActiveOptions]="{exact: true}"><i
+          class="feather icon-user"></i>{{ user.displayName }}</a>
+      <ng-container *ngIf=" auth.user | async as user">
+        <a routerLinkActive="active" routerLink="/user/decks" [routerLinkActiveOptions]="{exact: true}">Meine Decks</a>
+      </ng-container>
+    </ng-container>
+    <ng-template #login>
+      <a routerLinkActive="active" routerLink="/user" [routerLinkActiveOptions]="{exact: true}">Loginbereich</a>
+    </ng-template>
     <span class="label"></span>
     <a routerLinkActive="active" routerLink="/home" (click)="toggle()">Home</a>
     <a routerLinkActive="active" routerLink="/dictionary">Wörterbuch</a>
@@ -11,14 +21,6 @@
     <a routerLinkActive="active" routerLink="/syllables/overview" (click)="toggle()">Tabelle</a>
     <span class="label">Vokabel</span>
     <a routerLinkActive="active" routerLink="/decks">Alle Decks</a>
-    <span class="label">Mein Profil</span>
-    <a routerLinkActive="active" routerLink="/user" [routerLinkActiveOptions]="{exact: true}">Loginbereich</a>
-    <ng-container *ngIf=" auth.user | async as user">
-      <a routerLinkActive="active" routerLink="/user/decks" [routerLinkActiveOptions]="{exact: true}">Meine Decks</a>
-      <a routerLinkActive="active" routerLink="/user/decks/new" [routerLinkActiveOptions]="{exact: true}">Neues
-        Deck</a>
-      <a (click)="auth.signOut()">Abmelden</a>
-    </ng-container>
 
     <span class="label">Allgemein</span>
     <a routerLinkActive="active" routerLink="/about">Handbuch</a>

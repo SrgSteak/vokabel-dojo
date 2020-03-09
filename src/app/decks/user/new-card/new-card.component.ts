@@ -58,7 +58,7 @@ export class NewCardComponent implements OnInit {
   private resetCard() {
     this.card = new Card();
     if (this.deck) {
-      this.card.decks.push(this.deck.uid);
+      // this.card.decks.push(this.deck.uid);
     }
   }
 

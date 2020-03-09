@@ -106,7 +106,7 @@ export class EditComponent implements OnInit {
           card.japanese = line[0];
           card.japanese_readings = line[1].split(',');
           card.german = line[2].split(',');
-          card.decks.push(this.deck.uid);
+          // card.decks.push(this.deck.uid);
           this.CardService.add(card);
         }
       });

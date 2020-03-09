@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
@@ -43,11 +44,14 @@ import { WordLearnComponent } from './words/word-learn/word-learn.component';
 import { DictionaryComponent } from './dictionary/dictionary.component';
 import { Angular2CsvModule } from 'angular2-csv';
 import { CalendarComponent } from './time/calendar/calendar.component';
+import { CardInfoComponent } from './shared/card-info/card-info.component';
+import { OnyomiPipe } from './shared/pipes/onyomi.pipe';
 
 @NgModule({
   imports: [
     CoreModule,
     BrowserModule,
+    BrowserAnimationsModule,
     ReactiveFormsModule,
     RouterModule.forRoot([
       { path: '', pathMatch: 'full', redirectTo: 'home' },
@@ -80,8 +84,12 @@ import { CalendarComponent } from './time/calendar/calendar.component';
       { path: 'decks/:uid/:mode', component: DeckPublicShow },
 
       // public card routes
-      { path: 'cards/new', component: CardEditComponent },
-      { path: 'cards/edit/:uid', component: CardEditComponent }
+      { path: 'cards/new', component: CardEditComponent, outlet: 'modal' },
+      { path: 'cards/edit/:uid', component: CardEditComponent, outlet: 'modal' },
+
+      // named router outlet
+      { path: 'card/:card', component: CardInfoComponent, outlet: 'modal' }
+
     ], { anchorScrolling: 'enabled', scrollPositionRestoration: 'enabled' }),
     // automatically registered by pwa install
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
@@ -121,7 +129,9 @@ import { CalendarComponent } from './time/calendar/calendar.component';
     EditCardComponent,
     WordLearnComponent,
     DictionaryComponent,
-    CalendarComponent
+    CalendarComponent,
+    CardInfoComponent,
+    OnyomiPipe
   ],
   bootstrap: [AppComponent],
   providers: [VocabularyService, FlashcardService]

@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { CardService } from './card.service';
 import { FlashcardService } from 'src/app/flashcard.service';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 export interface Deck {
   name: string;
@@ -26,7 +28,14 @@ export class DeckService extends FlashcardService {
   }
 
   get(id: string) {
-    return this.afs.collection('Decks').doc<Deck>(id);
+    return this.afs.collection<Deck>('Decks').doc<Deck>(id);
+  }
+
+  findByName(name: string): Observable<Array<Deck>> {
+    return this.afs.collection<Deck>(
+      'Decks',
+      ref => ref.orderBy('name').where('name', '>=', name).where('name', '<=', name + '\uf8ff')
+    ).valueChanges({ idField: 'uid' })
   }
 
   getDeckForUser(deck_uid: string, user_uid: string) {
@@ -50,16 +59,16 @@ export class DeckService extends FlashcardService {
   }
 
   copyCardsIntoDeck(origin_uid: string, user_uid: string, deck_uid: string) {
-    this.cardService.loadForDeck(origin_uid).get().then(data => {
-      const cards = data.docs.map(e => {
-        const card = e.data();
-        card.uid = e.id;
-        return card;
-      });
-      cards.forEach(card => {
-        this.afs.collection('users').doc(user_uid).collection('Decks').doc(deck_uid).collection('Cards').add(card);
-      });
-    });
+    // this.cardService.loadForDeck(origin_uid).get().then(data => {
+    //   const cards = data.docs.map(e => {
+    //     const card = e.data();
+    //     card.uid = e.id;
+    //     return card;
+    //   });
+    //   cards.forEach(card => {
+    //     this.afs.collection('users').doc(user_uid).collection('Decks').doc(deck_uid).collection('Cards').add(card);
+    //   });
+    // });
   }
 
   add(deck: Deck, user_uid?: string) {

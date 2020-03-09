@@ -26,6 +26,7 @@
 .deck_grid {
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-evenly;
 }
 
 .deck_name {

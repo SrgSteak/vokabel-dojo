@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { flashcard } from './syllables.service';
 import { CardInterface } from './core/entities/card-interface';
 
 @Injectable()
@@ -67,6 +66,4 @@ export class FlashcardService {
     this.pushSubscription = sub;
     this.pushSubscription
   }
-
-
 }

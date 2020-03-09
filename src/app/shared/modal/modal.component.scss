@@ -15,7 +15,7 @@
   background-color: rgba(0, 40, 40, 0.97);
   color: white;
   display: inline-flex;
-  position: absolute;
+  position: fixed;
   padding: 4px;
   text-align: center;
   border-bottom-left-radius: 4px;
@@ -38,7 +38,7 @@
   left: 0px;
   margin-left: 40px;
   margin-right: 40px;
-  position: absolute;
+  position: fixed;
 
   /* box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); */
   background-color: rgba(0,40,40, 0.97);

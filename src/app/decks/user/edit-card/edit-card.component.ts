@@ -6,6 +6,7 @@ import { AuthService } from 'src/app/core/auth.service';
 import { CardInterface } from 'src/app/core/entities/card-interface';
 import { CardService } from 'src/app/core/services/card.service';
 import { Card } from 'src/app/core/entities/card';
+import { CardType } from 'src/app/core/entities/card-type';
 
 @Component({
   selector: 'app-user-card-edit',
@@ -82,7 +83,7 @@ export class EditCardComponent implements OnInit {
             }
           })
         } else {
-          this.card = { german: [], decks: [] };
+          this.card = { german: [], decks: [], cardType: CardType.simple };
         }
       })
     });

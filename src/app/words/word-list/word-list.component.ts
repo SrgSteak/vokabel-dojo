@@ -55,7 +55,7 @@ export class WordListComponent implements OnInit, OnDestroy {
     if (!this.words) {
       this.cardService.loadAll().snapshotChanges().subscribe(data => {
         this.cards = data.map(e => {
-          const card = Card.createFromCardInterface(e.payload.doc.data());
+          const card = Card.createFromCardInterface(e.payload.doc.data() as CardInterface);
           card.uid = e.payload.doc.id;
           return card;
         });
@@ -187,12 +187,6 @@ export class WordListComponent implements OnInit, OnDestroy {
 
   show(card: CardInterface) {
     this.selectedCard.emit(card);
-    if (this.allowEdit) {
-      if (this.user) {
-        this.router.navigate(['/', 'user', 'decks', this.deck.uid, 'cards', card.uid, 'edit']);
-      } else {
-        this.router.navigate(['/', 'cards', 'edit', card.uid]);
-      }
-    }
+    this.router.navigate([{ outlets: { modal: ['card', card.uid] } }])
   }
 }
