@@ -1,73 +1,18 @@
 <button class="submenu2 no-print" [class.open]="showSubmenu" [class.closed-menu]="!showSubmenu"
   (click)="showSubmenu ? showSubmenu = false : showSubmenu = true" title="Einstellungen Vokabelliste">⋮</button>
 <div class="menu" *ngIf="showSubmenu">
-  <span class="label">Links</span>
-  <form [formGroup]="modeForm">
-    <label class=" container">Deutsch
-      <input type="radio" formControlName="left" value="german" name="left">
-      <span class="checkmark">
-        <span class="checkmark_inner"></span>
-      </span>
-    </label>
-    <label class="container">Kanji
-      <input type="radio" formControlName="left" value="kanji" name="left">
-      <span class="checkmark">
-        <span class="checkmark_inner"></span>
-      </span>
-    </label>
-    <label class="container">Hiragana
-      <input type="radio" formControlName="left" value="hiragana" name="left">
-      <span class="checkmark">
-        <span class="checkmark_inner"></span>
-      </span>
-    </label>
-    <label class="container">Katakana
-      <input type="radio" formControlName="left" value="katakana" name="left">
-      <span class="checkmark">
-        <span class="checkmark_inner"></span>
-      </span>
-    </label>
-  </form>
-  <span class="label">Rechts</span>
-  <form [formGroup]="modeForm">
-    <label class=" container">Deutsch
-      <input type="radio" formControlName="right" value="german" name="right">
-      <span class="checkmark">
-        <span class="checkmark_inner"></span>
-      </span>
-    </label>
-    <label class="container">Kanji
-      <input type="radio" formControlName="right" value="kanji" name="right">
-      <span class="checkmark">
-        <span class="checkmark_inner"></span>
-      </span>
-    </label>
-    <label class="container">Hiragana
-      <input type="radio" formControlName="right" value="hiragana" name="right">
-      <span class="checkmark">
-        <span class="checkmark_inner"></span>
-      </span>
-    </label>
-    <label class="container">Katakana
-      <input type="radio" formControlName="right" value="katakana" name="right">
-      <span class="checkmark">
-        <span class="checkmark_inner"></span>
-      </span>
-    </label>
-  </form>
+  <app-font-switcher></app-font-switcher>
 </div>
-<div class="content">
-  <div class="word-list">
-    <label>
-      <input type="search" [formControl]="searchForm" placeholder="Suche">
-    </label>
-    <table>
-      <tr *ngFor="let word of words" (click)="show(word)">
-        <ng-container>
-          <td>{{ reading(word, leftSide) }}</td>
-          <td>{{ reading(word, rightSide) }}</td>
-        </ng-container>
-      </tr>
-    </table>
-  </div>
+<div class="word-list" [class.serif]="fontMode === 'serif'" [class.sans-serif]="fontMode === 'sans-serif'">
+  <label class="no-print">
+    <input type="search" [formControl]="searchForm" placeholder="Suche">
+  </label>
+  <table>
+    <tr *ngFor="let word of words" (click)="show(word)">
+      <td>{{ word.japanese }}</td>
+      <td *ngIf="showGerman">
+        {{ word.getGerman() }}
+      </td>
+    </tr>
+  </table>
 </div>

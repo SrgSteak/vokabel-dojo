@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { DeckService, Deck } from '../../../core/services/deck.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
+import { CardService } from 'src/app/core/services/card.service';
+import { Card } from 'src/app/core/entities/card';
 
 @Component({
   selector: 'app-deck-public-edit',
@@ -17,8 +19,25 @@ export class EditComponent implements OnInit {
     description: ['']
   });
 
+  options = {
+    fieldSeparator: ';',
+    showLabels: false,
+    headers: ['japanese', 'reading', 'german'],
+    useBom: false,
+    removeNewLines: false
+  };
+  data = [
+    {
+      japanese: "綺麗",
+      reading: "きれい",
+      german: "schön"
+    },
+  ];
+
+
   constructor(
     private DeckService: DeckService,
+    private CardService: CardService,
     private route: ActivatedRoute,
     private router: Router,
     private fb: FormBuilder
@@ -61,4 +80,36 @@ export class EditComponent implements OnInit {
     }
   }
 
+  importCSVCards(input: HTMLInputElement): void {
+    if (input.files && input.files.length) {
+      const fileReader = new FileReader();
+      fileReader.onload = this.onFileLoad();
+      for (let index = 0; index < input.files.length; index++) {
+        fileReader.readAsText(input.files[index], "UTF-8");
+      }
+    }
+  }
+
+  private onFileLoad() {
+    return (file) => {
+      const csvSeparator = ';';
+      const csv = [];
+      const lines = file.target.result.split('\r');
+      lines.forEach(element => {
+        const cols: string[] = element.split(csvSeparator);
+        csv.push(cols);
+      });
+      console.log(csv);
+      csv.forEach(line => {
+        if (line.japanese !== 'japanese') {
+          const card = new Card();
+          card.japanese = line[0];
+          card.japanese_readings = line[1].split(',');
+          card.german = line[2].split(',');
+          // card.decks.push(this.deck.uid);
+          this.CardService.add(card);
+        }
+      });
+    }
+  };
 }

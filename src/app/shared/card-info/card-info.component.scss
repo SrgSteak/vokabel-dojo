@@ -1,0 +1,107 @@
+@import "_variables";
+
+:host {
+  overflow: auto;
+  position: fixed;
+  height: 60%;
+  left: 0;
+  right: 0;
+  top: 20%;
+  margin: auto;
+  width: 720px;
+  background-color: white;
+  border-radius: 8px;
+  padding: 8px;
+  box-shadow: 3px 4px 5px 0px rgba(0,0,0,0.3);
+  @media only screen and (max-width: 736px) {
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.3);
+    width: calc(100% - 16px);
+    top: initial;
+    bottom: 0;
+    height: 80%;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+  span {
+    font-weight: lighter;
+    color: $lighterTextColor;
+  }
+  .japanese {
+    text-align: center;
+    font-weight: 800;
+    font-size: 25px;
+  }
+  table {
+    text-align: left;
+    tr:nth-child(even) {
+      background-color: $oddTableColor;
+    }
+    td {
+      padding: 10px;
+      border: none;
+    }
+  }
+}
+
+.action-shortcuts {
+  position: absolute;
+  top: 0;
+  right: 5px;
+  a {
+    vertical-align:top;
+    display: inline-block;
+    margin-right: 6px;
+    text-decoration: none;
+    color: white;
+    background: $mainColor;
+    padding: 5px 8px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    transition: all 0.2s;
+    // box-shadow: ;
+  }
+  a:last-child {
+    margin-right: 0;
+  }
+  a:hover {
+    @media(hover: hover) {
+      padding-top: 8px;
+    }
+  }
+}
+
+.deck {
+  text-decoration: none;
+  color: white;
+  background-color: $mainColor;
+  padding: 4px 6px;
+  margin-right: 2px;
+  border-radius: 4px;
+}
+.deck:last-child {
+  margin-right: 0px;
+}
+ul {
+  margin: 0;
+}
+.decks {
+  margin-top: 5px;
+}
+.section {
+  margin-bottom: 15px;
+}
+
+.wordType {
+  position: absolute;
+  right: 0;
+  bottom: 10px;
+  padding: 5px;
+  color: white;
+  font-family: sans-serif;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  background-color: $mainColor;
+  &.noun {
+    background-color: $nounColor;
+  }
+}

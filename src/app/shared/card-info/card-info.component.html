@@ -1,0 +1,90 @@
+<ng-container *ngIf="card else loading">
+  <div class="action-shortcuts">
+    <a [routerLink]="['', { outlets: { modal: ['cards', 'edit', card.uid] } }]" class="edit"><i
+        class="feather icon-edit"></i></a>
+    <a [routerLink]="['', { outlets: { modal: null } }]" class="edit"><i class="feather icon-x"></i></a>
+  </div>
+  <!-- <div class="metadata">{{ card.createdAt|date:'d.m.Y' }}</div> -->
+  <div class="japanese">
+    {{ card.japanese }}
+  </div>
+  <div class="section readings" *ngIf="card.hasReadings()">
+    <span>
+      Lesungen
+    </span>
+    <ul>
+      <li *ngFor="let reading of card.japanese_readings">{{ reading }}</li>
+    </ul>
+    <ul>
+      <li *ngFor="let reading of card.chinese_readings">{{ reading }}</li>
+    </ul>
+  </div>
+  <div class="section german" *ngIf="card.german.length">
+    <span>
+      Bedeutungen
+    </span>
+    <ul>
+      <li *ngFor="let ger of card.german">{{ ger }}</li>
+    </ul>
+  </div>
+  <div class="section examples" *ngIf="card.examples.length">
+    <span>
+      Beispiele
+    </span>
+    <table>
+      <tr *ngFor="let example of card.examples">
+        <td><ruby>
+            {{ example.japanese }}
+            <rt>{{ example.reading }}</rt>
+          </ruby>
+        </td>
+        <td>{{ example.german }}</td>
+      </tr>
+    </table>
+  </div>
+  <ng-container *ngIf="card.decks.length">
+    <div class="section">
+      <span>
+        Enthalten in
+      </span>
+      <div class="decks">
+        <a [routerLink]="['', { outlets: { primary: ['decks', deck.uid, 'list'], modal: null }}]"
+          *ngFor="let deck of card.decks" class="deck"><i class="feather icon-copy"></i>{{ deck.name }}</a>
+      </div>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="card.cardType == cardTypes.word">
+    <ng-container [ngSwitch]="card.wordType">
+      <div class="wordType noun" *ngSwitchCase="wordTypes.noun">
+        Substantiv
+      </div>
+      <div class="wordType verb" *ngSwitchCase="wordTypes.verb">
+        Verb
+      </div>
+      <div class="wordType adjective" *ngSwitchCase="wordTypes.adjective">
+        Adjektiv
+      </div>
+      <div class="wordType adverb" *ngSwitchCase="wordTypes.adverb">
+        Adverb
+      </div>
+      <div class="wordType pronoun" *ngSwitchCase="wordTypes.pronoun">
+        Pronomen
+      </div>
+      <div class="wordType preposition" *ngSwitchCase="wordTypes.preposition">
+        Präposition
+      </div>
+      <div class="wordType conjunction" *ngSwitchCase="wordTypes.conjunction">
+        Konjunktion
+      </div>
+      <div class="wordType numeral" *ngSwitchCase="wordTypes.numeral">
+        Numeral
+      </div>
+      <div class="wordType interjection" *ngSwitchCase="wordTypes.interjection">
+        Interjektion
+      </div>
+    </ng-container>
+  </ng-container>
+</ng-container>
+<ng-template #loading>
+  <div class="loading">Loading card data...</div>
+</ng-template>

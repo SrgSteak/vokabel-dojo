@@ -1,8 +1,10 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { Card } from 'src/app/core/services/card.service';
 import { Subscription } from 'rxjs';
 import { FormGroup, FormControl } from '@angular/forms';
 import { DeckService } from 'src/app/core/services/deck.service';
+import { CardInterface } from 'src/app/core/entities/card-interface';
+import { Card } from 'src/app/core/entities/card';
+import { FontSwitcherService } from 'src/app/core/services/font-switcher.service';
 
 @Component({
   selector: 'app-word-learn',
@@ -18,10 +20,9 @@ export class WordLearnComponent implements OnInit, OnDestroy {
   showSubmenu = false;
   formSub: Subscription;
   form = new FormGroup({
-    question: new FormControl('kanji'),     // display Questions
+    question: new FormControl('japanese'),     // display Questions
     answer: new FormControl('german'),      // display answers
     displayMode: new FormControl('click'),  // behaviour for next() function
-    fontMode: new FormControl('serif'),     // setting for font of cards. serif or sans-serif.
     rubi: new FormControl('')               // display ruby characters or not
   });
 
@@ -34,11 +35,19 @@ export class WordLearnComponent implements OnInit, OnDestroy {
   get displayMode() {
     return this.form.get('displayMode').value;
   }
+  get rubi() {
+    return this.form.get('rubi').value;
+  }
   get fontMode() {
-    return this.form.get('fontMode').value;
+    // todo
+    return this.fontSwitcherService.currentStyle;
   }
 
-  constructor(private deckService: DeckService) { }
+  get card() {
+    return this.cards[this.show];
+  }
+
+  constructor(private deckService: DeckService, private fontSwitcherService: FontSwitcherService) { }
 
   ngOnInit() {
     this.cards = this._cards;
@@ -50,6 +59,7 @@ export class WordLearnComponent implements OnInit, OnDestroy {
 
   shuffle() {
     this.cards = this.deckService.shuffle(this.cards);
+    this.show = 0;
   }
 
   next() {
@@ -69,6 +79,64 @@ export class WordLearnComponent implements OnInit, OnDestroy {
           this.clicked = true;
         }, 2000);
       }
+    }
+  }
+
+  goToNext() {
+    this.show++;
+    if (this.show >= this.cards.length) {
+      this.show = 0;
+    }
+  }
+
+  goToPrevious() {
+    if (this.show === 0) {
+      this.show = this.cards.length - 1;
+    } else {
+      this.show--;
+    }
+  }
+
+  displayModeForCard(card: CardInterface, mode: string): string {
+    // kanji, rubi active, card has reading
+    if (mode === 'kanji' && card.japanese && this.rubi && card.reading) {
+      return 'kanji_with_rubi';
+
+      // kanji, rubi active, no reading but jap readings
+    } else if (mode === 'kanji' && card.japanese && this.rubi && (card.japanese_readings.length || card.chinese_readings.length)) {
+      if (card.japanese_readings.length || card.chinese_readings.length) {
+        return 'kanji_with_rubi_readings';
+      }
+      return 'kanji_with_rubi_from_jap_readings';
+    }
+
+    if (mode === 'german' && !card.german.length) {
+      return 'kanji_readings_only';
+    }
+    if (mode === 'reading') {
+      if (!card.reading) {
+        return 'kanji_readings_only';
+      }
+    }
+
+    return 'word';
+  }
+
+  displayWithFallback(word: CardInterface, mode: string) {
+    if (word[mode]) {
+      return word[mode];
+    }
+    if (word['kanji']) {
+      return word['kanji'];
+    }
+    if (word['hiragana']) {
+      return word['hiragana'];
+    }
+    if (word['katakana']) {
+      return word['katakana'];
+    }
+    if (word['romaji']) {
+      return word['romaji'];
     }
   }
 }

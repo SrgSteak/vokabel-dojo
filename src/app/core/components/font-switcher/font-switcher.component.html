@@ -1,0 +1,15 @@
+<form [formGroup]="modeForm">
+  <span class="label">Anzeige</span>
+  <label class="container serif">Serif
+    <input type="radio" formControlName="fontMode" value="serif" name="fontMode">
+    <span class="checkmark">
+      <span class="checkmark_inner"></span>
+    </span>
+  </label>
+  <label class="container sans-serif">Sans-Serif
+    <input type="radio" formControlName="fontMode" value="sans-serif" name="fontMode">
+    <span class="checkmark">
+      <span class="checkmark_inner"></span>
+    </span>
+  </label>
+</form>

@@ -23,12 +23,20 @@
   }
 }
 
+.deck_grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
 .deck_name {
   text-align: left;
+  font-family: sans-serif;
 }
 
 .deck_description {
   font-size: 12px;
+  margin-top: 5px;
 }
 
 .deck_created {

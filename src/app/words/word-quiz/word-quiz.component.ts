@@ -1,12 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { VocabularyService } from '../../vocabulary.service';
-import { wordFlashcard } from '../../interfaces/word-flashcard.interface';
-import { flashcard } from '../../interfaces/flashcard.interface';
 import { ActivatedRoute } from '@angular/router';
 import { DeckService } from 'src/app/core/services/deck.service';
-import { Card } from 'src/app/core/services/card.service';
 import { Subscription } from 'rxjs';
 import { FormGroup, FormControl } from '@angular/forms';
+import { CardInterface } from 'src/app/core/entities/card-interface';
+import { FontSwitcherService } from 'src/app/core/services/font-switcher.service';
 
 @Component({
   selector: 'app-word-quiz',
@@ -15,16 +13,16 @@ import { FormGroup, FormControl } from '@angular/forms';
 })
 export class WordQuizComponent implements OnInit {
 
-  @Input() deck: Array<Card>;
-  showCard: Card;
-  answers: Array<Card>;
+  @Input() deck: Array<CardInterface>;
+  showCard: CardInterface;
+  answers: Array<CardInterface>;
   displayError = false;
   displayStatistic = false;
   showSubmenu = false;
   numberAnswers = 3;
   modeSub: Subscription;
   modeForm = new FormGroup({
-    left: new FormControl('kanji'),
+    left: new FormControl('japanese'),
     right: new FormControl('german'),
     rubi: new FormControl('')
   });
@@ -46,7 +44,7 @@ export class WordQuizComponent implements OnInit {
   }
 
 
-  constructor(private route: ActivatedRoute, public deckService: DeckService) {
+  constructor(private route: ActivatedRoute, public deckService: DeckService, public fontSwitcher: FontSwitcherService) {
   }
 
   get scoredWords() {
@@ -62,7 +60,6 @@ export class WordQuizComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.updateAvailableModes();
     this.layout();
   }
 
@@ -89,7 +86,7 @@ export class WordQuizComponent implements OnInit {
     this.answers = this.deckService.shuffle(this.answers);
   }
 
-  answerSelect(question: Card, answer: Card) {
+  answerSelect(question: CardInterface, answer: CardInterface) {
     if (question.uid == answer.uid) {
       this.deckService.totalHits++;
       if (!this.displayError) {
@@ -98,7 +95,6 @@ export class WordQuizComponent implements OnInit {
       this.displayError = false;
       this.layout();
     } else {
-      console.log('not correct');
       if (!this.displayError) {
         question.misses++;
         this.deckService.totalMisses++;
@@ -110,43 +106,6 @@ export class WordQuizComponent implements OnInit {
   updateNumberAnswers(number: number) {
     this.numberAnswers = number;
     this.layout();
-  }
-
-  reading(word: Card, mode: string) {
-    if (word.hasOwnProperty(mode)) {
-      if (word[mode]) {
-        return word[mode];
-      }
-    }
-    if (word['kanji']) {
-      return word['kanji'];
-    }
-    if (word['hiragana']) {
-      return word['hiragana'];
-    }
-    if (word['katakana']) {
-      return word['katakana'];
-    }
-    if (word['romaji']) {
-      return word['romaji'];
-    }
-  }
-
-  updateAvailableModes() {
-    this.enableHiragana = false;
-    this.enableKatakana = false;
-    this.enableKanji = false;
-    this.deck.forEach(card => {
-      if (card.hiragana) {
-        this.enableHiragana = true;
-      }
-      if (card.katakana) {
-        this.enableKatakana = true;
-      }
-      if (card.kanji) {
-        this.enableKanji = true;
-      }
-    })
   }
 }
 

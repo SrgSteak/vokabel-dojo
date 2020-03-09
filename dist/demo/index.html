@@ -1,44 +1,52 @@
-
 <!doctype html>
 <html lang="de">
-  <head>
-    <title>Vokabeldojo</title>
-    <meta name="Description" content="Übe und lerne neue Silben, Vokabeln oder Kanji - auch Unterwegs und ohne Internet!">
-    <!-- sets the PWA manifest. (see angular.json build assets) -->
-    <link rel="manifest" href="/manifest.webmanifest">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, viewport-fit=cover">
-    <meta charset="utf-8">
-    <!-- Apple Touch Icons, Statusbar and Splashscreen "settings" -->
-    <link rel="apple-touch-icon" sizes="72x72" href="assets/icons/icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="96x96" href="assets/icons/icon-96x96.png">
-    <link rel="apple-touch-icon" sizes="128x128" href="assets/icons/icon-128x128.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="assets/icons/icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="assets/icons/icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="192x192" href="assets/icons/icon-192x192.png">
-    <link rel="apple-touch-icon" sizes="384x384" href="assets/icons/icon-384x384.png">
-    <link rel="apple-touch-icon" sizes="512x512" href="assets/icons/icon-512x512.png">
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="Vokabeldojo - The best way">
-    <!-- Apple Touch Icons, Statusbar and Splashscreen "settings" END -->
 
-    <!-- <link rel="apple-touch-startup-image" href="assets/splashscreens/splashscreen_640x1136.png" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+<head>
+  <title>Vokabeldojo</title>
+  <meta name="Description" content="Übe und lerne neue Silben, Vokabeln oder Kanji - auch Unterwegs und ohne Internet!">
+  <!-- sets the PWA manifest. (see angular.json build assets) -->
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, viewport-fit=cover">
+  <meta charset="utf-8">
+  <!-- Apple Touch Icons, Statusbar and Splashscreen "settings" -->
+  <link rel="apple-touch-icon" sizes="72x72" href="assets/icons/icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="96x96" href="assets/icons/icon-96x96.png">
+  <link rel="apple-touch-icon" sizes="128x128" href="assets/icons/icon-128x128.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="assets/icons/icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="assets/icons/icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="assets/icons/icon-192x192.png">
+  <link rel="apple-touch-icon" sizes="384x384" href="assets/icons/icon-384x384.png">
+  <link rel="apple-touch-icon" sizes="512x512" href="assets/icons/icon-512x512.png">
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Vokabeldojo - The best way">
+  <!-- <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_o5hd5vvqpoqiwwmi.css"> -->
+  <!-- Apple Touch Icons, Statusbar and Splashscreen "settings" END -->
+
+  <!-- <link rel="apple-touch-startup-image" href="assets/splashscreens/splashscreen_640x1136.png" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
 <link rel="apple-touch-startup-image" href="assets/splashscreens/splashscreen_750x1294.png" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
 <link rel="apple-touch-startup-image" href="assets/splashscreens/splashscreen_1242x2148.png" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)"> -->
 
-<!-- iPhone XS, X -->
-<link rel="apple-touch-startup-image" href="assets/splashscreens/splashscreen-1125x2436.png" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
-<link rel="apple-touch-startup-image" href="assets/splashscreens/splashscreen-2436x1125.png" media="(device-width: 812px) and (device-height: 375px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)">
+  <!-- iPhone XS, X -->
+  <link rel="apple-touch-startup-image" href="assets/splashscreens/splashscreen-1125x2436.png"
+    media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="assets/splashscreens/splashscreen-2436x1125.png"
+    media="(device-width: 812px) and (device-height: 375px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)">
 
-<!-- iPad Pro 10.5 -->
-<link rel="apple-touch-startup-image" href="assets/splashscreens/splashscreen-1668x2224.png" media="(min-device-width: 834px) and (max-device-width: 834px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait)">
-<link rel="apple-touch-startup-image" href="assets/splashscreens/splashscreen-2048x2732.png" media="(min-device-width: 1024px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait)">
+  <!-- iPad Pro 10.5 -->
+  <link rel="apple-touch-startup-image" href="assets/splashscreens/splashscreen-1668x2224.png"
+    media="(min-device-width: 834px) and (max-device-width: 834px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="assets/splashscreens/splashscreen-2048x2732.png"
+    media="(min-device-width: 1024px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait)">
 
-<!-- <link rel="apple-touch-startup-image" href="assets/splashscreens/splashscreen_1536x2048.png" media="(min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait)"> -->
-    <base href="/">
-  <link rel="stylesheet" href="styles.1a14915a52e33f578443.css"></head>
-  <body>
-    <noscript>Please enable Javascript in your Browser! Du musst Javascript aktivieren um diese Seite verwenden zu können!</noscript>
-    <app-root></app-root>
-  <script type="text/javascript" src="runtime.26209474bfa8dc87a77c.js"></script><script type="text/javascript" src="polyfills.497efbf031f2bcfa427c.js"></script><script type="text/javascript" src="main.d5b48351c2ef99cc5467.js"></script></body>
+  <!-- <link rel="apple-touch-startup-image" href="assets/splashscreens/splashscreen_1536x2048.png" media="(min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait)"> -->
+  <base href="/">
+<link rel="stylesheet" href="styles.261e7cdeffb9e8998c99.css"></head>
+
+<body>
+  <noscript>Please enable Javascript in your Browser! Du musst Javascript aktivieren um diese Seite verwenden zu
+    können!</noscript>
+  <app-root></app-root>
+<script src="runtime-es2015.edb2fcf2778e7bf1d426.js" type="module"></script><script src="runtime-es5.edb2fcf2778e7bf1d426.js" nomodule defer></script><script src="polyfills-es5.a07c956f11ed89a5f319.js" nomodule defer></script><script src="polyfills-es2015.c3a42b136b8c6a45f326.js" type="module"></script><script src="main-es2015.d6e2aaffe7bfba923528.js" type="module"></script><script src="main-es5.d6e2aaffe7bfba923528.js" nomodule defer></script></body>
+
 </html>

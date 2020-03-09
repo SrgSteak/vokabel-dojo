@@ -1,6 +1,6 @@
 <div class="content">
-  <div class="grid">
-    <a [routerLink]="['/', 'decks', deck.uid, 'table']" class="grid-content" *ngFor="let deck of decks">
+  <div class="deck_grid">
+    <a [routerLink]="['/', 'decks', deck.uid, 'list']" class="grid-content" *ngFor="let deck of decks">
       <div class="deck_name">
         {{ deck.name }}
       </div>
@@ -8,7 +8,7 @@
         {{ deck.description }}
       </div>
       <div class="deck_created">
-        {{ deck.createdAt.toDate() | date:'H:m dd.MM.yy'}}
+        {{ deck.createdAt.toDate() | date:'dd.MM.yy'}}
       </div>
     </a>
   </div>

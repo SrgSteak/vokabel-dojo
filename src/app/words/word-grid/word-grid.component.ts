@@ -1,11 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { wordFlashcard } from 'src/app/interfaces/word-flashcard.interface';
-import { Subscription } from 'rxjs';
-import { FormControl, FormGroup } from '@angular/forms';
-import { VocabularyService } from 'src/app/vocabulary.service';
-import { syllableFlashcard } from 'src/app/interfaces/syllable-flashcard.interface';
 import { SyllablesService } from 'src/app/syllables.service';
 import { DeckService } from 'src/app/core/services/deck.service';
+import { CardInterface } from 'src/app/core/entities/card-interface';
+import { Card } from 'src/app/core/entities/card';
+import { FontSwitcherService } from 'src/app/core/services/font-switcher.service';
 
 @Component({
   selector: 'app-word-grid',
@@ -13,32 +11,44 @@ import { DeckService } from 'src/app/core/services/deck.service';
   styleUrls: ['./word-grid.component.scss']
 })
 export class WordGridComponent implements OnInit {
-  @Input() deck: Array<wordFlashcard>;
-  syllables: Array<syllableFlashcard>;
-  mode = 'hiragana';
-  currentWord: wordFlashcard;
-  buildWord: Map<number, syllableFlashcard>;
+  @Input() deck: Array<Card>;
+  syllables: Array<CardInterface>;
+  mode = 'japanese';
+  currentWord: Card;
+  buildWord: Map<number, CardInterface>;
   buildWordString: string;
-  currentGrid: Array<syllableFlashcard>;
+  currentGrid: Array<CardInterface>;
   showSubmenu = false;
+  show = 0;
+  characterSet: Array<string> = [];
+  currentQuestion: string;
+  currentAnswer: string;
 
-  constructor(private vocabularyService: DeckService, private syllablesService: SyllablesService) {
+  constructor(private syllablesService: SyllablesService, public fontSwitcherService: FontSwitcherService) {
   }
 
   ngOnInit() {
-    this.setMode('hiragana');
+    this.characterSet = this.syllablesService.createCharactersetFromCard(this.deck);
+    this.setMode('japanese');
     this.layout();
   }
 
   layout() {
-    this.buildWord = new Map<number, syllableFlashcard>();
+    this.buildWord = new Map<number, Card>();
     this.buildWordString = '';
-    this.currentWord = this.deck[0];
-    do {
-      this.deck = this.vocabularyService.shuffle(this.deck);
-    } while (this.currentWord[this.mode] == this.deck[0][this.mode] && this.deck.length > 1);
-    this.currentWord = this.deck[0];
-    this.currentGrid = this.syllablesService.getCardsContaining(this.currentWord[this.mode], 24 - this.currentWord[this.mode].length);
+    this.currentWord = this.deck[this.show];
+    this.currentQuestion = this.currentWord.getReading();
+    // TODO: check currentWord against mode. If not available, skip.
+    this.currentAnswer = this.currentWord.japanese;
+    let sizeGrid = 24;
+    if (sizeGrid > this.characterSet.length) {
+      sizeGrid = this.characterSet.length;
+    }
+    this.currentGrid = this.syllablesService.getCardsContaining(this.currentAnswer, sizeGrid - this.currentAnswer.length, this.characterSet);
+    // console.log('currentQuestion: ' + this.currentQuestion);
+    // console.log('currentAnswer: ' + this.currentAnswer);
+    // console.log(this.characterSet);
+    // console.log(this.currentGrid);
   }
 
   ngOnDestroy() {
@@ -61,14 +71,20 @@ export class WordGridComponent implements OnInit {
     }
 
     this.buildWord.forEach((value, key) => {
-      this.buildWordString += value[this.mode];
+      this.buildWordString += value;
     });
-
-    if (this.buildWordString == this.currentWord[this.mode]) {
+    console.log('searching for: ' + this.currentAnswer);
+    console.log('typed: ' + this.buildWordString);
+    if (this.buildWordString == this.currentAnswer) {
       setTimeout(() => {
         const cls = document.getElementsByClassName('gridpart');
         for (var i = 0; i < cls.length; i++) {
           cls[i].removeAttribute("style");
+        }
+        if (this.show >= this.deck.length - 1) {
+          this.show = 0;
+        } else {
+          this.show++;
         }
         this.layout();
       }, 2000);
@@ -117,6 +133,7 @@ export class WordGridComponent implements OnInit {
   }
 
   skipWord() {
+    return "";
     let cls = document.getElementsByClassName('gridpart');
     for (var i = 0; i < cls.length; i++) {
       cls[i].removeAttribute("style");

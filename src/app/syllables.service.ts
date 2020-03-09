@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FlashcardService } from './flashcard.service';
+import { CardInterface } from './core/entities/card-interface';
 
 @Injectable({
   providedIn: 'root',
@@ -154,11 +155,11 @@ export class SyllablesService extends FlashcardService {
     return selected_rows;
   }
 
-  getCardsContaining(word: string, extras: number) {
+  getCardsContaining(word: string, extras: number, fromDeck?: Array<string>) {
     const deck = [];
-    let syllables = this.getAll();
+    let syllables = fromDeck ? fromDeck : this.getAll();
     word.split('').forEach((char: string) => {
-      const syllable = syllables.find((card) => { return card.german === char || card.hiragana === char || card.katakana === char });
+      const syllable = syllables.find((card) => { return card === char });
       deck.push(syllable);
     });
     syllables = this.shuffle(syllables);
@@ -166,6 +167,14 @@ export class SyllablesService extends FlashcardService {
       deck.push(syllables[index]);
     }
     return this.shuffle(deck);
+  }
+
+  createCharactersetFromCard(cards: Array<CardInterface>) {
+    let collection = "";
+    cards.forEach(card => {
+      collection = collection + card.japanese;
+    });
+    return collection.split('');
   }
 }
 

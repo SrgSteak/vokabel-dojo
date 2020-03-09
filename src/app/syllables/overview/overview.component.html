@@ -1,13 +1,29 @@
-<button class="submenu no-print" [class.open]="showSubmenu" [class.closed-menu]="!showSubmenu" (click)="showSubmenu ? showSubmenu = false : showSubmenu = true" title="Einstellungen Silbentabelle">✍︎</button>
+<button class="submenu no-print" [class.open]="showSubmenu" [class.closed-menu]="!showSubmenu"
+  (click)="showSubmenu ? showSubmenu = false : showSubmenu = true" title="Einstellungen Silbentabelle">✍︎</button>
 <div class="menu" *ngIf="showSubmenu">
+  <span class="label">Anzeige</span>
+  <form [formGroup]="settingsForm">
+    <label class="container serif">Serif
+      <input type="radio" formControlName="font" value="serif" name="font">
+      <span class="checkmark">
+        <span class="checkmark_inner"></span>
+      </span>
+    </label>
+    <label class="container sans-serif">Sans-Serif
+      <input type="radio" formControlName="font" value="sans-serif" name="font">
+      <span class="checkmark">
+        <span class="checkmark_inner"></span>
+      </span>
+    </label>
+  </form>
   <span class="label">Modus</span>
   <div class="dropdown-content">
-      <a [class.selected]="display == 'hiragana'" (click)="display = 'hiragana'">Hiragana</a>
-      <a [class.selected]="display == 'katakana'" (click)="display = 'katakana'">Katakana</a>
+    <a [class.selected]="display == 'hiragana'" (click)="display = 'hiragana'">Hiragana</a>
+    <a [class.selected]="display == 'katakana'" (click)="display = 'katakana'">Katakana</a>
   </div>
 </div>
 
-<div class="content">
+<div class="content {{ font }}">
   <div class="overview">
     <table>
       <tr>
@@ -33,12 +49,12 @@
           <td> {{ row.value[1][display] }}</td>
         </ng-container>
         <ng-container *ngIf="row.key === 'y'">
-            <td> {{ row.value[0][display] }}</td>
-            <td></td>
-            <td> {{ row.value[1][display] }}</td>
-            <td></td>
-            <td> {{ row.value[2][display] }}</td>
-          </ng-container>
+          <td> {{ row.value[0][display] }}</td>
+          <td></td>
+          <td> {{ row.value[1][display] }}</td>
+          <td></td>
+          <td> {{ row.value[2][display] }}</td>
+        </ng-container>
       </tr>
     </table>
     <h2>Dakuten / Nigori「 ゛」</h2>

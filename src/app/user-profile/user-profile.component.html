@@ -43,8 +43,7 @@
     <!-- User logged in -->
     <ng-template #authenticated>
       <div *ngIf="auth.user | async as user">
-        <p>Du bist derzeit angemeldet als:</p>
-        <h3>Username: {{ user.displayName }}</h3>
+        <p>Du bist derzeit angemeldet als: {{ user.displayName }}</p>
         <p>Email: {{ user.email }}</p>
         <p>UID: {{ user.uid }}</p>
         <p><a [routerLink]="['/user/decks']">Meine Decks</a></p>

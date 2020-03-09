@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { DeckService, Deck } from 'src/app/core/services/deck.service';
-import { CardService, Card } from 'src/app/core/services/card.service';
+import { CardService } from 'src/app/core/services/card.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from 'src/app/core/auth.service';
+import { AuthService, User } from 'src/app/core/auth.service';
+import { Card } from 'src/app/core/entities/card';
+import { CardInterface } from 'src/app/core/entities/card-interface';
 
 @Component({
   selector: 'app-deck-public-show',
@@ -12,10 +14,12 @@ import { AuthService } from 'src/app/core/auth.service';
 export class ShowComponent implements OnInit {
 
   cards = [];
+  oldCards = [];
   deck: Deck;
   mode: string;
   allowEdit = false;
   showSubmenu = false;
+  user: User;
 
   constructor(
     private deckService: DeckService,
@@ -27,14 +31,15 @@ export class ShowComponent implements OnInit {
   ngOnInit() {
     this.auth.user.subscribe(user => {
       if (user) {
+        this.user = user;
         this.allowEdit = user.role === 'admin';
       }
     });
     this.route.paramMap.subscribe(params => {
       this.mode = params.get('mode');
-      this.cardService.loadForDeck(params.get('uid')).get().then(data => {
-        this.cards = data.docs.map(e => {
-          const card = e.data();
+      this.cardService.loadForDeckLegacy(params.get('uid')).get().then(data => {
+        this.oldCards = data.docs.map(e => {
+          const card = Card.createFromCardInterface(e.data() as CardInterface);
           card.uid = e.id;
           return card;
         })
@@ -42,14 +47,31 @@ export class ShowComponent implements OnInit {
       this.deckService.get(params.get('uid')).snapshotChanges().subscribe(data => {
         this.deck = data.payload.data();
         this.deck.uid = data.payload.id;
+        this.cardService.loadForDeck(this.deck.name, this.deck.uid).get().then(data => {
+          this.cards = data.docs.map(e => {
+            const card = Card.createFromCardInterface(e.data() as CardInterface);
+            card.uid = e.id;
+            return card;
+          })
+        });
       });
     });
   }
 
-  addCard(card: Card) {
+  addCard(card: CardInterface) {
     this.cards.push(card);
+    this.cardService.add(card, this.deck);
   }
 
+  editMe(card: CardInterface) {
+    if (this.allowEdit) {
+      this.router.navigate(['/', 'cards', 'edit', card.uid]);
+    }
+  }
+
+  /**
+   * TODO: add loading indicator, show copy progress, redirect
+   */
   addToCollection() {
     if (confirm('Dieses Deck jetzt kopieren?')) {
       this.auth.user.subscribe(user => {

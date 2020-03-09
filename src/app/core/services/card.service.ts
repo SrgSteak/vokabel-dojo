@@ -1,23 +1,8 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
-
-import { Observable, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
-import { wordFlashcard } from 'src/app/interfaces/word-flashcard.interface';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { User } from '../auth.service';
 import { Deck } from './deck.service';
-
-export interface Card extends wordFlashcard {
-  uid?: string;
-  german: string;
-  romaji?: string;
-  hiragana?: string;
-  katakana?: string;
-  kanji?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-  decks?: Array<string>;
-}
+import { CardInterface } from '../entities/card-interface';
 
 @Injectable({
   providedIn: 'root'
@@ -28,9 +13,9 @@ export class CardService {
 
   get(id: string, deck_id?: string, user_id?: string) {
     if (deck_id && user_id) {
-      return this.afs.collection('users').doc(user_id).collection('Decks').doc(deck_id).collection('Cards').doc<Card>(id);
+      return this.afs.collection('users').doc(user_id).collection('Decks').doc(deck_id).collection('Cards').doc<CardInterface>(id);
     } else {
-      return this.afs.collection('Cards').doc<Card>(id);
+      return this.afs.collection('Cards').doc<CardInterface>(id);
     }
   }
 
@@ -40,26 +25,30 @@ export class CardService {
    * @param deck
    * @param user
    */
-  add(card: Card, deck?: Deck, user?: User) {
+  add(card: CardInterface, deck?: Deck, user?: User) {
     card.createdAt = new Date();
     card.updatedAt = new Date();
     if (user) {
-      this.afs.collection('users').doc(user.uid).collection('Decks').doc(deck.uid).collection('Cards').add(card);
+      this.afs.collection('users').doc(user.uid).collection('Decks').doc(deck.uid).collection('Cards').add(Object.assign({}, card));
     } else {
-      this.afs.collection('Cards').add(card);
+      this.afs.collection('Cards').add(Object.assign({}, card));
     }
   }
 
-  update(card: Card, deck?: string, user?: string) {
+  update(card: CardInterface, deck?: string, user?: string) {
     card.updatedAt = new Date();
     if (user) {
-      this.afs.collection('users').doc(user).collection('Decks').doc(deck).collection('Cards').doc(card.uid).set(card, { merge: true });
+      this.afs.collection('users').doc(user).collection('Decks').doc(deck).collection('Cards').doc(card.uid).set(Object.assign({}, card), { merge: true });
     }
-    this.afs.collection('Cards').doc(card.uid).set(card, { merge: true });
+    this.afs.collection('Cards').doc(card.uid).set(Object.assign({}, card), { merge: true });
   }
 
-  delete(id: string) {
-    this.afs.collection('Cards').doc(id).delete();
+  delete(id: string, deck?: string, user?: string) {
+    if (user) {
+      this.afs.collection('users').doc(user).collection('Decks').doc(deck).collection('Cards').doc(id).delete();
+    } else {
+      this.afs.collection('Cards').doc(id).delete();
+    }
   }
 
   loadAll() {
@@ -69,7 +58,11 @@ export class CardService {
     );
   }
 
-  loadForDeck(deck: string) {
-    return this.afs.firestore.collection('Cards').orderBy('createdAt').where('decks', 'array-contains', deck);
+  loadForDeck(deck: string, uid: string) {
+    return this.afs.firestore.collection('Cards').orderBy('createdAt').where('decks', 'array-contains', { name: deck, uid: uid });
+  }
+
+  loadForDeckLegacy(uid: string) {
+    return this.afs.firestore.collection('Cards').orderBy('createdAt').where('decks', 'array-contains', uid);
   }
 }

@@ -1,15 +1,3 @@
 <div class="content">
-    <div class="grid">
-      <div class="row">
-        <div class="col" *ngFor="let card of cards">
-          <a [routerLink]="['/cards/edit/' + card.uid]" class="grid-content">
-            <div class="deck_name">
-                {{ card.german }}
-              </div>
-              <div class="deck_created">
-                {{ card.createdAt.toDate() | date:'H:m dd.MM.yy'}}
-              </div>
-          </a>
-        </div>
-      </div>
-    </div>
+  <app-word-list [cards]="cards" *ngIf="cards.length"></app-word-list>
+</div>

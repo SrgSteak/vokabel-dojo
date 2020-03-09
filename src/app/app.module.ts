@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
@@ -40,17 +41,24 @@ import { NewCardComponent } from './decks/user/new-card/new-card.component';
 import { ListComponent } from './decks/public/list/list.component';
 import { EditCardComponent } from './decks/user/edit-card/edit-card.component';
 import { WordLearnComponent } from './words/word-learn/word-learn.component';
+import { DictionaryComponent } from './dictionary/dictionary.component';
+import { Angular2CsvModule } from 'angular2-csv';
+import { CalendarComponent } from './time/calendar/calendar.component';
+import { CardInfoComponent } from './shared/card-info/card-info.component';
+import { OnyomiPipe } from './shared/pipes/onyomi.pipe';
 
 @NgModule({
   imports: [
     CoreModule,
     BrowserModule,
+    BrowserAnimationsModule,
     ReactiveFormsModule,
     RouterModule.forRoot([
       { path: '', pathMatch: 'full', redirectTo: 'home' },
       { path: 'home', pathMatch: 'full', component: WelcomeComponent },
       { path: 'quiz', component: QuizComponent },
       { path: 'learn', component: LearnComponent },
+      { path: 'dictionary', component: DictionaryComponent },
       { path: 'syllables/overview', component: OverviewComponent },
       { path: 'word-quiz', redirectTo: 'word-quiz/hiragana' },
       { path: 'word-quiz/:type', component: WordQuizComponent },
@@ -76,9 +84,12 @@ import { WordLearnComponent } from './words/word-learn/word-learn.component';
       { path: 'decks/:uid/:mode', component: DeckPublicShow },
 
       // public card routes
-      { path: 'cards', component: CardListComponent },
-      { path: 'cards/new', component: CardEditComponent },
-      { path: 'cards/edit/:uid', component: CardEditComponent }
+      { path: 'cards/new', component: CardEditComponent, outlet: 'modal' },
+      { path: 'cards/edit/:uid', component: CardEditComponent, outlet: 'modal' },
+
+      // named router outlet
+      { path: 'card/:card', component: CardInfoComponent, outlet: 'modal' }
+
     ], { anchorScrolling: 'enabled', scrollPositionRestoration: 'enabled' }),
     // automatically registered by pwa install
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
@@ -87,7 +98,8 @@ import { WordLearnComponent } from './words/word-learn/word-learn.component';
     AngularFirestoreModule,
     AngularFireStorageModule, // Only required for storage features
     AngularFireAuthModule,
-    AngularFireDatabaseModule
+    AngularFireDatabaseModule,
+    Angular2CsvModule
   ],
   declarations: [
     AppComponent,
@@ -115,7 +127,11 @@ import { WordLearnComponent } from './words/word-learn/word-learn.component';
     DeckPublicShow,
     DeckPublicEdit,
     EditCardComponent,
-    WordLearnComponent
+    WordLearnComponent,
+    DictionaryComponent,
+    CalendarComponent,
+    CardInfoComponent,
+    OnyomiPipe
   ],
   bootstrap: [AppComponent],
   providers: [VocabularyService, FlashcardService]

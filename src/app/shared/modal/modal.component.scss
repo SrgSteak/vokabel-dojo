@@ -5,14 +5,17 @@
 }
 
 .modal-content-inner {
-  padding: 40px;
+  padding: 15px;
+  @media screen and (min-width: 500px) {
+    padding: 40px;
+  }
 }
 
 .modal-teaser {
   background-color: rgba(0, 40, 40, 0.97);
   color: white;
   display: inline-flex;
-  position: absolute;
+  position: fixed;
   padding: 4px;
   text-align: center;
   border-bottom-left-radius: 4px;
@@ -31,9 +34,12 @@
 }
 
 .modal-content {
-  // width: 100%;
+  right: 0px;
+  left: 0px;
   margin-left: 40px;
   margin-right: 40px;
+  position: fixed;
+
   /* box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); */
   background-color: rgba(0,40,40, 0.97);
   color: white;
@@ -41,7 +47,6 @@
   max-height: 90%;
   overflow: auto;
   /* scroll-behavior: auto; */
-  position: absolute;
   border-bottom-left-radius: 4px;
   transition: all .3s ease;
 }

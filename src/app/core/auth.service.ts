@@ -6,13 +6,18 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 
 import { Observable, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, tap, startWith } from 'rxjs/operators';
 
 export interface User {
   uid: string;
   email: string;
   displayName?: string;
   role: string;
+  settings?: Settings;
+}
+
+interface Settings {
+  fontStyle: string;
 }
 
 
@@ -35,7 +40,10 @@ export class AuthService {
         } else {
           return of(null)
         }
-      })
+      }),
+      // Add these lines to set/read the user data to local storage
+      tap(user => localStorage.setItem('user', JSON.stringify(user))),
+      startWith(JSON.parse(localStorage.getItem('user')))
     )
   }
 
@@ -63,7 +71,7 @@ export class AuthService {
   // }
 
 
-  private updateUserData(user) {
+  public updateUserData(user) {
     // Sets user data to firestore on login
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
 
@@ -71,7 +79,8 @@ export class AuthService {
       uid: user.uid,
       email: user.email,
       displayName: user.displayName,
-      role: user.role ? user.role : 'user'
+      role: user.role,
+      settings: user.settings
     }
 
     return userRef.set(data, { merge: true });

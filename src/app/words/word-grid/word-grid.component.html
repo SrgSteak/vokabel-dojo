@@ -1,10 +1,41 @@
-<div class="word-grid">
+<button class="submenu2 no-print" [class.open]="showSubmenu" [class.closed-menu]="!showSubmenu"
+  (click)="showSubmenu ? showSubmenu = false : showSubmenu = true" title="Einstellungen Lernmodus">⋮</button>
+<div class="menu" *ngIf="showSubmenu">
+  <app-font-switcher></app-font-switcher>
+</div>
+
+<app-modal #modal>
+  <div class="main-content">
+    <div class="detail">
+      <div class="detail-content">
+        {{ currentWord.german.join() }}
+        <hr class="line">
+        <ul>
+          <li *ngFor="let example of currentWord.examples">{{ example.german }}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="teaser">
+    {{ show + 1 }} / {{ deck.length }}
+  </div>
+</app-modal>
+
+
+<div class="word-grid {{ fontSwitcherService.currentStyle }}">
   <div class="word" [class.success]="buildWordString == currentWord[mode]" (click)="skipWord()">
-    {{ currentWord.german }}</div>
+    <ng-container *ngIf="!currentWord.hasReadings()">
+      {{ currentWord.german.join() }}
+    </ng-container>
+    <ng-container *ngIf="currentWord.hasReadings()">
+
+      {{ currentWord.japanese_readings.join() }} ({{ currentWord.chinese_readings.join() }})
+    </ng-container>
+  </div>
   <div class="answer"></div>
   <div class="grid">
     <div class="gridpart" *ngFor="let char of this.currentGrid; let i = index" (click)="selectedChar(i, $event.target)">
-      {{ char[mode] }}
+      {{ char }}
     </div>
   </div>
 </div>

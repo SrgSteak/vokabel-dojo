@@ -1,3 +1,45 @@
+.detail {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.detail-content {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.detail-content .line {
+  min-width: 170px;
+  @media screen and (min-width: 439px) {
+    min-width: 235px;
+  }
+  @media screen and (min-width: 600px) {
+    min-width: 280px;
+  }
+  @media screen and (min-width: 767px) {
+    min-width: 500px;
+  }
+  @media screen and (min-width: 767px) {
+    min-width: 500px;
+  }
+  @media screen and (min-width: 1000px) {
+    min-width: 750px;
+  }
+  @media screen and (min-width: 1300px) {
+    min-width: 1000px;
+  }
+  @media screen and (min-width: 1700px) {
+    min-width: 1250px;
+  }
+  width: 100%;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
 
 .word-grid {
   display: flex;
@@ -9,7 +51,7 @@
 .word {
   text-align: center;
   padding-top: 10px;
-  font-size: 10vw;
+  font-size: 5vw;
   @media screen and (max-width: 768px) {
     font-size: 35px;
   }
@@ -24,6 +66,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  align-items: flex-end;
   align-content: flex-end;
   width: 100%;
   padding-bottom: 15px;
@@ -36,6 +79,7 @@
   background-color: teal;
   transition: all 0.5s ease 0s;
   border-radius: 4px;
+  max-height: 35px;
 }
 
 .answer {

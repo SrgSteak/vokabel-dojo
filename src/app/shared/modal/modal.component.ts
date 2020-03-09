@@ -7,15 +7,15 @@ import { Component, OnInit, ViewChild, ElementRef, HostListener, AfterViewInit }
 })
 export class ModalComponent implements OnInit, AfterViewInit {
 
-  @ViewChild('content') content: ElementRef;
-  @ViewChild('teaser') teaser: ElementRef;
+  @ViewChild('content', { static: true }) content: ElementRef;
+  @ViewChild('teaser', { static: true }) teaser: ElementRef;
 
   open = false;
 
   constructor() {
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   ngAfterViewInit() {
     this.content.nativeElement.style.top = '-' + this.content.nativeElement.getBoundingClientRect().height + 'px';
@@ -39,15 +39,18 @@ export class ModalComponent implements OnInit, AfterViewInit {
   }
 
   positionModal() {
-    if (this.open) {
-      this.teaser.nativeElement.style.top = this.content.nativeElement.getBoundingClientRect().height + 'px';
-    } else {
-      this.content.nativeElement.style.top = '-' + this.content.nativeElement.getBoundingClientRect().height + 'px';
-    }
+    setTimeout(() => {
+
+      if (this.open) {
+        this.teaser.nativeElement.style.top = this.content.nativeElement.getBoundingClientRect().height + 'px';
+      } else {
+        this.content.nativeElement.style.top = '-' + this.content.nativeElement.getBoundingClientRect().height + 'px';
+      }
+    }, 1);
   }
 
   @HostListener('window:resize', ['$event'])
-    onResize() {
-      this.positionModal();
-    }
+  onResize() {
+    this.positionModal();
+  }
 }

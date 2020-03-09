@@ -9,7 +9,7 @@
       </div>
     </a>
 
-    <a [routerLink]="['/', 'user', 'decks', deck.uid, 'table']" class="grid-content" *ngFor="let deck of decks">
+    <a [routerLink]="['/', 'user', 'decks', deck.uid, 'list']" class="grid-content" *ngFor="let deck of decks">
       <div class="deck_name">
         {{ deck.name }}
       </div>
