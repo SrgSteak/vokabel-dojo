@@ -42,6 +42,19 @@
       </tr>
     </table>
   </div>
+  <div class="section konjugations" *ngIf="card.wordType === wordTypes.verb">
+    <span>
+      Flexionstabelle
+    </span>
+    <app-verb-table [card]="card"></app-verb-table>
+  </div>
+  <div class="section konjugations" *ngIf="card.wordType === wordTypes.adjective">
+    <span>
+      Flexionstabelle
+    </span>
+    <app-adjective-table [card]="card">
+    </app-adjective-table>
+  </div>
   <ng-container *ngIf="card.decks.length">
     <div class="section">
       <span>
@@ -59,10 +72,31 @@
         Substantiv
       </div>
       <div class="wordType verb" *ngSwitchCase="wordTypes.verb">
-        Verb
+        <ng-container [ngSwitch]="card.verbType">
+          <ng-container *ngSwitchCase="verbTypes.ichidan">
+            Ichidan Verb
+          </ng-container>
+          <ng-container *ngSwitchCase="verbTypes.godan">
+            Godan Verb
+          </ng-container>
+          <ng-container *ngSwitchCase="verbTypes.suru">
+            Suru Verb
+          </ng-container>
+          <ng-container *ngSwitchCase="verbTypes.irregular">
+            Irregular Verb
+          </ng-container>
+          <ng-container *ngSwitchDefault>
+            Verb
+          </ng-container>
+        </ng-container>
       </div>
       <div class="wordType adjective" *ngSwitchCase="wordTypes.adjective">
-        Adjektiv
+        <ng-container *ngIf="card.adjectiveType == adjectiveTypes.iAdjective else naAdj">
+          い Adjektiv
+        </ng-container>
+        <ng-template #naAdj>
+          な　Adjektiv
+        </ng-template>
       </div>
       <div class="wordType adverb" *ngSwitchCase="wordTypes.adverb">
         Adverb
@@ -81,6 +115,9 @@
       </div>
       <div class="wordType interjection" *ngSwitchCase="wordTypes.interjection">
         Interjektion
+      </div>
+      <div class="wordType kanji" *ngSwitchCase="wordTypes.kanji">
+        Kanji
       </div>
     </ng-container>
   </ng-container>

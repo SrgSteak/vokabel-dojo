@@ -44,9 +44,9 @@ export class ShowComponent implements OnInit {
           return card;
         })
       });
-      this.deckService.get(params.get('uid')).snapshotChanges().subscribe(data => {
-        this.deck = data.payload.data();
-        this.deck.uid = data.payload.id;
+      this.deckService.get(params.get('uid')).valueChanges().subscribe(data => {
+        this.deck = data;
+        this.deck.uid = params.get('uid');
         this.cardService.loadForDeck(this.deck.name, this.deck.uid).get().then(data => {
           this.cards = data.docs.map(e => {
             const card = Card.createFromCardInterface(e.data() as CardInterface);

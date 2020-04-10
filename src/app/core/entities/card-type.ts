@@ -7,12 +7,17 @@ export enum WordType {
   preposition = '5', // Präposition / Verhältnis- oder Vorwort
   conjunction = '6', // Konjunktion / Bindewort
   numeral = '7', // Numerale / Zahlwort
-  interjection = '8' // Interjektion / Ausrufe- oder Empfindungswort
+  interjection = '8', // Interjektion / Ausrufe- oder Empfindungswort
+  kanji = '9' // this card is specifically a kanji description
 }
 
 export enum VerbType {
   single = 'single',
-  five = 'five'
+  ichidan = 'single',
+  five = 'five',
+  godan = 'five',
+  suru = 'suru',
+  irregular = 'irregular'
 }
 
 export enum AdjectiveType {

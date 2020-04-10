@@ -122,4 +122,32 @@ export class Card implements CardInterface {
     }
     return card;
   }
+
+  isKanji() {
+    return this.wordType === WordType.kanji;
+  }
+
+  isVerb() {
+    return this.wordType === WordType.verb;
+  }
+
+  isGodanVerb() {
+    return this.verbType === VerbType.five;
+  }
+
+  isIchidanVerb() {
+    return this.verbType === VerbType.single;
+  }
+
+  isSuruVerb() {
+    return this.verbType === VerbType.suru;
+  }
+
+  isIrregularVerb() {
+    return this.verbType === VerbType.irregular;
+  }
+
+  isAdjective() {
+    return this.wordType === WordType.adjective;
+  }
 }
