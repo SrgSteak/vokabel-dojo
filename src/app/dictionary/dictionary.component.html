@@ -1,6 +1,7 @@
 <ng-container *ngIf="user">
   <div class="action-shortcuts" *ngIf="user.role === 'admin'">
     <a [routerLink]="['', { outlets: { modal: ['cards', 'new'] } }]" class="edit"><i class="feather icon-plus"></i></a>
+    <a [routerLink]="['', { outlets: { modal: null } }]"><i class="feather icon-x"></i></a>
   </div>
 </ng-container>
 <div class="content">

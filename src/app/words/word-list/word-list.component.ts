@@ -9,6 +9,7 @@ import { Deck } from 'src/app/core/services/deck.service';
 import { CardInterface } from 'src/app/core/entities/card-interface';
 import { Card } from 'src/app/core/entities/card';
 import { FontSwitcherService } from 'src/app/core/services/font-switcher.service';
+import { CardType, WordType, AdjectiveType, VerbType } from 'src/app/core/entities/card-type';
 
 @Component({
   selector: 'app-word-list',
@@ -46,6 +47,22 @@ export class WordListComponent implements OnInit, OnDestroy {
 
   get fontMode() {
     return this.fontSwitcherService.currentStyle;
+  }
+
+  get cardTypes() {
+    return CardType;
+  }
+
+  get wordTypes() {
+    return WordType;
+  }
+
+  get adjectiveTypes() {
+    return AdjectiveType;
+  }
+
+  get verbTypes() {
+    return VerbType;
   }
 
   constructor(private router: Router, private cardService: CardService, public fontSwitcherService: FontSwitcherService) { }

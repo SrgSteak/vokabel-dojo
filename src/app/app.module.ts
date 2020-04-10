@@ -60,7 +60,7 @@ import { AdjectiveTableComponent } from './shared/card-info/adjective-table/adje
       { path: 'home', pathMatch: 'full', component: WelcomeComponent },
       { path: 'quiz', component: QuizComponent },
       { path: 'learn', component: LearnComponent },
-      { path: 'dictionary', component: DictionaryComponent },
+      { path: 'dictionary', component: DictionaryComponent, outlet: 'modal' },
       { path: 'syllables/overview', component: OverviewComponent },
       { path: 'word-quiz', redirectTo: 'word-quiz/hiragana' },
       { path: 'word-quiz/:type', component: WordQuizComponent },

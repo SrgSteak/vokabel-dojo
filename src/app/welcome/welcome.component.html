@@ -32,7 +32,7 @@
             <p><i class="feather icon-copy"></i></p>
             <span class="choice">Decks zum Kurs</span>
           </a>
-          <a routerLink="/dictionary" class="grid-content">
+          <a [routerLink]="['', {outlets: { modal: 'dictionary' } } ]" class="grid-content">
             <p><i class="feather icon-feather"></i></p>
             <span class="choice">Wörterbuch</span>
           </a>
