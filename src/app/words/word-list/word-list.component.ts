@@ -155,12 +155,12 @@ export class WordListComponent implements OnInit, OnDestroy {
       case 'reading':
         if (card['japanese_readings']) {
           if (card['chinese_readings']) {
-            return card['japanese_readings'].concat(card['chinese_readings'].join());
+            return card['japanese_readings'].concat(card['chinese_readings'].join(', '));
           }
-          return card['japanese_readings'].join();
+          return card['japanese_readings'].join(', ');
         }
         if (card['chinese_readings']) {
-          return card['chinese_readings'].join();
+          return card['chinese_readings'].join(', ');
         }
 
         break;

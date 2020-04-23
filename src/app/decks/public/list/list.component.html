@@ -1,4 +1,5 @@
 <div class="content">
+  <a routerLink="" class="backlink muted"><i class="feather icon-chevron-left"></i>Home</a>
   <div class="deck_grid">
     <a [routerLink]="['/', 'decks', deck.uid, 'list']" class="grid-content" *ngFor="let deck of decks">
       <div class="deck_name">

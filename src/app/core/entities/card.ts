@@ -9,7 +9,7 @@ export class Card implements CardInterface {
   uid?: string;
   german?: Array<string>;
   japanese: string;
-  reading?: string;
+  _reading: string;
   chinese_readings?: Array<string>; // ゲツ、ガツ
   japanese_readings?: Array<string>; // つき
   examples?: [{
@@ -23,6 +23,22 @@ export class Card implements CardInterface {
 
   hits?: number;
   misses?: number;
+
+  get reading() {
+    if (this._reading != null && this._reading.length > 0) {
+      return this._reading;
+    }
+    if (this.hasJapReadings()) {
+      return this.japanese_readings[0];
+    } else if (this.hasChineseReadings()) {
+      return this.chinese_readings[0];
+    }
+    return '';
+  }
+
+  set reading(text: string) {
+    this._reading = text;
+  }
 
   constructor() {
     this.hits = 0;

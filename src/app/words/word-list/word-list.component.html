@@ -1,8 +1,3 @@
-<button class="submenu2 no-print" [class.open]="showSubmenu" [class.closed-menu]="!showSubmenu"
-  (click)="showSubmenu ? showSubmenu = false : showSubmenu = true" title="Einstellungen Vokabelliste">⋮</button>
-<div class="menu" *ngIf="showSubmenu">
-  <app-font-switcher></app-font-switcher>
-</div>
 <div class="word-list" [class.serif]="fontMode === 'serif'" [class.sans-serif]="fontMode === 'sans-serif'">
   <label class="no-print">
     <input type="search" [formControl]="searchForm" placeholder="Suche">
@@ -20,7 +15,7 @@
       {{ card.japanese }}
     </span>
     <span class="translation muted">
-      {{ card.german.join() }}
+      {{ card.german.join(', ') }}
     </span>
     <div class="type">
       <ng-container *ngIf="card.cardType == cardTypes.word">

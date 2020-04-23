@@ -61,8 +61,16 @@
         Enthalten in
       </span>
       <div class="decks">
-        <a [routerLink]="['', { outlets: { primary: ['decks', deck.uid, 'list'], modal: null }}]"
-          *ngFor="let deck of card.decks" class="deck"><i class="feather icon-copy"></i>{{ deck.name }}</a>
+        <ng-container *ngFor="let deck of card.decks">
+          <ng-container *ngIf="deck.name">
+            <a [routerLink]="['', { outlets: { primary: ['decks', deck.uid, 'list'], modal: null }}]" class="deck"><i
+                class="feather icon-copy"></i>{{ deck.name }}</a>
+          </ng-container>
+          <ng-container *ngIf="!deck.name">
+            <a [routerLink]="['', { outlets: { primary: ['decks', deck, 'list'], modal: null }}]" class="deck"><i
+                class="feather icon-copy"></i>{{ deck }}</a>
+          </ng-container>
+        </ng-container>
       </div>
     </div>
   </ng-container>

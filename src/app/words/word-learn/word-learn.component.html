@@ -126,7 +126,7 @@
   <div class="card">
     <ng-container [ngSwitch]="question">
       <ng-container *ngSwitchCase="'german'">
-        {{ card.german.join() }}
+        {{ card.german.join(', ') }}
       </ng-container>
 
       <ng-container *ngSwitchCase="'japanese'">
@@ -162,7 +162,7 @@
       <ng-container [ngSwitch]="answer">
         <ng-container *ngSwitchCase="'german'">
           <ng-container *ngIf="card.hasGerman()">
-            {{ card.german.join() }}
+            {{ card.german.join(', ') }}
           </ng-container>
           <ng-container *ngIf="!card.hasGerman()">
             <ul>
