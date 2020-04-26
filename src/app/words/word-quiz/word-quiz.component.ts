@@ -65,9 +65,8 @@ export class WordQuizComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.layout();
     this.prepareDeck();
-    this.nextCard();
+    this.nextCard(true);
   }
 
   prepareDeck() {
@@ -100,22 +99,23 @@ export class WordQuizComponent implements OnInit {
 
   reset() {
     this.displayError = false;
-    this.layout();
+    this.shuffle();
+    this.nextCard(true);
   }
 
-  layout() {
-    this.showCard = this.deck[0];
-    do {
-      this.deckService.shuffle(this.deck);
-    } while (this.showCard.uid == this.deckService.draw(this.deck, 1)[0].uid && this.deck.length > 1);
-    this.showCard = this.deckService.draw(this.deck, 1)[0];
-    this.answers = this.deckService.draw(
-      this.deck.filter((value) => { return value.uid !== this.showCard.uid }),
-      this.numberAnswers
-    );
-    this.answers.push(this.showCard);
-    this.answers = this.deckService.shuffle(this.answers);
-  }
+  // layout() {
+  //   this.showCard = this.deck[0];
+  //   do {
+  //     this.deckService.shuffle(this.deck);
+  //   } while (this.showCard.uid == this.deckService.draw(this.deck, 1)[0].uid && this.deck.length > 1);
+  //   this.showCard = this.deckService.draw(this.deck, 1)[0];
+  //   this.answers = this.deckService.draw(
+  //     this.deck.filter((value) => { return value.uid !== this.showCard.uid }),
+  //     this.numberAnswers
+  //   );
+  //   this.answers.push(this.showCard);
+  //   this.answers = this.deckService.shuffle(this.answers);
+  // }
 
   answerSelect(question: CardInterface, answer: CardInterface) {
     if (question.uid == answer.uid) {
@@ -134,17 +134,15 @@ export class WordQuizComponent implements OnInit {
     }
   }
 
-  private nextCard() {
-    if (this.index === this.deck.length - 1) {
+  private nextCard(startAtZero = false) {
+    if (this.index === this.deck.length - 1 || startAtZero) {
       this.index = 0;
     } else {
       ++this.index;
     }
     this.showCard = this.deck[this.index];
-    console.log(this.showCard);
-    console.log(this.showCard.reading);
     this.answers = this.deckService.draw(
-      this.deck.filter((value) => { return value.uid !== this.showCard.uid }),
+      this.deckService.shuffle(this.deck.filter((value) => { return value.uid !== this.showCard.uid })),
       this.numberAnswers
     );
     this.answers.push(this.showCard);
@@ -153,7 +151,6 @@ export class WordQuizComponent implements OnInit {
 
   updateNumberAnswers(number: number) {
     this.numberAnswers = number;
-    this.layout();
   }
 
   shuffle() {

@@ -61,24 +61,6 @@
   <a [class.active]="numberAnswers == 8" (click)="updateNumberAnswers(8)">Schwer</a>
 </div>
 
-<app-modal>
-  <div class="main-content">
-    <div class="stat-grid">
-      <ng-container *ngFor="let card of scoredWords">
-        <div class="stat" [class.error]="card.misses > card.hits" [class.muted]="card.misses == 0 && card.hits == 0">
-          {{ card['japanese'] }} <span [class.hits]="card.hits > 0">{{ card.hits }}</span> / <span
-            [class.misses]="card.misses > 0">{{ card.misses }}</span>
-        </div>
-      </ng-container>
-    </div>
-    <a (click)="reset()">Zurücksetzen</a>
-  </div>
-  <div class="teaser teaser2">
-    Hits: <span class="hits">{{ deckService.totalHits }}</span>
-    Misses: <span class="misses">{{ deckService.totalMisses }}</span>
-  </div>
-</app-modal>
-
 <div class="word-quiz {{ fontSwitcher.currentStyle }}">
   <div class="card" (mousedown)="peekRubi = true" (mouseup)="peekRubi = false" (touchstart)="peekRubi = true"
     (touchend)="peekRubi = false">
@@ -122,3 +104,21 @@
     </div>
   </div>
 </div>
+
+<app-modal>
+  <div class="main-content">
+    <div class="stat-grid">
+      <ng-container *ngFor="let card of scoredWords">
+        <div class="stat" [class.error]="card.misses > card.hits" [class.muted]="card.misses == 0 && card.hits == 0">
+          {{ card['japanese'] }} <span [class.hits]="card.hits > 0">{{ card.hits }}</span> / <span
+            [class.misses]="card.misses > 0">{{ card.misses }}</span>
+        </div>
+      </ng-container>
+    </div>
+    <a (click)="reset()">Zurücksetzen</a>
+  </div>
+  <div class="teaser teaser2">
+    Hits: <span class="hits">{{ deckService.totalHits }}</span>
+    Misses: <span class="misses">{{ deckService.totalMisses }}</span>
+  </div>
+</app-modal>
