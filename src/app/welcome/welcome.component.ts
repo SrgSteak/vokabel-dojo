@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../core/auth.service';
 import { Deck, DeckService } from '../core/services/deck.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-welcome',
@@ -10,9 +11,10 @@ import { Deck, DeckService } from '../core/services/deck.service';
 export class WelcomeComponent implements OnInit {
 
   decks = [];
-  constructor(public auth: AuthService, private deckService: DeckService) { }
+  constructor(public auth: AuthService, private deckService: DeckService, private title: Title) { }
 
   ngOnInit() {
+    this.title.setTitle('Vokabeldojo | Home');
     this.auth.user.subscribe(user => {
       if (user) {
         this.deckService.getAllDecksForUser(user.uid).snapshotChanges().subscribe(res => {

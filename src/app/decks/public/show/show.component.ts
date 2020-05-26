@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService, User } from 'src/app/core/auth.service';
 import { Card } from 'src/app/core/entities/card';
 import { CardInterface } from 'src/app/core/entities/card-interface';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-deck-public-show',
@@ -26,7 +27,8 @@ export class ShowComponent implements OnInit {
     private cardService: CardService,
     private route: ActivatedRoute,
     private router: Router,
-    public auth: AuthService) { }
+    public auth: AuthService,
+    private title: Title) { }
 
   ngOnInit() {
     this.auth.user.subscribe(user => {
@@ -46,6 +48,7 @@ export class ShowComponent implements OnInit {
       });
       this.deckService.get(params.get('uid')).valueChanges().subscribe(data => {
         this.deck = data;
+        this.title.setTitle('Vokabeldojo | ' + this.deck.name);
         this.deck.uid = params.get('uid');
         this.cardService.loadForDeck(this.deck.name, this.deck.uid).get().then(data => {
           this.cards = data.docs.map(e => {

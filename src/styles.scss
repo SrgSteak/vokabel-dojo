@@ -72,6 +72,9 @@ ul {
   height: 100%;
   padding-left: $contentInset;
   padding-right: 15px; // $contentInset;
+  max-width: $contentMaxWidth;
+  margin-left: auto;
+  margin-right: auto;
   .backlink {
     text-decoration: none;
     // position: absolute;

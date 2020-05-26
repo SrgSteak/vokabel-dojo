@@ -27,7 +27,7 @@
       <li *ngFor="let ger of card.german">{{ ger }}</li>
     </ul>
   </div>
-  <div class="section examples" *ngIf="card.examples.length">
+  <div class="section examples" *ngIf="card.examples && card.examples.length">
     <span>
       Beispiele
     </span>
