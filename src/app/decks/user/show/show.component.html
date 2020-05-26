@@ -24,7 +24,11 @@
       Neue Karte
     </div>
   </app-modal>
-  <ng-container *ngIf="cards.length > 0 && deck">
+  <ng-container *ngIf="deck">
+    <a routerLink="/user/decks/{{deck.uid}}/list" *ngIf="mode != 'list' && deck" class="backlink muted">
+      <i class="feather icon-chevron-left"></i> {{ deck.name }}</a>
+    <a routerLink="/user/decks" *ngIf="mode == 'list'" class="backlink muted">
+      <i class="feather icon-chevron-left"></i> Meine Decks</a>
     <h1 *ngIf="mode == 'list' && deck">{{ deck.name }}</h1>
     <p *ngIf="mode == 'list' && deck">{{ deck.description }}</p>
     <ng-container *ngIf="cards.length < 1 && deck">
@@ -32,7 +36,7 @@
     </ng-container>
     <app-word-list [allowEdit]="true" [cards]="cards" [deck]="deck" *ngIf="mode === 'list'">
     </app-word-list>
-    <app-word-quiz [deck]="cards" *ngIf="mode === 'quiz'"></app-word-quiz>
+    <app-word-quiz [cards]="cards" *ngIf="mode === 'quiz'"></app-word-quiz>
     <app-word-grid [deck]="cards" *ngIf="mode === 'grid'"></app-word-grid>
     <app-word-learn [_cards]="cards" *ngIf="mode === 'learn'"></app-word-learn>
   </ng-container>

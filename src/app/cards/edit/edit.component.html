@@ -61,6 +61,7 @@
           <span class="muted" *ngSwitchCase="wordTypes.conjunction">Konjunktion</span>
           <span class="muted" *ngSwitchCase="wordTypes.numeral">Numeral</span>
           <span class="muted" *ngSwitchCase="wordTypes.interjection">Interjektion</span>
+          <span class="muted" *ngSwitchCase="wordTypes.kanji">Kanji</span>
         </ng-container>
       </label>
       <div *ngIf="wordTypeToggle" @rollInOutAnimation>
@@ -114,6 +115,12 @@
         </label>
         <label class="container">Interjektion <span class="muted">Ausrufewort</span>
           <input type="radio" [formControl]="wordType" value="{{wordTypes.interjection}}" name="wordType">
+          <span class="checkmark">
+            <span class="checkmark_inner"></span>
+          </span>
+        </label>
+        <label class="container">Kanji <span class="muted">Schriftzeichen</span>
+          <input type="radio" [formControl]="wordType" value="{{wordTypes.kanji}}" name="wordType">
           <span class="checkmark">
             <span class="checkmark_inner"></span>
           </span>

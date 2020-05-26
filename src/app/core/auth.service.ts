@@ -84,7 +84,7 @@ export class AuthService {
     }
 
     data.role = data.role ? data.role : 'user'
-    data.settings = data.settings ? data.settings : { fontStyle: 'serif'};
+    data.settings = data.settings ? data.settings : { fontStyle: 'serif'}; 
 
     return userRef.set(data, { merge: true });
   }

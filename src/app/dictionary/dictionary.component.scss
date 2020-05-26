@@ -1,0 +1,77 @@
+@import "_variables";
+
+:host {
+  overflow: auto;
+  position: fixed;
+  height: 60%;
+  left: 0;
+  right: 0;
+  top: 50px;
+  margin: auto;
+  width: 720px;
+  background-color: white;
+  border-radius: 8px;
+  padding: 8px;
+  box-shadow: 3px 4px 5px 0px rgba(0,0,0,0.3);
+  @media only screen and (max-width: 736px) {
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.3);
+    width: calc(100% - 16px);
+    top: initial;
+    bottom: 0;
+    height: 80%;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+  span {
+    font-weight: lighter;
+    color: $lighterTextColor;
+  }
+  .japanese {
+    text-align: center;
+    font-weight: 800;
+    font-size: 25px;
+  }
+  table {
+    text-align: left;
+    tr:nth-child(even) {
+      background-color: $oddTableColor;
+    }
+    td {
+      padding: 10px;
+      border: none;
+    }
+  }
+}
+
+.action-shortcuts {
+  z-index: 11;
+  position: absolute;
+  top: 0;
+  right: 20px;
+  a {
+    vertical-align:top;
+    display: inline-block;
+    margin-right: 6px;
+    text-decoration: none;
+    color: white;
+    background: $mainColor;
+    padding: 5px 8px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    transition: all 0.2s;
+    box-shadow: 2px 2px 2px 0px rgba(36, 36, 36, 0.41);
+  }
+  a:last-child {
+    margin-right: 0;
+  }
+  a:hover {
+    @media(hover: hover) {
+      padding-top: 8px;
+    }
+  }
+}
+.content {
+  overflow: auto;
+  height: 100%;
+}
+.content::-webkit-scrollbar { width: 0 !important }

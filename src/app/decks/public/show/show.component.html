@@ -5,6 +5,7 @@
     <span class="label">{{ deck.name }}</span>
     <p>{{ deck.description }}</p>
   </ng-container>
+  <app-font-switcher></app-font-switcher>
   <span class="label">Lernmodus</span>
   <a routerLinkActive="active" routerLink="/decks/{{deck.uid}}/quiz">Vokabelquiz</a>
   <a routerLinkActive="active" routerLink="/decks/{{deck.uid}}/grid">Buchstabieren</a>
@@ -13,14 +14,19 @@
   <span class="label">Deck</span>
   <ng-container *ngIf="auth.user | async as user">
     <ng-container *ngIf="user.role == 'admin'">
-      <a routerLinkActive=" active" routerLink="/decks/edit/{{deck.uid}}">Bearbeiten</a>
+      <a routerLinkActive="active" routerLink="/decks/edit/{{deck.uid}}">Bearbeiten</a>
       <a routerLinkActive="active" routerLink="/decks/new">Deck anlegen</a>
       <span class="label">Karten</span>
-      <a [routerLink]="['', { outlets: { modal: ['cards', 'new'] } }]" *ngIf="deck">Neue Karte</a>
+      <a [routerLink]="['', { outlets: { modal: ['cards', 'new', deck.uid] } }]" (click)="showSubmenu = false"
+        *ngIf="deck">Neue Karte</a>
     </ng-container>
   </ng-container>
 </div>
 <div class="content">
+  <a routerLink="/decks/{{deck.uid}}/list" *ngIf="mode != 'list' && deck" class="backlink muted">
+    <i class="feather icon-chevron-left"></i> {{ deck.name }}</a>
+  <a routerLink="/decks" *ngIf="mode == 'list'" class="backlink muted">
+    <i class="feather icon-chevron-left"></i> Alle Decks</a>
   <ng-container *ngIf="mode == 'list' && deck">
     <h1>{{ deck.name }}</h1>
     <p *ngIf="deck.description">{{ deck.description }}
@@ -32,7 +38,7 @@
   </ng-container>
   <ng-container *ngIf="cards.length > 0">
     <app-word-list [cards]="cards" [allowEdit]="allowEdit" *ngIf="mode === 'list'"></app-word-list>
-    <app-word-quiz [deck]="cards" *ngIf="mode === 'quiz'"></app-word-quiz>
+    <app-word-quiz [cards]="cards" *ngIf="mode === 'quiz'"></app-word-quiz>
     <app-word-grid [deck]="cards" *ngIf="mode === 'grid'"></app-word-grid>
     <app-word-learn [_cards]="cards" *ngIf="mode === 'learn'"></app-word-learn>
   </ng-container>

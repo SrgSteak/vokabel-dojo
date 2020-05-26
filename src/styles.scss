@@ -72,6 +72,14 @@ ul {
   height: 100%;
   padding-left: $contentInset;
   padding-right: 15px; // $contentInset;
+  .backlink {
+    text-decoration: none;
+    // position: absolute;
+    display: block;
+    top: 0;
+    left: 30px;
+    padding: 8px;
+  }
 }
 
 .modes {

@@ -176,6 +176,14 @@ export class SyllablesService extends FlashcardService {
     });
     return collection.split('');
   }
+
+  createCharsetFromFlashCards(cards: Array<{}>, property: string) {
+    let collection = "";
+    cards.forEach(card => {
+      collection = collection + card[property];
+    });
+    return collection.split('');
+  }
 }
 
 export interface flashcard {

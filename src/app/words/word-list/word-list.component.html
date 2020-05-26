@@ -1,18 +1,78 @@
-<button class="submenu2 no-print" [class.open]="showSubmenu" [class.closed-menu]="!showSubmenu"
-  (click)="showSubmenu ? showSubmenu = false : showSubmenu = true" title="Einstellungen Vokabelliste">⋮</button>
-<div class="menu" *ngIf="showSubmenu">
-  <app-font-switcher></app-font-switcher>
-</div>
 <div class="word-list" [class.serif]="fontMode === 'serif'" [class.sans-serif]="fontMode === 'sans-serif'">
   <label class="no-print">
     <input type="search" [formControl]="searchForm" placeholder="Suche">
   </label>
-  <table>
+  <!-- <table>
     <tr *ngFor="let word of words" (click)="show(word)">
       <td>{{ word.japanese }}</td>
       <td *ngIf="showGerman">
         {{ word.getGerman() }}
       </td>
     </tr>
-  </table>
+  </table> -->
+  <div *ngFor="let card of words" (click)="show(card)" class="card">
+    <span class="japanese">
+      {{ card.japanese }}
+    </span>
+    <span class="translation muted">
+      {{ card.german.join(', ') }}
+    </span>
+    <div class="type">
+      <ng-container *ngIf="card.cardType == cardTypes.word">
+        <ng-container [ngSwitch]="card.wordType">
+          <div class="wordType noun" *ngSwitchCase="wordTypes.noun">
+            Substantiv
+          </div>
+          <div class="wordType verb" *ngSwitchCase="wordTypes.verb">
+            <ng-container [ngSwitch]="card.verbType">
+              <ng-container *ngSwitchCase="verbTypes.ichidan">
+                Ichidan Verb
+              </ng-container>
+              <ng-container *ngSwitchCase="verbTypes.godan">
+                Godan Verb
+              </ng-container>
+              <ng-container *ngSwitchCase="verbTypes.suru">
+                Suru Verb
+              </ng-container>
+              <ng-container *ngSwitchCase="verbTypes.irregular">
+                Irregular Verb
+              </ng-container>
+              <ng-container *ngSwitchDefault>
+                Verb
+              </ng-container>
+            </ng-container>
+          </div>
+          <div class="wordType adjective" *ngSwitchCase="wordTypes.adjective">
+            <ng-container *ngIf="card.adjectiveType == adjectiveTypes.iAdjective else naAdj">
+              い Adjektiv
+            </ng-container>
+            <ng-template #naAdj>
+              な　Adjektiv
+            </ng-template>
+          </div>
+          <div class="wordType adverb" *ngSwitchCase="wordTypes.adverb">
+            Adverb
+          </div>
+          <div class="wordType pronoun" *ngSwitchCase="wordTypes.pronoun">
+            Pronomen
+          </div>
+          <div class="wordType preposition" *ngSwitchCase="wordTypes.preposition">
+            Präposition
+          </div>
+          <div class="wordType conjunction" *ngSwitchCase="wordTypes.conjunction">
+            Konjunktion
+          </div>
+          <div class="wordType numeral" *ngSwitchCase="wordTypes.numeral">
+            Numeral
+          </div>
+          <div class="wordType interjection" *ngSwitchCase="wordTypes.interjection">
+            Interjektion
+          </div>
+          <div class="wordType kanji" *ngSwitchCase="wordTypes.kanji">
+            Kanji
+          </div>
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
 </div>

@@ -56,6 +56,13 @@
     font-size: 35px;
   }
   height: 15%;
+  .question {
+    display: block;
+  }
+  .hint {
+    display: block;
+    font-size: 20px;
+  }
 }
 
 .success {
@@ -80,6 +87,10 @@
   transition: all 0.5s ease 0s;
   border-radius: 4px;
   max-height: 35px;
+
+  min-height: 33px;
+min-width: 22px;
+text-align: center;
 }
 
 .answer {

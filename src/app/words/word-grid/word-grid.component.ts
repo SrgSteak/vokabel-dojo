@@ -12,51 +12,52 @@ import { FontSwitcherService } from 'src/app/core/services/font-switcher.service
 })
 export class WordGridComponent implements OnInit {
   @Input() deck: Array<Card>;
+  preparedDeck: Array<{ question: string, hints: Array<string>, answer: string }> = [];
   syllables: Array<CardInterface>;
-  mode = 'japanese';
-  currentWord: Card;
-  buildWord: Map<number, CardInterface>;
+  currentWord: { question: string, hints: Array<string>, answer: string };
+  buildWord: Map<number, string>;
   buildWordString: string;
-  currentGrid: Array<CardInterface>;
-  showSubmenu = false;
+  currentGrid: Array<string>;
   show = 0;
   characterSet: Array<string> = [];
-  currentQuestion: string;
-  currentAnswer: string;
+  showSubmenu = false;
 
   constructor(private syllablesService: SyllablesService, public fontSwitcherService: FontSwitcherService) {
   }
 
   ngOnInit() {
-    this.characterSet = this.syllablesService.createCharactersetFromCard(this.deck);
-    this.setMode('japanese');
+    this.prepareDeck();
     this.layout();
   }
 
+  /**
+   * takes the deck of cards and creates words according to word type
+   */
+  private prepareDeck() {
+    this.deck.forEach(_card => {
+      if (!_card.isKanji()) {
+        this.preparedDeck.push({ question: _card.getGerman(), hints: [_card.getReading()], answer: _card.japanese });
+      }
+      _card.examples.forEach(_example => {
+        this.preparedDeck.push({ question: _example.german, hints: [_example.reading], answer: _example.japanese });
+      });
+    });
+    this.characterSet = this.syllablesService.createCharsetFromFlashCards(this.preparedDeck, 'answer');
+    this.preparedDeck = this.syllablesService.shuffle(this.preparedDeck);
+  }
+
   layout() {
-    this.buildWord = new Map<number, Card>();
+    this.buildWord = new Map<number, string>();
     this.buildWordString = '';
-    this.currentWord = this.deck[this.show];
-    this.currentQuestion = this.currentWord.getReading();
-    // TODO: check currentWord against mode. If not available, skip.
-    this.currentAnswer = this.currentWord.japanese;
+    this.currentWord = this.preparedDeck[this.show];
     let sizeGrid = 24;
     if (sizeGrid > this.characterSet.length) {
       sizeGrid = this.characterSet.length;
     }
-    this.currentGrid = this.syllablesService.getCardsContaining(this.currentAnswer, sizeGrid - this.currentAnswer.length, this.characterSet);
-    // console.log('currentQuestion: ' + this.currentQuestion);
-    // console.log('currentAnswer: ' + this.currentAnswer);
-    // console.log(this.characterSet);
-    // console.log(this.currentGrid);
+    this.currentGrid = this.syllablesService.getCardsContaining(this.currentWord.answer, sizeGrid - this.currentWord.answer.length, this.characterSet);
   }
 
   ngOnDestroy() {
-  }
-
-  setMode(mode: string) {
-    this.mode = mode;
-    this.updateFilter();
   }
 
   selectedChar(index: number, target: HTMLElement) {
@@ -73,9 +74,7 @@ export class WordGridComponent implements OnInit {
     this.buildWord.forEach((value, key) => {
       this.buildWordString += value;
     });
-    console.log('searching for: ' + this.currentAnswer);
-    console.log('typed: ' + this.buildWordString);
-    if (this.buildWordString == this.currentAnswer) {
+    if (this.buildWordString == this.currentWord.answer) {
       setTimeout(() => {
         const cls = document.getElementsByClassName('gridpart');
         for (var i = 0; i < cls.length; i++) {
@@ -133,16 +132,15 @@ export class WordGridComponent implements OnInit {
   }
 
   skipWord() {
-    return "";
     let cls = document.getElementsByClassName('gridpart');
     for (var i = 0; i < cls.length; i++) {
       cls[i].removeAttribute("style");
     }
-    let word = this.currentWord[this.mode].split('');
+    let word = this.currentWord.answer.split('');
     let word_index = 0;
     while (word_index < word.length) {
       this.currentGrid.forEach((flashcard, key) => {
-        if (flashcard[this.mode] == word[word_index]) {
+        if (flashcard == word[word_index]) {
           if (word_index < word.length) {
             word_index++;
             this.selectedChar(key, cls[key] as HTMLElement);

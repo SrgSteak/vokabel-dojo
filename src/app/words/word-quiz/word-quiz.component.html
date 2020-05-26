@@ -61,6 +61,50 @@
   <a [class.active]="numberAnswers == 8" (click)="updateNumberAnswers(8)">Schwer</a>
 </div>
 
+<div class="word-quiz {{ fontSwitcher.currentStyle }}">
+  <div class="card" (mousedown)="peekRubi = true" (mouseup)="peekRubi = false" (touchstart)="peekRubi = true"
+    (touchend)="peekRubi = false">
+    <ng-container [ngSwitch]="questionMode">
+      <ng-container *ngSwitchCase="'japanese'">
+        <ng-container *ngIf="peekRubi || rubi else simple">
+          <ruby>{{ showCard.japanese }}<rt>{{ showCard.reading }}</rt></ruby>
+        </ng-container>
+        <ng-template #simple>
+          {{ showCard.japanese }}
+        </ng-template>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'german'">
+        {{ showCard.german.join(', ') }}
+      </ng-container>
+    </ng-container>
+  </div>
+
+  <div class="answers">
+    <div class="answer" *ngFor="let answer of answers" (click)="answerSelect(showCard, answer)"
+      [class.error]="displayError && answer.uid !== showCard.uid">
+      <ng-container [ngSwitch]="answerMode">
+        <ng-container *ngSwitchCase="'japanese'">
+          <ng-container *ngIf="rubi else japanese">
+            <ruby>{{ answer.japanese }}<rt>{{ answer.reading }}</rt></ruby>
+          </ng-container>
+          <ng-template #japanese>
+            {{ answer.japanese }}
+          </ng-template>
+        </ng-container>
+        <ng-container *ngSwitchCase="'german'">
+          <ng-container>
+            {{ answer.german.join(', ') }}
+          </ng-container>
+        </ng-container>
+        <ng-container *ngSwitchCase="'reading'">
+          {{ answer.reading }}
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+</div>
+
 <app-modal>
   <div class="main-content">
     <div class="stat-grid">
@@ -78,84 +122,3 @@
     Misses: <span class="misses">{{ deckService.totalMisses }}</span>
   </div>
 </app-modal>
-
-<div class="word-quiz {{ fontSwitcher.currentStyle }}">
-  <div class="card" (mousedown)="peekRubi = true" (mouseup)="peekRubi = false" (touchstart)="peekRubi = true"
-    (touchend)="peekRubi = false">
-    <ng-container [ngSwitch]="questionMode">
-      <ng-container *ngSwitchCase="'japanese'">
-        <ng-container *ngIf="peekRubi || rubi else simple">
-          <ng-container *ngIf="showCard.hasOnlyOneReading() else multiple">
-            <ruby>{{ showCard['japanese'] }}<rt>{{ showCard.getReading() }}</rt></ruby>
-          </ng-container>
-          <ng-template #multiple>
-            {{ showCard.japanese }} - {{ showCard.japanese_readings.join() }} ({{ showCard.chinese_readings.join() }})
-          </ng-template>
-        </ng-container>
-        <ng-template #simple>
-          {{ showCard['japanese'] }}
-        </ng-template>
-      </ng-container>
-
-      <ng-container *ngSwitchCase="'german'">
-        <ng-template *ngIf="showCard.hasGerman()">
-          {{ showCard['german'].join() }}
-        </ng-template>
-        <ng-template *ngIf="!showCard.hasGerman() && answerMode !== 'japanese'">
-          {{ showCard.japanese_readings.join() }} ({{ showCard.chinese_readings.join() }})
-        </ng-template>
-        <ng-template *ngIf="!showCard.hasGerman() && answerMode !== 'reading'">
-          {{ showCard.japanese }}
-        </ng-template>
-      </ng-container>
-
-      <ng-container *ngSwitchCase="'reading'">
-        <ul>
-          <li *ngFor="let reading of showCard['japanese_readings']">{{ reading }}</li>
-          <li *ngFor="let reading of showCard['chinese_readings']">{{ reading }}</li>
-        </ul>
-      </ng-container>
-    </ng-container>
-  </div>
-  <div class="answers">
-    <div class="answer" *ngFor="let answer of answers" (click)="answerSelect(showCard, answer)"
-      [class.error]="displayError && answer.uid !== showCard.uid">
-      <ng-container [ngSwitch]="answerMode">
-        <ng-container *ngSwitchCase="'japanese'">
-          <ruby *ngIf="answer['japanese_readings'].length">
-            {{ answer['japanese']}}<rt
-              *ngIf="(rubi &&  questionMode == 'japanese') || (peekRubi && questionMode == 'japanese' && answer['japanese'])">
-              {{ answer['japanese_readings'][0] }}</rt>
-          </ruby>
-          <ruby *ngIf="!answer['japanese_readings'].length && answer['chinese_readings'].length">
-            {{ answer['japanese']}}<rt
-              *ngIf="(rubi &&  questionMode == 'japanese') || (peekRubi && questionMode == 'japanese' && answer['japanese'])">
-              {{ answer['chinese_readings'][0] }}</rt>
-          </ruby>
-          <ng-container *ngIf="!answer['japanese_readings'].length && !answer['chinese_readings'][0]">
-            {{ answer['japanese']}}
-          </ng-container>
-        </ng-container>
-        <ng-container *ngSwitchCase="'german'">
-          <ng-container *ngIf="answer.hasGerman() else reading">
-            {{ answer['german'].join() }}
-          </ng-container>
-          <ng-template #reading>
-            {{ answer['japanese_readings'].join() }} ({{ answer['chinese_readings'].join() }})
-          </ng-template>
-        </ng-container>
-        <ng-container *ngSwitchCase="'reading'">
-          <ng-container *ngIf="answer.hasJapReadings() && answer.hasChineseReadings()">
-            {{ answer['japanese_readings'].join() }},{{ answer['chinese_readings'].join() }}
-          </ng-container>
-          <ng-container *ngIf="answer.hasJapReadings() && !answer.hasChineseReadings()">
-            {{ answer['japanese_readings'].join() }}
-          </ng-container>
-          <ng-container *ngIf="!answer.hasJapReadings() && answer.hasChineseReadings()">
-            {{ answer['chinese_readings'].join() }}
-          </ng-container>
-        </ng-container>
-      </ng-container>
-    </div>
-  </div>
-</div>

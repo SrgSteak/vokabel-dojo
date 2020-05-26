@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { FormGroup, FormControl } from '@angular/forms';
 import { CardInterface } from 'src/app/core/entities/card-interface';
 import { FontSwitcherService } from 'src/app/core/services/font-switcher.service';
+import { WordType, CardType } from 'src/app/core/entities/card-type';
 
 @Component({
   selector: 'app-word-quiz',
@@ -13,7 +14,7 @@ import { FontSwitcherService } from 'src/app/core/services/font-switcher.service
 })
 export class WordQuizComponent implements OnInit {
 
-  @Input() deck: Array<CardInterface>;
+  @Input() cards: Array<CardInterface>;
   showCard: CardInterface;
   answers: Array<CardInterface>;
   displayError = false;
@@ -30,6 +31,8 @@ export class WordQuizComponent implements OnInit {
   enableKatakana = false;
   enableKanji = false;
   peekRubi = false;
+  index = 0;
+  deck: Array<CardInterface> = [];
 
   get questionMode() {
     return this.modeForm.get('left').value;
@@ -44,8 +47,10 @@ export class WordQuizComponent implements OnInit {
   }
 
 
-  constructor(private route: ActivatedRoute, public deckService: DeckService, public fontSwitcher: FontSwitcherService) {
-  }
+  constructor(
+    public deckService: DeckService,
+    public fontSwitcher: FontSwitcherService
+  ) { }
 
   get scoredWords() {
     return this.deck.sort((a, b) => {
@@ -60,7 +65,32 @@ export class WordQuizComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.layout();
+    this.prepareDeck();
+    this.nextCard(true);
+  }
+
+  prepareDeck() {
+    this.deck = [];
+    this.cards.forEach(card => {
+      switch (card.wordType) {
+        case WordType.kanji:
+          card.examples.forEach(example => {
+            this.deck.push({
+              cardType: CardType.simple,
+              japanese: example.japanese,
+              reading: example.reading,
+              german: [example.german],
+              hits: 0,
+              misses: 0,
+              uid: card.uid
+            });
+          });
+          break;
+        default:
+          this.deck.push(card);
+          break;
+      }
+    });
   }
 
   toggleStatistic() {
@@ -69,22 +99,23 @@ export class WordQuizComponent implements OnInit {
 
   reset() {
     this.displayError = false;
-    this.layout();
+    this.shuffle();
+    this.nextCard(true);
   }
 
-  layout() {
-    this.showCard = this.deck[0];
-    do {
-      this.deckService.shuffle(this.deck);
-    } while (this.showCard.uid == this.deckService.draw(this.deck, 1)[0].uid && this.deck.length > 1);
-    this.showCard = this.deckService.draw(this.deck, 1)[0];
-    this.answers = this.deckService.draw(
-      this.deck.filter((value) => { return value.uid !== this.showCard.uid }),
-      this.numberAnswers
-    );
-    this.answers.push(this.showCard);
-    this.answers = this.deckService.shuffle(this.answers);
-  }
+  // layout() {
+  //   this.showCard = this.deck[0];
+  //   do {
+  //     this.deckService.shuffle(this.deck);
+  //   } while (this.showCard.uid == this.deckService.draw(this.deck, 1)[0].uid && this.deck.length > 1);
+  //   this.showCard = this.deckService.draw(this.deck, 1)[0];
+  //   this.answers = this.deckService.draw(
+  //     this.deck.filter((value) => { return value.uid !== this.showCard.uid }),
+  //     this.numberAnswers
+  //   );
+  //   this.answers.push(this.showCard);
+  //   this.answers = this.deckService.shuffle(this.answers);
+  // }
 
   answerSelect(question: CardInterface, answer: CardInterface) {
     if (question.uid == answer.uid) {
@@ -93,7 +124,7 @@ export class WordQuizComponent implements OnInit {
         question.hits++;
       }
       this.displayError = false;
-      this.layout();
+      this.nextCard();
     } else {
       if (!this.displayError) {
         question.misses++;
@@ -103,9 +134,28 @@ export class WordQuizComponent implements OnInit {
     }
   }
 
+  private nextCard(startAtZero = false) {
+    if (this.index === this.deck.length - 1 || startAtZero) {
+      this.index = 0;
+    } else {
+      ++this.index;
+    }
+    this.showCard = this.deck[this.index];
+    this.answers = this.deckService.draw(
+      this.deckService.shuffle(this.deck.filter((value) => { return value.uid !== this.showCard.uid })),
+      this.numberAnswers
+    );
+    this.answers.push(this.showCard);
+    this.answers = this.deckService.shuffle(this.answers);
+  }
+
   updateNumberAnswers(number: number) {
     this.numberAnswers = number;
-    this.layout();
+  }
+
+  shuffle() {
+    this.index = 0;
+    this.deckService.shuffle(this.deck);
   }
 }
 

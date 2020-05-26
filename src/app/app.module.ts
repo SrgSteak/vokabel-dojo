@@ -46,6 +46,8 @@ import { Angular2CsvModule } from 'angular2-csv';
 import { CalendarComponent } from './time/calendar/calendar.component';
 import { CardInfoComponent } from './shared/card-info/card-info.component';
 import { OnyomiPipe } from './shared/pipes/onyomi.pipe';
+import { VerbTableComponent } from './shared/card-info/verb-table/verb-table.component';
+import { AdjectiveTableComponent } from './shared/card-info/adjective-table/adjective-table.component';
 
 @NgModule({
   imports: [
@@ -58,7 +60,7 @@ import { OnyomiPipe } from './shared/pipes/onyomi.pipe';
       { path: 'home', pathMatch: 'full', component: WelcomeComponent },
       { path: 'quiz', component: QuizComponent },
       { path: 'learn', component: LearnComponent },
-      { path: 'dictionary', component: DictionaryComponent },
+      { path: 'dictionary', component: DictionaryComponent, outlet: 'modal' },
       { path: 'syllables/overview', component: OverviewComponent },
       { path: 'word-quiz', redirectTo: 'word-quiz/hiragana' },
       { path: 'word-quiz/:type', component: WordQuizComponent },
@@ -85,6 +87,7 @@ import { OnyomiPipe } from './shared/pipes/onyomi.pipe';
 
       // public card routes
       { path: 'cards/new', component: CardEditComponent, outlet: 'modal' },
+      { path: 'cards/new/:deckuid', component: CardEditComponent, outlet: 'modal' },
       { path: 'cards/edit/:uid', component: CardEditComponent, outlet: 'modal' },
 
       // named router outlet
@@ -96,6 +99,7 @@ import { OnyomiPipe } from './shared/pipes/onyomi.pipe';
     // noSQL Database where all subscriptions are stored (to push them from the 'server')
     AngularFireModule.initializeApp(environment.firebaseConfig, 'Vokabeldojo'),
     AngularFirestoreModule,
+    AngularFirestoreModule.enablePersistence(),
     AngularFireStorageModule, // Only required for storage features
     AngularFireAuthModule,
     AngularFireDatabaseModule,
@@ -131,7 +135,9 @@ import { OnyomiPipe } from './shared/pipes/onyomi.pipe';
     DictionaryComponent,
     CalendarComponent,
     CardInfoComponent,
-    OnyomiPipe
+    OnyomiPipe,
+    VerbTableComponent,
+    AdjectiveTableComponent
   ],
   bootstrap: [AppComponent],
   providers: [VocabularyService, FlashcardService]

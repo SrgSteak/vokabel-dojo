@@ -6,7 +6,7 @@ import { CardService } from 'src/app/core/services/card.service';
 import { Card } from 'src/app/core/entities/card';
 import { FLY_IN_OUT_ANIMATION } from 'src/app/core/animations/modal.animation';
 import { DeckService, Deck } from 'src/app/core/services/deck.service';
-import { CardType, WordType } from 'src/app/core/entities/card-type';
+import { CardType, WordType, AdjectiveType, VerbType } from 'src/app/core/entities/card-type';
 
 @Component({
   selector: 'app-card-info',
@@ -29,6 +29,14 @@ export class CardInfoComponent implements OnInit, OnDestroy {
 
   get wordTypes() {
     return WordType;
+  }
+
+  get adjectiveTypes() {
+    return AdjectiveType;
+  }
+
+  get verbTypes() {
+    return VerbType;
   }
 
   constructor(private router: Router, private route: ActivatedRoute, private cardService: CardService, private deckService: DeckService) {

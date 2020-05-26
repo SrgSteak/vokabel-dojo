@@ -138,6 +138,12 @@ export class EditComponent implements OnInit {
         this.card = { german: [], decks: [], cardType: CardType.simple };
         // this.prepareDecks();
       }
+      if (params.has('deckuid')) { // preselect deck for new cards
+        this.deckService.get(params.get('deckuid')).snapshotChanges().subscribe((_deck) => {
+          this.card.decks.push({ name: _deck.payload.data().name, uid: _deck.payload.id });
+          this.prepareDecks();
+        });
+      }
     })
     this.cardType.valueChanges.subscribe((value: CardType) => {
       this.cardTypeToggle = false;
@@ -208,7 +214,6 @@ export class EditComponent implements OnInit {
 
   addDeckToCard(deck: Deck) {
     if (!this.deckForm.value.find(form => form.uid == deck.uid)) {
-      console.log(deck);
       const uidForm = new FormControl('', Validators.required);
       uidForm.setValue(deck.uid);
       const nameForm = new FormControl('');
@@ -335,9 +340,7 @@ export class EditComponent implements OnInit {
 
   close() {
     this.router.navigate([{ outlets: { 'modal': null } }], {
-      // relativeTo: this.activatedRoute.parent
     });
-    // this.meta.removeTag();
   }
 
   private clickOutside(target) {
