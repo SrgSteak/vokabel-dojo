@@ -73,20 +73,26 @@ export class AuthService {
 
   public updateUserData(user) {
     // Sets user data to firestore on login
-    const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
+    const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${user.uid}`);
 
-    const data: User = {
-      uid: user.uid,
-      email: user.email,
-      displayName: user.displayName,
-      role: user.role,
-      settings: user.settings
-    }
+    userRef.valueChanges().subscribe(storedUser => {
+      if (!storedUser) { // new user!
+        storedUser = {
+          uid: user.uid,
+          email: user.email,
+          role: 'user'
+        };
+      }
+      console.log(storedUser);
+      storedUser.email = user.email;
+      storedUser.displayName = user.displayName;
+      storedUser.uid = user.uid;
+      storedUser.role = storedUser.role ? storedUser.role : 'user'
+      storedUser.settings = storedUser.settings ? storedUser.settings : { fontStyle: 'serif'}; 
+  
+      userRef.set(storedUser, { merge: true });
+    });
 
-    data.role = data.role ? data.role : 'user'
-    data.settings = data.settings ? data.settings : { fontStyle: 'serif'}; 
-
-    return userRef.set(data, { merge: true });
   }
 
   signOut() {

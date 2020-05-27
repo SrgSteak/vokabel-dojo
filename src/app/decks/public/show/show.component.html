@@ -36,12 +36,15 @@
         hinzufügen</button>
     </p>
   </ng-container>
-  <ng-container *ngIf="cards.length > 0">
+  <ng-container *ngIf="cards.length > 0 else empty">
     <app-word-list [cards]="cards" [allowEdit]="allowEdit" *ngIf="mode === 'list'"></app-word-list>
     <app-word-quiz [cards]="cards" *ngIf="mode === 'quiz'"></app-word-quiz>
     <app-word-grid [deck]="cards" *ngIf="mode === 'grid'"></app-word-grid>
     <app-word-learn [_cards]="cards" *ngIf="mode === 'learn'"></app-word-learn>
   </ng-container>
+  <ng-template #empty>
+    Noch keine Lernkarten vorhanden!
+  </ng-template>
   <ng-container *ngIf="oldCards.length">
     <h2>Legacy</h2>
     <app-word-list [cards]="oldCards" [allowEdit]="allowEdit" *ngIf="mode === 'list'"></app-word-list>

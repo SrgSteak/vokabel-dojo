@@ -71,6 +71,9 @@
   a.save:hover {
     color: $checkmark_checked;
   }
+  a.repeat {
+    color: $checkmark_checked;
+  }
 }
 .action-shortcuts.negative {
   a {

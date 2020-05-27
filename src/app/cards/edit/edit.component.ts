@@ -28,7 +28,7 @@ export class EditComponent implements OnInit {
   @Output() deleteCard = new EventEmitter();
 
   card: CardInterface;
-  decks: Array<Deck>;
+  deck: Deck;
   createMode = false;
   showWordTypes = CardType.simple;
   cardForm = this.prepareCardForm();
@@ -47,6 +47,7 @@ export class EditComponent implements OnInit {
   verbTypeToggle = false;
   adjectiveTypeToggle = false;
   toggleSearch = false;
+  repeat = false;
 
   private wordSub: Subscription;
   private verbSub: Subscription;
@@ -136,10 +137,11 @@ export class EditComponent implements OnInit {
       } else { // create card
         this.createMode = true;
         this.card = { german: [], decks: [], cardType: CardType.simple };
-        // this.prepareDecks();
       }
       if (params.has('deckuid')) { // preselect deck for new cards
         this.deckService.get(params.get('deckuid')).snapshotChanges().subscribe((_deck) => {
+          this.deck = _deck.payload.data();
+          this.deck.uid = _deck.payload.id;
           this.card.decks.push({ name: _deck.payload.data().name, uid: _deck.payload.id });
           this.prepareDecks();
         });
@@ -326,7 +328,16 @@ export class EditComponent implements OnInit {
         this.cardService.add(this.card);
       }
       this.updateCard.emit(this.card);
-      this.close();
+      if (this.repeat) {
+        this.card = { german: [], decks: [], cardType: CardType.simple };
+        this.japanese.reset();
+        this.german.clear();
+        this.japanese_readings.clear();
+        this.chinese_readings.clear();
+        this.examples.clear();
+      } else {
+        this.close();
+      }
     }
   }
 
