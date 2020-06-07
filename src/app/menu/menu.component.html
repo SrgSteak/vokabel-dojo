@@ -15,6 +15,7 @@
     <span class="label"></span>
     <a routerLinkActive="active" routerLink="/home" (click)="toggle()">Home</a>
     <a routerLinkActive="active" [routerLink]="[ {outlets: { modal: 'dictionary' } } ]">Wörterbuch</a>
+    <a routerLinkActive="active" [routerLink]="[ { outlets: { modal: 'selection'}}]">Auswahl</a>
     <span class=" label">Silben</span>
     <a routerLinkActive="active" routerLink="/quiz" (click)="toggle()">Quizmodus</a>
     <a routerLinkActive="active" routerLink="/learn" (click)="toggle()">Lernmodus</a>

@@ -1,0 +1,22 @@
+<div class="selectbox">
+  <div class="action-shortcuts">
+    <a (click)="clear()">
+      <i-feather name="minus-circle" class="feather"></i-feather>
+    </a>
+    <a [routerLink]="['', { outlets: { modal: null } }]" class="edit"><i class="feather icon-x"></i></a>
+  </div>
+  <div class="header">
+    <h1 class="sans-serif">
+      Deine Auswahl
+    </h1>
+  </div>
+  <ng-container *ngIf="selectService.cards.length else howTo">
+    <app-word-list [cards]="selectService.cards"></app-word-list>
+  </ng-container>
+  <ng-template #howTo>
+    <div class="placeholder">
+      Du hast momentan noch keine Lernkarten ausgewählt. Du kannst Lernkarten im Wörterbuch oder in Decks mit <i-feather
+        name="check-circle" class="feather"></i-feather> selektieren.
+    </div>
+  </ng-template>
+</div>

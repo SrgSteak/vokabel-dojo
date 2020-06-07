@@ -14,6 +14,7 @@
     "@angular/pwa": "~0.803.20",
     "@angular/router": "^8.2.14",
     "@angular/service-worker": "^8.2.14",
+    "angular-feather": "^6.0.10",
     "angular2-csv": "^0.2.9",
     "core-js": "^3.4.7",
     "firebase": "^7.10.0",

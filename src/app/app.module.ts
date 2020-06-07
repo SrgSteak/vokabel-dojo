@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -21,14 +20,12 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { NotificationcenterComponent } from './notificationcenter/notificationcenter.component';
 import { OverviewComponent } from './syllables/overview/overview.component';
-import { WordListComponent } from './words/word-list/word-list.component';
 import { WordGridComponent } from './words/word-grid/word-grid.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { ModalComponent } from './shared/modal/modal.component';
 import { NumbersComponent } from './numbers/numbers.component';
 import { NumberPipe } from './shared/pipes/number.pipe';
 import { CoreModule } from './core/core.module';
-import { AuthGuard } from './core/auth.guard';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { DecksComponent } from './decks/user/list/decks.component';
 import { EditComponent } from './decks/user/edit/edit.component';
@@ -48,6 +45,7 @@ import { CardInfoComponent } from './shared/card-info/card-info.component';
 import { OnyomiPipe } from './shared/pipes/onyomi.pipe';
 import { VerbTableComponent } from './shared/card-info/verb-table/verb-table.component';
 import { AdjectiveTableComponent } from './shared/card-info/adjective-table/adjective-table.component';
+import { AppRoutingModule } from './app-routing/app-routing.module';
 
 @NgModule({
   imports: [
@@ -55,45 +53,7 @@ import { AdjectiveTableComponent } from './shared/card-info/adjective-table/adje
     BrowserModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    RouterModule.forRoot([
-      { path: '', pathMatch: 'full', redirectTo: 'home' },
-      { path: 'home', pathMatch: 'full', component: WelcomeComponent },
-      { path: 'quiz', component: QuizComponent },
-      { path: 'learn', component: LearnComponent },
-      { path: 'dictionary', component: DictionaryComponent, outlet: 'modal' },
-      { path: 'syllables/overview', component: OverviewComponent },
-      { path: 'word-quiz', redirectTo: 'word-quiz/hiragana' },
-      { path: 'word-quiz/:type', component: WordQuizComponent },
-      { path: 'word-grid/:type', component: WordGridComponent },
-      { path: 'word-list', component: WordListComponent },
-      { path: 'about', component: AboutComponent },
-      { path: 'numbers', component: NumbersComponent, canActivate: [AuthGuard] },
-      { path: 'user', component: UserProfileComponent },
-
-      // user deck routes
-      { path: 'user/decks', component: DecksComponent },
-      { path: 'user/decks/new', component: EditComponent, canActivate: [AuthGuard] },
-      { path: 'user/decks/edit/:uid', component: EditComponent, canActivate: [AuthGuard] },
-      { path: 'user/decks/:uid', pathMatch: 'full', redirectTo: '/user/decks/:uid/list' },
-      { path: 'user/decks/:uid/:mode', component: ShowComponent, canActivate: [AuthGuard] },
-      { path: 'user/decks/:deck_uid/cards/:card_uid/edit', component: EditCardComponent, canActivate: [AuthGuard] },
-
-      // public deck routes
-      { path: 'decks', component: ListComponent },
-      { path: 'decks/new', component: DeckPublicEdit, canActivate: [AuthGuard] },
-      { path: 'decks/edit/:uid', component: DeckPublicEdit, canActivate: [AuthGuard] },
-      { path: 'decks/:uid', redirectTo: 'decks/:uid/list' },
-      { path: 'decks/:uid/:mode', component: DeckPublicShow },
-
-      // public card routes
-      { path: 'cards/new', component: CardEditComponent, outlet: 'modal' },
-      { path: 'cards/new/:deckuid', component: CardEditComponent, outlet: 'modal' },
-      { path: 'cards/edit/:uid', component: CardEditComponent, outlet: 'modal' },
-
-      // named router outlet
-      { path: 'card/:card', component: CardInfoComponent, outlet: 'modal' }
-
-    ], { anchorScrolling: 'enabled', scrollPositionRestoration: 'enabled' }),
+    AppRoutingModule,
     // automatically registered by pwa install
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     // noSQL Database where all subscriptions are stored (to push them from the 'server')
@@ -114,7 +74,6 @@ import { AdjectiveTableComponent } from './shared/card-info/adjective-table/adje
     AboutComponent,
     NotificationcenterComponent,
     OverviewComponent,
-    WordListComponent,
     WordGridComponent,
     WelcomeComponent,
     ModalComponent,

@@ -7,6 +7,7 @@ import { Card } from 'src/app/core/entities/card';
 import { FLY_IN_OUT_ANIMATION } from 'src/app/core/animations/modal.animation';
 import { DeckService, Deck } from 'src/app/core/services/deck.service';
 import { CardType, WordType, AdjectiveType, VerbType } from 'src/app/core/entities/card-type';
+import { SelectService } from 'src/app/core/services/select.service';
 
 @Component({
   selector: 'app-card-info',
@@ -39,7 +40,12 @@ export class CardInfoComponent implements OnInit, OnDestroy {
     return VerbType;
   }
 
-  constructor(private router: Router, private route: ActivatedRoute, private cardService: CardService, private deckService: DeckService) {
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private cardService: CardService,
+    private deckService: DeckService,
+    public selectService: SelectService) {
   }
 
   ngOnInit() {
@@ -57,5 +63,13 @@ export class CardInfoComponent implements OnInit, OnDestroy {
 
   close() {
     this.router.navigate([{ outlets: { modal: null } }]);
+  }
+
+  select() {
+    if (this.selectService.contains(this.card)) {
+      this.selectService.removeCard(this.card);
+    } else {
+      this.selectService.addCard(this.card);
+    }
   }
 }
