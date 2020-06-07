@@ -1,3 +1,3 @@
-# angular-zgrskd
+# ReadMe
+Bedienungsanleitung findest du unter: vokabeldojo.web.app/about
 
-[Edit on StackBlitz ⚡️](https://stackblitz.com/edit/angular-zgrskd)
