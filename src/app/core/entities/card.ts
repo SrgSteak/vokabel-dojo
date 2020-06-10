@@ -20,9 +20,10 @@ export class Card implements CardInterface {
   createdAt?: Date;
   updatedAt?: Date;
   decks?: Array<{ name: string; uid: string }>;
-
+  deck_uids?: Array<string>;
   hits?: number;
   misses?: number;
+  author?: string;
 
   get reading() {
     if (this._reading != null && this._reading.length > 0) {
@@ -41,6 +42,7 @@ export class Card implements CardInterface {
   }
 
   constructor() {
+    this.author = '';
     this.hits = 0;
     this.misses = 0;
     this.reading = '';
@@ -49,6 +51,7 @@ export class Card implements CardInterface {
     this.createdAt = new Date();
     this.updatedAt = new Date();
     this.decks = [];
+    this.deck_uids = [];
     this.cardType = CardType.simple;
   }
 

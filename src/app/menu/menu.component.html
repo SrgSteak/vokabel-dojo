@@ -6,7 +6,7 @@
       <a routerLinkActive="active" routerLink="/user" [routerLinkActiveOptions]="{exact: true}"><i
           class="feather icon-user"></i>{{ user.displayName }}</a>
       <ng-container *ngIf=" auth.user | async as user">
-        <a routerLinkActive="active" routerLink="/user/decks" [routerLinkActiveOptions]="{exact: true}">Meine Decks</a>
+        <a routerLinkActive="active" routerLink="/decks/user" [routerLinkActiveOptions]="{exact: true}">Meine Decks</a>
       </ng-container>
     </ng-container>
     <ng-template #login>

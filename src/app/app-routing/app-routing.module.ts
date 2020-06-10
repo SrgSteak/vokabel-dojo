@@ -14,15 +14,11 @@ import { NumbersComponent } from '../numbers/numbers.component';
 import { AuthGuard } from '../core/auth.guard';
 import { UserProfileComponent } from '../user-profile/user-profile.component';
 import { SelectionComponent } from '../core/components/selection/selection.component';
-import { DecksComponent } from '../decks/user/list/decks.component';
-import { EditComponent } from '../decks/user/edit/edit.component';
-import { ShowComponent } from '../decks/user/show/show.component';
-import { EditCardComponent } from '../decks/user/edit-card/edit-card.component';
 import { CardInfoComponent } from '../shared/card-info/card-info.component';
-import { EditComponent as DeckPublicEdit } from '../decks/public/edit/edit.component';
+import { EditComponent as DeckPublicEdit } from '../decks/edit/edit.component';
 import { EditComponent as CardEditComponent } from '../cards/edit/edit.component';
-import { ShowComponent as DeckPublicShow } from '../decks/public/show/show.component';
-import { ListComponent } from '../decks/public/list/list.component';
+import { ShowComponent as DeckPublicShow } from '../decks/show/show.component';
+import { ListComponent } from '../decks/list/list.component';
 
 export const ROUTES: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
@@ -40,16 +36,9 @@ export const ROUTES: Routes = [
   { path: 'user', component: UserProfileComponent },
   { path: 'selection', component: SelectionComponent, outlet: 'modal' },
 
-  // user deck routes
-  { path: 'user/decks', component: DecksComponent },
-  { path: 'user/decks/new', component: EditComponent, canActivate: [AuthGuard] },
-  { path: 'user/decks/edit/:uid', component: EditComponent, canActivate: [AuthGuard] },
-  { path: 'user/decks/:uid', pathMatch: 'full', redirectTo: '/user/decks/:uid/list' },
-  { path: 'user/decks/:uid/:mode', component: ShowComponent, canActivate: [AuthGuard] },
-  { path: 'user/decks/:deck_uid/cards/:card_uid/edit', component: EditCardComponent, canActivate: [AuthGuard] },
-
   // public deck routes
   { path: 'decks', component: ListComponent },
+  { path: 'decks/user', component: ListComponent, data: { showUserDecks: true } },
   { path: 'decks/new', component: DeckPublicEdit, canActivate: [AuthGuard] },
   { path: 'decks/edit/:uid', component: DeckPublicEdit, canActivate: [AuthGuard] },
   { path: 'decks/:uid', redirectTo: 'decks/:uid/list' },

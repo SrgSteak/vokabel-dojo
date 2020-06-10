@@ -12,6 +12,20 @@
   </div>
   <ng-container *ngIf="selectService.cards.length else howTo">
     <app-word-list [cards]="selectService.cards"></app-word-list>
+    <h2>Hinzufügen zu</h2>
+    <div class="user-decks">
+      <p *ngFor="let deck of $decks | async">{{ deck.name }}</p>
+      <form [formGroup]="createDeckForm" (ngSubmit)="submitNewDeck()">
+        <label for="name">
+          Name
+        </label>
+        <input type="text" id="name" formControlName="name">
+        <button [class.disabled]="!createDeckForm.valid" class="button">Neues Deck <i-feather name="plus-circle">
+          </i-feather>
+        </button>
+        {{ createDeckForm.valid | json}}
+      </form>
+    </div>
   </ng-container>
   <ng-template #howTo>
     <div class="placeholder">

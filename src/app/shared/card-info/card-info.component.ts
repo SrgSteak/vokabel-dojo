@@ -8,6 +8,7 @@ import { FLY_IN_OUT_ANIMATION } from 'src/app/core/animations/modal.animation';
 import { DeckService, Deck } from 'src/app/core/services/deck.service';
 import { CardType, WordType, AdjectiveType, VerbType } from 'src/app/core/entities/card-type';
 import { SelectService } from 'src/app/core/services/select.service';
+import { AuthService, User } from 'src/app/core/auth.service';
 
 @Component({
   selector: 'app-card-info',
@@ -20,9 +21,12 @@ import { SelectService } from 'src/app/core/services/select.service';
 export class CardInfoComponent implements OnInit, OnDestroy {
 
   @HostBinding('@flyInOutTrigger') flyInOutTrigger = 'in';
+  user: User;
   card: CardInterface;
   decks: Array<any> = [];
+  authSub: Subscription;
   routerSub: Subscription;
+  cardSub: Subscription;
 
   get cardTypes() {
     return CardType;
@@ -43,14 +47,16 @@ export class CardInfoComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
+    private authService: AuthService,
     private cardService: CardService,
     private deckService: DeckService,
     public selectService: SelectService) {
   }
 
   ngOnInit() {
+    this.authSub = this.authService.user.subscribe(_user => this.user = _user);
     this.routerSub = this.route.paramMap.subscribe((params: ParamMap) => {
-      this.cardService.get(params.get('card')).snapshotChanges().subscribe(data => {
+      this.cardSub = this.cardService.get(params.get('card')).snapshotChanges().subscribe(data => {
         this.card = Card.createFromCardInterface(data.payload.data());
         this.card.uid = data.payload.id;
       });
@@ -59,6 +65,7 @@ export class CardInfoComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     if (this.routerSub) { this.routerSub.unsubscribe(); }
+    if (this.cardSub) { this.cardSub.unsubscribe(); }
   }
 
   close() {

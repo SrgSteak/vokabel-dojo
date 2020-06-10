@@ -7,7 +7,7 @@ import { CardInterface } from 'src/app/core/entities/card-interface';
 import { Card } from 'src/app/core/entities/card';
 import { CardType, WordType, VerbType, AdjectiveType } from 'src/app/core/entities/card-type';
 import { FLY_IN_OUT_ANIMATION, ROLL_IN_OUT_ANIMATION } from 'src/app/core/animations/modal.animation';
-import { Subscription, Observable, Subject, of } from 'rxjs';
+import { Subscription, Observable, Subject } from 'rxjs';
 import { switchMap, distinctUntilChanged, debounceTime } from 'rxjs/operators';
 
 @Component({
@@ -49,6 +49,7 @@ export class EditComponent implements OnInit {
   toggleSearch = false;
   repeat = false;
 
+  private cardSub: Subscription;
   private wordSub: Subscription;
   private verbSub: Subscription;
   private adjectiveSub: Subscription;
@@ -110,7 +111,7 @@ export class EditComponent implements OnInit {
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       if (params.has('uid')) { // edit card
-        this.cardService.get(params.get('uid')).snapshotChanges().subscribe(data => {
+        this.cardSub = this.cardService.get(params.get('uid')).snapshotChanges().subscribe(data => {
           this.card = Card.createFromCardInterface(data.payload.data());
           this.card.uid = data.payload.id;
           // prefill form;
@@ -198,12 +199,9 @@ export class EditComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    if (this.verbSub) {
-      this.verbSub.unsubscribe();
-    }
-    if (this.adjectiveSub) {
-      this.adjectiveSub.unsubscribe();
-    }
+    if (this.cardSub) { this.cardSub.unsubscribe(); }
+    if (this.verbSub) { this.verbSub.unsubscribe(); }
+    if (this.adjectiveSub) { this.adjectiveSub.unsubscribe(); }
   }
 
   updatedPhrase(phrase: string) {
@@ -321,6 +319,11 @@ export class EditComponent implements OnInit {
       this.card.japanese_readings = this.japanese_readings.value;
       this.card.examples = this.examples.value;
       this.card.decks = this.deckForm.value;
+      const uids = [];
+      this.card.decks.forEach(_deck => {
+        uids.push(_deck.uid);
+      })
+      this.card.deck_uids = uids;
 
       if (this.card.uid) {
         this.cardService.update(this.card);

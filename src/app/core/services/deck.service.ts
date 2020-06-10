@@ -31,6 +31,20 @@ export class DeckService extends FlashcardService {
     return this.afs.collection<Deck>('Decks').doc<Deck>(id);
   }
 
+  allPublicDecks(): Observable<Array<Deck>> {
+    return this.afs.collection<Deck>(
+      'Decks',
+      ref => ref.orderBy('createdAt', 'desc').where('author', '==', '')
+    ).valueChanges({ idField: 'uid' })
+  }
+
+  allDecksForUser(uid: string): Observable<Array<Deck>> {
+    return this.afs.collection<Deck>(
+      'Decks',
+      ref => ref.orderBy('createdAt', 'desc').where('author', '==', uid)
+    ).valueChanges({ idField: 'uid' })
+  }
+
   findByName(name: string): Observable<Array<Deck>> {
     return this.afs.collection<Deck>(
       'Decks',

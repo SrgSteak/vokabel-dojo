@@ -1,5 +1,10 @@
 <div class="content">
   <a routerLink="" class="backlink muted"><i class="feather icon-chevron-left"></i>Home</a>
+  <div class="filter">
+    <a [routerLink]="['/decks']" [class.selected_filter]="displayPublic">Öffentliche Decks</a>
+    <a [routerLink]="['/decks', 'user']" [class.selected_filter]="!displayPublic" [class.disabled]="!user">Deine
+      Decks</a>
+  </div>
   <div class="deck_grid">
     <a [routerLink]="['/', 'decks', deck.uid, 'list']" class="grid-content" *ngFor="let deck of decks">
       <div class="deck_name">

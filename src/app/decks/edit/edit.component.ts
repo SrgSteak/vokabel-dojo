@@ -1,18 +1,23 @@
-import { Component, OnInit } from '@angular/core';
-import { DeckService, Deck } from '../../../core/services/deck.service';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { DeckService, Deck } from '../../core/services/deck.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 import { CardService } from 'src/app/core/services/card.service';
 import { Card } from 'src/app/core/entities/card';
+import { AuthService, User } from 'src/app/core/auth.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-deck-public-edit',
   templateUrl: './edit.component.html',
-  styleUrls: ['./edit.component.css']
+  styleUrls: ['./edit.component.scss']
 })
-export class EditComponent implements OnInit {
+export class EditComponent implements OnInit, OnDestroy {
 
   deck: Deck;
+  user: User;
+
+  userSub: Subscription;
 
   deckForm = this.fb.group({
     name: ['', [Validators.required]],
@@ -36,6 +41,7 @@ export class EditComponent implements OnInit {
 
 
   constructor(
+    private authService: AuthService,
     private DeckService: DeckService,
     private CardService: CardService,
     private route: ActivatedRoute,
@@ -46,18 +52,28 @@ export class EditComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.paramMap.subscribe(params => {
-      if (params.has('uid')) {
-        this.DeckService.get(params.get('uid')).snapshotChanges().subscribe(data => {
-          this.deck = data.payload.data();
-          this.deck.uid = data.payload.id;
-          this.deckForm.get('name').setValue(this.deck.name);
-          this.deckForm.get('description').setValue(this.deck.description);
-        });
-      } else {
-        this.deck = { name: '', description: '', author: '', uid: '', numberCards: 0 };
-      }
-    });
+    this.userSub = this.authService.user.subscribe(_user => {
+      this.user = _user;
+      this.route.paramMap.subscribe(params => {
+        if (params.has('uid')) {
+          this.DeckService.get(params.get('uid')).valueChanges().subscribe(deck => {
+            this.deck = deck;
+            this.deck.uid = params.get('uid');
+            if (this.user.role != 'admin' || this.user.uid != this.deck.author) {
+              this.router.navigate(['/decks/', this.deck.uid]);
+            }
+            this.deckForm.get('name').setValue(this.deck.name);
+            this.deckForm.get('description').setValue(this.deck.description);
+          });
+        } else {
+          this.deck = { name: '', description: '', author: '', uid: '', numberCards: 0 };
+        }
+      });
+    })
+  }
+
+  ngOnDestroy() {
+    if (this.userSub) { this.userSub.unsubscribe(); }
   }
 
   onSubmit() {

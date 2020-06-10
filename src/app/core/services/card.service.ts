@@ -3,6 +3,9 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { User } from '../auth.service';
 import { Deck } from './deck.service';
 import { CardInterface } from '../entities/card-interface';
+import { Card } from '../entities/card';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -38,9 +41,19 @@ export class CardService {
   update(card: CardInterface, deck?: string, user?: string) {
     card.updatedAt = new Date();
     if (user) {
-      this.afs.collection('users').doc(user).collection('Decks').doc(deck).collection('Cards').doc(card.uid).set(Object.assign({}, card), { merge: true });
+      try {
+        this.afs.collection('users').doc(user).collection('Decks').doc(deck).collection('Cards').doc(card.uid).set(Object.assign({}, card), { merge: true });
+      } catch (e) {
+        console.error(e);
+        console.log(card);
+      }
     }
-    this.afs.collection('Cards').doc(card.uid).set(Object.assign({}, card), { merge: true });
+    try {
+      this.afs.collection('Cards').doc(card.uid).set(Object.assign({}, card), { merge: true });
+    } catch (e) {
+      console.error(e);
+      console.log(card);
+    }
   }
 
   delete(id: string, deck?: string, user?: string) {
@@ -52,7 +65,7 @@ export class CardService {
   }
 
   loadAll() {
-    return this.afs.collection(
+    return this.afs.collection<Card>(
       'Cards',
       ref => ref.orderBy('createdAt', 'desc')
     );
@@ -62,7 +75,92 @@ export class CardService {
     return this.afs.firestore.collection('Cards').orderBy('createdAt').where('decks', 'array-contains', { name: deck, uid: uid });
   }
 
+  /**
+   * loads all cards that are in the given deck uid. should replace "loadForDeck"
+   * @param uid the uid of the deck
+   */
+  loadForDeckUid(uid: string): Observable<Array<Card>> {
+    return this.afs.collection<CardInterface>(
+      'Cards',
+      ref => ref.orderBy('createdAt', 'desc').where('deck_uids', 'array-contains', uid)
+    ).valueChanges({ idField: 'uid' }).pipe(map(cardinterfaces => {
+      const cards = [];
+      cardinterfaces.forEach(_cardInterface => {
+        cards.push(Card.createFromCardInterface(_cardInterface));
+      })
+      return cards;
+    }));
+  }
+
   loadForDeckLegacy(uid: string) {
     return this.afs.firestore.collection('Cards').orderBy('createdAt').where('decks', 'array-contains', uid);
   }
+
+  // migrateDeckIds() {
+  //   const sub = this.loadAll().valueChanges({ idField: 'uid' }).subscribe(_cards => {
+  //     console.log(_cards);
+  //     sub.unsubscribe();
+  //     _cards.forEach(_card => {
+  //       const uids = [];
+  //       _card.decks.forEach(_deck => {
+  //         if (!_deck.uid) {
+  //           uids.push(_deck);
+  //         } else {
+  //           uids.push(_deck.uid);
+  //         }
+  //       });
+  //       _card.deck_uids = uids;
+  //       try {
+  //         this.update(_card);
+  //       } catch (e) {
+  //         console.log('cant update card: ' + _card.uid);
+  //       }
+  //     });
+  //     console.log(_cards);
+  //   });
+  // }
+  // migrateDeckIds() {
+  //   this.loaddecks().valueChanges({ idField: 'uid' }).subscribe(_decks => {
+  //     const sub = this.loadAll().valueChanges({ idField: 'uid' }).subscribe(_cards => {
+  //       console.log(_cards);
+  //       sub.unsubscribe();
+  //       _cards.forEach(_card => {
+  //         const uids = [];
+  //         const decks = [];
+  //         let updateMe = false;
+  //         _card.decks.forEach(_deck => {
+  //           if (!_deck.uid) { // deck is just a number
+  //             updateMe = true;
+  //             uids.push(_deck);
+  //             const theDeck = _decks.find(__deck => __deck.uid === _deck as unknown as string);
+  //             if (theDeck) {
+
+  //               decks.push({ uid: theDeck.uid, name: theDeck.name });
+  //             } else {
+  //               updateMe = false;
+  //             }
+  //           }
+  //         });
+  //         _card.deck_uids = uids;
+  //         _card.decks = decks;
+  //         try {
+  //           if (updateMe) {
+  //             // console.log(_card);
+  //             this.update(_card);
+  //           }
+  //         } catch (e) {
+  //           console.log('cant update card: ' + _card.uid);
+  //         }
+  //       });
+  //       console.log(_cards);
+  //     });
+  //   });
+  // }
+
+  // private loaddecks() {
+  //   return this.afs.collection<Deck>(
+  //     'Decks',
+  //     ref => ref.orderBy('createdAt', 'desc')
+  //   );
+  // }
 }

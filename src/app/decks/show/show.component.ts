@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DeckService, Deck } from 'src/app/core/services/deck.service';
 import { CardService } from 'src/app/core/services/card.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -6,21 +6,23 @@ import { AuthService, User } from 'src/app/core/auth.service';
 import { Card } from 'src/app/core/entities/card';
 import { CardInterface } from 'src/app/core/entities/card-interface';
 import { Title } from '@angular/platform-browser';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-deck-public-show',
   templateUrl: './show.component.html',
   styleUrls: ['./show.component.scss']
 })
-export class ShowComponent implements OnInit {
+export class ShowComponent implements OnInit, OnDestroy {
 
   cards = [];
-  oldCards = [];
   deck: Deck;
   mode: string;
   allowEdit = false;
   showSubmenu = false;
   user: User;
+
+  cardSub: Subscription;
 
   constructor(
     private deckService: DeckService,
@@ -39,26 +41,19 @@ export class ShowComponent implements OnInit {
     });
     this.route.paramMap.subscribe(params => {
       this.mode = params.get('mode');
-      this.cardService.loadForDeckLegacy(params.get('uid')).get().then(data => {
-        this.oldCards = data.docs.map(e => {
-          const card = Card.createFromCardInterface(e.data() as CardInterface);
-          card.uid = e.id;
-          return card;
-        })
-      });
       this.deckService.get(params.get('uid')).valueChanges().subscribe(data => {
         this.deck = data;
         this.title.setTitle('Vokabeldojo | ' + this.deck.name);
         this.deck.uid = params.get('uid');
-        this.cardService.loadForDeck(this.deck.name, this.deck.uid).get().then(data => {
-          this.cards = data.docs.map(e => {
-            const card = Card.createFromCardInterface(e.data() as CardInterface);
-            card.uid = e.id;
-            return card;
-          })
-        });
+      });
+      this.cardSub = this.cardService.loadForDeckUid(params.get('uid')).subscribe(cards => {
+        this.cards = cards;
       });
     });
+  }
+
+  ngOnDestroy() {
+    if (this.cardSub) { this.cardSub.unsubscribe(); }
   }
 
   addCard(card: CardInterface) {
