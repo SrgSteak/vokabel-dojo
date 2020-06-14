@@ -27,6 +27,7 @@ export class WordListComponent implements OnInit, OnDestroy {
   showSubmenu = false;
   modeSub: Subscription;
   searchFormSub: Subscription;
+  private cardSub: Subscription;
 
   searchForm = new FormControl('');
 
@@ -70,15 +71,14 @@ export class WordListComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.words = this.cards;
     if (!this.words) {
-      this.cardService.loadAll().snapshotChanges().subscribe(data => {
+      this.cardSub = this.cardService.allPublicCards().subscribe(data => {
         this.cards = data.map(e => {
-          const card = Card.createFromCardInterface(e.payload.doc.data() as CardInterface);
-          card.uid = e.payload.doc.id;
+          const card = Card.createFromCardInterface(e);
           return card;
         });
         this.words = this.cards;
         this.updateTable();
-      });
+      })
     } else {
       this.updateTable();
     }
@@ -91,6 +91,9 @@ export class WordListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    if (this.cardSub) {
+      this.cardSub.unsubscribe();
+    }
     if (this.modeSub) {
       this.modeSub.unsubscribe();
     }

@@ -9,6 +9,7 @@ import { CardType, WordType, VerbType, AdjectiveType } from 'src/app/core/entiti
 import { FLY_IN_OUT_ANIMATION, ROLL_IN_OUT_ANIMATION } from 'src/app/core/animations/modal.animation';
 import { Subscription, Observable, Subject } from 'rxjs';
 import { switchMap, distinctUntilChanged, debounceTime } from 'rxjs/operators';
+import { AuthService, User } from 'src/app/core/auth.service';
 
 @Component({
   selector: 'app-edit',
@@ -27,6 +28,7 @@ export class EditComponent implements OnInit {
   @Output() updateCard = new EventEmitter<CardInterface>();
   @Output() deleteCard = new EventEmitter();
 
+  user: User;
   card: CardInterface;
   deck: Deck;
   createMode = false;
@@ -49,6 +51,9 @@ export class EditComponent implements OnInit {
   toggleSearch = false;
   repeat = false;
 
+  private routeSub: Subscription;
+  private authSub: Subscription;
+  private deckSub: Subscription;
   private cardSub: Subscription;
   private wordSub: Subscription;
   private verbSub: Subscription;
@@ -101,6 +106,7 @@ export class EditComponent implements OnInit {
   }
 
   constructor(
+    private authService: AuthService,
     private cardService: CardService,
     private deckService: DeckService,
     private route: ActivatedRoute,
@@ -109,92 +115,98 @@ export class EditComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.route.paramMap.subscribe(params => {
-      if (params.has('uid')) { // edit card
-        this.cardSub = this.cardService.get(params.get('uid')).snapshotChanges().subscribe(data => {
-          this.card = Card.createFromCardInterface(data.payload.data());
-          this.card.uid = data.payload.id;
-          // prefill form;
-          this.cardForm.get('japanese').setValue(this.card.japanese);
-          this.cardForm.get('cardType').setValue(this.card.cardType ? '1' : '0');
+    this.authService.user.subscribe(_user => {
+      this.user = _user;
+      this.routeSub = this.route.paramMap.subscribe(params => {
+        if (params.has('uid')) { // edit card
+          this.cardSub = this.cardService.get(params.get('uid')).snapshotChanges().subscribe(data => {
+            this.card = Card.createFromCardInterface(data.payload.data());
+            this.card.uid = data.payload.id;
+            if (this.user.role != 'admin' && this.user.uid != this.card.author) {
+              this.router.navigate(['/']);
+            }
+            // prefill form;
+            this.cardForm.get('japanese').setValue(this.card.japanese);
+            this.cardForm.get('cardType').setValue(this.card.cardType ? '1' : '0');
 
-          this.card.german.forEach(german => {
-            this.addReading(this.german, german);
-          })
-
-          this.card.japanese_readings.forEach(reading => {
-            this.addReading(this.japanese_readings, reading);
-          });
-          this.card.chinese_readings.forEach(reading => {
-            this.addReading(this.chinese_readings, reading);
-          });
-          if (this.card.examples) {
-            this.card.examples.forEach(example => {
-              this.addExample(this.examples, example);
+            this.card.german.forEach(german => {
+              this.addReading(this.german, german);
             })
-          }
-          this.prepareDecks();
-        })
-      } else { // create card
-        this.createMode = true;
-        this.card = { german: [], decks: [], cardType: CardType.simple };
-      }
-      if (params.has('deckuid')) { // preselect deck for new cards
-        this.deckService.get(params.get('deckuid')).snapshotChanges().subscribe((_deck) => {
-          this.deck = _deck.payload.data();
-          this.deck.uid = _deck.payload.id;
-          this.card.decks.push({ name: _deck.payload.data().name, uid: _deck.payload.id });
-          this.prepareDecks();
-        });
-      }
-    })
-    this.cardType.valueChanges.subscribe((value: CardType) => {
-      this.cardTypeToggle = false;
-      if (value == CardType.simple) {
-        this.removeField('wordType');
-        this.wordTypeToggle = false;
-        if (this.wordSub) {
-          this.wordSub.unsubscribe();
+
+            this.card.japanese_readings.forEach(reading => {
+              this.addReading(this.japanese_readings, reading);
+            });
+            this.card.chinese_readings.forEach(reading => {
+              this.addReading(this.chinese_readings, reading);
+            });
+            if (this.card.examples) {
+              this.card.examples.forEach(example => {
+                this.addExample(this.examples, example);
+              })
+            }
+            this.prepareDecks();
+          })
+        } else { // create card
+          this.createMode = true;
+          this.card = { german: [], decks: [], cardType: CardType.simple };
         }
-        this.removeField('verbType');
-        this.removeField('adjectiveType');
-      } else {
-        this.addField('wordType');
-        this.wordTypeToggle = true;
-        this.wordSub = this.wordType.valueChanges.subscribe((value: WordType) => {
-          switch (value) {
-            case WordType.verb: // remove all wordtypes except verbType
-              this.removeField('adjectiveType');
-              this.addField('verbType', this.card.verbType ? this.card.verbType : null);
-              this.verbTypeToggle = true;
-              this.verbSub = this.verbType.valueChanges.subscribe((value: VerbType) => {
-                this.verbTypeToggle = false;
-              });
-              break;
-
-            case WordType.adjective: // remove all wordtypes except adjectiveType
-              if (this.verbSub) {
-                this.verbSub.unsubscribe();
-              }
-              this.removeField('verbType');
-              this.addField('adjectiveType', this.card.adjectiveType ? this.card.adjectiveType : null);
-              this.adjectiveTypeToggle = true;
-              this.adjectiveSub = this.adjectiveType.valueChanges.subscribe((value: AdjectiveType) => {
-                this.adjectiveTypeToggle = false;
-              });
-              break;
-            default: // remove all fields
-              this.removeField('adjectiveType');
-              this.removeField('verbType');
-              if (this.verbSub) {
-                this.verbSub.unsubscribe();
-              }
-
-              break;
-          }
+        if (params.has('deckuid')) { // preselect deck for new cards
+          this.deckSub = this.deckService.get(params.get('deckuid')).snapshotChanges().subscribe((_deck) => {
+            this.deck = _deck.payload.data();
+            this.deck.uid = _deck.payload.id;
+            this.card.decks.push({ name: _deck.payload.data().name, uid: _deck.payload.id });
+            this.prepareDecks();
+          });
+        }
+      })
+      this.cardType.valueChanges.subscribe((value: CardType) => {
+        this.cardTypeToggle = false;
+        if (value == CardType.simple) {
+          this.removeField('wordType');
           this.wordTypeToggle = false;
-        });
-      }
+          if (this.wordSub) {
+            this.wordSub.unsubscribe();
+          }
+          this.removeField('verbType');
+          this.removeField('adjectiveType');
+        } else {
+          this.addField('wordType');
+          this.wordTypeToggle = true;
+          this.wordSub = this.wordType.valueChanges.subscribe((value: WordType) => {
+            switch (value) {
+              case WordType.verb: // remove all wordtypes except verbType
+                this.removeField('adjectiveType');
+                this.addField('verbType', this.card.verbType ? this.card.verbType : null);
+                this.verbTypeToggle = true;
+                this.verbSub = this.verbType.valueChanges.subscribe((value: VerbType) => {
+                  this.verbTypeToggle = false;
+                });
+                break;
+
+              case WordType.adjective: // remove all wordtypes except adjectiveType
+                if (this.verbSub) {
+                  this.verbSub.unsubscribe();
+                }
+                this.removeField('verbType');
+                this.addField('adjectiveType', this.card.adjectiveType ? this.card.adjectiveType : null);
+                this.adjectiveTypeToggle = true;
+                this.adjectiveSub = this.adjectiveType.valueChanges.subscribe((value: AdjectiveType) => {
+                  this.adjectiveTypeToggle = false;
+                });
+                break;
+              default: // remove all fields
+                this.removeField('adjectiveType');
+                this.removeField('verbType');
+                if (this.verbSub) {
+                  this.verbSub.unsubscribe();
+                }
+
+                break;
+            }
+            this.wordTypeToggle = false;
+          });
+        }
+      });
     });
   }
 
@@ -303,6 +315,7 @@ export class EditComponent implements OnInit {
 
   onSubmit() {
     if (this.cardForm.valid) {
+      this.card.author = this.user.role == 'admin' ? '' : this.user.uid;
       this.card.cardType = this.cardType.value;
       if (this.wordType) {
         this.card.wordType = this.wordType.value;

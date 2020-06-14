@@ -38,7 +38,7 @@ export const ROUTES: Routes = [
 
   // public deck routes
   { path: 'decks', component: ListComponent },
-  { path: 'decks/user', component: ListComponent, data: { showUserDecks: true } },
+  { path: 'decks/user', component: ListComponent, data: { showUserDecks: true }, canActivate: [AuthGuard] },
   { path: 'decks/new', component: DeckPublicEdit, canActivate: [AuthGuard] },
   { path: 'decks/edit/:uid', component: DeckPublicEdit, canActivate: [AuthGuard] },
   { path: 'decks/:uid', redirectTo: 'decks/:uid/list' },
@@ -47,7 +47,7 @@ export const ROUTES: Routes = [
   // public card routes
   { path: 'cards/new', component: CardEditComponent, outlet: 'modal' },
   { path: 'cards/new/:deckuid', component: CardEditComponent, outlet: 'modal' },
-  { path: 'cards/edit/:uid', component: CardEditComponent, outlet: 'modal' },
+  { path: 'cards/edit/:uid', component: CardEditComponent, outlet: 'modal', canActivate: [AuthGuard] },
 
   // named router outlet
   { path: 'card/:card', component: CardInfoComponent, outlet: 'modal' }

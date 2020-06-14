@@ -28,7 +28,9 @@ export class SelectionComponent implements OnInit {
   ngOnInit() {
     this.authService.user.subscribe(_user => {
       this.user = _user;
-      this.$decks = this.deckService.getAllDecksForUser(this.user.uid).valueChanges();
+      if (this.user) {
+        this.$decks = this.deckService.getAllDecksForUser(this.user.uid).valueChanges();
+      }
     });
   }
 

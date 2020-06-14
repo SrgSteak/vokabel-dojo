@@ -4,6 +4,8 @@ import { CardService } from './card.service';
 import { FlashcardService } from 'src/app/flashcard.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { User } from '../auth.service';
+import { Card } from '../entities/card';
 
 export interface Deck {
   name: string;
@@ -57,7 +59,7 @@ export class DeckService extends FlashcardService {
   }
 
   getCardsForDeck(deck_uid: string, user_uid: string) {
-    return this.afs.collection('users').doc(user_uid).collection('Decks').doc(deck_uid).collection('Cards');
+    return this.afs.collection('users').doc(user_uid).collection('Decks').doc(deck_uid).collection<Card>('Cards');
   }
 
   getAllDecksForUser(user_uid: string) {
@@ -117,5 +119,35 @@ export class DeckService extends FlashcardService {
       'Decks',
       ref => ref.orderBy('createdAt', 'desc')
     );
+  }
+
+  migrateUserDecks() {
+    this.afs.collection<User>('users').valueChanges({ idField: 'uid' }).subscribe(_users => {
+      _users.forEach(_user => {
+        console.log('migrating decks for user: ', _user);
+        this.afs.collection('users').doc(_user.uid).collection<Deck>('Decks').valueChanges({ idField: 'uid' }).subscribe(_user_decks => {
+          _user_decks.forEach(_user_deck => {
+            console.log('migrating deck', _user_deck);
+            // migrate me to collection "Decks", add cards from this deck
+            _user_deck.author = _user.uid;
+            this.add(_user_deck).then(() => {
+              console.log('migrated deck! starting cards');
+              // now add all cards
+              this.getCardsForDeck(_user_deck.uid, _user.uid).valueChanges({ idField: 'uid' }).subscribe(_cards => {
+                _cards.forEach(_card => {
+                  console.log('migrating card', _card);
+                  _card.author = _user.uid;
+                  _card.deck_uids = [_user_deck.uid];
+                  _card.decks = [{ name: _user_deck.name, uid: _user_deck.uid }];
+                  this.cardService.add(_card);
+                })
+              })
+            });
+
+          })
+        });
+      })
+    });
+
   }
 }

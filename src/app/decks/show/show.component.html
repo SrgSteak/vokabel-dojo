@@ -13,7 +13,7 @@
   <a routerLinkActive="active" routerLink="/decks/{{deck.uid}}/list">Liste</a>
   <ng-container *ngIf="auth.user | async as user">
     <span class="label">Deck</span>
-    <ng-container *ngIf="user.role == 'admin'">
+    <ng-container *ngIf="user.role == 'admin' || user.uid == deck.author">
       <a routerLinkActive="active" routerLink="/decks/edit/{{deck.uid}}">Bearbeiten</a>
       <a routerLinkActive="active" routerLink="/decks/new">Deck anlegen</a>
       <span class="label">Karten</span>

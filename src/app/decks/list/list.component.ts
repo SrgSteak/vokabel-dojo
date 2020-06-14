@@ -29,12 +29,12 @@ export class ListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.routeSub = this.route.data.subscribe(data => {
-      if (data.showUserDecks) {
-        this.displayPublic = false;
-        this.authSub = this.AuthService.user.subscribe(_user => {
-          this.user = _user;
-          if (!_user) {
+    this.authSub = this.AuthService.user.subscribe(_user => {
+      this.user = _user;
+      this.routeSub = this.route.data.subscribe(data => {
+        if (data.showUserDecks) {
+          this.displayPublic = false;
+          if (!this.user) {
             this.router.navigate(['/user']);
           } else {
             this.deckSub = this.deckService.allDecksForUser(_user.uid).subscribe(_decks => {
@@ -42,13 +42,13 @@ export class ListComponent implements OnInit {
               this.title.setTitle('Vokabeldojo | Deine Decks');
             });
           }
-        });
-      } else {
-        this.deckService.allPublicDecks().subscribe(_decks => {
-          this.decks = _decks;
-        });
-        this.title.setTitle('Vokabeldojo | Alle Decks');
-      }
+        } else {
+          this.deckService.allPublicDecks().subscribe(_decks => {
+            this.decks = _decks;
+          });
+          this.title.setTitle('Vokabeldojo | Alle Decks');
+        }
+      });
     });
   }
 

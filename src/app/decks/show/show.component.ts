@@ -22,7 +22,10 @@ export class ShowComponent implements OnInit, OnDestroy {
   showSubmenu = false;
   user: User;
 
+  userSub: Subscription;
+  routeSub: Subscription;
   cardSub: Subscription;
+  deckSub: Subscription;
 
   constructor(
     private deckService: DeckService,
@@ -33,15 +36,15 @@ export class ShowComponent implements OnInit, OnDestroy {
     private title: Title) { }
 
   ngOnInit() {
-    this.auth.user.subscribe(user => {
+    this.userSub = this.auth.user.subscribe(user => {
       if (user) {
         this.user = user;
         this.allowEdit = user.role === 'admin';
       }
     });
-    this.route.paramMap.subscribe(params => {
+    this.routeSub = this.route.paramMap.subscribe(params => {
       this.mode = params.get('mode');
-      this.deckService.get(params.get('uid')).valueChanges().subscribe(data => {
+      this.deckSub = this.deckService.get(params.get('uid')).valueChanges().subscribe(data => {
         this.deck = data;
         this.title.setTitle('Vokabeldojo | ' + this.deck.name);
         this.deck.uid = params.get('uid');
@@ -54,6 +57,10 @@ export class ShowComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     if (this.cardSub) { this.cardSub.unsubscribe(); }
+    if (this.deckSub) { this.deckSub.unsubscribe(); }
+    if (this.routeSub) { this.routeSub.unsubscribe(); }
+    if (this.userSub) { this.userSub.unsubscribe(); }
+
   }
 
   addCard(card: CardInterface) {

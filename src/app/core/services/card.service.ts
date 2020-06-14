@@ -71,6 +71,27 @@ export class CardService {
     );
   }
 
+  /**
+   * observable of all public (author == '') cards
+   */
+  allPublicCards(): Observable<Array<Card>> {
+    return this.afs.collection<Card>(
+      'Cards',
+      ref => ref.orderBy('createdAt', 'desc').where('author', '==', '')
+    ).valueChanges({ idField: 'uid' });
+  }
+
+  /**
+   * observable of all user (author == uid) cards
+   * @param uid the uid of the given user
+   */
+  allCardsForUser(uid: string): Observable<Array<Card>> {
+    return this.afs.collection<Card>(
+      'Cards',
+      ref => ref.orderBy('createdAt', 'desc').where('author', '==', uid)
+    ).valueChanges({ idField: 'uid' });
+  }
+
   loadForDeck(deck: string, uid: string) {
     return this.afs.firestore.collection('Cards').orderBy('createdAt').where('decks', 'array-contains', { name: deck, uid: uid });
   }
@@ -94,6 +115,24 @@ export class CardService {
 
   loadForDeckLegacy(uid: string) {
     return this.afs.firestore.collection('Cards').orderBy('createdAt').where('decks', 'array-contains', uid);
+  }
+
+  migrateAuthors() {
+    const sub = this.loadAll().valueChanges({ idField: 'uid' }).subscribe(_cards => {
+      //     console.log(_cards);
+      sub.unsubscribe();
+      _cards.forEach(_card => {
+        console.log(_card);
+        if (_card.author == undefined) {
+          _card.author = '';
+          this.update(_card);
+        }
+      });
+    });
+  }
+
+  migrateUserCards() {
+
   }
 
   // migrateDeckIds() {

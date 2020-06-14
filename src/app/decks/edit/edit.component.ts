@@ -18,6 +18,8 @@ export class EditComponent implements OnInit, OnDestroy {
   user: User;
 
   userSub: Subscription;
+  deckSub: Subscription;
+  routeSub: Subscription;
 
   deckForm = this.fb.group({
     name: ['', [Validators.required]],
@@ -54,16 +56,19 @@ export class EditComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.userSub = this.authService.user.subscribe(_user => {
       this.user = _user;
-      this.route.paramMap.subscribe(params => {
+      this.routeSub = this.route.paramMap.subscribe(params => {
         if (params.has('uid')) {
-          this.DeckService.get(params.get('uid')).valueChanges().subscribe(deck => {
+          this.deckSub = this.DeckService.get(params.get('uid')).valueChanges().subscribe(deck => {
             this.deck = deck;
-            this.deck.uid = params.get('uid');
-            if (this.user.role != 'admin' || this.user.uid != this.deck.author) {
-              this.router.navigate(['/decks/', this.deck.uid]);
+            if (deck) {
+              this.deck.uid = params.get('uid');
+              if (this.user.role == 'admin' || this.user.uid == this.deck.author) {
+              } else {
+                this.router.navigate(['/decks/', this.deck.uid]);
+              }
+              this.deckForm.get('name').setValue(this.deck.name);
+              this.deckForm.get('description').setValue(this.deck.description);
             }
-            this.deckForm.get('name').setValue(this.deck.name);
-            this.deckForm.get('description').setValue(this.deck.description);
           });
         } else {
           this.deck = { name: '', description: '', author: '', uid: '', numberCards: 0 };
@@ -74,18 +79,25 @@ export class EditComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     if (this.userSub) { this.userSub.unsubscribe(); }
+    if (this.routeSub) { this.routeSub.unsubscribe(); }
+    if (this.deckSub) { this.deckSub.unsubscribe(); }
   }
 
   onSubmit() {
-    this.deck.name = this.deckForm.get('name').value;
-    this.deck.description = this.deckForm.get('description').value;
-    if (this.deck.uid) {
-      this.DeckService.update(this.deck.uid, this.deck);
-      this.router.navigate(['/decks', this.deck.uid]);
+    if (this.deckForm.valid) {
+      this.deck.name = this.deckForm.get('name').value;
+      this.deck.description = this.deckForm.get('description').value;
+      this.deck.author = this.user.role == 'admin' ? '' : this.user.uid;
+      if (this.deck.uid) {
+        this.DeckService.update(this.deck.uid, this.deck);
+        this.router.navigate(['/decks', this.deck.uid]);
+      } else {
+        this.DeckService.add(this.deck).then(reference => {
+          this.router.navigate(['/decks', reference.id]);
+        })
+      }
     } else {
-      this.DeckService.add(this.deck).then(reference => {
-        this.router.navigate(['/decks', reference.id]);
-      })
+      this.deckForm.markAsTouched();
     }
   }
 

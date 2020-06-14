@@ -1,28 +1,33 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CardService } from 'src/app/core/services/card.service';
 import { Card } from 'src/app/core/entities/card';
 import { CardInterface } from 'src/app/core/entities/card-interface';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.css']
 })
-export class ListComponent implements OnInit {
+export class ListComponent implements OnInit, OnDestroy {
 
   cards = [];
+  private cardSub: Subscription;
 
-  constructor(cardService: CardService) {
-    cardService.loadAll().snapshotChanges().subscribe(data => {
+  constructor(private cardService: CardService) {
+  }
+
+  ngOnInit() {
+    this.cardSub = this.cardService.allPublicCards().subscribe(data => {
       this.cards = data.map(e => {
-        const card = Card.createFromCardInterface(e.payload.doc.data() as CardInterface);
-        card.uid = e.payload.doc.id;
+        const card = Card.createFromCardInterface(e);
         return card;
       })
     })
   }
 
-  ngOnInit() {
+  ngOnDestroy() {
+    if (this.cardSub) { this.cardSub.unsubscribe(); }
   }
 
 }
