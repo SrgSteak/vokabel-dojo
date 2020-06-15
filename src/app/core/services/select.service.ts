@@ -1,7 +1,7 @@
 import { Injectable, InjectionToken, Inject } from '@angular/core';
-import { Card } from '../entities/card';
 import { CardService } from './card.service';
 import { CardInterface } from '../entities/card-interface';
+import { Subscription } from 'rxjs';
 
 export const SESSION_STORAGE = new InjectionToken<Storage>('Browser Storage', {
   providedIn: 'root',
@@ -14,6 +14,7 @@ export const SESSION_STORAGE = new InjectionToken<Storage>('Browser Storage', {
 export class SelectService {
 
   private _cards: Array<CardInterface> = [];
+  private cardSub: Subscription;
 
   get cards() {
     return this._cards;
@@ -56,14 +57,10 @@ export class SelectService {
     if (this.sessionStorage) {
       try {
         const uids = JSON.parse(this.sessionStorage.getItem('selection'));
-        uids.forEach(uid => {
-          this.cardService.get(uid).snapshotChanges().subscribe(data => {
-            const card = Card.createFromCardInterface(data.payload.data());
-            card.uid = data.payload.id;
-            this._cards.push(card);
-          })
+        this.cardSub = this.cardService.getMultiple(uids).subscribe(cards => {
+          this._cards = cards;
+          if (this.cardSub) { this.cardSub.unsubscribe(); }
         });
-
       } catch (error) {
         console.log(error);
       }

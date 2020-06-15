@@ -32,7 +32,7 @@
     <p *ngIf="deck.description">{{ deck.description }}
     </p>
     <p>
-      <button class="button no-print" (click)="addToCollection()" *ngIf="auth.user | async">+ Zu meinen Decks
+      <button class="button no-print" (click)="addToCollection()" *ngIf="user">+ Zu meinen Decks
         hinzufügen</button>
     </p>
   </ng-container>

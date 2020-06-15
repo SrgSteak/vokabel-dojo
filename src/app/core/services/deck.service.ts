@@ -54,71 +54,39 @@ export class DeckService extends FlashcardService {
     ).valueChanges({ idField: 'uid' })
   }
 
-  getDeckForUser(deck_uid: string, user_uid: string) {
-    return this.afs.collection('users').doc(user_uid).collection('Decks').doc<Deck>(deck_uid);
-  }
-
   getCardsForDeck(deck_uid: string, user_uid: string) {
     return this.afs.collection('users').doc(user_uid).collection('Decks').doc(deck_uid).collection<Card>('Cards');
   }
 
-  getAllDecksForUser(user_uid: string) {
-    return this.afs.collection('users').doc(user_uid).collection('Decks');
+  copyDeckForUser(deck: Deck, user_uid: string) {
+    deck.author = user_uid;
+    return this.add(deck);
   }
 
-  publishDeck(deck: Deck) {
+  copyCardsIntoDeck(origin_deck: Deck, user_uid: string, deck_uid: string) {
+    this.cardService.loadForDeckUid(origin_deck.uid).subscribe(cards => {
+      cards.forEach(card => {
+        card.deck_uids = [deck_uid];
+        card.decks = [{ name: origin_deck.name, uid: deck_uid }]
+        card.author = user_uid;
+        this.cardService.add(card);
+      });
+    });
+  }
+
+  add(deck: Deck) {
+    deck.createdAt = new Date();
+    deck.updatedAt = new Date();
     return this.afs.collection('Decks').add(deck);
   }
 
-  copyDeckForUser(deck: Deck, user_uid: string) {
-    return this.afs.collection('users').doc(user_uid).collection('Decks').add(deck);
-  }
-
-  copyCardsIntoDeck(origin_uid: string, user_uid: string, deck_uid: string) {
-    // this.cardService.loadForDeck(origin_uid).get().then(data => {
-    //   const cards = data.docs.map(e => {
-    //     const card = e.data();
-    //     card.uid = e.id;
-    //     return card;
-    //   });
-    //   cards.forEach(card => {
-    //     this.afs.collection('users').doc(user_uid).collection('Decks').doc(deck_uid).collection('Cards').add(card);
-    //   });
-    // });
-  }
-
-  add(deck: Deck, user_uid?: string) {
-    deck.createdAt = new Date();
+  update(id: string, deck: Deck) {
     deck.updatedAt = new Date();
-    if (user_uid) {
-      return this.afs.collection('users').doc(user_uid).collection('Decks').add(deck);
-    } else {
-      return this.afs.collection('Decks').add(deck);
-    }
+    return this.afs.collection('Decks').doc(id).set(deck, { merge: true });
   }
 
-  update(id: string, deck: Deck, user_uid?: string) {
-    deck.updatedAt = new Date();
-    if (user_uid) {
-      return this.afs.collection('users').doc(user_uid).collection('Decks').doc(id).set(deck, { merge: true });
-    } else {
-      return this.afs.collection('Decks').doc(id).set(deck, { merge: true });
-    }
-  }
-
-  delete(id: string, user_uid?: string) {
-    if (user_uid) {
-      this.afs.collection('users').doc(user_uid).collection('Decks').doc(id).delete();
-    } else {
-      this.afs.collection('Decks').doc(id).delete();
-    }
-  }
-
-  loadAll() {
-    return this.afs.collection(
-      'Decks',
-      ref => ref.orderBy('createdAt', 'desc')
-    );
+  delete(id: string) {
+    this.afs.collection('Decks').doc(id).delete();
   }
 
   migrateUserDecks() {

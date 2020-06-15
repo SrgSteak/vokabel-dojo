@@ -26,6 +26,7 @@ export class ShowComponent implements OnInit, OnDestroy {
   routeSub: Subscription;
   cardSub: Subscription;
   deckSub: Subscription;
+  authSub: Subscription;
 
   constructor(
     private deckService: DeckService,
@@ -60,12 +61,7 @@ export class ShowComponent implements OnInit, OnDestroy {
     if (this.deckSub) { this.deckSub.unsubscribe(); }
     if (this.routeSub) { this.routeSub.unsubscribe(); }
     if (this.userSub) { this.userSub.unsubscribe(); }
-
-  }
-
-  addCard(card: CardInterface) {
-    this.cards.push(card);
-    this.cardService.add(card, this.deck);
+    if (this.authSub) { this.authSub.unsubscribe(); }
   }
 
   editMe(card: CardInterface) {
@@ -79,11 +75,9 @@ export class ShowComponent implements OnInit, OnDestroy {
    */
   addToCollection() {
     if (confirm('Dieses Deck jetzt kopieren?')) {
-      this.auth.user.subscribe(user => {
-        this.deckService.copyDeckForUser(this.deck, user.uid).then(reference => {
-          this.deckService.copyCardsIntoDeck(this.deck.uid, user.uid, reference.id);
-          this.router.navigate(['/', 'user', 'decks', reference.id]);
-        });
+      const addSub = this.deckService.copyDeckForUser(this.deck, this.user.uid).then(reference => {
+        this.deckService.copyCardsIntoDeck(this.deck, this.user.uid, reference.id);
+        this.router.navigate(['/', 'decks', reference.id]);
       });
     }
   }

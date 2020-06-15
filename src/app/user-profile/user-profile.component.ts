@@ -16,6 +16,7 @@ export class UserProfileComponent implements OnInit {
   }
 
   migrate() {
+    // this.cardService.deleteForUser('a');
     // this.deckService.migrateUserDecks();
     // this.cardService.migrateAuthors();
     // this.cardService.migrateDeckIds();

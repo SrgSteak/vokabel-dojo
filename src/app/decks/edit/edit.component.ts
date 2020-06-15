@@ -108,6 +108,14 @@ export class EditComponent implements OnInit, OnDestroy {
     }
   }
 
+  onDeleteWithCards() {
+    if (confirm('Deck und alle enthaltenen Lernkarten löschen?')) {
+      this.CardService.deleteForDeck(this.deck.uid);
+      this.DeckService.delete(this.deck.uid);
+      this.router.navigate(['/decks']);
+    }
+  }
+
   importCSVCards(input: HTMLInputElement): void {
     if (input.files && input.files.length) {
       const fileReader = new FileReader();
