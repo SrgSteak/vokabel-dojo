@@ -67,6 +67,13 @@ export class DeckService extends FlashcardService {
     ).valueChanges({ idField: 'uid' })
   }
 
+  findByNameForUser(user_uid: string, name: string) {
+    return this.afs.collection<Deck>(
+      'Decks',
+      ref => ref.orderBy('name').where('author', '==', user_uid).where('name', '>=', name).where('name', '<=', name + '\uf8ff')
+    ).valueChanges({ idField: 'uid' })
+  }
+
   getCardsForDeck(deck_uid: string, user_uid: string) {
     return this.afs.collection('users').doc(user_uid).collection('Decks').doc(deck_uid).collection<Card>('Cards');
   }

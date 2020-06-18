@@ -252,7 +252,7 @@
       </div>
     </div>
 
-    <div class="formgroup searchcontainer" formArrayName="decks" *ngIf="card">
+    <div class="formgroup searchcontainer" formArrayName="deck_uids" *ngIf="card">
       <label>Decks</label>
       <input type="search" class="deck_search" (keyup)="phrase$.next($event.target.value)"
         (focus)="toggleSearch = true">
@@ -263,13 +263,10 @@
         </div>
       </div>
       <ng-container *ngIf="card">
-        <label class="container collapsible" *ngFor="let deck of deckForm.controls; let i = index" [formGroupName]="i"
-          @rollInOutAnimation>
+        <label class="container collapsible" *ngFor="let deck of deckForm.controls; let i = index" @rollInOutAnimation>
           <i class="feather icon-minus-circle" (click)="removeDeckFromCard(i)"></i>
-          {{ deck.value.name }}
-          <span class="muted">{{ deck.uid }}</span>
-          <input type="text" formControlName="uid">
-          <input type="text" formControlName="name">
+          {{ deck.value | deckname }}
+          <input type="text" [formControlName]="i">
         </label>
       </ng-container>
     </div>

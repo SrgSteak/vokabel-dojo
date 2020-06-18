@@ -54,6 +54,6 @@ export const ROLL_IN_OUT_ANIMATION =
       animate(`250ms ${easeInOutCubic}`, style({ height: '*', overflow: 'show' })),
     ]),
     transition(':leave', [
-      animate(`250ms ${easeInOutCubic}`, style({ height: 0, padding: 0, margin: 0 })),
+      animate(`250ms ${easeInOutCubic}`, style({ height: '0px', padding: '0px', margin: '0px' })),
     ])
   ]);

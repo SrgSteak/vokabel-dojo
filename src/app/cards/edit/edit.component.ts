@@ -40,7 +40,11 @@ export class EditComponent implements OnInit {
     debounceTime(300),
     distinctUntilChanged(),
     switchMap((phrase: string) => {
-      return this.deckService.findByName(phrase);
+      if (this.user.role == 'admin') {
+        return this.deckService.findByName(phrase);
+      } else {
+        return this.deckService.findByNameForUser(this.user.uid, phrase);
+      }
     }
     ));
 
@@ -75,7 +79,7 @@ export class EditComponent implements OnInit {
     return this.cardForm.get('examples') as FormArray;
   }
   get deckForm() {
-    return this.cardForm.get('decks') as FormArray;
+    return this.cardForm.get('deck_uids') as FormArray;
   }
   get cardType() {
     return this.cardForm.get('cardType') as FormControl;
@@ -115,7 +119,7 @@ export class EditComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.authService.user.subscribe(_user => {
+    this.authSub = this.authService.user.subscribe(_user => {
       this.user = _user;
     });
     this.routeSub = this.route.paramMap.subscribe(params => {
@@ -145,7 +149,11 @@ export class EditComponent implements OnInit {
               this.addExample(this.examples, example);
             })
           }
-          this.prepareDecks();
+          if (this.card.deck_uids) {
+            this.card.deck_uids.forEach(deck_uid => {
+              this.addReading(this.deckForm, deck_uid)
+            });
+          }
           this.wordTypeToggle = false;
           this.adjectiveTypeToggle = false;
           this.verbTypeToggle = false;
@@ -155,10 +163,10 @@ export class EditComponent implements OnInit {
         this.card = { german: [], decks: [], cardType: CardType.simple };
       }
       if (params.has('deckuid')) { // preselect deck for new cards
+        this.addReading(this.deckForm, params.get('deckuid'));
         this.deckSub = this.deckService.get(params.get('deckuid')).subscribe((_deck) => {
           this.deck = _deck;
           this.card.decks.push({ name: this.deck.name, uid: this.deck.uid });
-          this.prepareDecks();
         });
       }
     })
@@ -214,6 +222,9 @@ export class EditComponent implements OnInit {
 
   ngOnDestroy() {
     if (this.cardSub) { this.cardSub.unsubscribe(); }
+    if (this.routeSub) { this.routeSub.unsubscribe(); }
+    if (this.deckSub) { this.deckSub.unsubscribe(); }
+    if (this.authSub) { this.authSub.unsubscribe(); }
     if (this.verbSub) { this.verbSub.unsubscribe(); }
     if (this.adjectiveSub) { this.adjectiveSub.unsubscribe(); }
   }
@@ -230,13 +241,7 @@ export class EditComponent implements OnInit {
     if (!this.deckForm.value.find(form => form.uid == deck.uid)) {
       const uidForm = new FormControl('', Validators.required);
       uidForm.setValue(deck.uid);
-      const nameForm = new FormControl('');
-      nameForm.setValue(deck.name);
-      const deckGroup = this.fb.group({
-        uid: uidForm,
-        name: nameForm
-      });
-      this.deckForm.push(deckGroup);
+      this.deckForm.push(uidForm);
     }
   }
 
@@ -251,7 +256,7 @@ export class EditComponent implements OnInit {
       japanese: ['', Validators.required],
       japanese_readings: this.fb.array([]),
       chinese_readings: this.fb.array([]),
-      decks: this.fb.array([]),
+      deck_uids: this.fb.array([]),
       examples: this.fb.array([])
     });
   }
@@ -267,22 +272,6 @@ export class EditComponent implements OnInit {
 
   removeField(field: string) {
     this.cardForm.removeControl(field);
-  }
-
-  private prepareDecks() {
-    if (this.card.decks && this.card.decks.length) {
-      this.card.decks.forEach(_deck => {
-        const uidForm = new FormControl('', Validators.required);
-        uidForm.setValue(_deck.uid);
-        const nameForm = new FormControl('');
-        nameForm.setValue(_deck.name);
-        const deckGroup = this.fb.group({
-          uid: uidForm,
-          name: nameForm
-        });
-        this.deckForm.push(deckGroup);
-      })
-    }
   }
 
   addExample(form: FormArray, example?: { japanese?: string, reading?: string, german?: string }) {
@@ -333,12 +322,7 @@ export class EditComponent implements OnInit {
       this.card.chinese_readings = this.chinese_readings.value;
       this.card.japanese_readings = this.japanese_readings.value;
       this.card.examples = this.examples.value;
-      this.card.decks = this.deckForm.value;
-      const uids = [];
-      this.card.decks.forEach(_deck => {
-        uids.push(_deck.uid);
-      })
-      this.card.deck_uids = uids;
+      this.card.deck_uids = this.deckForm.value;
 
       if (this.card.uid) {
         this.cardService.update(this.card);
