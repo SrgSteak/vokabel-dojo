@@ -7,6 +7,7 @@ import { Card } from 'src/app/core/entities/card';
 import { CardInterface } from 'src/app/core/entities/card-interface';
 import { Title } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
+import { SelectService } from 'src/app/core/services/select.service';
 
 @Component({
   selector: 'app-deck-public-show',
@@ -31,6 +32,7 @@ export class ShowComponent implements OnInit, OnDestroy {
   constructor(
     private deckService: DeckService,
     private cardService: CardService,
+    private selectService: SelectService,
     private route: ActivatedRoute,
     private router: Router,
     public auth: AuthService,
@@ -45,7 +47,7 @@ export class ShowComponent implements OnInit, OnDestroy {
     });
     this.routeSub = this.route.paramMap.subscribe(params => {
       this.mode = params.get('mode');
-      this.deckSub = this.deckService.get(params.get('uid')).valueChanges().subscribe(data => {
+      this.deckSub = this.deckService.get(params.get('uid')).subscribe(data => {
         this.deck = data;
         this.title.setTitle('Vokabeldojo | ' + this.deck.name);
         this.deck.uid = params.get('uid');
@@ -80,5 +82,11 @@ export class ShowComponent implements OnInit, OnDestroy {
         this.router.navigate(['/', 'decks', reference.id]);
       });
     }
+  }
+
+  selectAll() {
+    this.cards.forEach(_card => {
+      this.selectService.addCard(_card);
+    })
   }
 }

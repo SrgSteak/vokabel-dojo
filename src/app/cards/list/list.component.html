@@ -1,3 +1,13 @@
 <div class="content">
-  <app-word-list [cards]="cards" *ngIf="cards.length"></app-word-list>
+  <a routerLink="" class="backlink muted"><i class="feather icon-chevron-left"></i>Home</a>
+  <ng-container *ngIf="cards.length else noCards">
+    <app-word-list [cards]="cards" *ngIf="cards.length"></app-word-list>
+  </ng-container>
+  <ng-template #noCards>
+    Du hast noch keine Karten. Du kannst welche in deinen Decks anlegen oder aus öffentlichen Decks oder dem Wörterbuch
+    kopieren.
+  </ng-template>
+  <button class="button danger" (click)="deleteAll()">
+    <i-feather name="trash"></i-feather>Alle meine Karten löschen
+  </button>
 </div>

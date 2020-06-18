@@ -6,7 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-list',
+  selector: 'app-deck-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss']
 })

@@ -19,6 +19,7 @@ import { EditComponent as DeckPublicEdit } from '../decks/edit/edit.component';
 import { EditComponent as CardEditComponent } from '../cards/edit/edit.component';
 import { ShowComponent as DeckPublicShow } from '../decks/show/show.component';
 import { ListComponent } from '../decks/list/list.component';
+import { ListComponent as CardListComponent } from '../cards/list/list.component'
 
 export const ROUTES: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
@@ -36,7 +37,7 @@ export const ROUTES: Routes = [
   { path: 'user', component: UserProfileComponent },
   { path: 'selection', component: SelectionComponent, outlet: 'modal' },
 
-  // public deck routes
+  // deck routes
   { path: 'decks', component: ListComponent },
   { path: 'decks/user', component: ListComponent, data: { showUserDecks: true }, canActivate: [AuthGuard] },
   { path: 'decks/new', component: DeckPublicEdit, canActivate: [AuthGuard] },
@@ -44,7 +45,8 @@ export const ROUTES: Routes = [
   { path: 'decks/:uid', redirectTo: 'decks/:uid/list' },
   { path: 'decks/:uid/:mode', component: DeckPublicShow },
 
-  // public card routes
+  // card routes
+  { path: 'cards/user', component: CardListComponent, data: { showUserCards: true }, canActivate: [AuthGuard] },
   { path: 'cards/new', component: CardEditComponent, outlet: 'modal' },
   { path: 'cards/new/:deckuid', component: CardEditComponent, outlet: 'modal' },
   { path: 'cards/edit/:uid', component: CardEditComponent, outlet: 'modal', canActivate: [AuthGuard] },

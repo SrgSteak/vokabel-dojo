@@ -1,0 +1,57 @@
+import * as functions from 'firebase-functions';
+import * as admin from 'firebase-admin';
+
+admin.initializeApp();
+// // Start writing Firebase Functions
+// // https://firebase.google.com/docs/functions/typescript
+
+export const onDeckDelete = functions.firestore.document('/Decks/{documentId}').onDelete((snapshot, context) => {
+  console.log(`Starting onDeckDelete function`);
+  const uid = context.params.documentId; // the Deck uid
+  console.log(`onDeckDelete function with Deck ${uid}`);
+  return admin.firestore().collection('Cards').where('deck_uids', 'array-contains', uid).get()
+    .then(cardsSnapshot => {
+      const promises: Array<Promise<any>> = [];
+      cardsSnapshot.forEach(cardSnapshot => {
+        const card = cardSnapshot.data();
+        console.log(`Updating card at ${cardSnapshot.ref.path}`);
+        let deck_uids = card.deck_uids as Array<string>;
+        if (deck_uids) {
+          deck_uids = deck_uids.filter(deck_uid => deck_uid !== uid);
+        }
+        card.deck_uids = deck_uids;
+        const p = cardSnapshot.ref.update(card);
+        promises.push(p);
+      });
+      return Promise.all(promises);
+    })
+})
+
+// export const onDeckUpdate = functions.database.ref('Decks/{documentId').onUpdate((snapshot, context) => {
+//   // Grab the current value of what was written to Cloud Firestore.
+//   const original = snapshot.after.val();
+
+//   // Access the parameter `{documentId}` with `context.params`
+//   console.log('trimming', context.params.documentId, original);
+
+//   const uppercase = original.name.trim();
+
+//   // You must return a Promise when performing asynchronous tasks inside a Functions such as
+//   // writing to Cloud Firestore.
+//   // Setting an 'uppercase' field in Cloud Firestore document returns a Promise.
+//   return snapshot.after.ref.set({ uppercase });
+// });
+
+export const onDeckCreate = functions.firestore.document('/Decks/{documentId}').onCreate((snapshot, context) => {
+  // Grab the current value of what was written to Cloud Firestore.
+  const original = snapshot.data();
+
+  // Access the parameter `{documentId}` with `context.params`
+  console.log('trimming on create', context.params.documentId, original);
+
+  original.name = original.name.trim();
+  // You must return a Promise when performing asynchronous tasks inside a Functions such as
+  // writing to Cloud Firestore.
+  // Setting an 'uppercase' field in Cloud Firestore document returns a Promise.
+  return snapshot.ref.set(original);
+});

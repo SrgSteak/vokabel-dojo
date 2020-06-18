@@ -5,7 +5,6 @@ import { Subscription } from 'rxjs';
 import { CardService } from 'src/app/core/services/card.service';
 import { Card } from 'src/app/core/entities/card';
 import { FLY_IN_OUT_ANIMATION } from 'src/app/core/animations/modal.animation';
-import { DeckService, Deck } from 'src/app/core/services/deck.service';
 import { CardType, WordType, AdjectiveType, VerbType } from 'src/app/core/entities/card-type';
 import { SelectService } from 'src/app/core/services/select.service';
 import { AuthService, User } from 'src/app/core/auth.service';
@@ -49,7 +48,6 @@ export class CardInfoComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private authService: AuthService,
     private cardService: CardService,
-    private deckService: DeckService,
     public selectService: SelectService) {
   }
 

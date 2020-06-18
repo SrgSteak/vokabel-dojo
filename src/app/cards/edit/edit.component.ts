@@ -155,10 +155,9 @@ export class EditComponent implements OnInit {
         this.card = { german: [], decks: [], cardType: CardType.simple };
       }
       if (params.has('deckuid')) { // preselect deck for new cards
-        this.deckSub = this.deckService.get(params.get('deckuid')).snapshotChanges().subscribe((_deck) => {
-          this.deck = _deck.payload.data();
-          this.deck.uid = _deck.payload.id;
-          this.card.decks.push({ name: _deck.payload.data().name, uid: _deck.payload.id });
+        this.deckSub = this.deckService.get(params.get('deckuid')).subscribe((_deck) => {
+          this.deck = _deck;
+          this.card.decks.push({ name: this.deck.name, uid: this.deck.uid });
           this.prepareDecks();
         });
       }

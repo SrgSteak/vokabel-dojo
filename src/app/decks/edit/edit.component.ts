@@ -58,7 +58,7 @@ export class EditComponent implements OnInit, OnDestroy {
       this.user = _user;
       this.routeSub = this.route.paramMap.subscribe(params => {
         if (params.has('uid')) {
-          this.deckSub = this.DeckService.get(params.get('uid')).valueChanges().subscribe(deck => {
+          this.deckSub = this.DeckService.get(params.get('uid')).subscribe(deck => {
             this.deck = deck;
             if (deck) {
               this.deck.uid = params.get('uid');

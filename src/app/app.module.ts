@@ -41,6 +41,7 @@ import { OnyomiPipe } from './shared/pipes/onyomi.pipe';
 import { VerbTableComponent } from './shared/card-info/verb-table/verb-table.component';
 import { AdjectiveTableComponent } from './shared/card-info/adjective-table/adjective-table.component';
 import { AppRoutingModule } from './app-routing/app-routing.module';
+import { DecknamePipe } from './pipes/deckname.pipe';
 
 @NgModule({
   imports: [
@@ -86,7 +87,8 @@ import { AppRoutingModule } from './app-routing/app-routing.module';
     CardInfoComponent,
     OnyomiPipe,
     VerbTableComponent,
-    AdjectiveTableComponent
+    AdjectiveTableComponent,
+    DecknamePipe
   ],
   bootstrap: [AppComponent],
   providers: [VocabularyService, FlashcardService]

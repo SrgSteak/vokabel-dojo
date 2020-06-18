@@ -205,6 +205,10 @@ a[disabled] {
   -webkit-text-decoration-line: line-through;
 }
 
+button {
+  cursor: pointer;
+}
+
 button.menu-button {
   margin: 0px;
   margin-top: 10px;

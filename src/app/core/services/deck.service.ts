@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { CardService } from './card.service';
 import { FlashcardService } from 'src/app/flashcard.service';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 import { User } from '../auth.service';
 import { Card } from '../entities/card';
 
@@ -25,12 +25,25 @@ export interface Deck {
 })
 export class DeckService extends FlashcardService {
 
+  private decks = new Map<string, any>();
+
   constructor(private afs: AngularFirestore, private cardService: CardService) {
     super();
   }
 
   get(id: string) {
-    return this.afs.collection<Deck>('Decks').doc<Deck>(id);
+    if (this.decks.has(id)) {
+      return of(this.decks.get(id));
+    }
+    return this.afs.collection<Deck>('Decks').doc<Deck>(id).valueChanges().pipe(
+      tap(_deck => {
+        console.log('accessing DB');
+        if (_deck) {
+          _deck.uid = id;
+          this.decks.set(id, _deck);
+        }
+      })
+    );
   }
 
   allPublicDecks(): Observable<Array<Deck>> {

@@ -34,6 +34,9 @@
     <p>
       <button class="button no-print" (click)="addToCollection()" *ngIf="user">+ Zu meinen Decks
         hinzufügen</button>
+      <button class="button no-print" (click)="selectAll()">
+        <i-feather name="check-circle"></i-feather> Alle Karten auswählen
+      </button>
     </p>
   </ng-container>
   <ng-container *ngIf="cards.length > 0 else empty">

@@ -71,8 +71,8 @@ export class CardService {
   /**
    * observable of all public (author == '') cards
    */
-  allPublicCards(): Observable<Array<Card>> {
-    return this.afs.collection<Card>(
+  allPublicCards(): Observable<Array<CardInterface>> {
+    return this.afs.collection<CardInterface>(
       'Cards',
       ref => ref.orderBy('createdAt', 'desc').where('author', '==', '')
     ).valueChanges({ idField: 'uid' });
@@ -82,8 +82,8 @@ export class CardService {
    * observable of all user (author == uid) cards
    * @param uid the uid of the given user
    */
-  allCardsForUser(uid: string): Observable<Array<Card>> {
-    return this.afs.collection<Card>(
+  allCardsForUser(uid: string): Observable<Array<CardInterface>> {
+    return this.afs.collection<CardInterface>(
       'Cards',
       ref => ref.orderBy('createdAt', 'desc').where('author', '==', uid)
     ).valueChanges({ idField: 'uid' });
