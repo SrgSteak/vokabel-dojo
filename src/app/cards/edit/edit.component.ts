@@ -7,8 +7,9 @@ import { CardInterface } from 'src/app/core/entities/card-interface';
 import { Card } from 'src/app/core/entities/card';
 import { CardType, WordType, VerbType, AdjectiveType } from 'src/app/core/entities/card-type';
 import { FLY_IN_OUT_ANIMATION, ROLL_IN_OUT_ANIMATION } from 'src/app/core/animations/modal.animation';
-import { Subscription, Observable, Subject, of } from 'rxjs';
+import { Subscription, Observable, Subject } from 'rxjs';
 import { switchMap, distinctUntilChanged, debounceTime } from 'rxjs/operators';
+import { AuthService, User } from 'src/app/core/auth.service';
 
 @Component({
   selector: 'app-edit',
@@ -27,6 +28,7 @@ export class EditComponent implements OnInit {
   @Output() updateCard = new EventEmitter<CardInterface>();
   @Output() deleteCard = new EventEmitter();
 
+  user: User;
   card: CardInterface;
   deck: Deck;
   createMode = false;
@@ -49,6 +51,10 @@ export class EditComponent implements OnInit {
   toggleSearch = false;
   repeat = false;
 
+  private routeSub: Subscription;
+  private authSub: Subscription;
+  private deckSub: Subscription;
+  private cardSub: Subscription;
   private wordSub: Subscription;
   private verbSub: Subscription;
   private adjectiveSub: Subscription;
@@ -100,6 +106,7 @@ export class EditComponent implements OnInit {
   }
 
   constructor(
+    private authService: AuthService,
     private cardService: CardService,
     private deckService: DeckService,
     private route: ActivatedRoute,
@@ -108,11 +115,17 @@ export class EditComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.route.paramMap.subscribe(params => {
+    this.authService.user.subscribe(_user => {
+      this.user = _user;
+    });
+    this.routeSub = this.route.paramMap.subscribe(params => {
       if (params.has('uid')) { // edit card
-        this.cardService.get(params.get('uid')).snapshotChanges().subscribe(data => {
+        this.cardSub = this.cardService.get(params.get('uid')).snapshotChanges().subscribe(data => {
           this.card = Card.createFromCardInterface(data.payload.data());
           this.card.uid = data.payload.id;
+          if (this.user.role != 'admin' && this.user.uid != this.card.author) {
+            this.router.navigate(['/']);
+          }
           // prefill form;
           this.cardForm.get('japanese').setValue(this.card.japanese);
           this.cardForm.get('cardType').setValue(this.card.cardType ? '1' : '0');
@@ -133,16 +146,18 @@ export class EditComponent implements OnInit {
             })
           }
           this.prepareDecks();
+          this.wordTypeToggle = false;
+          this.adjectiveTypeToggle = false;
+          this.verbTypeToggle = false;
         })
       } else { // create card
         this.createMode = true;
         this.card = { german: [], decks: [], cardType: CardType.simple };
       }
       if (params.has('deckuid')) { // preselect deck for new cards
-        this.deckService.get(params.get('deckuid')).snapshotChanges().subscribe((_deck) => {
-          this.deck = _deck.payload.data();
-          this.deck.uid = _deck.payload.id;
-          this.card.decks.push({ name: _deck.payload.data().name, uid: _deck.payload.id });
+        this.deckSub = this.deckService.get(params.get('deckuid')).subscribe((_deck) => {
+          this.deck = _deck;
+          this.card.decks.push({ name: this.deck.name, uid: this.deck.uid });
           this.prepareDecks();
         });
       }
@@ -198,12 +213,9 @@ export class EditComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    if (this.verbSub) {
-      this.verbSub.unsubscribe();
-    }
-    if (this.adjectiveSub) {
-      this.adjectiveSub.unsubscribe();
-    }
+    if (this.cardSub) { this.cardSub.unsubscribe(); }
+    if (this.verbSub) { this.verbSub.unsubscribe(); }
+    if (this.adjectiveSub) { this.adjectiveSub.unsubscribe(); }
   }
 
   updatedPhrase(phrase: string) {
@@ -305,6 +317,7 @@ export class EditComponent implements OnInit {
 
   onSubmit() {
     if (this.cardForm.valid) {
+      this.card.author = this.user.role == 'admin' ? '' : this.user.uid;
       this.card.cardType = this.cardType.value;
       if (this.wordType) {
         this.card.wordType = this.wordType.value;
@@ -321,6 +334,11 @@ export class EditComponent implements OnInit {
       this.card.japanese_readings = this.japanese_readings.value;
       this.card.examples = this.examples.value;
       this.card.decks = this.deckForm.value;
+      const uids = [];
+      this.card.decks.forEach(_deck => {
+        uids.push(_deck.uid);
+      })
+      this.card.deck_uids = uids;
 
       if (this.card.uid) {
         this.cardService.update(this.card);
@@ -354,20 +372,20 @@ export class EditComponent implements OnInit {
     });
   }
 
-  private clickOutside(target) {
-    let clickInSearch = false;
-    if (this.toggleSearch) {
-      clickInSearch = this.searchWindow.nativeElement.contains(target);
-    }
-    if (!this.editWindow.nativeElement.contains(target) && !clickInSearch) {
-      this.close();
-    }
-  }
+  // private clickOutside(target) {
+  //   let clickInSearch = false;
+  //   if (this.toggleSearch) {
+  //     clickInSearch = this.searchWindow.nativeElement.contains(target);
+  //   }
+  //   if (!this.editWindow.nativeElement.contains(target) && !clickInSearch) {
+  //     this.close();
+  //   }
+  // }
 
-  @HostListener('document:mousedown', ['$event.target']) mousedown(target) {
-    this.clickOutside(target);
-  }
-  @HostListener('document:touchstart', ['$event.target']) touchdown(target) {
-    this.clickOutside(target);
-  }
+  // @HostListener('document:mousedown', ['$event.target']) mousedown(target) {
+  //   this.clickOutside(target);
+  // }
+  // @HostListener('document:touchstart', ['$event.target']) touchdown(target) {
+  //   this.clickOutside(target);
+  // }
 }

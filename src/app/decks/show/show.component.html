@@ -2,8 +2,8 @@
   (click)="showSubmenu ? showSubmenu = false : showSubmenu = true" title="Einstellungen Lernmodus">✍︎</button>
 <div class="menu" *ngIf="showSubmenu">
   <ng-container *ngIf="deck">
-    <span class="label">{{ deck.name }}</span>
-    <p>{{ deck.description }}</p>
+    <span class="label label-header">{{ deck.name }}</span>
+    <p class="italic">{{ deck.description }}</p>
   </ng-container>
   <app-font-switcher></app-font-switcher>
   <span class="label">Lernmodus</span>
@@ -11,9 +11,9 @@
   <a routerLinkActive="active" routerLink="/decks/{{deck.uid}}/grid">Buchstabieren</a>
   <a routerLinkActive="active" routerLink="/decks/{{deck.uid}}/learn">Wiederholen</a>
   <a routerLinkActive="active" routerLink="/decks/{{deck.uid}}/list">Liste</a>
-  <span class="label">Deck</span>
   <ng-container *ngIf="auth.user | async as user">
-    <ng-container *ngIf="user.role == 'admin'">
+    <span class="label">Deck</span>
+    <ng-container *ngIf="user.role == 'admin' || user.uid == deck.author">
       <a routerLinkActive="active" routerLink="/decks/edit/{{deck.uid}}">Bearbeiten</a>
       <a routerLinkActive="active" routerLink="/decks/new">Deck anlegen</a>
       <span class="label">Karten</span>
@@ -32,8 +32,11 @@
     <p *ngIf="deck.description">{{ deck.description }}
     </p>
     <p>
-      <button class="button no-print" (click)="addToCollection()" *ngIf="auth.user | async">+ Zu meinen Decks
+      <button class="button no-print" (click)="addToCollection()" *ngIf="user">+ Zu meinen Decks
         hinzufügen</button>
+      <button class="button no-print" (click)="selectAll()">
+        <i-feather name="check-circle"></i-feather> Alle Karten auswählen
+      </button>
     </p>
   </ng-container>
   <ng-container *ngIf="cards.length > 0 else empty">
@@ -43,10 +46,13 @@
     <app-word-learn [_cards]="cards" *ngIf="mode === 'learn'"></app-word-learn>
   </ng-container>
   <ng-template #empty>
-    Noch keine Lernkarten vorhanden!
+    <div class="muted">
+      Noch keine Lernkarten vorhanden! <ng-container
+        *ngIf="deck && user && (deck.author === user.uid || user.role == 'admin')">
+        <a [routerLink]="['', { outlets: { modal: ['cards', 'new', deck.uid] } }]">
+          <i-feather name="plus-circle" class="feather"></i-feather>Jetzt anlegen
+        </a>
+      </ng-container>
+    </div>
   </ng-template>
-  <ng-container *ngIf="oldCards.length">
-    <h2>Legacy</h2>
-    <app-word-list [cards]="oldCards" [allowEdit]="allowEdit" *ngIf="mode === 'list'"></app-word-list>
-  </ng-container>
 </div>

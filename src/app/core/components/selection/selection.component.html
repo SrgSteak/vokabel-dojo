@@ -12,6 +12,19 @@
   </div>
   <ng-container *ngIf="selectService.cards.length else howTo">
     <app-word-list [cards]="selectService.cards"></app-word-list>
+    <ng-container *ngIf="decks && decks.length else noDecks">
+      <h2>Hinzufügen zu</h2>
+      <div class="user-decks">
+        <button class="button" *ngFor="let deck of decks" (click)="addToDeck(deck)">{{ deck.name }}</button>
+      </div>
+    </ng-container>
+    <ng-template #noDecks>
+      Du hast noch keine Decks. Du kannst <a
+        [routerLink]="['', { outlets: { primary: ['decks', 'new'], modal: null}}]">hier welche anlegen</a> und
+      anschließend
+      deine ausgewählten Karten
+      hinzufügen.
+    </ng-template>
   </ng-container>
   <ng-template #howTo>
     <div class="placeholder">

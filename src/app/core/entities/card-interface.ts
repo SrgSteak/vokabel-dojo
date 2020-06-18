@@ -1,6 +1,7 @@
 import { CardType, WordType, VerbType, AdjectiveType } from "./card-type";
 
 export interface CardInterface {
+  author?: string,
   cardType: CardType, // simple flashcard or extended word type?
   wordType?: WordType, // extended card with a fixed word type
   verbType?: VerbType, // if the word type is verb, is it one-step or five-step?
@@ -19,7 +20,7 @@ export interface CardInterface {
   createdAt?: Date;                   // date of creation
   updatedAt?: Date;                   // date of last edit
   decks?: Array<{ name: string; uid: string }>;              // relation to decks
-
+  deck_uids?: Array<string>;
   hits?: number;
   misses?: number;
 }

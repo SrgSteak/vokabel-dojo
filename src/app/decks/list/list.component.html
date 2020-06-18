@@ -1,0 +1,27 @@
+<div class="content">
+  <a routerLink="" class="backlink muted"><i class="feather icon-chevron-left"></i>Home</a>
+  <div class="filter">
+    <a [routerLink]="['/decks']" [class.selected_filter]="displayPublic">Öffentliche Decks</a> |
+    <a [routerLink]="['/decks', 'user']" [class.selected_filter]="!displayPublic" [class.disabled]="!user">Deine
+      Decks</a>
+  </div>
+  <div class="deck_grid">
+    <ng-container *ngIf="user">
+      <a [routerLink]="['/', 'decks', 'new']" class="grid-content"
+        *ngIf="!displayPublic || (displayPublic && user.role == 'admin')">
+        <i-feather name="plus-circle"></i-feather> Neues Deck anlegen
+      </a>
+    </ng-container>
+    <a [routerLink]="['/', 'decks', deck.uid, 'list']" class="grid-content" *ngFor="let deck of decks">
+      <div class="deck_name">
+        {{ deck.name }}
+      </div>
+      <div class="deck_description">
+        {{ deck.description }}
+      </div>
+      <div class="deck_created">
+        {{ deck.createdAt.toDate() | date:'dd.MM.yy'}}
+      </div>
+    </a>
+  </div>
+</div>

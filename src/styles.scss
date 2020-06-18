@@ -2,6 +2,10 @@
 
 $contentInset: 40px;
 
+.italic {
+  font-style: italic;
+}
+
 /* Add this class to things you do not want to print!*/
 @media print
 {
@@ -199,6 +203,10 @@ a[disabled] {
   pointer-events: none;
   text-decoration-line: line-through;
   -webkit-text-decoration-line: line-through;
+}
+
+button {
+  cursor: pointer;
 }
 
 button.menu-button {
@@ -548,8 +556,8 @@ form > button:hover {
   font-size:16px;
   font-style:normal;
   vertical-align: middle;
-  height: 16px;
-  width: 16px;
+  height: 16px !important;
+  width: 16px !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

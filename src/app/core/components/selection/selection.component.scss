@@ -44,7 +44,9 @@
 .selectbox {
   overflow: auto;
   height: 100%;
+  padding: 0px 5px;
 }
+.selectbox::-webkit-scrollbar { width: 0 !important }
 
 .header {
   position: sticky;

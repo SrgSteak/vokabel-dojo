@@ -5,7 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SelectionComponent } from './components/selection/selection.component';
 import { AppRoutingModule } from '../app-routing/app-routing.module';
 import { FeatherModule } from 'angular-feather';
-import { CheckCircle, MinusCircle } from 'angular-feather/icons';
+import { CheckCircle, MinusCircle, MoreHorizontal, PlusCircle, Trash, X } from 'angular-feather/icons';
 import { WordListComponent } from '../words/word-list/word-list.component';
 
 
@@ -21,7 +21,11 @@ import { WordListComponent } from '../words/word-list/word-list.component';
     AppRoutingModule,
     FeatherModule.pick({
       CheckCircle,
-      MinusCircle
+      MinusCircle,
+      MoreHorizontal,
+      PlusCircle,
+      Trash,
+      X
     })
   ],
   exports: [

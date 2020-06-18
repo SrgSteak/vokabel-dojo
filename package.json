@@ -31,7 +31,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "compile:server": "tsc -p server.tsconfig.json"
+    "compile:server": "tsc -p server.tsconfig.json",
+    "predeploy": "npm --prefix functions run build"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.803.20",

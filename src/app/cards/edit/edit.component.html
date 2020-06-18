@@ -235,7 +235,7 @@
         </label>
         <ng-container formArrayName="examples" *ngFor="let example of examples.controls; let i = index">
           <div class="input_group" [formGroupName]="i" @rollInOutAnimation>
-            <button class="button" (click)="removeReadingAtIndex(examples,i)">-</button>
+            <button class="button" (click)="$event.preventDefault(); removeReadingAtIndex(examples,i)">-</button>
             <div class="formgroup">
 
               <label>Japanisch</label>

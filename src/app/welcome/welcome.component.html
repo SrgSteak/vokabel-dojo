@@ -13,14 +13,6 @@
     </ng-template>
     <div class="grid">
       <div class="row">
-        <div class="col" *ngIf="decks.length > 0">
-          <a [routerLink]="['/', 'user','decks', deck.uid, 'list']" class="grid-content" *ngFor="let deck of decks">
-            <p><i class="feather icon-copy"></i></p>
-            <span class="choice">{{ deck.name }}</span>
-          </a>
-        </div>
-      </div>
-      <div class="row">
         <div class="col">
 
           <a class="grid-content" [routerLink]="['/user']">
@@ -43,6 +35,14 @@
           <a routerLink="/about" class="grid-content">
             <p>※</p>
             <span class="choice">Handbuch</span>
+          </a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col" *ngIf="decks.length > 0">
+          <a [routerLink]="['/','decks', deck.uid, 'list']" class="grid-content" *ngFor="let deck of decks">
+            <p><i class="feather icon-copy"></i></p>
+            <span class="choice">{{ deck.name }}</span>
           </a>
         </div>
       </div>

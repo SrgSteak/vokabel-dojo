@@ -18,8 +18,8 @@
   </form>
   <span class="label">Modus</span>
   <div class="dropdown-content">
-    <a [class.selected]="display == 'hiragana'" (click)="display = 'hiragana'">Hiragana</a>
-    <a [class.selected]="display == 'katakana'" (click)="display = 'katakana'">Katakana</a>
+    <a [class.selected]="display == 'hiragana'" (click)="display = 'hiragana'; showSubmenu = false">Hiragana</a>
+    <a [class.selected]="display == 'katakana'" (click)="display = 'katakana'; showSubmenu = false">Katakana</a>
   </div>
 </div>
 

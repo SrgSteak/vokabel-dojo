@@ -27,16 +27,11 @@ import { NumbersComponent } from './numbers/numbers.component';
 import { NumberPipe } from './shared/pipes/number.pipe';
 import { CoreModule } from './core/core.module';
 import { UserProfileComponent } from './user-profile/user-profile.component';
-import { DecksComponent } from './decks/user/list/decks.component';
-import { EditComponent } from './decks/user/edit/edit.component';
-import { EditComponent as DeckPublicEdit } from './decks/public/edit/edit.component';
+import { EditComponent as DeckPublicEdit } from './decks/edit/edit.component';
 import { ListComponent as CardListComponent } from './cards/list/list.component';
 import { EditComponent as CardEditComponent } from './cards/edit/edit.component';
-import { ShowComponent } from './decks/user/show/show.component';
-import { ShowComponent as DeckPublicShow } from './decks/public/show/show.component';
-import { NewCardComponent } from './decks/user/new-card/new-card.component';
-import { ListComponent } from './decks/public/list/list.component';
-import { EditCardComponent } from './decks/user/edit-card/edit-card.component';
+import { ShowComponent as DeckPublicShow } from './decks/show/show.component';
+import { ListComponent } from './decks/list/list.component';
 import { WordLearnComponent } from './words/word-learn/word-learn.component';
 import { DictionaryComponent } from './dictionary/dictionary.component';
 import { Angular2CsvModule } from 'angular2-csv';
@@ -46,6 +41,7 @@ import { OnyomiPipe } from './shared/pipes/onyomi.pipe';
 import { VerbTableComponent } from './shared/card-info/verb-table/verb-table.component';
 import { AdjectiveTableComponent } from './shared/card-info/adjective-table/adjective-table.component';
 import { AppRoutingModule } from './app-routing/app-routing.module';
+import { DecknamePipe } from './pipes/deckname.pipe';
 
 @NgModule({
   imports: [
@@ -80,23 +76,19 @@ import { AppRoutingModule } from './app-routing/app-routing.module';
     NumbersComponent,
     NumberPipe,
     UserProfileComponent,
-    DecksComponent,
-    EditComponent,
     CardListComponent,
     CardEditComponent,
-    ShowComponent,
-    NewCardComponent,
     ListComponent,
     DeckPublicShow,
     DeckPublicEdit,
-    EditCardComponent,
     WordLearnComponent,
     DictionaryComponent,
     CalendarComponent,
     CardInfoComponent,
     OnyomiPipe,
     VerbTableComponent,
-    AdjectiveTableComponent
+    AdjectiveTableComponent,
+    DecknamePipe
   ],
   bootstrap: [AppComponent],
   providers: [VocabularyService, FlashcardService]

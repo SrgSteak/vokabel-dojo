@@ -1,3 +1,4 @@
+@import "_variables";
 
 .grid {
   padding-top: 10px;
@@ -45,4 +46,26 @@
   bottom: 5px;
   right: 5px;
   text-align: right;
+}
+
+.content {
+  .filter {
+    padding: 10px 0px;
+    background-color: initial;
+    text-align: center;
+    a {
+      color: grey;
+      text-decoration: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+    }
+    a:hover {
+      color: white;
+      background-color: $hoverColor;
+    }
+    .selected_filter {
+      color: white;
+      background-color: $mainColor;
+    }
+  }
 }
