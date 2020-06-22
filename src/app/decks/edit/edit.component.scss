@@ -1,10 +1,113 @@
 @import "_variables";
 
+:host {
+  position: fixed;
+  width: 720px;
+  background: $mainColor;
+  color: white;
+  padding: 8px;
+  border-radius: 8px;
+  height: 80%;
+  left: 0;
+  right: 0;
+  margin: auto;
+  top: 50px;
+  @media only screen and (max-width: 736px) {
+    width: calc(100% - 16px);
+    top: initial;
+    bottom: 0;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+}
+
 .edit {
-  padding: 0px 40px 0px 40px;
+  overflow: auto;
+  height: 100%;
+}
+.edit::-webkit-scrollbar { width: 0 !important }
+
+.header {
+  position: sticky;
+  top: -8px;
+  background: $mainColor;
+  z-index: 10;
+  padding: 5px 0px;
+  box-shadow: 0px 0px 1px 2px $mainColor;
+  h1 {
+    margin: 0;
+    font-size: 1.4em;
+  }
 }
 
 .error {
   color: $errorColor;
   display: block;
+}
+
+form {
+  padding: 20px;
+}
+
+.formgroup {
+  margin-bottom: 15px;
+  padding: 5px;
+  &.collapsible {
+    border-radius: 5px;
+    background: #002828;
+    box-shadow:  7px 7px 10px #001010,
+                 -7px -7px 10px #004040;
+  }
+}
+
+.formgroup-header {
+  cursor: pointer;
+  width: 100%;
+  display: inline-block;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.action-shortcuts {
+  z-index: 11;
+  position: absolute;
+  float: right;
+  top: 0;
+  right: 5px;
+  a {
+    vertical-align:top;
+    display: inline-block;
+    margin-right: 6px;
+    text-decoration: none;
+    color: white;
+    background: $mainColor;
+    padding: 5px 8px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    transition: all 0.2s;
+  }
+  a:last-child {
+    margin-right: 0;
+  }
+  a:hover {
+    @media(hover: hover) {
+      padding-top: 8px;
+    }
+  }
+  a.danger:hover {
+    color: red;
+  }
+  a.save:hover {
+    color: $checkmark_checked;
+  }
+  a.repeat {
+    color: $checkmark_checked;
+  }
+}
+.action-shortcuts.negative {
+  a {
+    border-left: white 1px solid;
+    border-right: white 1px solid;
+    border-bottom: white 1px solid;
+  }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
 import { DeckService, Deck } from '../../core/services/deck.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
@@ -6,13 +6,19 @@ import { CardService } from 'src/app/core/services/card.service';
 import { Card } from 'src/app/core/entities/card';
 import { AuthService, User } from 'src/app/core/auth.service';
 import { Subscription } from 'rxjs';
+import { FLY_IN_OUT_ANIMATION } from 'src/app/core/animations/modal.animation';
 
 @Component({
   selector: 'app-deck-public-edit',
   templateUrl: './edit.component.html',
-  styleUrls: ['./edit.component.scss']
+  styleUrls: ['./edit.component.scss'],
+  animations: [
+    FLY_IN_OUT_ANIMATION
+  ]
 })
 export class EditComponent implements OnInit, OnDestroy {
+
+  @HostBinding('@flyInOutTrigger') flyInOutTrigger = 'in';
 
   deck: Deck;
   user: User;
@@ -90,10 +96,10 @@ export class EditComponent implements OnInit, OnDestroy {
       this.deck.author = this.user.role == 'admin' ? '' : this.user.uid;
       if (this.deck.uid) {
         this.DeckService.update(this.deck.uid, this.deck);
-        this.router.navigate(['/decks', this.deck.uid]);
+        this.router.navigate([{ outlets: { primary: ['decks', this.deck.uid], modal: null } }]);
       } else {
         this.DeckService.add(this.deck).then(reference => {
-          this.router.navigate(['/decks', reference.id]);
+          this.router.navigate([{ outlets: { primary: ['decks', reference.id], modal: null } }]);
         })
       }
     } else {
@@ -104,7 +110,7 @@ export class EditComponent implements OnInit, OnDestroy {
   onDelete() {
     if (confirm('Deck löschen? Lernkarten bleiben erhalten.')) {
       this.DeckService.delete(this.deck.uid);
-      this.router.navigate(['/decks']);
+      this.router.navigate([{ outlets: { primary: ['decks'], modal: null } }]);
     }
   }
 
@@ -112,7 +118,7 @@ export class EditComponent implements OnInit, OnDestroy {
     if (confirm('Deck und alle enthaltenen Lernkarten löschen?')) {
       this.CardService.deleteForDeck(this.deck.uid);
       this.DeckService.delete(this.deck.uid);
-      this.router.navigate(['/decks']);
+      this.router.navigate([{ outlets: { primary: ['decks'], modal: null } }]);
     }
   }
 

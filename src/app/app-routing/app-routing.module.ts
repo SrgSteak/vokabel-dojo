@@ -40,8 +40,8 @@ export const ROUTES: Routes = [
   // deck routes
   { path: 'decks', component: ListComponent },
   { path: 'decks/user', component: ListComponent, data: { showUserDecks: true }, canActivate: [AuthGuard] },
-  { path: 'decks/new', component: DeckPublicEdit, canActivate: [AuthGuard] },
-  { path: 'decks/edit/:uid', component: DeckPublicEdit, canActivate: [AuthGuard] },
+  { path: 'decks/new', component: DeckPublicEdit, outlet: 'modal', canActivate: [AuthGuard] },
+  { path: 'decks/edit/:uid', component: DeckPublicEdit, outlet: 'modal', canActivate: [AuthGuard] },
   { path: 'decks/:uid', redirectTo: 'decks/:uid/list' },
   { path: 'decks/:uid/:mode', component: DeckPublicShow },
 
