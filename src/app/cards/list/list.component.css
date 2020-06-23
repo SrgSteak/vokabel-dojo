@@ -1,0 +1,6 @@
+.danger {
+  transition: all 0.2s;;
+}
+.danger:hover {
+  color: red;
+}

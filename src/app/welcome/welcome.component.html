@@ -16,24 +16,34 @@
         <div class="col">
 
           <a class="grid-content" [routerLink]="['/user']">
-            <p><i class="feather icon-user"></i></p>
+            <p>
+              <i-feather name="user" class="feather"></i-feather>
+            </p>
             <span class="choice">Loginbereich</span>
           </a>
 
           <a routerLink="/decks" class="grid-content">
-            <p><i class="feather icon-copy"></i></p>
+            <p>
+              <i-feather name="copy" class="feather"></i-feather>
+            </p>
             <span class="choice">Decks zum Kurs</span>
           </a>
           <a [routerLink]="['', {outlets: { modal: 'dictionary' } } ]" class="grid-content">
-            <p><i class="feather icon-feather"></i></p>
+            <p>
+              <i-feather name="feather" class="feather"></i-feather>
+            </p>
             <span class="choice">Wörterbuch</span>
           </a>
           <a routerLink="/about" class="grid-content" disabled>
-            <p>✪</p>
+            <p>
+              <i-feather name="bar-chart-2" class="feather"></i-feather>
+            </p>
             <span class="choice">Statistik</span>
           </a>
           <a routerLink="/about" class="grid-content">
-            <p>※</p>
+            <p>
+              <i-feather name="help-circle" class="feather"></i-feather>
+            </p>
             <span class="choice">Handbuch</span>
           </a>
         </div>

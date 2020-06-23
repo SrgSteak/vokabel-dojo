@@ -21,7 +21,7 @@ export class CardInfoComponent implements OnInit, OnDestroy {
 
   @HostBinding('@flyInOutTrigger') flyInOutTrigger = 'in';
   user: User;
-  card: CardInterface;
+  card: Card;
   decks: Array<any> = [];
   authSub: Subscription;
   routerSub: Subscription;

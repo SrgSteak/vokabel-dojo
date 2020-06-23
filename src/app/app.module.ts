@@ -8,7 +8,6 @@ import { LearnComponent } from './learn/learn.component';
 import { QuizComponent } from './quiz/quiz.component';
 import { MenuComponent } from './menu/menu.component';
 import { VocabularyService } from './vocabulary.service';
-import { WordQuizComponent } from './words/word-quiz/word-quiz.component';
 import { FlashcardService } from './flashcard.service';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
@@ -20,9 +19,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { NotificationcenterComponent } from './notificationcenter/notificationcenter.component';
 import { OverviewComponent } from './syllables/overview/overview.component';
-import { WordGridComponent } from './words/word-grid/word-grid.component';
 import { WelcomeComponent } from './welcome/welcome.component';
-import { ModalComponent } from './shared/modal/modal.component';
 import { NumbersComponent } from './numbers/numbers.component';
 import { NumberPipe } from './shared/pipes/number.pipe';
 import { CoreModule } from './core/core.module';
@@ -32,7 +29,6 @@ import { ListComponent as CardListComponent } from './cards/list/list.component'
 import { EditComponent as CardEditComponent } from './cards/edit/edit.component';
 import { ShowComponent as DeckPublicShow } from './decks/show/show.component';
 import { ListComponent } from './decks/list/list.component';
-import { WordLearnComponent } from './words/word-learn/word-learn.component';
 import { DictionaryComponent } from './dictionary/dictionary.component';
 import { Angular2CsvModule } from 'angular2-csv';
 import { CalendarComponent } from './time/calendar/calendar.component';
@@ -66,13 +62,10 @@ import { DecknamePipe } from './pipes/deckname.pipe';
     LearnComponent,
     QuizComponent,
     MenuComponent,
-    WordQuizComponent,
     AboutComponent,
     NotificationcenterComponent,
     OverviewComponent,
-    WordGridComponent,
     WelcomeComponent,
-    ModalComponent,
     NumbersComponent,
     NumberPipe,
     UserProfileComponent,
@@ -81,7 +74,6 @@ import { DecknamePipe } from './pipes/deckname.pipe';
     ListComponent,
     DeckPublicShow,
     DeckPublicEdit,
-    WordLearnComponent,
     DictionaryComponent,
     CalendarComponent,
     CardInfoComponent,

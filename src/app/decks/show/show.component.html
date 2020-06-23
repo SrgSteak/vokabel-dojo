@@ -18,15 +18,15 @@
     </a>
     <ng-container *ngIf="user.role == 'admin' || user.uid == deck.author">
       <a routerLinkActive="active" [routerLink]="['', { outlets: { modal: ['decks', 'edit', deck.uid]}}]">
-        <i-feather name="edit"></i-feather> Bearbeiten
+        <i-feather name="edit" class="feather"></i-feather> Bearbeiten
       </a>
       <a routerLinkActive="active" routerLink="/decks/new">
-        <i-feather name="plus"></i-feather> Deck anlegen
+        <i-feather name="plus" class="feather"></i-feather> Deck anlegen
       </a>
       <span class="label">Karten</span>
       <a [routerLink]="['', { outlets: { modal: ['cards', 'new', deck.uid] } }]" (click)="showSubmenu = false"
         *ngIf="deck">
-        <i-feather name="plus"></i-feather> Neue Karte
+        <i-feather name="plus" class="feather"></i-feather> Neue Karte
       </a>
     </ng-container>
   </ng-container>
@@ -41,10 +41,12 @@
     <p *ngIf="deck.description">{{ deck.description }}
     </p>
     <p>
-      <button class="button no-print" (click)="addToCollection()" *ngIf="user">+ Zu meinen Decks
-        hinzufügen</button>
+      <button class="button no-print" (click)="addToCollection()" *ngIf="user">
+        <i-feather name="plus" class="feather"></i-feather> Zu meinen Decks
+        hinzufügen
+      </button>
       <button class="button no-print" (click)="selectAll()">
-        <i-feather name="check-circle"></i-feather> Alle Karten auswählen
+        <i-feather name="check-circle" class="feather"></i-feather> Alle Karten auswählen
       </button>
     </p>
   </ng-container>

@@ -1,7 +1,11 @@
-import { Injectable, InjectionToken, Inject } from '@angular/core';
+import { Injectable, InjectionToken, Inject, EventEmitter } from '@angular/core';
 import { CardService } from './card.service';
 import { CardInterface } from '../entities/card-interface';
-import { Subscription } from 'rxjs';
+import { Subscription, forkJoin, Observable } from 'rxjs';
+import { Card } from '../entities/card';
+import { ThrowStmt } from '@angular/compiler';
+import { AngularFirestoreDocument } from '@angular/fire/firestore';
+import { firestore } from 'firebase';
 
 export const SESSION_STORAGE = new InjectionToken<Storage>('Browser Storage', {
   providedIn: 'root',
@@ -12,8 +16,9 @@ export const SESSION_STORAGE = new InjectionToken<Storage>('Browser Storage', {
   providedIn: 'root'
 })
 export class SelectService {
-
-  private _cards: Array<CardInterface> = [];
+  loading = false;
+  readonly loadedSelection = new EventEmitter<Array<Card>>();
+  private _cards: Array<Card> = [];
   private cardSub: Subscription;
 
   get cards() {
@@ -24,7 +29,7 @@ export class SelectService {
     this.loadSessionStorage();
   }
 
-  addCard(card: CardInterface) {
+  addCard(card: Card) {
     if (!this._cards.some(_card => _card.uid === card.uid)) {
       this._cards.push(card);
       this.updateSessionStorage();
@@ -56,10 +61,25 @@ export class SelectService {
   private loadSessionStorage() {
     if (this.sessionStorage) {
       try {
+        this.loading = true;
         const uids = JSON.parse(this.sessionStorage.getItem('selection'));
-        this.cardSub = this.cardService.getMultiple(uids).subscribe(cards => {
-          this._cards = cards;
-          if (this.cardSub) { this.cardSub.unsubscribe(); }
+        const promises = [];
+        uids.forEach(uid => {
+          const p = this.cardService.get(uid).get();
+          promises.push(p);
+        });
+        Promise.all(promises).then(results => {
+          forkJoin(results).subscribe(_results => {
+            const cards = [];
+            _results.forEach((_result: firestore.DocumentSnapshot<CardInterface>) => {
+              const card = Card.createFromCardInterface(_result.data());
+              card.uid = _result.id;
+              cards.push(card);
+            });
+            this._cards = cards;
+            this.loadedSelection.emit(this.cards);
+            this.loading = false;
+          });
         });
       } catch (error) {
         console.log(error);

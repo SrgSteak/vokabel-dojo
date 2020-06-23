@@ -20,6 +20,7 @@ import { EditComponent as CardEditComponent } from '../cards/edit/edit.component
 import { ShowComponent as DeckPublicShow } from '../decks/show/show.component';
 import { ListComponent } from '../decks/list/list.component';
 import { ListComponent as CardListComponent } from '../cards/list/list.component'
+import { SelectionPageComponent } from '../core/components/selection-page/selection-page.component';
 
 export const ROUTES: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
@@ -51,6 +52,8 @@ export const ROUTES: Routes = [
   { path: 'cards/new/:deckuid', component: CardEditComponent, outlet: 'modal' },
   { path: 'cards/edit/:uid', component: CardEditComponent, outlet: 'modal', canActivate: [AuthGuard] },
 
+  // selection routes
+  { path: 'selection/:mode', component: SelectionPageComponent },
   // named router outlet
   { path: 'card/:card', component: CardInfoComponent, outlet: 'modal' }
 

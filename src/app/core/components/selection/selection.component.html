@@ -3,33 +3,49 @@
     <a (click)="clear()">
       <i-feather name="minus-circle" class="feather"></i-feather>
     </a>
-    <a [routerLink]="['', { outlets: { modal: null } }]" class="edit"><i class="feather icon-x"></i></a>
+    <a [routerLink]="['', { outlets: { modal: null } }]" class="edit">
+      <i-feather name="x" class="feather"></i-feather>
+    </a>
   </div>
   <div class="header">
     <h1 class="sans-serif">
       Deine Auswahl
     </h1>
   </div>
-  <ng-container *ngIf="selectService.cards.length else howTo">
-    <app-word-list [cards]="selectService.cards"></app-word-list>
-    <ng-container *ngIf="decks && decks.length else noDecks">
-      <h2>Hinzufügen zu</h2>
-      <div class="user-decks">
-        <button class="button" *ngFor="let deck of decks" (click)="addToDeck(deck)">{{ deck.name }}</button>
+  <ng-container *ngIf="selectService.loading else content">
+    <div class="loading">
+      <div class="loader muted">
+        <i-feather name="loader"></i-feather> Lade Auswahl…
       </div>
-    </ng-container>
-    <ng-template #noDecks>
-      Du hast noch keine Decks. Du kannst <a
-        [routerLink]="['', { outlets: { primary: ['decks', 'new'], modal: null}}]">hier welche anlegen</a> und
-      anschließend
-      deine ausgewählten Karten
-      hinzufügen.
-    </ng-template>
-  </ng-container>
-  <ng-template #howTo>
-    <div class="placeholder">
-      Du hast momentan noch keine Lernkarten ausgewählt. Du kannst Lernkarten im Wörterbuch oder in Decks mit <i-feather
-        name="check-circle" class="feather"></i-feather> selektieren.
     </div>
+  </ng-container>
+  <ng-template #content>
+    <ng-container *ngIf="selectService.cards.length else howTo">
+      <a class="button" [routerLink]="['', { outlets: { primary: ['selection', 'quiz'], modal: null }}]">Vokabelquiz</a>
+      <a class="button"
+        [routerLink]="['', { outlets: { primary: ['selection', 'grid'], modal: null }}]">Buchstabieren</a>
+      <a class="button"
+        [routerLink]="['', { outlets: { primary: ['selection', 'learn'], modal: null }}]">Wiederholen</a>
+      <app-word-list [cards]="selectService.cards"></app-word-list>
+      <ng-container *ngIf="decks && decks.length else noDecks">
+        <h2>Hinzufügen zu</h2>
+        <div class="user-decks">
+          <button class="button" *ngFor="let deck of decks" (click)="addToDeck(deck)">{{ deck.name }}</button>
+        </div>
+      </ng-container>
+      <ng-template #noDecks>
+        Du hast noch keine Decks. Du kannst <a
+          [routerLink]="['', { outlets: { primary: ['decks', 'new'], modal: null}}]">hier welche anlegen</a> und
+        anschließend
+        deine ausgewählten Karten
+        hinzufügen.
+      </ng-template>
+    </ng-container>
+    <ng-template #howTo>
+      <div class="placeholder">
+        Du hast momentan noch keine Lernkarten ausgewählt. Du kannst Lernkarten im Wörterbuch oder in Decks mit
+        <i-feather name="check-circle" class="feather"></i-feather> selektieren.
+      </div>
+    </ng-template>
   </ng-template>
 </div>

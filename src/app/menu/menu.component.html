@@ -14,9 +14,15 @@
       <a routerLinkActive="active" routerLink="/user" [routerLinkActiveOptions]="{exact: true}">Loginbereich</a>
     </ng-template>
     <span class="label"></span>
-    <a routerLinkActive="active" routerLink="/home" (click)="toggle()">Home</a>
-    <a routerLinkActive="active" [routerLink]="[ {outlets: { modal: 'dictionary' } } ]">Wörterbuch</a>
-    <a routerLinkActive="active" [routerLink]="[ { outlets: { modal: 'selection'}}]">Auswahl</a>
+    <a routerLinkActive="active" routerLink="/home" (click)="toggle()">
+      <i-feather name="home" class="feather"></i-feather> Home
+    </a>
+    <a routerLinkActive="active" [routerLink]="[ {outlets: { modal: 'dictionary' } } ]">
+      <i-feather name="feather" class="feather"></i-feather> Wörterbuch
+    </a>
+    <a routerLinkActive="active" [routerLink]="[ { outlets: { modal: 'selection'}}]">
+      <i-feather name="check-circle" class="feather"></i-feather> Auswahl
+    </a>
     <span class=" label">Silben</span>
     <a routerLinkActive="active" routerLink="/quiz" (click)="toggle()">Quizmodus</a>
     <a routerLinkActive="active" routerLink="/learn" (click)="toggle()">Lernmodus</a>
@@ -25,8 +31,15 @@
     <a routerLinkActive="active" routerLink="/decks">Alle Decks</a>
 
     <span class="label">Allgemein</span>
-    <a routerLinkActive="active" routerLink="/about">Handbuch</a>
-    <a href="https://www.japanischlernen.at/login/">Nihongo Gakuen</a>
+    <a routerLinkActive="active" routerLink="/about">
+      <i-feather name="help-circle" class="feather"></i-feather> Handbuch
+    </a>
+    <a href="https://ko-fi.com/teamroricon" target="_blank">
+      <i-feather name="coffee" class="feather"></i-feather> Jetzt Supporten
+    </a>
+    <a href="https://www.japanischlernen.at/login/">
+      <i-feather name="external-link" class="feather"></i-feather> Nihongo Gakuen
+    </a>
 
     <span class="label">Version</span>
     <p>200618-0</p>

@@ -17,6 +17,16 @@ export class CardService {
     return this.afs.collection('Cards').doc<CardInterface>(id);
   }
 
+  getCard(uid: string): Observable<Card> {
+    return this.afs.collection('Cards').doc<CardInterface>(uid).snapshotChanges().pipe(
+      map(cardInterface => {
+        const card = Card.createFromCardInterface(cardInterface.payload.data());
+        card.uid = cardInterface.payload.id;
+        return card;
+      })
+    );
+  }
+
   /**
    * get all cards that are found with the given uid array
    * @param uids

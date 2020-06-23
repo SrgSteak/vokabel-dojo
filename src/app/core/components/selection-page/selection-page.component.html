@@ -1,0 +1,21 @@
+<div class="content">
+  <ng-container *ngIf="!loadingCards else loading">
+    <ng-container *ngIf="cards.length else noCards">
+      <app-word-quiz [cards]="cards" *ngIf="mode === 'quiz'"></app-word-quiz>
+      <app-word-grid [deck]="cards" *ngIf="mode === 'grid'"></app-word-grid>
+      <app-word-learn [_cards]="cards" *ngIf="mode === 'learn'"></app-word-learn>
+    </ng-container>
+    <ng-template #noCards>
+      <div class="loading">
+        Du musst zuerst Lernkarten auswählen um mit ihnen Lernmodi starten zu können.
+      </div>
+    </ng-template>
+  </ng-container>
+  <ng-template #loading>
+    <div class="loading">
+      <div class="loader muted">
+        <i-feather name="loader"></i-feather> Lade Auswahl…
+      </div>
+    </div>
+  </ng-template>
+</div>
