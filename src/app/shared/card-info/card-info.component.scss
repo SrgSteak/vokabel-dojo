@@ -1,7 +1,6 @@
 @import "_variables";
 
 :host {
-  overflow: auto;
   position: fixed;
   height: 60%;
   left: 0;
@@ -29,7 +28,7 @@
   .japanese {
     text-align: center;
     font-weight: 800;
-    font-size: 25px;
+    font-size: 50px;
   }
   table {
     text-align: left;
@@ -41,6 +40,11 @@
       border: none;
     }
   }
+}
+
+.scroll-content {
+  overflow: auto;
+  height: 100%;
 }
 
 .action-shortcuts {

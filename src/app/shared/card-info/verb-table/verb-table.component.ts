@@ -76,6 +76,10 @@ export class VerbTableComponent implements OnInit {
             return word.substring(0, word.length - 1) + 'ました'
           case konjugationType.negatedPastMasu:
             return word.substring(0, word.length - 1) + 'ませんでした'
+          case konjugationType.lemma:
+            return word;
+          case konjugationType.te:
+            return word.substring(0, word.length - 1) + 'て';
           default:
             return '';
         }
@@ -90,6 +94,29 @@ export class VerbTableComponent implements OnInit {
             return word.substring(0, word.length - 1) + this.flexUToI(word.substring(word.length - 1, word.length)) + 'ました'
           case konjugationType.negatedPastMasu:
             return word.substring(0, word.length - 1) + this.flexUToI(word.substring(word.length - 1, word.length)) + 'ませんでした'
+          case konjugationType.lemma:
+            return word;
+          case konjugationType.te:
+            switch (word.substring(word.length - 1, word.length)) {
+              case 'う':
+                return word.substring(0, word.length - 1) + 'って';
+              case 'る':
+                return word.substring(0, word.length - 1) + 'って';
+              case 'つ':
+                return word.substring(0, word.length - 1) + 'って';
+              case 'む':
+                return word.substring(0, word.length - 1) + 'んで';
+              case 'ぬ':
+                return word.substring(0, word.length - 1) + 'んで';
+              case 'ぶ':
+                return word.substring(0, word.length - 1) + 'んで';
+              case 'す':
+                return word.substring(0, word.length - 1) + 'して';
+              case 'く':
+                return word.substring(0, word.length - 1) + 'いて';
+              case 'ぐ':
+                return word.substring(0, word.length - 1) + 'いで';
+            }
           default:
             return '';
         }

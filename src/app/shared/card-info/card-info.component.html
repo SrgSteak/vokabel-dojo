@@ -1,78 +1,80 @@
 <ng-container *ngIf="card else loading">
-  <div class="action-shortcuts">
-    <a (click)="select()">
-      <i-feather name="check-circle" class="feather" [class.blue]="selectService.contains(card)"></i-feather>
-    </a>
-    <a [routerLink]="['', { outlets: { modal: ['cards', 'edit', card.uid] } }]" class="edit"
-      *ngIf="user && (card.author == user.uid || user.role == 'admin')">
-      <i class="feather icon-edit"></i>
-    </a>
-    <a [routerLink]="['', { outlets: { modal: null } }]" class="edit"><i class="feather icon-x"></i></a>
-  </div>
-  <!-- <div class="metadata">{{ card.createdAt|date:'d.m.Y' }}</div> -->
-  <div class="japanese">
-    {{ card.japanese }}
-  </div>
-  <div class="section readings" *ngIf="card.hasReadings()">
-    <span>
-      Lesungen
-    </span>
-    <ul>
-      <li *ngFor="let reading of card.japanese_readings">{{ reading }}</li>
-    </ul>
-    <ul>
-      <li *ngFor="let reading of card.chinese_readings">{{ reading }}</li>
-    </ul>
-  </div>
-  <div class="section german" *ngIf="card.german.length">
-    <span>
-      Bedeutungen
-    </span>
-    <ul>
-      <li *ngFor="let ger of card.german">{{ ger }}</li>
-    </ul>
-  </div>
-  <div class="section examples" *ngIf="card.examples && card.examples.length">
-    <span>
-      Beispiele
-    </span>
-    <table>
-      <tr *ngFor="let example of card.examples">
-        <td><ruby>
-            {{ example.japanese }}
-            <rt>{{ example.reading }}</rt>
-          </ruby>
-        </td>
-        <td>{{ example.german }}</td>
-      </tr>
-    </table>
-  </div>
-  <div class="section konjugations" *ngIf="card.wordType === wordTypes.verb">
-    <span>
-      Flexionstabelle
-    </span>
-    <app-verb-table [card]="card"></app-verb-table>
-  </div>
-  <div class="section konjugations" *ngIf="card.wordType === wordTypes.adjective">
-    <span>
-      Flexionstabelle
-    </span>
-    <app-adjective-table [card]="card">
-    </app-adjective-table>
-  </div>
-  <ng-container *ngIf="card.deck_uids.length">
-    <div class="section">
-      <span>
-        Enthalten in
-      </span>
-      <div class="decks">
-        <ng-container *ngFor="let deck_uid of card.deck_uids">
-          <a [routerLink]="['', { outlets: { primary: ['decks', deck_uid, 'list'], modal: null }}]" class="deck"><i
-              class="feather icon-copy"></i>{{ deck_uid | deckname }}</a>
-        </ng-container>
-      </div>
+  <div class="scroll-content">
+    <div class="action-shortcuts">
+      <a (click)="select()">
+        <i-feather name="check-circle" class="feather" [class.blue]="selectService.contains(card)"></i-feather>
+      </a>
+      <a [routerLink]="['', { outlets: { modal: ['cards', 'edit', card.uid] } }]" class="edit"
+        *ngIf="user && (card.author == user.uid || user.role == 'admin')">
+        <i class="feather icon-edit"></i>
+      </a>
+      <a [routerLink]="['', { outlets: { modal: null } }]" class="edit"><i class="feather icon-x"></i></a>
     </div>
-  </ng-container>
+    <!-- <div class="metadata">{{ card.createdAt|date:'d.m.Y' }}</div> -->
+    <div class="japanese">
+      {{ card.japanese }}
+    </div>
+    <div class="section readings" *ngIf="card.hasReadings()">
+      <span>
+        Lesungen
+      </span>
+      <ul>
+        <li *ngFor="let reading of card.japanese_readings">{{ reading }}</li>
+      </ul>
+      <ul>
+        <li *ngFor="let reading of card.chinese_readings">{{ reading }}</li>
+      </ul>
+    </div>
+    <div class="section german" *ngIf="card.german.length">
+      <span>
+        Bedeutungen
+      </span>
+      <ul>
+        <li *ngFor="let ger of card.german">{{ ger }}</li>
+      </ul>
+    </div>
+    <div class="section examples" *ngIf="card.examples && card.examples.length">
+      <span>
+        Beispiele
+      </span>
+      <table>
+        <tr *ngFor="let example of card.examples">
+          <td><ruby>
+              {{ example.japanese }}
+              <rt>{{ example.reading }}</rt>
+            </ruby>
+          </td>
+          <td>{{ example.german }}</td>
+        </tr>
+      </table>
+    </div>
+    <div class="section konjugations" *ngIf="card.wordType === wordTypes.verb">
+      <span>
+        Flexionstabelle
+      </span>
+      <app-verb-table [card]="card"></app-verb-table>
+    </div>
+    <div class="section konjugations" *ngIf="card.wordType === wordTypes.adjective">
+      <span>
+        Flexionstabelle
+      </span>
+      <app-adjective-table [card]="card">
+      </app-adjective-table>
+    </div>
+    <ng-container *ngIf="card.deck_uids.length">
+      <div class="section">
+        <span>
+          Enthalten in
+        </span>
+        <div class="decks">
+          <ng-container *ngFor="let deck_uid of card.deck_uids">
+            <a [routerLink]="['', { outlets: { primary: ['decks', deck_uid, 'list'], modal: null }}]" class="deck"><i
+                class="feather icon-copy"></i>{{ deck_uid | deckname }}</a>
+          </ng-container>
+        </div>
+      </div>
+    </ng-container>
+  </div>
   <ng-container *ngIf="card.cardType == cardTypes.word">
     <ng-container [ngSwitch]="card.wordType">
       <div class="wordType noun" *ngSwitchCase="wordTypes.noun">

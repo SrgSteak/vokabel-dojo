@@ -1,15 +1,26 @@
 <span>Dieses Feature ist experimentell, bitte mit Vorsicht verwenden</span>
 <table>
   <tr>
-    <th></th>
-    <th>Verneinung</th>
-    <th>Vergangenheit</th>
-    <th>Verneinte Vergangenheit</th>
+    <td>Masu-Form</td>
+    <td>{{ flexLemma(card.japanese, card.verbType, konjugationTypes.masu) }}</td>
   </tr>
   <tr>
-    <td>{{ flexLemma(card.japanese, card.verbType, konjugationTypes.masu) }}</td>
+
+    <td>Verneinung</td>
     <td>{{ flexLemma(card.japanese, card.verbType, konjugationTypes.negatedMasu) }}</td>
+  </tr>
+  <tr>
+
+    <td>Vergangenheit</td>
     <td>{{ flexLemma(card.japanese, card.verbType, konjugationTypes.pastMasu) }}</td>
+  </tr>
+  <tr>
+
+    <td>Verneinte Vergangenheit</td>
     <td>{{ flexLemma(card.japanese, card.verbType, konjugationTypes.negatedPastMasu) }}</td>
+  </tr>
+  <tr>
+    <td>て-Form</td>
+    <td>{{ flexLemma(card.japanese, card.verbType, konjugationTypes.te) }}</td>
   </tr>
 </table>
