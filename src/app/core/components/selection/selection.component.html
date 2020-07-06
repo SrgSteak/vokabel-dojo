@@ -1,6 +1,6 @@
 <div class="selectbox">
   <div class="action-shortcuts">
-    <a (click)="clear()">
+    <a (click)="clear()" style="cursor: pointer;">
       <i-feather name="minus-circle" class="feather"></i-feather>
     </a>
     <a [routerLink]="['', { outlets: { modal: null } }]" class="edit">
@@ -21,11 +21,12 @@
   </ng-container>
   <ng-template #content>
     <ng-container *ngIf="selectService.cards.length else howTo">
-      <a class="button" [routerLink]="['', { outlets: { primary: ['selection', 'quiz'], modal: null }}]">Vokabelquiz</a>
-      <a class="button"
-        [routerLink]="['', { outlets: { primary: ['selection', 'grid'], modal: null }}]">Buchstabieren</a>
-      <a class="button"
-        [routerLink]="['', { outlets: { primary: ['selection', 'learn'], modal: null }}]">Wiederholen</a>
+      <a class="button" [routerLink]="['', { outlets: { primary: ['selection', 'quiz'], modal: null }}]"
+        [class.disabled]="selectService.cards.length < 5">Vokabelquiz</a>
+      <a class="button" [routerLink]="['', { outlets: { primary: ['selection', 'grid'], modal: null }}]"
+        [class.disabled]="selectService.cards.length < 5">Buchstabieren</a>
+      <a class="button" [routerLink]="['', { outlets: { primary: ['selection', 'learn'], modal: null }}]"
+        [class.disabled]="selectService.cards.length < 5">Wiederholen</a>
       <app-word-list [cards]="selectService.cards"></app-word-list>
       <ng-container *ngIf="decks && decks.length else noDecks">
         <h2>Hinzufügen zu</h2>
@@ -34,8 +35,8 @@
         </div>
       </ng-container>
       <ng-template #noDecks>
-        Du hast noch keine Decks. Du kannst <a
-          [routerLink]="['', { outlets: { primary: ['decks', 'new'], modal: null}}]">hier welche anlegen</a> und
+        Du hast noch keine Decks. Du kannst <a [routerLink]="['', { outlets: { modal: ['decks', 'new']}}]">hier welche
+          anlegen</a> und
         anschließend
         deine ausgewählten Karten
         hinzufügen.

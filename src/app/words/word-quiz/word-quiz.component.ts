@@ -103,20 +103,6 @@ export class WordQuizComponent implements OnInit {
     this.nextCard(true);
   }
 
-  // layout() {
-  //   this.showCard = this.deck[0];
-  //   do {
-  //     this.deckService.shuffle(this.deck);
-  //   } while (this.showCard.uid == this.deckService.draw(this.deck, 1)[0].uid && this.deck.length > 1);
-  //   this.showCard = this.deckService.draw(this.deck, 1)[0];
-  //   this.answers = this.deckService.draw(
-  //     this.deck.filter((value) => { return value.uid !== this.showCard.uid }),
-  //     this.numberAnswers
-  //   );
-  //   this.answers.push(this.showCard);
-  //   this.answers = this.deckService.shuffle(this.answers);
-  // }
-
   answerSelect(question: CardInterface, answer: CardInterface) {
     if (question.uid == answer.uid) {
       this.deckService.totalHits++;
@@ -154,8 +140,8 @@ export class WordQuizComponent implements OnInit {
   }
 
   shuffle() {
-    this.index = 0;
     this.deckService.shuffle(this.deck);
+    this.nextCard(true);
   }
 }
 

@@ -59,6 +59,10 @@
   <a [class.active]="numberAnswers == 3" (click)="updateNumberAnswers(3)">Leicht</a>
   <a [class.active]="numberAnswers == 5" (click)="updateNumberAnswers(5)">Mittel</a>
   <a [class.active]="numberAnswers == 8" (click)="updateNumberAnswers(8)">Schwer</a>
+
+  <button class="button" (click)="showSubmenu = false; shuffle();">
+    <i-feather name="shuffle" class="feather"></i-feather> Mischen
+  </button>
 </div>
 
 <div class="word-quiz {{ fontSwitcher.currentStyle }}">

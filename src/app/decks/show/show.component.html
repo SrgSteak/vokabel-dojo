@@ -14,13 +14,16 @@
   <ng-container *ngIf="auth.user | async as user">
     <span class="label">Deck</span>
     <a (click)="addToCollection()" *ngIf="user">
-      <i-feather name="copy"></i-feather> Deck kopieren
+      <i-feather name="copy" class="feather"></i-feather> Deck kopieren
+    </a>
+    <a (click)="selectAll()">
+      <i-feather name="check-circle" class="feather"></i-feather> Karten auswählen
     </a>
     <ng-container *ngIf="user.role == 'admin' || user.uid == deck.author">
       <a routerLinkActive="active" [routerLink]="['', { outlets: { modal: ['decks', 'edit', deck.uid]}}]">
         <i-feather name="edit" class="feather"></i-feather> Bearbeiten
       </a>
-      <a routerLinkActive="active" routerLink="/decks/new">
+      <a routerLinkActive="active" [routerLink]="['', { outlets: { modal: ['decks', 'new']}}]">
         <i-feather name="plus" class="feather"></i-feather> Deck anlegen
       </a>
       <span class="label">Karten</span>
@@ -42,7 +45,7 @@
     </p>
     <p>
       <button class="button no-print" (click)="addToCollection()" *ngIf="user">
-        <i-feather name="plus" class="feather"></i-feather> Zu meinen Decks
+        <i-feather name="copy" class="feather"></i-feather> Zu meinen Decks
         hinzufügen
       </button>
       <button class="button no-print" (click)="selectAll()">

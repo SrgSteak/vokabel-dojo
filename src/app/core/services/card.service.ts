@@ -4,6 +4,7 @@ import { CardInterface } from '../entities/card-interface';
 import { Card } from '../entities/card';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { User } from '../auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -134,90 +135,4 @@ export class CardService {
       });
     });
   }
-
-  // migrateAuthors() {
-  //   const sub = this.loadAll().valueChanges({ idField: 'uid' }).subscribe(_cards => {
-  //     //     console.log(_cards);
-  //     sub.unsubscribe();
-  //     _cards.forEach(_card => {
-  //       console.log(_card);
-  //       if (_card.author == undefined) {
-  //         _card.author = '';
-  //         this.update(_card);
-  //       }
-  //     });
-  //   });
-  // }
-
-  // migrateUserCards() {
-
-  // }
-
-  // migrateDeckIds() {
-  //   const sub = this.loadAll().valueChanges({ idField: 'uid' }).subscribe(_cards => {
-  //     console.log(_cards);
-  //     sub.unsubscribe();
-  //     _cards.forEach(_card => {
-  //       const uids = [];
-  //       _card.decks.forEach(_deck => {
-  //         if (!_deck.uid) {
-  //           uids.push(_deck);
-  //         } else {
-  //           uids.push(_deck.uid);
-  //         }
-  //       });
-  //       _card.deck_uids = uids;
-  //       try {
-  //         this.update(_card);
-  //       } catch (e) {
-  //         console.log('cant update card: ' + _card.uid);
-  //       }
-  //     });
-  //     console.log(_cards);
-  //   });
-  // }
-  // migrateDeckIds() {
-  //   this.loaddecks().valueChanges({ idField: 'uid' }).subscribe(_decks => {
-  //     const sub = this.loadAll().valueChanges({ idField: 'uid' }).subscribe(_cards => {
-  //       console.log(_cards);
-  //       sub.unsubscribe();
-  //       _cards.forEach(_card => {
-  //         const uids = [];
-  //         const decks = [];
-  //         let updateMe = false;
-  //         _card.decks.forEach(_deck => {
-  //           if (!_deck.uid) { // deck is just a number
-  //             updateMe = true;
-  //             uids.push(_deck);
-  //             const theDeck = _decks.find(__deck => __deck.uid === _deck as unknown as string);
-  //             if (theDeck) {
-
-  //               decks.push({ uid: theDeck.uid, name: theDeck.name });
-  //             } else {
-  //               updateMe = false;
-  //             }
-  //           }
-  //         });
-  //         _card.deck_uids = uids;
-  //         _card.decks = decks;
-  //         try {
-  //           if (updateMe) {
-  //             // console.log(_card);
-  //             this.update(_card);
-  //           }
-  //         } catch (e) {
-  //           console.log('cant update card: ' + _card.uid);
-  //         }
-  //       });
-  //       console.log(_cards);
-  //     });
-  //   });
-  // }
-
-  // private loaddecks() {
-  //   return this.afs.collection<Deck>(
-  //     'Decks',
-  //     ref => ref.orderBy('createdAt', 'desc')
-  //   );
-  // }
 }

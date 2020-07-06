@@ -12,7 +12,7 @@
         <i-feather name="plus-circle"></i-feather> Neues Deck anlegen
       </a>
     </ng-container>
-    <a [routerLink]="['/', 'decks', deck.uid, 'list']" class="grid-content" *ngFor="let deck of decks">
+    <a [routerLink]="['/', 'decks', deck.uid, 'list']" class="grid-content stagger" *ngFor="let deck of decks">
       <div class="deck_name">
         {{ deck.name }}
       </div>

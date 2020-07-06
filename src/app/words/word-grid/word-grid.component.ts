@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { SyllablesService } from 'src/app/syllables.service';
-import { DeckService } from 'src/app/core/services/deck.service';
 import { CardInterface } from 'src/app/core/entities/card-interface';
 import { Card } from 'src/app/core/entities/card';
 import { FontSwitcherService } from 'src/app/core/services/font-switcher.service';

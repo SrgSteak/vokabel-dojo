@@ -1,4 +1,4 @@
-import { animate, state, style, transition, trigger, group, animation, useAnimation } from '@angular/animations';
+import { animate, state, style, transition, trigger, group, animation, useAnimation, stagger, query } from '@angular/animations';
 
 export const easeInOutCubic = 'cubic-bezier(0.645, 0.045, 0.355, 1.000)';
 export const woshIn = animation([
@@ -35,6 +35,34 @@ export const regularState = state('in', style({
   transform: '{{ from }}', //'translateY(0%)',
   opacity: 1
 }), { params: { from: 'translateY(0%)' } });
+
+export const fadeIn = animation([
+  style({
+    opacity: 0
+  }),
+  animate('{{ timecurve }}', style({
+    opacity: 1
+  }))
+], { params: { timecurve: '100ms' } })
+
+export const fadeOut = animation([
+  style({
+    opacity: 1
+  }),
+  animate('{{ timecurve }}', style({
+    opacity: 0
+  }))
+], { params: { timecurve: '100ms' } })
+
+export const FADE_IN_OUT_ANIMATION =
+  trigger('fadeInOutTrigger', [
+    transition(':enter', [
+      useAnimation(fadeIn)
+    ]),
+    transition(':leave', [
+      useAnimation(fadeOut)
+    ])
+  ])
 
 export const FLY_IN_OUT_ANIMATION =
   trigger('flyInOutTrigger', [
