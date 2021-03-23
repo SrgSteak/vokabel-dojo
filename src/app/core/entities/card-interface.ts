@@ -17,6 +17,7 @@ export interface CardInterface {
     reading?: string;                 // あのひと
     german?: string;                  // diese Person
   }];
+  information?: string; // general purpose extra text field
   createdAt?: Date;                   // date of creation
   updatedAt?: Date;                   // date of last edit
   decks?: Array<{ name: string; uid: string }>;              // relation to decks

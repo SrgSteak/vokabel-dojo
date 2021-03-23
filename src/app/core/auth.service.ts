@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-
-import { auth } from 'firebase/app';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 
 import { Observable, of } from 'rxjs';
 import { switchMap, tap, startWith } from 'rxjs/operators';
+import firebase from 'firebase';
 
 export interface User {
   uid: string;
@@ -48,13 +47,13 @@ export class AuthService {
   }
 
   googleLogin() {
-    const provider = new auth.GoogleAuthProvider()
+    const provider = new firebase.auth.GoogleAuthProvider()
     return this.oAuthLogin(provider);
   }
 
 
   private oAuthLogin(provider) {
-    return this.afAuth.auth.signInWithPopup(provider)
+    return this.afAuth.signInWithPopup(provider)
       .then((credential) => {
         this.updateUserData(credential.user)
       })
@@ -88,15 +87,15 @@ export class AuthService {
       storedUser.displayName = user.displayName;
       storedUser.uid = user.uid;
       storedUser.role = storedUser.role ? storedUser.role : 'user'
-      storedUser.settings = storedUser.settings ? storedUser.settings : { fontStyle: 'serif'}; 
-  
+      storedUser.settings = storedUser.settings ? storedUser.settings : { fontStyle: 'serif' };
+
       userRef.set(storedUser, { merge: true });
     });
 
   }
 
   signOut() {
-    this.afAuth.auth.signOut().then(() => {
+    this.afAuth.signOut().then(() => {
       this.router.navigate(['/']);
     });
   }

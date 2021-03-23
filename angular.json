@@ -31,7 +31,8 @@
                 "./src/scss"
               ]
             },
-            "scripts": []
+            "scripts": [],
+            "aot": true
           },
           "configurations": {
             "production": {
@@ -44,14 +45,18 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
               "serviceWorker": true,
-              "ngswConfigPath": "src/ngsw-config.json"
+              "ngswConfigPath": "src/ngsw-config.json",
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ]
             }
           }
         },
@@ -107,8 +112,7 @@
   },
   "defaultProject": "demo",
   "cli": {
-    "warnings": {
-      "typescriptMismatch": false
-    }
+    "analytics": false,
+    "warnings": {}
   }
 }

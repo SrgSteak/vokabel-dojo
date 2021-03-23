@@ -8,7 +8,9 @@ export enum WordType {
   conjunction = '6', // Konjunktion / Bindewort
   numeral = '7', // Numerale / Zahlwort
   interjection = '8', // Interjektion / Ausrufe- oder Empfindungswort
-  kanji = '9' // this card is specifically a kanji description
+  kanji = '9', // this card is specifically a kanji description
+  suffix = '10', // ~san, hinten angehängte Elemente
+  surunoun = '11' // Nomen, die auch als verb verwendet werden können (das Schwimmen, er ist schwimmen)
 }
 
 export enum VerbType {

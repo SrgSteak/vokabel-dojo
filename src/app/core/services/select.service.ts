@@ -3,9 +3,7 @@ import { CardService } from './card.service';
 import { CardInterface } from '../entities/card-interface';
 import { Subscription, forkJoin, Observable } from 'rxjs';
 import { Card } from '../entities/card';
-import { ThrowStmt } from '@angular/compiler';
-import { AngularFirestoreDocument } from '@angular/fire/firestore';
-import { firestore } from 'firebase';
+import { DocumentSnapshot } from '@angular/fire/firestore';
 
 export const SESSION_STORAGE = new InjectionToken<Storage>('Browser Storage', {
   providedIn: 'root',
@@ -71,7 +69,7 @@ export class SelectService {
         Promise.all(promises).then(results => {
           forkJoin(results).subscribe(_results => {
             const cards = [];
-            _results.forEach((_result: firestore.DocumentSnapshot<CardInterface>) => {
+            _results.forEach((_result: DocumentSnapshot<CardInterface>) => {
               const card = Card.createFromCardInterface(_result.data());
               card.uid = _result.id;
               cards.push(card);

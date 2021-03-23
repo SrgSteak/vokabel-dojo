@@ -94,6 +94,10 @@ export class EditComponent implements OnInit {
     return this.cardForm.get('adjectiveType') as FormControl;
   }
 
+  get information() {
+    return this.cardForm.get('information') as FormControl;
+  }
+
   get cardTypes() {
     return CardType;
   }
@@ -257,7 +261,8 @@ export class EditComponent implements OnInit {
       japanese_readings: this.fb.array([]),
       chinese_readings: this.fb.array([]),
       deck_uids: this.fb.array([]),
-      examples: this.fb.array([])
+      examples: this.fb.array([]),
+      information: ['']
     });
   }
 
@@ -323,7 +328,7 @@ export class EditComponent implements OnInit {
       this.card.japanese_readings = this.japanese_readings.value;
       this.card.examples = this.examples.value;
       this.card.deck_uids = this.deckForm.value;
-
+      this.card.information = this.information.value;
       if (this.card.uid) {
         this.cardService.update(this.card);
       } else {
