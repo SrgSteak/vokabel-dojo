@@ -128,9 +128,9 @@ export class EditComponent implements OnInit {
     });
     this.routeSub = this.route.paramMap.subscribe(params => {
       if (params.has('uid')) { // edit card
-        this.cardSub = this.cardService.get(params.get('uid')).snapshotChanges().subscribe(data => {
-          this.card = Card.createFromCardInterface(data.payload.data());
-          this.card.uid = data.payload.id;
+        this.cardSub = this.cardService.getCard(params.get('uid')).subscribe(data => {
+          this.cardForm = this.prepareCardForm();
+          this.card = data
           if (this.user.role != 'admin' && this.user.uid != this.card.author) {
             this.router.navigate(['/']);
           }
