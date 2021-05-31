@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, HostBinding, HostListener, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, HostBinding, ViewChild, ElementRef } from '@angular/core';
 import { CardService } from 'src/app/core/services/card.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
@@ -342,6 +342,7 @@ export class EditComponent implements OnInit {
         this.japanese_readings.clear();
         this.chinese_readings.clear();
         this.examples.clear();
+        this.information.reset();
       } else {
         this.close();
       }
@@ -360,21 +361,4 @@ export class EditComponent implements OnInit {
     this.router.navigate([{ outlets: { 'modal': null } }], {
     });
   }
-
-  // private clickOutside(target) {
-  //   let clickInSearch = false;
-  //   if (this.toggleSearch) {
-  //     clickInSearch = this.searchWindow.nativeElement.contains(target);
-  //   }
-  //   if (!this.editWindow.nativeElement.contains(target) && !clickInSearch) {
-  //     this.close();
-  //   }
-  // }
-
-  // @HostListener('document:mousedown', ['$event.target']) mousedown(target) {
-  //   this.clickOutside(target);
-  // }
-  // @HostListener('document:touchstart', ['$event.target']) touchdown(target) {
-  //   this.clickOutside(target);
-  // }
 }

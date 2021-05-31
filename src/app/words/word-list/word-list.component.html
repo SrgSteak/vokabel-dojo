@@ -21,7 +21,10 @@
       <ng-container *ngIf="card.cardType == cardTypes.word">
         <ng-container [ngSwitch]="card.wordType">
           <div class="wordType noun" *ngSwitchCase="wordTypes.noun">
-            Substantiv
+            Nomen
+          </div>
+          <div class="wordType noun" *ngSwitchCase="wordTypes.surunoun">
+            する-Nomen
           </div>
           <div class="wordType verb" *ngSwitchCase="wordTypes.verb">
             <ng-container [ngSwitch]="card.verbType">

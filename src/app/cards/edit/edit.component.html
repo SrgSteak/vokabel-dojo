@@ -53,7 +53,8 @@
     <div class="formgroup collapsible" [class.closed]="!wordTypeToggle" *ngIf="wordType" @rollInOutAnimation>
       <label (click)="wordTypeToggle = !wordTypeToggle" class="formgroup-header">Wortart
         <ng-container [ngSwitch]="wordType.value">
-          <span class="muted" *ngSwitchCase="wordTypes.noun">Substantiv</span>
+          <span class="muted" *ngSwitchCase="wordTypes.noun">Nomen</span>
+          <span class="muted" *ngSwitchCase="wordTypes.surunoun">する-Nomen</span>
           <span class="muted" *ngSwitchCase="wordTypes.verb">Verb</span>
           <span class="muted" *ngSwitchCase="wordTypes.adjective">Adjektiv</span>
           <span class="muted" *ngSwitchCase="wordTypes.adverb">Adverb</span>
@@ -66,8 +67,14 @@
         </ng-container>
       </label>
       <div *ngIf="wordTypeToggle" @rollInOutAnimation>
-        <label class="container">Substantiv <span class="muted">Hauptwort</span>
+        <label class="container">Nomen <span class="muted">Hauptwort</span>
           <input type="radio" [formControl]="wordType" value="{{wordTypes.noun}}" name="wordType">
+          <span class="checkmark">
+            <span class="checkmark_inner"></span>
+          </span>
+        </label>
+        <label class="container">する-Nomen <span class="muted">Hauptwort das auch als Verb fungiert</span>
+          <input type="radio" [formControl]="wordType" value="{{wordTypes.surunoun}}" name="wordType">
           <span class="checkmark">
             <span class="checkmark_inner"></span>
           </span>
@@ -254,7 +261,7 @@
 
     <div class="formgroup">
       <label>Allgemeininformationen</label>
-      <textarea type="text" class="info_text" [formControl]=""></textarea>
+      <textarea type="text" class="info_text" [formControl]="information"></textarea>
     </div>
 
     <!-- deck search and decks-->

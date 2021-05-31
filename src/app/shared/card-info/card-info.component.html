@@ -10,10 +10,21 @@
       </a>
       <a [routerLink]="['', { outlets: { modal: null } }]" class="edit"><i class="feather icon-x"></i></a>
     </div>
-    <!-- <div class="metadata">{{ card.createdAt|date:'d.m.Y' }}</div> -->
-    <div class="japanese">
-      {{ card.japanese }}
-    </div>
+    <ng-container *ngIf="card.information && card.information.length else header">
+      <div class="d-flex section">
+        <div class="japanese">
+          {{ card.japanese }}
+        </div>
+        <div>
+          <span>{{ card.information }}</span>
+        </div>
+      </div>
+    </ng-container>
+    <ng-template #header>
+      <div class="japanese">
+        {{ card.japanese }}
+      </div>
+    </ng-template>
     <div class="section readings" *ngIf="card.hasReadings()">
       <span>
         Lesungen
@@ -78,7 +89,10 @@
   <ng-container *ngIf="card.cardType == cardTypes.word">
     <ng-container [ngSwitch]="card.wordType">
       <div class="wordType noun" *ngSwitchCase="wordTypes.noun">
-        Substantiv
+        Nomen
+      </div>
+      <div class="wordType noun" *ngSwitchCase="wordTypes.surunoun">
+        する-Nomen
       </div>
       <div class="wordType verb" *ngSwitchCase="wordTypes.verb">
         <ng-container [ngSwitch]="card.verbType">

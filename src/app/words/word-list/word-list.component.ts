@@ -115,7 +115,6 @@ export class WordListComponent implements OnInit, OnDestroy {
   }
 
   updateTable() {
-    console.log('update table!');
     this.showGerman = this.containsGerman();
     this.showExamples = this.containsExamples();
     this.showReadings = this.containsReadings();
