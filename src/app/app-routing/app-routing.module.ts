@@ -21,6 +21,7 @@ import { ShowComponent as DeckPublicShow } from '../decks/show/show.component';
 import { ListComponent } from '../decks/list/list.component';
 import { ListComponent as CardListComponent } from '../cards/list/list.component'
 import { SelectionPageComponent } from '../core/components/selection-page/selection-page.component';
+import { MagicLinkComponent } from '../user-profile/magic-link/magic-link.component';
 
 export const ROUTES: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
@@ -36,6 +37,8 @@ export const ROUTES: Routes = [
   { path: 'about', component: AboutComponent },
   { path: 'numbers', component: NumbersComponent, canActivate: [AuthGuard] },
   { path: 'user', component: UserProfileComponent },
+  { path: 'user/magic-link', component: MagicLinkComponent, outlet: 'modal' },
+  { path: 'user/finish-magic-link', component: MagicLinkComponent, outlet: 'modal', data: { finishMagicLink: true } },
   { path: 'selection', component: SelectionComponent, outlet: 'modal' },
 
   // deck routes

@@ -3,16 +3,16 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {
-    "@angular/animations": "^11.2.6",
-    "@angular/common": "^11.2.6",
-    "@angular/compiler": "^11.2.6",
-    "@angular/core": "^11.2.6",
+    "@angular/animations": "^12.0.2",
+    "@angular/common": "^12.0.2",
+    "@angular/compiler": "^12.0.2",
+    "@angular/core": "^12.0.2",
     "@angular/fire": "^6.1.4",
-    "@angular/forms": "^11.2.6",
-    "@angular/platform-browser": "^11.2.6",
-    "@angular/platform-browser-dynamic": "^11.2.6",
-    "@angular/router": "^11.2.6",
-    "@angular/service-worker": "^11.2.6",
+    "@angular/forms": "^12.0.2",
+    "@angular/platform-browser": "^12.0.2",
+    "@angular/platform-browser-dynamic": "^12.0.2",
+    "@angular/router": "^12.0.2",
+    "@angular/service-worker": "^12.0.2",
     "angular-feather": "^6.1.0",
     "angular2-csv": "^0.2.9",
     "core-js": "^3.9.1",
@@ -21,7 +21,7 @@
     "rxjs": "^6.6.6",
     "tslib": "^2.0.0",
     "web-push": "^3.4.4",
-    "zone.js": "~0.11.3"
+    "zone.js": "~0.11.4"
   },
   "scripts": {
     "ng": "ng",
@@ -34,10 +34,10 @@
     "predeploy": "npm --prefix functions run build"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.1102.5",
-    "@angular/cli": "^11.2.5",
-    "@angular/compiler-cli": "~11.2.6",
-    "@angular/language-service": "~11.2.6",
+    "@angular-devkit/build-angular": "~12.0.2",
+    "@angular/cli": "^12.0.2",
+    "@angular/compiler-cli": "~12.0.2",
+    "@angular/language-service": "~12.0.2",
     "@types/jasmine": "~3.6.0",
     "@types/jasminewd2": "~2.0.8",
     "@types/mocha": "^5.2.7",
@@ -45,7 +45,7 @@
     "codelyzer": "^6.0.0",
     "jasmine-core": "~3.6.0",
     "jasmine-spec-reporter": "~5.0.0",
-    "karma": "~5.0.0",
+    "karma": "~6.3.2",
     "karma-chrome-launcher": "~3.1.0",
     "karma-coverage-istanbul-reporter": "~3.0.2",
     "karma-jasmine": "~4.0.0",
@@ -54,6 +54,6 @@
     "protractor": "~7.0.0",
     "ts-node": "~8.5.4",
     "tslint": "~6.1.0",
-    "typescript": "^4.1.5"
+    "typescript": "^4.2.4"
   }
 }

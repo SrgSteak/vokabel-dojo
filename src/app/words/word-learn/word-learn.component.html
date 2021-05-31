@@ -1,7 +1,6 @@
 <button class="submenu2 no-print" [class.open]="showSubmenu" [class.closed-menu]="!showSubmenu"
   (click)="showSubmenu ? showSubmenu = false : showSubmenu = true" title="Einstellungen Lernmodus">⋮</button>
 <div class="menu" *ngIf="showSubmenu">
-  <span class="label">Anzeige</span>
   <app-font-switcher></app-font-switcher>
   <form [formGroup]="form">
     <label class="container" [class.disabled]="question === 'reading' || answer === 'reading'">Ruby (ルビ)

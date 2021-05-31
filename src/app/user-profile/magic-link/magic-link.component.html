@@ -1,0 +1,19 @@
+<div class="action-shortcuts">
+  <a [class.disabled]="!form.valid" (click)="onSubmit()" class="save"><i class="feather icon-save"></i></a>
+  <a [routerLink]="['', { outlets: { modal: null } }]"><i class="feather icon-x"></i></a>
+</div>
+<p>Vokabeldojo verwendet eine Magic Link Technologie, die ohne Passwort auskommt. Dabei wird ein einzigartiger Link an
+  deine E-Mail Adresse gesendet, mit dem du dich am Gerät automatisch authentifizierst. Du kannst dich damit an beliebig
+  vielen Geräten anmelden und solange du die selbe E-Mail verwendest. Die E-Mail wird ausschließlich zu
+  Authentifizierungszwecken verwendet.</p>
+
+<form [formGroup]="form">
+  <div class="formgroup">
+    <label>Dein Benutzername (den du verwenden möchtest)</label>
+    <input type="text" formControlName="name" />
+  </div>
+  <div class="formgroup">
+    <label>Deine E-Mail Adresse</label>
+    <input type="email" formControlName="email" />
+  </div>
+</form>

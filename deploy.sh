@@ -1,5 +1,5 @@
 #!/bin/bash
 
-ng build --prod
+ng build --configuration production
 
 firebase deploy

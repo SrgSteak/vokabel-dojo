@@ -1,10 +1,10 @@
-<ng-container *ngIf="user">
-  <div class="action-shortcuts">
+<div class="action-shortcuts">
+  <ng-container *ngIf="user">
     <a [routerLink]="['', { outlets: { modal: ['cards', 'new'] } }]" class="edit" *ngIf="user.role === 'admin'"><i
         class="feather icon-plus"></i></a>
-    <a [routerLink]="['', { outlets: { modal: null } }]"><i class="feather icon-x"></i></a>
-  </div>
-</ng-container>
+  </ng-container>
+  <a [routerLink]="['', { outlets: { modal: null } }]"><i class="feather icon-x"></i></a>
+</div>
 <div class="content">
   <app-word-list (selectedCard)=editCard($event)></app-word-list>
 </div>

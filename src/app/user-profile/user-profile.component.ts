@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from '../core/auth.service';
 import { CardService } from '../core/services/card.service';
 import { DeckService } from '../core/services/deck.service';
@@ -10,11 +11,15 @@ import { DeckService } from '../core/services/deck.service';
 })
 export class UserProfileComponent implements OnInit {
 
-  constructor(public auth: AuthService, public cardService: CardService, public deckService: DeckService) { }
+  constructor(public auth: AuthService, public cardService: CardService, public deckService: DeckService, private router: Router) { }
 
   ngOnInit() {
   }
 
   migrate() {
+  }
+
+  promptMagicLink() {
+    this.router.navigate([{ outlets: { modal: ['user', 'magic-link'] } }]);
   }
 }

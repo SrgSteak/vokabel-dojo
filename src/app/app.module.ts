@@ -38,6 +38,7 @@ import { VerbTableComponent } from './shared/card-info/verb-table/verb-table.com
 import { AdjectiveTableComponent } from './shared/card-info/adjective-table/adjective-table.component';
 import { AppRoutingModule } from './app-routing/app-routing.module';
 import { DecknamePipe } from './pipes/deckname.pipe';
+import { MagicLinkComponent } from './user-profile/magic-link/magic-link.component';
 
 @NgModule({
   imports: [
@@ -80,7 +81,8 @@ import { DecknamePipe } from './pipes/deckname.pipe';
     OnyomiPipe,
     VerbTableComponent,
     AdjectiveTableComponent,
-    DecknamePipe
+    DecknamePipe,
+    MagicLinkComponent
   ],
   bootstrap: [AppComponent],
   providers: [VocabularyService, FlashcardService]

@@ -60,10 +60,52 @@ export class AuthService {
   }
 
   //TODO: provide email signup, auth, signinLink and forgotPassword
-  // emailLogin() {
-  //   const provider = new auth.EmailAuthProvider();
-  //   return this.oAuthLogin(provider);
-  // }
+  emailLogin(email: string, username: string) {
+    const settings: firebase.auth.ActionCodeSettings = {
+      url: 'https://vokabeldojo.web.app/user/finish-magic-link',
+      handleCodeInApp: true,
+      iOS: {
+        bundleId: 'app.web.vokabeldojo'
+      },
+      android: {
+        packageName: 'app.web.vokabeldojo',
+        installApp: true,
+        minimumVersion: '12'
+      },
+      dynamicLinkDomain: 'vokabeldojo.page.link'
+    }
+    this.afAuth.sendSignInLinkToEmail(email, settings).then(() => {
+      window.prompt('E-Mail wurde erfolgreich gesendet. Bitte prüfe dein Postfach und folge dem Link.');
+      window.localStorage.setItem('magicLinkEmail', email);
+      window.localStorage.setItem('magicLinkName', username);
+    }).catch((error) => {
+      window.prompt('Es ist ein Fehler aufgetreten. Bitte überprüfe deine Eingabe und versuche es zu einem späteren Zeitpunkt noch einmal.' + error.message);
+      console.error(error);
+    });
+  }
+
+  emailValidateLogin() {
+    if (firebase.auth().isSignInWithEmailLink(window.location.href)) {
+      let email = window.localStorage.getItem('magicLinkEmail');
+      if (!email) {
+        email = window.prompt('Bitte die E-Mail eingeben von der dieser Link stammt');
+      }
+
+      firebase.auth().signInWithEmailLink(email, window.location.href).then((result) => {
+        window.localStorage.removeItem('magicLinkEmail');
+        const user = result.user;
+        if (result.additionalUserInfo.profile === null) {
+          let username = window.localStorage.getItem('magicLinkName');
+          window.localStorage.removeItem('magicLinkName');
+          if (!username) {
+            username = window.prompt('Bitte geben Sie noch ihren Usernamen an');
+          }
+          user.displayName = username;
+        }
+        this.updateUserData(result.user);
+      })
+    }
+  }
 
   // private Login(provider) {
   //   return this.afAuth.auth.signInWithEmailAndPassword()
