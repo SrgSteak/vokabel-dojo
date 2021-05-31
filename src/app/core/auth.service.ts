@@ -59,7 +59,6 @@ export class AuthService {
       })
   }
 
-  //TODO: provide email signup, auth, signinLink and forgotPassword
   emailLogin(email: string, username: string) {
     const settings: firebase.auth.ActionCodeSettings = {
       url: 'https://vokabeldojo.web.app/user/finish-magic-link',
@@ -106,11 +105,6 @@ export class AuthService {
       })
     }
   }
-
-  // private Login(provider) {
-  //   return this.afAuth.auth.signInWithEmailAndPassword()
-  // }
-
 
   public updateUserData(user) {
     // Sets user data to firestore on login

@@ -57,7 +57,7 @@ export class SelectService {
   }
 
   private loadSessionStorage() {
-    if (this.sessionStorage) {
+    if (this.sessionStorage && this.sessionStorage.getItem('selection')) {
       try {
         this.loading = true;
         const uids = JSON.parse(this.sessionStorage.getItem('selection'));
