@@ -27,6 +27,28 @@ export const onDeckDelete = functions.firestore.document('/Decks/{documentId}').
     })
 })
 
+// update numberCards counter on decks when a new card is created (and stored to the db)
+// exports.onCardCreate = functions.firestore.document('/Cards/{documentId}').onCreate((snapshot, context) => {
+//   const promises: Array<Promise<any>> = [];
+//   if (snapshot.data().deck_uids && snapshot.data().deck_uids.length) { // check if card has decks
+//     snapshot.data().deck_uids.forEach((deck_uid: string) => {
+//       console.log(`checking decks for deck_uid ${deck_uid}`);
+//       admin.firestore().collection('Decks').doc(deck_uid).get().then(deckSnapshot => {
+//         console.log(`loading number cards for deck_uid ${deckSnapshot.id}`);
+//         admin.firestore().collection('Cards').where('deck_uids', 'array-contains', deckSnapshot.id).get().then(cards => {
+//           console.log(`setting number cards to ${cards.docs.length}`);
+//           const deck = deckSnapshot.data();
+//           deck.numberCards = cards.docs.length;
+//           const p = deckSnapshot.ref.update(deck);
+//           console.log(`pushing deck ${deckSnapshot.id} update to promises`);
+//           promises.push(p);
+//         })
+//       })
+//     })
+//   }
+//   return Promise.all(promises);
+// });
+
 // export const onDeckUpdate = functions.database.ref('Decks/{documentId').onUpdate((snapshot, context) => {
 //   // Grab the current value of what was written to Cloud Firestore.
 //   const original = snapshot.after.val();

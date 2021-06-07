@@ -19,11 +19,16 @@ export class MagicLinkComponent implements OnInit {
     name: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required, Validators.email]),
   })
+
+  finishLink = false;
+
   constructor(private router: Router, private route: ActivatedRoute, private authService: AuthService) { }
 
   ngOnInit(): void {
+
     this.route.data.subscribe(data => {
       if (data.finishMagicLink) {
+        this.finishLink = true;
         this.authService.emailValidateLogin();
       }
     });
@@ -36,6 +41,9 @@ export class MagicLinkComponent implements OnInit {
   }
 
   close() {
+    if (this.finishLink) {
+      this.router.navigate(['/']);
+    }
     this.router.navigate([{ outlets: { modal: null } }]);
   }
 }

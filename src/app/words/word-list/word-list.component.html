@@ -2,14 +2,6 @@
   <label class="no-print">
     <input type="search" [formControl]="searchForm" placeholder="Suche">
   </label>
-  <!-- <table>
-    <tr *ngFor="let word of words" (click)="show(word)">
-      <td>{{ word.japanese }}</td>
-      <td *ngIf="showGerman">
-        {{ word.getGerman() }}
-      </td>
-    </tr>
-  </table> -->
   <div *ngFor="let card of words" (click)="show(card)" class="card">
     <span class="japanese">
       {{ card.japanese }}

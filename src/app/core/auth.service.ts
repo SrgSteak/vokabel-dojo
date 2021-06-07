@@ -34,7 +34,7 @@ export class AuthService {
     //// Get auth data, then get firestore user document || null
     this.user = this.afAuth.authState.pipe(
       switchMap(user => {
-        if (user) {
+        if (user && user.uid) {
           return this.afs.doc<User>(`users/${user.uid}`).valueChanges()
         } else {
           return of(null)
@@ -74,23 +74,23 @@ export class AuthService {
       dynamicLinkDomain: 'vokabeldojo.page.link'
     }
     this.afAuth.sendSignInLinkToEmail(email, settings).then(() => {
-      window.prompt('E-Mail wurde erfolgreich gesendet. Bitte prüfe dein Postfach und folge dem Link.');
+      window.alert('E-Mail wurde erfolgreich gesendet. Bitte prüfe dein Postfach und folge dem Link.');
       window.localStorage.setItem('magicLinkEmail', email);
       window.localStorage.setItem('magicLinkName', username);
     }).catch((error) => {
-      window.prompt('Es ist ein Fehler aufgetreten. Bitte überprüfe deine Eingabe und versuche es zu einem späteren Zeitpunkt noch einmal.' + error.message);
+      window.alert('Es ist ein Fehler aufgetreten. Bitte überprüfe deine Eingabe und versuche es zu einem späteren Zeitpunkt noch einmal.' + error.message);
       console.error(error);
     });
   }
 
   emailValidateLogin() {
-    if (firebase.auth().isSignInWithEmailLink(window.location.href)) {
+    if (this.afAuth.isSignInWithEmailLink(window.location.href)) {
       let email = window.localStorage.getItem('magicLinkEmail');
       if (!email) {
         email = window.prompt('Bitte die E-Mail eingeben von der dieser Link stammt');
       }
 
-      firebase.auth().signInWithEmailLink(email, window.location.href).then((result) => {
+      this.afAuth.signInWithEmailLink(email, window.location.href).then((result) => {
         window.localStorage.removeItem('magicLinkEmail');
         const user = result.user;
         if (result.additionalUserInfo.profile === null) {
@@ -101,32 +101,53 @@ export class AuthService {
           }
           user.displayName = username;
         }
+        console.log(result.user, result);
         this.updateUserData(result.user);
-      })
+        // if (!result.additionalUserInfo.isNewUser) {
+        // } else {
+
+        // }
+      }).catch((error) => {
+        window.alert('Bei der überprüfung ist ein Fehler aufgetreten.');
+        console.error(error);
+      });
     }
   }
 
   public updateUserData(user) {
     // Sets user data to firestore on login
-    const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${user.uid}`);
+    console.log(user);
+    let userRef: AngularFirestoreDocument<User>;
+    if (user.uid) {
+      userRef = this.afs.doc(`users/${user.uid}`);
+      userRef.valueChanges().subscribe(storedUser => {
+        if (!storedUser) { // new user!
+          storedUser = {
+            uid: user.uid,
+            email: user.email,
+            role: 'user'
+          };
+        }
+        console.log(storedUser);
+        storedUser.email = user.email;
+        storedUser.displayName = user.displayName;
+        storedUser.uid = user.uid;
+        storedUser.role = storedUser.role ? storedUser.role : 'user'
+        storedUser.settings = storedUser.settings ? storedUser.settings : { fontStyle: 'serif' };
 
-    userRef.valueChanges().subscribe(storedUser => {
-      if (!storedUser) { // new user!
-        storedUser = {
-          uid: user.uid,
-          email: user.email,
-          role: 'user'
-        };
-      }
-      console.log(storedUser);
-      storedUser.email = user.email;
-      storedUser.displayName = user.displayName;
-      storedUser.uid = user.uid;
-      storedUser.role = storedUser.role ? storedUser.role : 'user'
-      storedUser.settings = storedUser.settings ? storedUser.settings : { fontStyle: 'serif' };
+        userRef.set(storedUser, { merge: true });
+      });
+    } else { // this is a new user, unknown to the firebase db. create him
+      // console.log(user);
+      // this.afs.collection('users').add({
+      //   email: user.email,
+      //   displayName: user.displayName,
+      //   role: 'user'
+      // }).then(reference => {
 
-      userRef.set(storedUser, { merge: true });
-    });
+      // });
+    }
+
 
   }
 

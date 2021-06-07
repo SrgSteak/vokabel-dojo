@@ -38,7 +38,7 @@ export const ROUTES: Routes = [
   { path: 'numbers', component: NumbersComponent, canActivate: [AuthGuard] },
   { path: 'user', component: UserProfileComponent },
   { path: 'user/magic-link', component: MagicLinkComponent, outlet: 'modal' },
-  { path: 'user/finish-magic-link', component: MagicLinkComponent, outlet: 'modal', data: { finishMagicLink: true } },
+  { path: 'user/finish-magic-link', component: MagicLinkComponent, data: { finishMagicLink: true } },
   { path: 'selection', component: SelectionComponent, outlet: 'modal' },
 
   // deck routes
