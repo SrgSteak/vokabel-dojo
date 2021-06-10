@@ -55,6 +55,7 @@ export class EditComponent implements OnInit {
   toggleSearch = false;
   repeat = false;
 
+  private cardTypeSub: Subscription;
   private routeSub: Subscription;
   private authSub: Subscription;
   private deckSub: Subscription;
@@ -123,58 +124,7 @@ export class EditComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.authSub = this.authService.user.subscribe(_user => {
-      this.user = _user;
-    });
-    this.routeSub = this.route.paramMap.subscribe(params => {
-      if (params.has('uid')) { // edit card
-        this.cardSub = this.cardService.getCard(params.get('uid')).subscribe(data => {
-          this.cardForm = this.prepareCardForm();
-          this.card = data
-          if (this.user.role != 'admin' && this.user.uid != this.card.author) {
-            this.router.navigate(['/']);
-          }
-          // prefill form;
-          this.cardForm.get('japanese').setValue(this.card.japanese);
-          this.cardForm.get('cardType').setValue(this.card.cardType ? '1' : '0');
-
-          this.card.german.forEach(german => {
-            this.addReading(this.german, german);
-          })
-
-          this.card.japanese_readings.forEach(reading => {
-            this.addReading(this.japanese_readings, reading);
-          });
-          this.card.chinese_readings.forEach(reading => {
-            this.addReading(this.chinese_readings, reading);
-          });
-          if (this.card.examples) {
-            this.card.examples.forEach(example => {
-              this.addExample(this.examples, example);
-            })
-          }
-          if (this.card.deck_uids) {
-            this.card.deck_uids.forEach(deck_uid => {
-              this.addReading(this.deckForm, deck_uid)
-            });
-          }
-          this.wordTypeToggle = false;
-          this.adjectiveTypeToggle = false;
-          this.verbTypeToggle = false;
-        })
-      } else { // create card
-        this.createMode = true;
-        this.card = { german: [], decks: [], cardType: CardType.simple };
-      }
-      if (params.has('deckuid')) { // preselect deck for new cards
-        this.addReading(this.deckForm, params.get('deckuid'));
-        this.deckSub = this.deckService.get(params.get('deckuid')).subscribe((_deck) => {
-          this.deck = _deck;
-          this.card.decks.push({ name: this.deck.name, uid: this.deck.uid });
-        });
-      }
-    })
-    this.cardType.valueChanges.subscribe((value: CardType) => {
+    this.cardTypeSub = this.cardType.valueChanges.subscribe((value: CardType) => {
       this.cardTypeToggle = false;
       if (value == CardType.simple) {
         this.removeField('wordType');
@@ -222,9 +172,69 @@ export class EditComponent implements OnInit {
         });
       }
     });
+    this.authSub = this.authService.user.subscribe(_user => {
+      this.user = _user;
+    });
+    this.routeSub = this.route.paramMap.subscribe(params => {
+      if (params.has('uid')) { // edit card
+        console.log('route', params);
+        this.cardSub = this.cardService.getCard(params.get('uid')).subscribe(data => {
+          console.log('card', data);
+          this.card = data
+          if (this.user.role != 'admin' && this.user.uid != this.card.author) {
+            this.router.navigate(['/']);
+          }
+          // prefill form;
+          this.cardForm.get('japanese').setValue(this.card.japanese);
+          this.cardForm.get('cardType').setValue(this.card.cardType ? '1' : '0');
+          this.german.clear();
+          this.card.german.forEach(german => {
+            this.addReading(this.german, german);
+          })
+
+          this.japanese_readings.clear();
+          this.card.japanese_readings.forEach(reading => {
+            this.addReading(this.japanese_readings, reading);
+          });
+
+          this.chinese_readings.clear();
+          this.card.chinese_readings.forEach(reading => {
+            this.addReading(this.chinese_readings, reading);
+          });
+
+          this.examples.clear();
+          if (this.card.examples) {
+            this.card.examples.forEach(example => {
+              this.addExample(this.examples, example);
+            })
+          }
+
+          this.deckForm.clear();
+          if (this.card.deck_uids) {
+            this.card.deck_uids.forEach(deck_uid => {
+              this.addReading(this.deckForm, deck_uid)
+            });
+          }
+          this.wordTypeToggle = false;
+          this.adjectiveTypeToggle = false;
+          this.verbTypeToggle = false;
+        })
+      } else { // create card
+        this.createMode = true;
+        this.card = { german: [], decks: [], cardType: CardType.simple };
+      }
+      if (params.has('deckuid')) { // preselect deck for new cards
+        this.addReading(this.deckForm, params.get('deckuid'));
+        this.deckSub = this.deckService.get(params.get('deckuid')).subscribe((_deck) => {
+          this.deck = _deck;
+          this.card.decks.push({ name: this.deck.name, uid: this.deck.uid });
+        });
+      }
+    })
   }
 
   ngOnDestroy() {
+    if (this.cardTypeSub) { this.cardTypeSub.unsubscribe(); }
     if (this.cardSub) { this.cardSub.unsubscribe(); }
     if (this.routeSub) { this.routeSub.unsubscribe(); }
     if (this.deckSub) { this.deckSub.unsubscribe(); }
@@ -253,7 +263,7 @@ export class EditComponent implements OnInit {
     this.deckForm.removeAt(index);
   }
 
-  prepareCardForm() {
+  private prepareCardForm() {
     return this.fb.group({
       cardType: ['0', Validators.required],
       german: this.fb.array([]),
