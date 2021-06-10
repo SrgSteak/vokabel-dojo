@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
@@ -102,7 +102,8 @@ export class AuthService {
           user.displayName = username;
         }
         console.log(result.user, result);
-        this.updateUserData(result.user);
+        // this.updateUserData(result.user);
+        this.router.navigate(['/']);
         // if (!result.additionalUserInfo.isNewUser) {
         // } else {
 
@@ -138,11 +139,12 @@ export class AuthService {
         userRef.set(storedUser, { merge: true });
       });
     } else { // this is a new user, unknown to the firebase db. create him
-      // console.log(user);
+      console.log(user);
       // this.afs.collection('users').add({
       //   email: user.email,
       //   displayName: user.displayName,
-      //   role: 'user'
+      //   role: 'user',
+      //   uid: user.uid
       // }).then(reference => {
 
       // });

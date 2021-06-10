@@ -3,9 +3,10 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { CardService } from './card.service';
 import { FlashcardService } from 'src/app/flashcard.service';
 import { Observable, of } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { distinctUntilChanged, tap } from 'rxjs/operators';
 import { User } from '../auth.service';
 import { Card } from '../entities/card';
+import _ from 'lodash';
 
 export interface Deck {
   name: string;
@@ -36,8 +37,10 @@ export class DeckService extends FlashcardService {
       return of(this.decks.get(id));
     }
     return this.afs.collection<Deck>('Decks').doc<Deck>(id).valueChanges().pipe(
+      distinctUntilChanged(
+        (prev, curr) => { console.log(_.isEqual(prev, curr)); return _.isEqual(prev, curr) }
+      ),
       tap(_deck => {
-        console.log('accessing DB');
         if (_deck) {
           _deck.uid = id;
           this.decks.set(id, _deck);

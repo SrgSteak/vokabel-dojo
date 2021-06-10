@@ -3,8 +3,8 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { CardInterface } from '../entities/card-interface';
 import { Card } from '../entities/card';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { User } from '../auth.service';
+import { distinctUntilChanged, map } from 'rxjs/operators';
+import _ from 'lodash';
 
 @Injectable({
   providedIn: 'root'
@@ -13,13 +13,15 @@ export class CardService {
 
   constructor(private afs: AngularFirestore) { }
 
-
   get(id: string) {
     return this.afs.collection('Cards').doc<CardInterface>(id);
   }
 
   getCard(uid: string): Observable<Card> {
     return this.afs.collection('Cards').doc<CardInterface>(uid).snapshotChanges().pipe(
+      distinctUntilChanged(
+        (prev, curr) => _.isEqual(prev?.payload.data(), curr?.payload.data())
+      ),
       map(cardInterface => {
         const card = Card.createFromCardInterface(cardInterface.payload.data());
         card.uid = cardInterface.payload.id;
