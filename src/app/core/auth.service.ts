@@ -1,11 +1,12 @@
-import { EventEmitter, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 
 import { Observable, of } from 'rxjs';
-import { switchMap, tap, startWith } from 'rxjs/operators';
+import { switchMap, tap, startWith, distinctUntilChanged } from 'rxjs/operators';
 import firebase from 'firebase';
+import _ from 'lodash';
 
 export interface User {
   uid: string;
@@ -41,7 +42,11 @@ export class AuthService {
         }
       }),
       // Add these lines to set/read the user data to local storage
-      tap(user => localStorage.setItem('user', JSON.stringify(user))),
+      tap(user => {
+        if (user && user.uid) {
+          localStorage.setItem('user', JSON.stringify(user))
+        }
+      }),
       startWith(JSON.parse(localStorage.getItem('user')))
     )
   }
@@ -93,21 +98,16 @@ export class AuthService {
       this.afAuth.signInWithEmailLink(email, window.location.href).then((result) => {
         window.localStorage.removeItem('magicLinkEmail');
         const user = result.user;
-        if (result.additionalUserInfo.profile === null) {
-          let username = window.localStorage.getItem('magicLinkName');
-          window.localStorage.removeItem('magicLinkName');
-          if (!username) {
-            username = window.prompt('Bitte geben Sie noch ihren Usernamen an');
-          }
-          user.displayName = username;
+        let username = window.localStorage.getItem('magicLinkName');
+        window.localStorage.removeItem('magicLinkName');
+        if (!username) {
+          username = window.prompt('Bitte geben Sie noch ihren Usernamen an');
         }
-        console.log(result.user, result);
-        // this.updateUserData(result.user);
-        this.router.navigate(['/']);
-        // if (!result.additionalUserInfo.isNewUser) {
-        // } else {
-
-        // }
+        user.updateProfile({ displayName: username }).then(() => {
+          console.log(result.user, result);
+          this.updateUserData(user);
+          this.router.navigate(['/']);
+        });
       }).catch((error) => {
         window.alert('Bei der überprüfung ist ein Fehler aufgetreten.');
         console.error(error);
@@ -120,8 +120,10 @@ export class AuthService {
     console.log(user);
     let userRef: AngularFirestoreDocument<User>;
     if (user.uid) {
-      userRef = this.afs.doc(`users/${user.uid}`);
-      userRef.valueChanges().subscribe(storedUser => {
+      userRef = this.afs.doc(`users/${user.uid}`); // no document with this uid? storedUser will be undefined but can be added to the db
+      userRef.valueChanges().pipe(
+        distinctUntilChanged((prev, curr) => _.isEqual(prev, curr))
+      ).subscribe(storedUser => {
         if (!storedUser) { // new user!
           storedUser = {
             uid: user.uid,
@@ -139,18 +141,8 @@ export class AuthService {
         userRef.set(storedUser, { merge: true });
       });
     } else { // this is a new user, unknown to the firebase db. create him
-      console.log(user);
-      // this.afs.collection('users').add({
-      //   email: user.email,
-      //   displayName: user.displayName,
-      //   role: 'user',
-      //   uid: user.uid
-      // }).then(reference => {
-
-      // });
+      console.log('user has no uid!', user);
     }
-
-
   }
 
   signOut() {
