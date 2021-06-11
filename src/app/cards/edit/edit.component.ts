@@ -177,9 +177,7 @@ export class EditComponent implements OnInit {
     });
     this.routeSub = this.route.paramMap.subscribe(params => {
       if (params.has('uid')) { // edit card
-        console.log('route', params);
         this.cardSub = this.cardService.getCard(params.get('uid')).subscribe(data => {
-          console.log('card', data);
           this.card = data
           if (this.user.role != 'admin' && this.user.uid != this.card.author) {
             this.router.navigate(['/']);
@@ -208,6 +206,8 @@ export class EditComponent implements OnInit {
               this.addExample(this.examples, example);
             })
           }
+
+          this.information.setValue(this.card.information);
 
           this.deckForm.clear();
           if (this.card.deck_uids) {
