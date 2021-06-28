@@ -56,6 +56,13 @@ export class AuthService {
     return this.oAuthLogin(provider);
   }
 
+  appleLogin() {
+    const provider = new firebase.auth.OAuthProvider('apple.com');
+    provider.addScope('email');
+    provider.addScope('name');
+    provider.setCustomParameters({ locale: 'de' });
+    return this.oAuthLogin(provider);
+  }
 
   private oAuthLogin(provider) {
     return this.afAuth.signInWithPopup(provider)

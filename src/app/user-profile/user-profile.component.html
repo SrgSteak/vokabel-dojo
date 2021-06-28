@@ -8,14 +8,27 @@
     <!-- User NOT logged in -->
     <ng-template #guest>
       <h3>Loginbereich</h3>
-      <p>Mit einem Konto kannst du eigene Lernkarten und Decks anlegen. Dazu wird deine E-Mail Adresse in der Datenbank
+      <p>Mit einem Konto kannst du eigene Lernkarten und Decks anlegen. Dazu wird deine E-Mail Adresse und (je nach
+        Anbieter) dein Anzeigename in der Datenbank
         von
-        Vokabeldojo gespeichert. Login via oAuth (Google) erfolgt zwischen dir und Google, Passwörter oä werden in
+        Vokabeldojo gespeichert. Login via oAuth (Google, Apple und Co.) erfolgt zwischen dir und dem Provider,
+        Passwörter oä werden in
         diesem
-        Fall nicht in Vokabeldojo gespeichert.</p>
+        Fall nicht in Vokabeldojo gespeichert. Du kannst bei Sign in with Apple auch eine automatisch anonymisierte
+        relay E-Mail einrichten. In dem Fall bist du immer auf der sicheren Seite. <a
+          href="https://support.apple.com/de-at/HT210425" target="_blank">Mehr zu "E-Mail-Adresse verbergen mit Apple
+          Sign In"</a></p>
+      <p>Du besitzt keinen Social Media Account oder möchtest keinen dieser Dienste nutzen? Dann verwende Connect E-Mail
+        für einen Passwortlosen Login mit Magic Link.</p>
       <h3>Login/Registrierung</h3>
       <button class="button" (click)="auth.googleLogin()">
-        <i class="fa fa-google"></i>Google
+        <i class="fa fa-google"></i> Sign in with Google
+      </button>
+      <button class="button" (click)="auth.appleLogin()">
+        <i class="fa fa-apple"></i> Sign in with Apple
+      </button>
+      <button class="button" (click)="promptMagicLink()">
+        <i class="fa fa-email"></i> Connect Email
       </button>
       <button class="button disabled">
         <i class="fa fa-google"></i> Facebook
@@ -33,10 +46,8 @@
         <i class="fa fa-google"></i> Microsoft
       </button>
 
-      <button class="button" (click)="promptMagicLink()">
-        <i class="fa fa-email"></i> Connect Email
-      </button>
-
+      <p>Der Social Media Dienst deiner Wahl wird noch nicht unterstützt oder du hast Probleme? <a
+          [routerLink]="['/about']" fragment="report-a-bug">Schick mir eine Nachricht!</a></p>
     </ng-template>
 
 
