@@ -16,6 +16,12 @@ export class UserProfileComponent implements OnInit {
   ngOnInit() {
   }
 
+  deleteAccount() {
+    if (confirm('ACHTUNG: Diesen Account wirklich löschen? Das kann NICHT rückgängig gemacht werden!')) {
+      this.auth.deleteAccount();
+    }
+  }
+
   migrate() {
   }
 

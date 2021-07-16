@@ -60,6 +60,7 @@
         <p>Berechtigung: {{ user.role }}</p>
         <p><a [routerLink]="['/decks/user']">Meine Decks</a></p>
         <button class="button" (click)="auth.signOut()">Abmelden</button>
+        <button class="button" (click)="auth.deleteAccount()">Account löschen</button>
         <button (click)="migrate()" *ngIf="user.role == 'admin'">Migrate Cards</button>
       </div>
     </ng-template>

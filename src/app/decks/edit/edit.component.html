@@ -1,4 +1,4 @@
-<div class="sans-serif edit">
+<div class="sans-serif edit" *ngIf="user">
   <ng-container *ngIf="!deck.uid else editDeckHeader">
     <div class="action-shortcuts negative">
       <a [class.disabled]="!deckForm.valid" (click)="onSubmit()" class="save"><i class="feather icon-save"></i></a>

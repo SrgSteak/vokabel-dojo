@@ -7,6 +7,8 @@ import { Observable, of } from 'rxjs';
 import { switchMap, tap, startWith, distinctUntilChanged } from 'rxjs/operators';
 import firebase from 'firebase';
 import _ from 'lodash';
+import { DeckService } from './services/deck.service';
+import { CardService } from './services/card.service';
 
 export interface User {
   uid: string;
@@ -25,11 +27,14 @@ interface Settings {
 export class AuthService {
 
   user: Observable<User>;
+  private _user: User = localStorage.getItem('user') !== null ? JSON.parse(localStorage.getItem('user')) : null;
 
   constructor(
     private afAuth: AngularFireAuth,
     private afs: AngularFirestore,
-    private router: Router
+    private router: Router,
+    private deckService: DeckService,
+    private cardService: CardService
   ) {
 
     //// Get auth data, then get firestore user document || null
@@ -44,11 +49,15 @@ export class AuthService {
       // Add these lines to set/read the user data to local storage
       tap(user => {
         if (user && user.uid) {
+          this._user = user;
           localStorage.setItem('user', JSON.stringify(user))
         }
-      }),
-      startWith(JSON.parse(localStorage.getItem('user')))
+      })
     )
+  }
+
+  getUser(): User | null {
+    return this._user;
   }
 
   googleLogin() {
@@ -111,7 +120,6 @@ export class AuthService {
           username = window.prompt('Bitte geben Sie noch ihren Usernamen an');
         }
         user.updateProfile({ displayName: username }).then(() => {
-          console.log(result.user, result);
           this.updateUserData(user);
           this.router.navigate(['/']);
         });
@@ -124,7 +132,6 @@ export class AuthService {
 
   public updateUserData(user) {
     // Sets user data to firestore on login
-    console.log(user);
     let userRef: AngularFirestoreDocument<User>;
     if (user.uid) {
       userRef = this.afs.doc(`users/${user.uid}`); // no document with this uid? storedUser will be undefined but can be added to the db
@@ -138,7 +145,7 @@ export class AuthService {
             role: 'user'
           };
         }
-        console.log(storedUser);
+
         storedUser.email = user.email;
         storedUser.displayName = user.displayName;
         storedUser.uid = user.uid;
@@ -154,7 +161,32 @@ export class AuthService {
 
   signOut() {
     this.afAuth.signOut().then(() => {
+      localStorage.removeItem('user');
       this.router.navigate(['/']);
+    });
+  }
+
+  /**
+   * deletes the login user from the firebase auth
+   */
+  deleteAccount() {
+    this.afAuth.currentUser.then(user => {
+      // this.cardService.allCardsForUser(user.uid).subscribe((cards) => {
+      //   cards.forEach(card => {
+      //     this.cardService.delete(card.uid);
+      //   });
+      // });
+      // this.deckService.allDecksForUser(user.uid).subscribe((decks) => {
+      //   decks.forEach(deck => {
+      //     this.deckService.delete(deck.uid);
+      //   });
+      // });
+      user.delete().then(() => {
+        localStorage.removeItem('user');
+        this.router.navigate(['/']);
+      }, (error) => {
+        alert('Du musst dich neu Anmelden, um diese Aktion zu bestätigen. ' + error);
+      });
     });
   }
 }

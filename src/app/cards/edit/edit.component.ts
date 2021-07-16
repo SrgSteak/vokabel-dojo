@@ -172,6 +172,7 @@ export class EditComponent implements OnInit {
         });
       }
     });
+    this.user = this.authService.getUser();
     this.authSub = this.authService.user.subscribe(_user => {
       this.user = _user;
     });

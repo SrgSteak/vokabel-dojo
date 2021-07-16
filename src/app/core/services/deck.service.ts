@@ -38,7 +38,7 @@ export class DeckService extends FlashcardService {
     }
     return this.afs.collection<Deck>('Decks').doc<Deck>(id).valueChanges().pipe(
       distinctUntilChanged(
-        (prev, curr) => { console.log(_.isEqual(prev, curr)); return _.isEqual(prev, curr) }
+        (prev, curr) => { return _.isEqual(prev, curr) }
       ),
       tap(_deck => {
         if (_deck) {

@@ -5,6 +5,26 @@ admin.initializeApp();
 // // Start writing Firebase Functions
 // // https://firebase.google.com/docs/functions/typescript
 
+export const onUserDelete = functions.firestore.document('/users/{documentId}').onDelete((snapshot, context) => {
+  const uid = context.params.documentId; // the user uid
+  // const promises: Array<Promise<any>> = [];
+  return Promise.all([
+    admin.firestore().collection('Decks').where('author', '==', uid).get().then(decksSnapshot => {
+      decksSnapshot.forEach(deckSnapshot => {
+        console.log('would now delete deck uid: ' + deckSnapshot.id);
+        // promises.push(admin.firestore().collection('Decks').doc(deckSnapshot.id).delete());
+      });
+
+    }),
+    admin.firestore().collection('Cards').where('author', '==', uid).get().then(cardsSnapshot => {
+      cardsSnapshot.forEach(cardSnapshot => {
+        console.log('would now delete card uid: ' + cardSnapshot.id);
+        // promises.push(admin.firestore().collection('Cards').doc(cardSnapshot.id).delete());
+      })
+    })
+  ]);
+});
+
 export const onDeckDelete = functions.firestore.document('/Decks/{documentId}').onDelete((snapshot, context) => {
   console.log(`Starting onDeckDelete function`);
   const uid = context.params.documentId; // the Deck uid
