@@ -1,9 +1,11 @@
 <div class="edit" #editWindow>
   <ng-container *ngIf="createMode else editHeader">
     <div class="action-shortcuts negative">
-      <a (click)="repeat = !repeat" [class.repeat]="repeat"><i class="feather icon-repeat"></i></a>
-      <a [class.disabled]="!cardForm.valid" (click)="onSubmit()" class="save"><i class="feather icon-save"></i></a>
-      <a [routerLink]="['', { outlets: { modal: null } }]"><i class="feather icon-x"></i></a>
+      <a (click)="repeat = !repeat" [class.repeat]="repeat" title="Gleich noch eine anlegen"><i
+          class="feather icon-repeat"></i></a>
+      <a [class.disabled]="!cardForm.valid" (click)="onSubmit()" class="save" title="Speichern"><i
+          class="feather icon-save"></i></a>
+      <a [routerLink]="['', { outlets: { modal: null } }]" title="Schließen"><i class="feather icon-x"></i></a>
     </div>
     <div class="header">
       <h1 class="sans-serif">

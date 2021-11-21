@@ -153,6 +153,7 @@ export class AuthService {
         storedUser.settings = storedUser.settings ? storedUser.settings : { fontStyle: 'serif' };
 
         userRef.set(storedUser, { merge: true });
+        localStorage.setItem('user', JSON.stringify(user));
       });
     } else { // this is a new user, unknown to the firebase db. create him
       console.log('user has no uid!', user);

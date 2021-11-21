@@ -1,7 +1,8 @@
 <div class="sans-serif edit" *ngIf="user">
   <ng-container *ngIf="!deck.uid else editDeckHeader">
     <div class="action-shortcuts negative">
-      <a [class.disabled]="!deckForm.valid" (click)="onSubmit()" class="save"><i class="feather icon-save"></i></a>
+      <a [class.disabled]="!deckForm.valid" (click)="onSubmit()" class="save" title="Speichern"><i
+          class="feather icon-save"></i></a>
       <a [routerLink]="['', { outlets: { modal: null } }]"><i class="feather icon-x"></i></a>
     </div>
     <div class="header">
@@ -11,7 +12,8 @@
   <ng-template #editDeckHeader>
     <div class="action-shortcuts negative">
       <a (click)="onDelete()" class="danger"><i class="feather icon-trash"></i></a>
-      <a [class.disabled]="!deckForm.valid" (click)="onSubmit()" class="save"><i class="feather icon-save"></i></a>
+      <a [class.disabled]="!deckForm.valid" (click)="onSubmit()" class="save" title="Speichern"><i
+          class="feather icon-save"></i></a>
       <a [routerLink]="['', { outlets: { modal: null } }]"><i class="feather icon-x"></i></a>
     </div>
     <div class="header">
