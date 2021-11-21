@@ -3,7 +3,7 @@
     <div class="action-shortcuts negative">
       <a [class.disabled]="!deckForm.valid" (click)="onSubmit()" class="save" title="Speichern"><i
           class="feather icon-save"></i></a>
-      <a [routerLink]="['', { outlets: { modal: null } }]"><i class="feather icon-x"></i></a>
+      <a [routerLink]="['/decks', { outlets: { modal: null } }]"><i class="feather icon-x"></i></a>
     </div>
     <div class="header">
       <h1 class="sans-serif">Neues Deck anlegen</h1>
@@ -14,7 +14,7 @@
       <a (click)="onDelete()" class="danger"><i class="feather icon-trash"></i></a>
       <a [class.disabled]="!deckForm.valid" (click)="onSubmit()" class="save" title="Speichern"><i
           class="feather icon-save"></i></a>
-      <a [routerLink]="['', { outlets: { modal: null } }]"><i class="feather icon-x"></i></a>
+      <a [routerLink]="['/decks', { outlets: { modal: null } }]"><i class="feather icon-x"></i></a>
     </div>
     <div class="header">
       <h1 class="sans-serif">Deck bearbeiten</h1>

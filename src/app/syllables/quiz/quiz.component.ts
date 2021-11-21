@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SyllablesService, flashcard } from '../syllables.service';
+import { SyllablesService, flashcard } from '../../syllables.service';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 

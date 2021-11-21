@@ -20,10 +20,10 @@
       <i-feather name="check-circle" class="feather"></i-feather> Karten auswählen
     </a>
     <ng-container *ngIf="user.role == 'admin' || user.uid == deck.author">
-      <a routerLinkActive="active" [routerLink]="['', { outlets: { modal: ['decks', 'edit', deck.uid]}}]">
+      <a routerLinkActive="active" [routerLink]="['/decks', { outlets: { modal: ['edit', deck.uid]}}]">
         <i-feather name="edit" class="feather"></i-feather> Bearbeiten
       </a>
-      <a routerLinkActive="active" [routerLink]="['', { outlets: { modal: ['decks', 'new']}}]">
+      <a routerLinkActive="active" [routerLink]="['/decks', { outlets: { modal: ['new']}}]">
         <i-feather name="plus" class="feather"></i-feather> Deck anlegen
       </a>
       <span class="label">Karten</span>

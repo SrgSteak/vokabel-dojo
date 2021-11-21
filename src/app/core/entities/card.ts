@@ -1,10 +1,11 @@
 import { CardInterface } from "./card-interface";
-import { CardType, WordType, VerbType, AdjectiveType } from './card-type';
+import { CardType, WordType, VerbType, AdjectiveType, VerbContext } from './card-type';
 
 export class Card implements CardInterface {
   cardType: CardType;
   wordType?: WordType;
   verbType?: VerbType;
+  verbContext?: VerbContext;
   adjectiveType?: AdjectiveType;
   uid?: string;
   german?: Array<string>;

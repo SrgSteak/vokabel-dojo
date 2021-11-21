@@ -1,4 +1,5 @@
 export enum WordType {
+  simple = '-1',
   noun = '0', // Substantiv / Hauptwort / Dingwort
   verb = '1', // Verb /Zeit- oder Tätigkeitswort
   adjective = '2', // Adjektiv / Eigenschafts- oder Beiwort
@@ -30,4 +31,9 @@ export enum AdjectiveType {
 export enum CardType {
   simple, // two sided card
   word // one of the specialized WordTypes above
+}
+
+export enum VerbContext {
+  transitive = '1',
+  intransitive = '2'
 }

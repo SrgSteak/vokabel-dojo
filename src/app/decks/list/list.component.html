@@ -7,7 +7,7 @@
   </div>
   <div class="deck_grid">
     <ng-container *ngIf="user">
-      <a [routerLink]="['', { outlets: { modal: ['decks', 'new']}}]" class="grid-content"
+      <a [routerLink]="['/decks', { outlets: { modal: ['new']}}]" class="grid-content"
         *ngIf="!displayPublic || (displayPublic && user.role == 'admin')">
         <i-feather name="plus-circle"></i-feather> Neues Deck anlegen
       </a>

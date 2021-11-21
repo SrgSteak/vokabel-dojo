@@ -24,9 +24,10 @@
       <i-feather name="check-circle" class="feather"></i-feather> Auswahl
     </a>
     <span class=" label">Silben</span>
-    <a routerLinkActive="active" routerLink="/quiz" (click)="toggle()">Quizmodus</a>
-    <a routerLinkActive="active" routerLink="/learn" (click)="toggle()">Lernmodus</a>
-    <a routerLinkActive="active" routerLink="/syllables/overview" (click)="toggle()">Tabelle</a>
+    <a routerLinkActive="active" routerLink="/syllables" [routerLinkActiveOptions]="{exact:
+      true}" (click)="toggle()">Tabelle</a>
+    <a routerLinkActive="active" routerLink="syllables/learn" (click)="toggle()">Lernmodus</a>
+    <a routerLinkActive="active" routerLink="syllables/quiz" (click)="toggle()">Quizmodus</a>
     <span class="label">Vokabel</span>
     <a routerLinkActive="active" routerLink="/decks">Alle Decks</a>
 
@@ -37,7 +38,7 @@
     <a href="https://ko-fi.com/teamroricon" target="_blank">
       <i-feather name="coffee" class="feather"></i-feather> Jetzt Supporten
     </a>
-    <a href="https://www.japanischlernen.at/login/">
+    <a href="https://www.japanischlernen.at">
       <i-feather name="external-link" class="feather"></i-feather> Nihongo Gakuen
     </a>
 

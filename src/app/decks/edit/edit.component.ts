@@ -141,7 +141,6 @@ export class EditComponent implements OnInit, OnDestroy {
         const cols: string[] = element.split(csvSeparator);
         csv.push(cols);
       });
-      console.log(csv);
       csv.forEach(line => {
         if (line.japanese !== 'japanese') {
           const card = new Card();
