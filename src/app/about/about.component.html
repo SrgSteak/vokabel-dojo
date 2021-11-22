@@ -1,188 +1,223 @@
 <div class="content">
   <div class="about">
     <h1>Vokabeldojo</h1>
-    <p>Für den Japanischkurs in der <a href="www.japanischlernen.at">Nihongo Gakuen</a> als Lernhilfe erdacht und
+    <p class="align-c">Für den Japanischkurs in der <a href="www.japanischlernen.at">Nihongo Gakuen</a> als Lernhilfe
+      erdacht und
       kreiert von <a href="mailto:schmidt91robin@icloud.com">Robin Schmidt</a></p>
-    <h2 id="index">Index</h2>
-    <ol>
-      <li><a [routerLink]="['/about']" fragment="key">Legende</a></li>
-      <li><a [routerLink]="['/about']" fragment="functions">Funktionen</a></li>
-      <li><a [routerLink]="['/about']" fragment="login">Login</a>
+    <div class="scripture">
+      <div class="index">
+        <h2 id="index">Index</h2>
+        <ol>
+          <li><a [routerLink]="['/about']" fragment="key">Legende</a></li>
+          <li><a [routerLink]="['/about']" fragment="functions">Funktionen</a></li>
+          <li><a [routerLink]="['/about']" fragment="login">Login</a>
+            <ul>
+              <li><a [routerLink]="['/about']" fragment="register">Account erstellen/anmelden</a></li>
+              <li><a [routerLink]="['/about']" fragment="logout">Abmelden</a></li>
+              <li><a [routerLink]="['/about']" fragment="decks-create">Deck anlegen</a></li>
+              <li><a [routerLink]="['/about']" fragment="decks-edit">Deck bearbeiten/löschen</a></li>
+              <li><a [routerLink]="['/about']" fragment="words-create">Lernkarten (Vokabeln) anlegen</a></li>
+              <li><a [routerLink]="['/about']" fragment="words-edit">Lernkarten bearbeiten/löschen</a></li>
+              <li><a [routerLink]="['/about']" fragment="words-list">Alle Lernkarten ansehen/löschen</a></li>
+            </ul>
+          </li>
+          <li>
+            <a [routerLink]="['/about']" fragment="home">Home</a>
+          </li>
+          <li>
+            <a [routerLink]="['/about']" fragment="dictionary">Wörterbuch</a>
+          </li>
+          <li>
+            <a [routerLink]="['/about']" fragment="selection">Auswahl</a>
+          </li>
+          <li><a [routerLink]="['/about']" fragment="syllables">Silben</a>
+            <ul>
+              <li><a [routerLink]="['/about']" fragment="syllables-quizmode">Quizmodus</a></li>
+              <li><a [routerLink]="['/about']" fragment="syllables-learnmode">Lernmodus</a></li>
+              <li><a [routerLink]="['/about']" fragment="syllables-table">Tabelle</a></li>
+            </ul>
+          </li>
+          <li><a [routerLink]="['/about']" fragment="words">Vokabeln</a>
+            <ul>
+              <li><a [routerLink]="['/about']" fragment="public-decks">Alle Decks</a></li>
+            </ul>
+          </li>
+          <li><a [routerLink]="['/about']" fragment="modes">Lernmodi</a></li>
+          <ul>
+            <li><a [routerLink]="['/about']" fragment="words-quiz">Quiz</a></li>
+            <li><a [routerLink]="['/about']" fragment="words-grid">Buchstabieren</a></li>
+            <li><a [routerLink]="['/about']" fragment="words-learn">Wiederholen</a></li>
+            <li><a [routerLink]="['/about']" fragment="words-list">Liste</a></li>
+          </ul>
+          <li><a [routerLink]="['/about']" fragment="report-a-bug">Fehler melden und weiterentwickeln</a></li>
+          <li><a [routerLink]="['/about']" fragment="special-thanks">Danksagungen</a></li>
+        </ol>
+      </div>
+      <div class="manual">
+        <h2 id="key">Legende</h2>
+        <p>♨︎ = Hauptmenü. Deine Quelle für Japanisch!</p>
+        <p>✍︎ = Submenü. Hier kannst du Einstellungen oder Aktionen vornehmen und den Modus eines Decks verändern.</p>
+        <p>⋮ = Funktionen. Hier kannst du für den aktuellen Modus Einstellungen vornehmen.</p>
+        <h2 id="functions">Funktionen</h2>
+        <h2 id="home">Home</h2>
+        <p><a routerLink="/home">Dein Hub</a> für die wichtigsten Funktionen. Hier findest du deine zuletzt verwendeten
+          Decks, das Handbuch (welches
+          du gerade liest!) und mehr.</p>
+        <h2 id="login">Login</h2>
+        <p>Du kannst dich nun <a routerLink="/user">Registrieren/Einloggen</a> um selbst Lernkarten zusammenzustellen!
+        </p>
+        <h3 id="register">Account erstellen/Anmelden</h3>
+        <p>Die Registrierung erfolgt Passwortlos mit einem der <a href="https://de.wikipedia.org/wiki/OAuth">oAuth
+            Provider</a> oder via E-Mail (tba). Gehe einfach zum <a [routerLink]="['/user']">Loginbereich</a> und wähle
+          deinen gewünschten Anbieter.</p>
+        <h3 id="logout">Abmelden</h3>
+        <p>Den Logout findest du im <a [routerLink]="['/user']">Loginbereich</a>.</p>
+        <h3 id="decks-create">Deck anlegen</h3>
+        <p>Ein Deck ist eine Sammlung von Lernkarten (Vokabeln) mit denen du trainieren kannst. Bevor du Lernkarten
+          (Vokabeln) anlegen kannst musst du ein Deck erstellen.</p>
+        <p>Um ein Deck zu erstellen, gehe im Hauptmenü auf "Meine Decks" und wähle "+ Neues Deck". In dem darauf
+          folgenden
+          Formular kannst du einen Namen und Beschreibungstext eingeben. Du kannst diesen Text jederzeit ändern.</p>
+        <h3 id="decks-edit">Deck bearbeiten/Löschen</h3>
+        <p>Du kannst den Namen und den Beschreibungstext eines Decks ändern indem zu zur Deckansicht gehst und im
+          Submenü
+          auf "Bearbeiten" klickst. Hier kannst du auch das Deck aus der Datenbank löschen wenn du es nicht mehr
+          benötigst.
+          Beachte dabei dass enthaltene Lernkarten (Vokabeln), nicht gelöschst werden. Du findest sie unter "<a
+            [routerLink]="['/cards', 'user']">Meine Karten</a>"</p>
+        <h3 id="words-create">Lernkarten (Vokabeln) anlegen</h3>
+        <p>Nachdem du ein Deck angelegt hast, kannst du beliebig viele Lernkarten (Vokabeln) hinzufügen. Gehe dazu in
+          eines
+          deiner Decks -> "Übersicht" und wähle rechts oben "Neue Karte +" um das Formular einzublenden.</p>
+        <p>In dem eingeblendeten Formular gibt es 5 Felder: Deutsch, Hiragana, Katakana, Kanji sowie Romaji. Trage die
+          entsprechende Schreibweise in die Formularfelder und klicke "Anlegen". Du kannst Felder außer "Deutsch" auch
+          Leer
+          lassen. Das Formular leert sich und ist sofort
+          bereit für den nächsten Vokabeleintrag. Klicke erneut "Neue Karte +" um das Formular wieder zu verbergen.</p>
+        <h3 id="words-edit">Lernkarten (Vokabel) bearbeiten & Löschen</h3>
+        <p>Du kannst Vokabeln bearbeiten indem du in in der Deckansicht auf "Liste" gehts und das Wort anklickst. In dem
+          Formular kannst du alle Felder editieren und auch die Lernkarte Löschen wenn du sie nicht mehr benötigst.</p>
+        <h3 id="words-list">Alle deine Lernkarten ansehen/löschen</h3>
+        <p>Du kannst <a [routerLink]="['/cards', 'user']">alle deine Lernkarten</a> auf einmal auflisten und
+          durchsuchen.
+          Am Ende der Liste findest du auch einen "Alle löschen" Button. Du wirst noch einmal um Bestätigung gefragt
+          denn
+          diese Aktion kann NICHT rückgängig gemacht werden!</p>
+        <h2 id="dictionary">Wörterbuch</h2>
+        <p>Dein mini japanisch <a routerLink="/word-list">Wörterbuch</a>! Alle Vokabeln auf einen Blick mit integrierter
+          Suche! Die Suche ist eine
+          sogenannte "Fuzzy Search" und gibt dir alle Treffer die die gesuchten Zeichen
+          enthalten. Egal wie viele Zeichen dazwischen sind. Unterstützt sowohl Kanji, Romaji als auch Hiragana/Katakana
+          Eingaben.
+        </p>
+        <h2 id="selection">Auswahl</h2>
+        <p>Die Auswahl erlaubt dir Lernkarten in eine Zwischenablage zu legen um sie zu einem späteren Zeitpunkt zu
+          einem
+          deiner Decks hinzuzufügen oder direkt in einen der Lernmodi zu starten.</p>
+        <h3>Lernkarten Auswählen/Abwählen</h3>
+        <p>Du kannst Lernkarten in der Detailansicht mit click auf <i-feather name="check-circle"></i-feather> in deine
+          Auswahl nehmen. Der Button ist eingefärbt wenn du die Karte bereits ausgewählt hast. Erneut anklicken entfernt
+          sie
+          aus deiner Auswahl.</p>
+        <h3>Auswahl einblenden</h3>
+        <p>Deine momentane Auswahl kannst du jederzeit einblenden
+          lassen. Klicke im Menü auf "<a [routerLink]="['', { outlets: { modal: 'selection'}}]">Auswahl</a>". Ein Klick
+          auf
+          <i-feather name="x"></i-feather> blendet die Auswahl wieder aus.
+        </p>
+        <h3>Auswahl leeren</h3>
+        <p>Du kannst deine gesamte Auswahl mit dem <i-feather name="minus-circle"></i-feather> Button leeren. Du wirst
+          noch
+          einmal um deine Zustimmung gefragt denn dieser Vorgang kann nicht Rückgängig gemacht werden.</p>
+        <h3>Auswahl zu einem Deck hinzufügen</h3>
+        <p>Wenn du mindestens ein Deck angelegt hast, befinden sich unterhalb der Lernkarten eine Liste mit deinen
+          Decks.
+          Mit Klick werden alle momentan ausgewählten Karten diesem Deck hinzugefügt. Duplikate werden übersprungen. Du
+          wirst um Bestätigung gefragt denn dieser Vorgang lässt sich nicht Rückgängig machen.</p>
+        <h2 id="syllables">Silben</h2>
+        <h3 id='syllables-quizmode'>Quizmodus</h3>
+        <p>
+          Startseite und für Anfänger wohl die wichtigste: Hiragana/Katakana Zeichen lernen! Oben wird die Silbe
+          angezeigt,
+          darunter als <a routerLink="/quiz">Ratespiel</a> die Antwortmöglichkeiten. Im Submenü ✍︎ kann die
+          Frage/Antwort
+          Kombination gewechselt
+          werden (a/あ, a/ア, etc.), Schwierigkeitsgrad erhöht oder senkt die möglichen Antwortmöglichkeiten. Mit
+          "Silbenreihen" lassen sich die Untergruppen an Hiragana/Katakana geziehlt lernen. Keine Auswahl nutzt alle
+          Zeichen.
+          <br>Hits und Misses zeigen den bisherigen Fortschritt an. Antippen zeigt eine genauere Statistik an mit
+          welchen
+          Zeichen man noch schwierigkeiten hat. Erneut antippen verbirgt die Statistik.
+        </p>
+        <h3 id="syllables-learnmode">Lernmodus</h3>
+        <p>Im <a routerLink="/learn">Lernmodus</a> können ohne Stress die Zeichen wiederholt werden. Antippen zeigt das
+          nächste Zeichen.<br>"Immer
+          zeigen" lässt die Antwort zeitgleich mit der Silbe erscheinen, "Beim Klick" erst beim erneuten Antippen.
+          "Automatisch" lässt die Antwort nach zwei Sekunden erscheinen. (tba)</p>
+        <p>Modus wechselt zwischen der Anzeige von Hiragana, Katakana und Deutsch (Romaji) in Kombination,
+          "Silbenreihen"
+          ermöglicht gezieltes lernen der einzelnen "Lautreihen".</p>
+        <h3 id="syllables-table">Tabelle</h3>
+        <p>Die <a routerLink="/syllables/overview">Zeichentabelle</a> aller Laute sowie deren abwandlungen mit Dakuten,
+          Handakuten und weiteren Merkmalen der
+          Japanischen Schrift</p>
+        <h2 id="words">Vokabel</h2>
+        <h3 id="public-decks">Alle Decks</h3>
+        <p>Hier findest du alle <a routerLink="/decks">öffentlichen Decks</a> voll mit Vokabeln (Lernkarten) mit denen
+          du
+          trainieren kannst. Mit klick
+          auf ein Deck kommst du in die Übersicht sowie zu weiteren Lernmodi.</p>
+        <p>Wenn du einen Account angelegt hast, kannst du öffentliche Decks kopieren, bearbeiten und erweitern.</p>
+        <h2 id="modes">Lernmodi</h2>
+        <h3 id="words-quiz">Vokabelquiz</h3>
+        <p>Im Quizmodus werden alle Lernkarten gemischt und müssen mit einer Auswahl unten beantwortet werden. Ist die
+          Antwort richtig, erhöht sich rechts oben der "Hit" counter, ist sie falsch, erhöht sich der "Miss" counter und
+          die
+          falschen Antworten werden rot markiert. Weiter geht es mit Auswahl der richtigen Antwort.
+          <br>Modus wechselt zwischen der Anzeige von Hiragana, Katakana und Deutsch (Romaji) in Kombination,
+          "Silbenreihen"
+          ermöglicht gezieltes lernen der einzelnen "Lautreihen".
+        </p>
+        <h3 id="words-grid">Buchstabieren</h3>
+        <p>Trainiere deine Buchstabierkünste in diesem Modus! Oben wird ein Wort aus der Vokabelliste vorgegeben, unten
+          findest du 24 Hiragana/Katakana um das gesuchte Wort auf japanisch zu buchstabieren. Tippe einfach der Reihe
+          nach
+          die "Kärtchen" an um das Wort zu bilden. Willst du ein Zeichen wieder zurücklegen, tippe es einfach oben
+          erneut
+          an. Ist das Wort korrekt, geht es automatisch weiter mit dem nächsten. Derzeit wird nur Hiragana/Katakana
+          unterstützt.</p>
+        <h3 id="words-list">Wiederholen</h3>
+        <p>Wort für Wort, Lernkarte für Lernkarte Vokabeln herunterbeten. Oben wird Kanji / Hiragana / Katakana /
+          Deutsch
+          /
+          Romaji
+          angezeigt, unter der Bruchlinie nach antippen die "Lösung". Nochmaliges antippen bringt dich zum nächsten Wort
+          bis
+          zum Ende wieder mit dem ersten Wort begonnen wird. Die angezeigte Variante für oben und unten können im
+          Submenü umgestellt werden, ein klick auf "Mischen" ordnet die Reihenfolge der Vokabeln neu.</p>
+        <h3 id="words-list">Liste</h3>
+        <p>Die Liste gibt dir eine durchsuchbare Übersicht über alle Vokablen in dem ausgewählten Deck. Wenn es dein
+          Deck
+          ist, kannst du mit Auswahl eine Lernkarte (Vokabel) bearbeiten oder löschen.</p>
+        <h2 id="report-a-bug">Fehler melden und weiterentwickeln</h2>
+        <p>Das Projekt findest du auf <a href="https://github.com/SrgSteak/vokabel-dojo">Github</a> und du kannst mir
+          gerne
+          eine <a href="mailto:schmidt91robin@icloud.com">E-Mail senden</a>.
+        </p>
+        <h2 id="special-thanks">Danksagungen</h2>
+        <p>An dieser Stelle möchte Ich nochmal allen Personen Danke sagen, die sich bei mir per E-Mail, dem Discord
+          Server
+          oder auch persönlich gemeldet und so die App noch besser gemacht haben. Vielen Dank also an
+        </p>
         <ul>
-          <li><a [routerLink]="['/about']" fragment="register">Account erstellen/anmelden</a></li>
-          <li><a [routerLink]="['/about']" fragment="logout">Abmelden</a></li>
-          <li><a [routerLink]="['/about']" fragment="decks-create">Deck anlegen</a></li>
-          <li><a [routerLink]="['/about']" fragment="decks-edit">Deck bearbeiten/löschen</a></li>
-          <li><a [routerLink]="['/about']" fragment="words-create">Lernkarten (Vokabeln) anlegen</a></li>
-          <li><a [routerLink]="['/about']" fragment="words-edit">Lernkarten bearbeiten/löschen</a></li>
-          <li><a [routerLink]="['/about']" fragment="words-list">Alle Lernkarten ansehen/löschen</a></li>
+          <li>Freaky</li>
+          <li>Stefanie (オセアナ)</li>
+          <li>Tofuhuehnchen</li>
+          <li>Ingvalt</li>
+          <li>Rene S.</li>
         </ul>
-      </li>
-      <li>
-        <a [routerLink]="['/about']" fragment="home">Home</a>
-      </li>
-      <li>
-        <a [routerLink]="['/about']" fragment="dictionary">Wörterbuch</a>
-      </li>
-      <li>
-        <a [routerLink]="['/about']" fragment="selection">Auswahl</a>
-      </li>
-      <li><a [routerLink]="['/about']" fragment="syllables">Silben</a>
-        <ul>
-          <li><a [routerLink]="['/about']" fragment="syllables-quizmode">Quizmodus</a></li>
-          <li><a [routerLink]="['/about']" fragment="syllables-learnmode">Lernmodus</a></li>
-          <li><a [routerLink]="['/about']" fragment="syllables-table">Tabelle</a></li>
-        </ul>
-      </li>
-      <li><a [routerLink]="['/about']" fragment="words">Vokabeln</a>
-        <ul>
-          <li><a [routerLink]="['/about']" fragment="public-decks">Alle Decks</a></li>
-        </ul>
-      </li>
-      <li><a [routerLink]="['/about']" fragment="modes">Lernmodi</a></li>
-      <ul>
-        <li><a [routerLink]="['/about']" fragment="words-quiz">Quiz</a></li>
-        <li><a [routerLink]="['/about']" fragment="words-grid">Buchstabieren</a></li>
-        <li><a [routerLink]="['/about']" fragment="words-learn">Wiederholen</a></li>
-        <li><a [routerLink]="['/about']" fragment="words-list">Liste</a></li>
-      </ul>
-      <li><a [routerLink]="['/about']" fragment="report-a-bug">Fehler melden und weiterentwickeln</a></li>
-      <li><a [routerLink]="['/about']" fragment="special-thanks">Danksagungen</a></li>
-    </ol>
-    <h2 id="key">Legende</h2>
-    <p>♨︎ = Hauptmenü. Deine Quelle für Japanisch!</p>
-    <p>✍︎ = Submenü. Hier kannst du Einstellungen oder Aktionen vornehmen und den Modus eines Decks verändern.</p>
-    <p>⋮ = Funktionen. Hier kannst du für den aktuellen Modus Einstellungen vornehmen.</p>
-    <h2 id="functions">Funktionen</h2>
-    <h2 id="home">Home</h2>
-    <p><a routerLink="/home">Dein Hub</a> für die wichtigsten Funktionen. Hier findest du deine zuletzt verwendeten
-      Decks, das Handbuch (welches
-      du gerade liest!) und mehr.</p>
-    <h2 id="login">Login</h2>
-    <p>Du kannst dich nun <a routerLink="/user">Registrieren/Einloggen</a> um selbst Lernkarten zusammenzustellen!</p>
-    <h3 id="register">Account erstellen/Anmelden</h3>
-    <p>Die Registrierung erfolgt Passwortlos mit einem der <a href="https://de.wikipedia.org/wiki/OAuth">oAuth
-        Provider</a> oder via E-Mail (tba). Gehe einfach zum <a [routerLink]="['/user']">Loginbereich</a> und wähle
-      deinen gewünschten Anbieter.</p>
-    <h3 id="logout">Abmelden</h3>
-    <p>Den Logout findest du im <a [routerLink]="['/user']">Loginbereich</a>.</p>
-    <h3 id="decks-create">Deck anlegen</h3>
-    <p>Ein Deck ist eine Sammlung von Lernkarten (Vokabeln) mit denen du trainieren kannst. Bevor du Lernkarten
-      (Vokabeln) anlegen kannst musst du ein Deck erstellen.</p>
-    <p>Um ein Deck zu erstellen, gehe im Hauptmenü auf "Meine Decks" und wähle "+ Neues Deck". In dem darauf folgenden
-      Formular kannst du einen Namen und Beschreibungstext eingeben. Du kannst diesen Text jederzeit ändern.</p>
-    <h3 id="decks-edit">Deck bearbeiten/Löschen</h3>
-    <p>Du kannst den Namen und den Beschreibungstext eines Decks ändern indem zu zur Deckansicht gehst und im Submenü
-      auf "Bearbeiten" klickst. Hier kannst du auch das Deck aus der Datenbank löschen wenn du es nicht mehr benötigst.
-      Beachte dabei dass enthaltene Lernkarten (Vokabeln), nicht gelöschst werden. Du findest sie unter "<a
-        [routerLink]="['/cards', 'user']">Meine Karten</a>"</p>
-    <h3 id="words-create">Lernkarten (Vokabeln) anlegen</h3>
-    <p>Nachdem du ein Deck angelegt hast, kannst du beliebig viele Lernkarten (Vokabeln) hinzufügen. Gehe dazu in eines
-      deiner Decks -> "Übersicht" und wähle rechts oben "Neue Karte +" um das Formular einzublenden.</p>
-    <p>In dem eingeblendeten Formular gibt es 5 Felder: Deutsch, Hiragana, Katakana, Kanji sowie Romaji. Trage die
-      entsprechende Schreibweise in die Formularfelder und klicke "Anlegen". Du kannst Felder außer "Deutsch" auch Leer
-      lassen. Das Formular leert sich und ist sofort
-      bereit für den nächsten Vokabeleintrag. Klicke erneut "Neue Karte +" um das Formular wieder zu verbergen.</p>
-    <h3 id="words-edit">Lernkarten (Vokabel) bearbeiten & Löschen</h3>
-    <p>Du kannst Vokabeln bearbeiten indem du in in der Deckansicht auf "Liste" gehts und das Wort anklickst. In dem
-      Formular kannst du alle Felder editieren und auch die Lernkarte Löschen wenn du sie nicht mehr benötigst.</p>
-    <h3 id="words-list">Alle deine Lernkarten ansehen/löschen</h3>
-    <p>Du kannst <a [routerLink]="['/cards', 'user']">alle deine Lernkarten</a> auf einmal auflisten und durchsuchen.
-      Am Ende der Liste findest du auch einen "Alle löschen" Button. Du wirst noch einmal um Bestätigung gefragt denn
-      diese Aktion kann NICHT rückgängig gemacht werden!</p>
-    <h2 id="dictionary">Wörterbuch</h2>
-    <p>Dein mini japanisch <a routerLink="/word-list">Wörterbuch</a>! Alle Vokabeln auf einen Blick mit integrierter
-      Suche! Die Suche ist eine
-      sogenannte "Fuzzy Search" und gibt dir alle Treffer die die gesuchten Zeichen
-      enthalten. Egal wie viele Zeichen dazwischen sind. Unterstützt sowohl Kanji, Romaji als auch Hiragana/Katakana
-      Eingaben.
-    </p>
-    <h2 id="selection">Auswahl</h2>
-    <p>Die Auswahl erlaubt dir Lernkarten in eine Zwischenablage zu legen um sie zu einem späteren Zeitpunkt zu einem
-      deiner Decks hinzuzufügen oder direkt in einen der Lernmodi zu starten.</p>
-    <h3>Lernkarten Auswählen/Abwählen</h3>
-    <p>Du kannst Lernkarten in der Detailansicht mit click auf <i-feather name="check-circle"></i-feather> in deine
-      Auswahl nehmen. Der Button ist eingefärbt wenn du die Karte bereits ausgewählt hast. Erneut anklicken entfernt sie
-      aus deiner Auswahl.</p>
-    <h3>Auswahl einblenden</h3>
-    <p>Deine momentane Auswahl kannst du jederzeit einblenden
-      lassen. Klicke im Menü auf "<a [routerLink]="['', { outlets: { modal: 'selection'}}]">Auswahl</a>". Ein Klick auf
-      <i-feather name="x"></i-feather> blendet die Auswahl wieder aus.</p>
-    <h3>Auswahl leeren</h3>
-    <p>Du kannst deine gesamte Auswahl mit dem <i-feather name="minus-circle"></i-feather> Button leeren. Du wirst noch
-      einmal um deine Zustimmung gefragt denn dieser Vorgang kann nicht Rückgängig gemacht werden.</p>
-    <h3>Auswahl zu einem Deck hinzufügen</h3>
-    <p>Wenn du mindestens ein Deck angelegt hast, befinden sich unterhalb der Lernkarten eine Liste mit deinen Decks.
-      Mit Klick werden alle momentan ausgewählten Karten diesem Deck hinzugefügt. Duplikate werden übersprungen. Du
-      wirst um Bestätigung gefragt denn dieser Vorgang lässt sich nicht Rückgängig machen.</p>
-    <h2 id="syllables">Silben</h2>
-    <h3 id='syllables-quizmode'>Quizmodus</h3>
-    <p>
-      Startseite und für Anfänger wohl die wichtigste: Hiragana/Katakana Zeichen lernen! Oben wird die Silbe angezeigt,
-      darunter als <a routerLink="/quiz">Ratespiel</a> die Antwortmöglichkeiten. Im Submenü ✍︎ kann die Frage/Antwort
-      Kombination gewechselt
-      werden (a/あ, a/ア, etc.), Schwierigkeitsgrad erhöht oder senkt die möglichen Antwortmöglichkeiten. Mit
-      "Silbenreihen" lassen sich die Untergruppen an Hiragana/Katakana geziehlt lernen. Keine Auswahl nutzt alle
-      Zeichen.
-      <br>Hits und Misses zeigen den bisherigen Fortschritt an. Antippen zeigt eine genauere Statistik an mit welchen
-      Zeichen man noch schwierigkeiten hat. Erneut antippen verbirgt die Statistik.
-    </p>
-    <h3 id="syllables-learnmode">Lernmodus</h3>
-    <p>Im <a routerLink="/learn">Lernmodus</a> können ohne Stress die Zeichen wiederholt werden. Antippen zeigt das
-      nächste Zeichen.<br>"Immer
-      zeigen" lässt die Antwort zeitgleich mit der Silbe erscheinen, "Beim Klick" erst beim erneuten Antippen.
-      "Automatisch" lässt die Antwort nach zwei Sekunden erscheinen. (tba)</p>
-    <p>Modus wechselt zwischen der Anzeige von Hiragana, Katakana und Deutsch (Romaji) in Kombination, "Silbenreihen"
-      ermöglicht gezieltes lernen der einzelnen "Lautreihen".</p>
-    <h3 id="syllables-table">Tabelle</h3>
-    <p>Die <a routerLink="/syllables/overview">Zeichentabelle</a> aller Laute sowie deren abwandlungen mit Dakuten,
-      Handakuten und weiteren Merkmalen der
-      Japanischen Schrift</p>
-    <h2 id="words">Vokabel</h2>
-    <h3 id="public-decks">Alle Decks</h3>
-    <p>Hier findest du alle <a routerLink="/decks">öffentlichen Decks</a> voll mit Vokabeln (Lernkarten) mit denen du
-      trainieren kannst. Mit klick
-      auf ein Deck kommst du in die Übersicht sowie zu weiteren Lernmodi.</p>
-    <p>Wenn du einen Account angelegt hast, kannst du öffentliche Decks kopieren, bearbeiten und erweitern.</p>
-    <h2 id="modes">Lernmodi</h2>
-    <h3 id="words-quiz">Vokabelquiz</h3>
-    <p>Im Quizmodus werden alle Lernkarten gemischt und müssen mit einer Auswahl unten beantwortet werden. Ist die
-      Antwort richtig, erhöht sich rechts oben der "Hit" counter, ist sie falsch, erhöht sich der "Miss" counter und die
-      falschen Antworten werden rot markiert. Weiter geht es mit Auswahl der richtigen Antwort.
-      <br>Modus wechselt zwischen der Anzeige von Hiragana, Katakana und Deutsch (Romaji) in Kombination, "Silbenreihen"
-      ermöglicht gezieltes lernen der einzelnen "Lautreihen".</p>
-    <h3 id="words-grid">Buchstabieren</h3>
-    <p>Trainiere deine Buchstabierkünste in diesem Modus! Oben wird ein Wort aus der Vokabelliste vorgegeben, unten
-      findest du 24 Hiragana/Katakana um das gesuchte Wort auf japanisch zu buchstabieren. Tippe einfach der Reihe
-      nach
-      die "Kärtchen" an um das Wort zu bilden. Willst du ein Zeichen wieder zurücklegen, tippe es einfach oben erneut
-      an. Ist das Wort korrekt, geht es automatisch weiter mit dem nächsten. Derzeit wird nur Hiragana/Katakana
-      unterstützt.</p>
-    <h3 id="words-list">Wiederholen</h3>
-    <p>Wort für Wort, Lernkarte für Lernkarte Vokabeln herunterbeten. Oben wird Kanji / Hiragana / Katakana / Deutsch /
-      Romaji
-      angezeigt, unter der Bruchlinie nach antippen die "Lösung". Nochmaliges antippen bringt dich zum nächsten Wort bis
-      zum Ende wieder mit dem ersten Wort begonnen wird. Die angezeigte Variante für oben und unten können im
-      Submenü umgestellt werden, ein klick auf "Mischen" ordnet die Reihenfolge der Vokabeln neu.</p>
-    <h3 id="words-list">Liste</h3>
-    <p>Die Liste gibt dir eine durchsuchbare Übersicht über alle Vokablen in dem ausgewählten Deck. Wenn es dein Deck
-      ist, kannst du mit Auswahl eine Lernkarte (Vokabel) bearbeiten oder löschen.</p>
-    <h2 id="report-a-bug">Fehler melden und weiterentwickeln</h2>
-    <p>Das Projekt findest du auf <a href="https://github.com/SrgSteak/vokabel-dojo">Github</a> und du kannst mir
-      gerne
-      eine <a href="mailto:schmidt91robin@icloud.com">E-Mail senden</a>.
-    </p>
-    <h2 id="special-thanks">Danksagungen</h2>
-    <p>An dieser Stelle möchte Ich nochmal allen Personen Danke sagen, die sich bei mir per E-Mail, dem Discord Server
-      oder auch persönlich gemeldet und so die App noch besser gemacht haben. Vielen Dank also an
-    </p>
-    <ul>
-      <li>Freaky</li>
-      <li>Stefanie (オセアナ)</li>
-      <li>Tofuhuehnchen</li>
-      <li>Ingvalt</li>
-      <li>Rene S.</li>
-    </ul>
-    <a [routerLink]="['/about']" fragment="index">Nach oben</a>
+        <a [routerLink]="['/about']" fragment="index">Nach oben</a>
+      </div>
+    </div>
   </div>
 </div>

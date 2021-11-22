@@ -3,6 +3,27 @@
   font-family: Arial, Helvetica, sans-serif;
 }
 
+.scripture {
+  display: flex;
+  @media all and (min-width: 752px) {
+    justify-content: space-around;
+  }
+  flex-wrap: wrap;
+  gap: 15px;
+  .index {
+    flex-basis: 25%;
+    @media all and (min-width: 752px) {
+      align-self: flex-start;
+      position: sticky;
+      top: 0px;
+    }
+  }
+  .manual {
+    // flex-grow: 3;
+    flex: 1 0 25%;
+  }
+}
+
 a {
   /* color: white; */
   color: rgb(0,100,100);
