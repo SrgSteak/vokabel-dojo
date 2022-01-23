@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from '../core/auth.service';
-import { Deck, DeckService } from '../core/services/deck.service';
+import { DeckService } from '../core/services/deck.service';
 import { Title } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 

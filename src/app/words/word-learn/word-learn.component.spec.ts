@@ -8,8 +8,9 @@ describe('WordLearnComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ WordLearnComponent ]
-    })
+    declarations: [WordLearnComponent],
+    teardown: { destroyAfterEach: false }
+})
     .compileComponents();
   }));
 

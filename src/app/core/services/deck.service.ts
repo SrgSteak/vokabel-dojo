@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
 import { CardService } from './card.service';
 import { FlashcardService } from 'src/app/flashcard.service';
 import { Observable, of } from 'rxjs';
 import { distinctUntilChanged, tap } from 'rxjs/operators';
-import { User } from '../auth.service';
-import { Card } from '../entities/card';
 import _ from 'lodash';
+import { collection, collectionData, doc, docData, docSnapshots, Firestore, orderBy, query, setDoc, where } from '@angular/fire/firestore';
+import { deleteDoc, DocumentReference, DocumentSnapshot, onSnapshot } from 'firebase/firestore';
+import { deckConverter, DeckInterface } from '../entities/deck';
 
 export interface Deck {
   name: string;
@@ -20,65 +20,55 @@ export interface Deck {
   numberCards: number;
 }
 
-
 @Injectable({
   providedIn: 'root'
 })
 export class DeckService extends FlashcardService {
 
   private decks = new Map<string, any>();
+  private ref = collection(this.afs, 'Decks');
 
-  constructor(private afs: AngularFirestore, private cardService: CardService) {
+  constructor(private readonly afs: Firestore, private cardService: CardService) {
     super();
   }
 
-  get(id: string) {
-    if (this.decks.has(id)) {
-      return of(this.decks.get(id));
-    }
-    return this.afs.collection<Deck>('Decks').doc<Deck>(id).valueChanges().pipe(
+  get(id: string): Observable<Deck> {
+    const ref = doc(this.afs, `Decks/${id}`);
+    return (docData(ref, { idField: 'uid' }) as Observable<Deck>).pipe(
       distinctUntilChanged(
         (prev, curr) => { return _.isEqual(prev, curr) }
-      ),
-      tap(_deck => {
-        if (_deck) {
-          _deck.uid = id;
-          this.decks.set(id, _deck);
-        }
-      })
+      )
     );
   }
 
-  allPublicDecks(): Observable<Array<Deck>> {
-    return this.afs.collection<Deck>(
-      'Decks',
-      ref => ref.orderBy('createdAt', 'desc').where('author', '==', '')
-    ).valueChanges({ idField: 'uid' })
+  getDeck(uid: string): Observable<DeckInterface> {
+    const ref = doc(this.afs, `Decks/${uid}`).withConverter(deckConverter);
+    return docData(ref);
   }
 
-  allDecksForUser(uid: string): Observable<Array<Deck>> {
-    return this.afs.collection<Deck>(
-      'Decks',
-      ref => ref.orderBy('createdAt', 'desc').where('author', '==', uid)
-    ).valueChanges({ idField: 'uid' })
+  allPublicDecks(): Observable<Deck[]> {
+    const q = query(this.ref, where('author', '==', ''), orderBy('createdAt', 'desc'));
+    return collectionData(q, { idField: 'uid' }) as Observable<Deck[]>;
   }
 
-  findByName(name: string): Observable<Array<Deck>> {
-    return this.afs.collection<Deck>(
-      'Decks',
-      ref => ref.orderBy('name').where('name', '>=', name).where('name', '<=', name + '\uf8ff')
-    ).valueChanges({ idField: 'uid' })
+  allDecksForUser(uid: string): Observable<Deck[]> {
+    const q = query(this.ref, where('author', '==', uid), orderBy('createdAt', 'desc'));
+    return collectionData(q, { idField: 'uid' }) as Observable<Deck[]>;
   }
 
-  findByNameForUser(user_uid: string, name: string) {
-    return this.afs.collection<Deck>(
-      'Decks',
-      ref => ref.orderBy('name').where('author', '==', user_uid).where('name', '>=', name).where('name', '<=', name + '\uf8ff')
-    ).valueChanges({ idField: 'uid' })
+  findByName(name: string): Observable<Deck[]> {
+    const q = query(this.ref, where('name', '>=', name), where('name', '<=', name + '\uf8ff'));
+    return collectionData(q, { idField: 'uid' }) as Observable<Deck[]>;
   }
 
-  getCardsForDeck(deck_uid: string, user_uid: string) {
-    return this.afs.collection('users').doc(user_uid).collection('Decks').doc(deck_uid).collection<Card>('Cards');
+  findByNameForUser(user_uid: string, name: string): Observable<Deck[]> {
+    const q = query(
+      this.ref,
+      where('author', '==', user_uid),
+      where('name', '>=', name),
+      where('name', '<=', name + '\uf8ff')
+    );
+    return collectionData(q, { idField: 'uid' }) as Observable<Deck[]>;
   }
 
   copyDeckForUser(deck: Deck, user_uid: string) {
@@ -97,48 +87,69 @@ export class DeckService extends FlashcardService {
     });
   }
 
-  add(deck: Deck) {
-    deck.createdAt = new Date();
-    deck.updatedAt = new Date();
-    return this.afs.collection('Decks').add(deck);
+  add(deck: Deck): Promise<DocumentReference> {
+    return new Promise((resolve, reject) => {
+      deck.createdAt = new Date();
+      deck.updatedAt = new Date();
+      const ref = doc(this.ref);
+      setDoc(ref, deck).then(() => {
+        resolve(ref);
+      });
+
+    })
   }
 
   update(id: string, deck: Deck) {
     deck.updatedAt = new Date();
-    return this.afs.collection('Decks').doc(id).set(deck, { merge: true });
+    return setDoc(doc(this.ref, deck.uid), deck, { merge: true });
+  }
+
+  write(deck: DeckInterface): Promise<DocumentReference> {
+    return new Promise((resolve, reject) => {
+      deck.updatedAt = new Date();
+      const ref = deck.uid ? doc(this.ref, deck.uid) : doc(this.ref);
+      setDoc(ref, deck).then(() => {
+        console.log(ref);
+        resolve(ref);
+      }, (error) => {
+        console.error('could not update Deck!', deck);
+        console.error(error);
+        reject(error);
+      });
+    });
   }
 
   delete(id: string) {
-    this.afs.collection('Decks').doc(id).delete();
+    return deleteDoc(doc(this.ref, id));
   }
 
-  migrateUserDecks() {
-    this.afs.collection<User>('users').valueChanges({ idField: 'uid' }).subscribe(_users => {
-      _users.forEach(_user => {
-        console.log('migrating decks for user: ', _user);
-        this.afs.collection('users').doc(_user.uid).collection<Deck>('Decks').valueChanges({ idField: 'uid' }).subscribe(_user_decks => {
-          _user_decks.forEach(_user_deck => {
-            console.log('migrating deck', _user_deck);
-            // migrate me to collection "Decks", add cards from this deck
-            _user_deck.author = _user.uid;
-            this.add(_user_deck).then(() => {
-              console.log('migrated deck! starting cards');
-              // now add all cards
-              this.getCardsForDeck(_user_deck.uid, _user.uid).valueChanges({ idField: 'uid' }).subscribe(_cards => {
-                _cards.forEach(_card => {
-                  console.log('migrating card', _card);
-                  _card.author = _user.uid;
-                  _card.deck_uids = [_user_deck.uid];
-                  _card.decks = [{ name: _user_deck.name, uid: _user_deck.uid }];
-                  this.cardService.add(_card);
-                })
-              })
-            });
+  // migrateUserDecks() {
+  //   this.afs.collection<User>('users').valueChanges({ idField: 'uid' }).subscribe(_users => {
+  //     _users.forEach(_user => {
+  //       console.log('migrating decks for user: ', _user);
+  //       this.afs.collection('users').doc(_user.uid).collection<Deck>('Decks').valueChanges({ idField: 'uid' }).subscribe(_user_decks => {
+  //         _user_decks.forEach(_user_deck => {
+  //           console.log('migrating deck', _user_deck);
+  //           // migrate me to collection "Decks", add cards from this deck
+  //           _user_deck.author = _user.uid;
+  //           this.add(_user_deck).then(() => {
+  //             console.log('migrated deck! starting cards');
+  //             // now add all cards
+  //             this.getCardsForDeck(_user_deck.uid, _user.uid).valueChanges({ idField: 'uid' }).subscribe(_cards => {
+  //               _cards.forEach(_card => {
+  //                 console.log('migrating card', _card);
+  //                 _card.author = _user.uid;
+  //                 _card.deck_uids = [_user_deck.uid];
+  //                 _card.decks = [{ name: _user_deck.name, uid: _user_deck.uid }];
+  //                 this.cardService.add(_card);
+  //               })
+  //             })
+  //           });
 
-          })
-        });
-      })
-    });
+  //         })
+  //       });
+  //     })
+  //   });
 
-  }
+  // }
 }

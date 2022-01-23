@@ -1,8 +1,8 @@
 <ng-container *ngIf="card else loading">
   <div class="scroll-content">
     <div class="action-shortcuts">
-      <a (click)="select()">
-        <i-feather name="check-circle" class="feather" [class.blue]="selectService.contains(card)"></i-feather>
+      <a (click)="select()" [class.blue]="selectService.contains(card)">
+        <i-feather name="check-circle" class="feather"></i-feather>
       </a>
       <a [routerLink]="['', { outlets: { modal: ['cards', 'edit', card.uid] } }]" class="edit"
         *ngIf="user && (card.author == user.uid || user.role == 'admin')">

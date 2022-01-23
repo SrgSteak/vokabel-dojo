@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform, WrappedValue, ChangeDetectorRef } from '@angular/core';
+import { Pipe, PipeTransform, ChangeDetectorRef } from '@angular/core';
 import { DeckService } from '../core/services/deck.service';
 
 /**
@@ -18,14 +18,14 @@ export class DecknamePipe implements PipeTransform {
   transform(value: any, ...args: any[]): any {
     if (!this.transval && !this.loading) {
       this.loading = true;
-      this.deckService.get(value).subscribe(deck => {
+      this.deckService.getDeck(value).subscribe(deck => {
         this.ref.markForCheck();
         if (deck) {
           this.transval = deck.name;
         } else {
           this.transval = '';
         }
-        return WrappedValue.wrap(this.transval);
+        return this.transval;
       });
     }
     return this.transval;

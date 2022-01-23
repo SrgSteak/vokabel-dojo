@@ -8,8 +8,9 @@ describe('CardInfoComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CardInfoComponent ]
-    })
+    declarations: [CardInfoComponent],
+    teardown: { destroyAfterEach: false }
+})
     .compileComponents();
   }));
 

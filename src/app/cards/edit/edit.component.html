@@ -1,11 +1,11 @@
 <div class="edit" #editWindow>
-  <ng-container *ngIf="createMode else editHeader">
+  <ng-container *ngIf="!uid else editHeader">
     <div class="action-shortcuts negative">
       <a (click)="repeat = !repeat" [class.repeat]="repeat" title="Gleich noch eine anlegen"><i
           class="feather icon-repeat"></i></a>
       <a [class.disabled]="!cardForm.valid" (click)="onSubmit()" class="save" title="Speichern"><i
           class="feather icon-save"></i></a>
-      <a [routerLink]="['', { outlets: { modal: null } }]" title="Schließen"><i class="feather icon-x"></i></a>
+      <a [routerLink]="['/decks', { outlets: { modal: null } }]" title="Schließen"><i class="feather icon-x"></i></a>
     </div>
     <div class="header">
       <h1 class="sans-serif">
@@ -26,35 +26,11 @@
     </div>
   </ng-template>
   <form [formGroup]="cardForm" (ngSubmit)="onSubmit()">
-
-    <!-- cardType -->
-    <div class="formgroup collapsible" [class.closed]="!cardTypeToggle">
-      <label (click)="cardTypeToggle = !cardTypeToggle" class="formgroup-header">Kartentyp
-        <ng-container [ngSwitch]="cardType.value">
-          <span class="muted" *ngSwitchCase="cardTypes.simple">Einfach</span>
-          <span class="muted" *ngSwitchCase="cardTypes.word">Erweitert</span>
-        </ng-container>
-      </label>
-      <div *ngIf="cardTypeToggle" @rollInOutAnimation>
-        <label class="container">Einfach
-          <input type="radio" [formControl]="cardType" value="0" name="cardType">
-          <span class="checkmark">
-            <span class="checkmark_inner"></span>
-          </span>
-        </label>
-        <label class="container">Erweitert
-          <input type="radio" [formControl]="cardType" value="1" name="cardType">
-          <span class="checkmark">
-            <span class="checkmark_inner"></span>
-          </span>
-        </label>
-      </div>
-    </div>
-
     <!-- wordType -->
-    <div class="formgroup collapsible" [class.closed]="!wordTypeToggle" *ngIf="wordType" @rollInOutAnimation>
-      <label (click)="wordTypeToggle = !wordTypeToggle" class="formgroup-header">Wortart
+    <div class="formgroup collapsible" [class.closed]="!wordTypeToggle" @rollInOutAnimation>
+      <label (click)="wordTypeToggle = !wordTypeToggle" class="formgroup-header">Kartentyp
         <ng-container [ngSwitch]="wordType.value">
+          <span class="muted" *ngSwitchCase="null">Einfach</span>
           <span class="muted" *ngSwitchCase="wordTypes.noun">Nomen</span>
           <span class="muted" *ngSwitchCase="wordTypes.surunoun">する-Nomen</span>
           <span class="muted" *ngSwitchCase="wordTypes.verb">Verb</span>
@@ -69,6 +45,12 @@
         </ng-container>
       </label>
       <div *ngIf="wordTypeToggle" @rollInOutAnimation>
+        <label class="container">Einfach <span class="muted">Lernkarte</span>
+          <input type="radio" [formControl]="wordType" name="wordType">
+          <span class="checkmark">
+            <span class="checkmark_inner"></span>
+          </span>
+        </label>
         <label class="container">Nomen <span class="muted">Hauptwort</span>
           <input type="radio" [formControl]="wordType" value="{{wordTypes.noun}}" name="wordType">
           <span class="checkmark">
@@ -139,7 +121,8 @@
     </div>
 
     <!-- verbType -->
-    <div class="formgroup collapsible" [class.closed]="!verbTypeToggle" *ngIf="verbType" @rollInOutAnimation>
+    <div class="formgroup collapsible" [class.closed]="!verbTypeToggle" *ngIf="wordType.value == wordTypes.verb"
+      @rollInOutAnimation>
       <label (click)="verbTypeToggle = !verbTypeToggle" class="formgroup-header">Verb-Art
         <ng-container [ngSwitch]="verbType.value">
           <span class="muted" *ngSwitchCase="verbTypes.single">Einstufig</span>
@@ -163,7 +146,8 @@
     </div>
 
     <!-- adjectiveType -->
-    <div class="formgroup collapsible" [class.closed]="!adjectiveTypeToggle" *ngIf="adjectiveType" @rollInOutAnimation>
+    <div class="formgroup collapsible" [class.closed]="!adjectiveTypeToggle"
+      *ngIf="wordType.value == wordTypes.adjective" @rollInOutAnimation>
       <label (click)="adjectiveTypeToggle = !adjectiveTypeToggle" class="formgroup-header">Adjektiv-Art
         <ng-container [ngSwitch]="adjectiveType.value">
           <span class="muted" *ngSwitchCase="adjectiveTypes.iAdjective">い-Adjektiv</span>
@@ -267,7 +251,7 @@
     </div>
 
     <!-- deck search and decks-->
-    <div class="formgroup searchcontainer" formArrayName="deck_uids" *ngIf="card">
+    <div class="formgroup searchcontainer" formArrayName="deck_uids">
       <label>Decks</label>
       <input type="search" class="deck_search" (keyup)="phrase$.next($event.target.value)"
         (focus)="toggleSearch = true">
@@ -277,13 +261,11 @@
           {{ suggestion.name }}
         </div>
       </div>
-      <ng-container *ngIf="card">
-        <label class="container collapsible" *ngFor="let deck of deckForm.controls; let i = index" @rollInOutAnimation>
-          <i class="feather icon-minus-circle" (click)="removeDeckFromCard(i)"></i>
-          {{ deck.value | deckname }}
-          <input type="text" [formControlName]="i">
-        </label>
-      </ng-container>
+      <label class="container collapsible" *ngFor="let deck of deckForm.controls; let i = index" @rollInOutAnimation>
+        <i class="feather icon-minus-circle" (click)="removeDeckFromCard(i)"></i>
+        {{ deck.value | deckname }}
+        <input type="text" [formControlName]="i">
+      </label>
     </div>
   </form>
 </div>

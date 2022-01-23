@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { CardInterface } from 'src/app/core/entities/card-interface';
 import { Subscription } from 'rxjs';
 import { CardService } from 'src/app/core/services/card.service';
 import { Card } from 'src/app/core/entities/card';
@@ -52,11 +51,12 @@ export class CardInfoComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.authSub = this.authService.user.subscribe(_user => this.user = _user);
-    this.routerSub = this.route.paramMap.subscribe((params: ParamMap) => {
-      this.cardSub = this.cardService.get(params.get('card')).snapshotChanges().subscribe(data => {
-        this.card = Card.createFromCardInterface(data.payload.data());
-        this.card.uid = data.payload.id;
+    this.authSub = this.authService.user.subscribe(_user => {
+      this.user = _user
+      this.routerSub = this.route.paramMap.subscribe((params: ParamMap) => {
+        this.cardSub = this.cardService.getCard(params.get('card')).subscribe(data => {
+          this.card = data;
+        });
       });
     });
   }

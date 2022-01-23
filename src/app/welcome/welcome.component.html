@@ -15,7 +15,7 @@
       <div class="row">
         <div class="col">
 
-          <a class="grid-content" [routerLink]="['/user']">
+          <a class="grid-content" routerLink="['/user']">
             <p>
               <i-feather name="user" class="feather"></i-feather>
             </p>
@@ -28,7 +28,7 @@
             </p>
             <span class="choice">Decks zum Kurs</span>
           </a>
-          <a [routerLink]="['', {outlets: { modal: 'dictionary' } } ]" class="grid-content">
+          <a routerLink="['', {outlets: { modal: 'dictionary' } } ]" class="grid-content">
             <p>
               <i-feather name="feather" class="feather"></i-feather>
             </p>

@@ -13,7 +13,6 @@ import { Trash } from 'angular-feather/icons';
 @NgModule({
   declarations: [
     ListComponent,
-    EditComponent,
   ],
   imports: [
     CommonModule,

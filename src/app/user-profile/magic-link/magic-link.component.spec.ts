@@ -8,8 +8,9 @@ describe('MagicLinkComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MagicLinkComponent ]
-    })
+    declarations: [MagicLinkComponent],
+    teardown: { destroyAfterEach: false }
+})
     .compileComponents();
   });
 

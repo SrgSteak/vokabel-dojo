@@ -3,7 +3,7 @@ import { CardService } from './card.service';
 import { CardInterface } from '../entities/card-interface';
 import { Subscription, forkJoin, Observable } from 'rxjs';
 import { Card } from '../entities/card';
-import { DocumentSnapshot } from '@angular/fire/firestore';
+import { DocumentSnapshot } from '@angular/fire/compat/firestore';
 
 export const SESSION_STORAGE = new InjectionToken<Storage>('Browser Storage', {
   providedIn: 'root',
@@ -63,7 +63,7 @@ export class SelectService {
         const uids = JSON.parse(this.sessionStorage.getItem('selection'));
         const promises = [];
         uids.forEach(uid => {
-          const p = this.cardService.get(uid).get();
+          const p = this.cardService.get(uid);
           promises.push(p);
         });
         Promise.all(promises).then(results => {

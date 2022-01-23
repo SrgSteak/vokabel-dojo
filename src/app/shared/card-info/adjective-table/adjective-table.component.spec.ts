@@ -8,8 +8,9 @@ describe('AdjectiveTableComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AdjectiveTableComponent ]
-    })
+    declarations: [AdjectiveTableComponent],
+    teardown: { destroyAfterEach: false }
+})
     .compileComponents();
   }));
 

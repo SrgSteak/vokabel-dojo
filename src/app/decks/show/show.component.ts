@@ -1,13 +1,14 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { DeckService, Deck } from 'src/app/core/services/deck.service';
 import { CardService } from 'src/app/core/services/card.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService, User } from 'src/app/core/auth.service';
-import { Card } from 'src/app/core/entities/card';
+import { Card, cardConverter } from 'src/app/core/entities/card';
 import { CardInterface } from 'src/app/core/entities/card-interface';
 import { Title } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import { SelectService } from 'src/app/core/services/select.service';
+import { DocumentData, onSnapshot, Query } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-deck-public-show',
@@ -29,6 +30,8 @@ export class ShowComponent implements OnInit, OnDestroy {
   deckSub: Subscription;
   authSub: Subscription;
 
+  private queryUnsubFunc;
+
   constructor(
     private deckService: DeckService,
     private cardService: CardService,
@@ -36,7 +39,8 @@ export class ShowComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     public auth: AuthService,
-    private title: Title) { }
+    private title: Title,
+    private cdr: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.userSub = this.auth.user.subscribe(user => {
@@ -47,18 +51,26 @@ export class ShowComponent implements OnInit, OnDestroy {
     });
     this.routeSub = this.route.paramMap.subscribe(params => {
       this.mode = params.get('mode');
-      this.deckSub = this.deckService.get(params.get('uid')).subscribe(data => {
+      this.deckSub = this.deckService.getDeck(params.get('uid')).subscribe(data => {
         this.deck = data;
         this.title.setTitle('Vokabeldojo | ' + this.deck.name);
         this.deck.uid = params.get('uid');
       });
-      this.cardSub = this.cardService.loadForDeckUid(params.get('uid')).subscribe(cards => {
-        this.cards = cards;
+      this.queryUnsubFunc = onSnapshot(this.cardService.queryForDeckUid(params.get('uid')), (querySnapshot) => {
+        this.cards = querySnapshot.docs.map(doc => {
+          const card = Card.createFromCardInterface(doc.data());
+          card.uid = doc.id;
+          return card;
+        });
       });
+      // this.cardSub = this.cardService.loadForDeckUid(params.get('uid')).subscribe(cards => {
+      //   this.cards = cards;
+      // });
     });
   }
 
   ngOnDestroy() {
+    if (this.queryUnsubFunc) { this.queryUnsubFunc(); }
     if (this.cardSub) { this.cardSub.unsubscribe(); }
     if (this.deckSub) { this.deckSub.unsubscribe(); }
     if (this.routeSub) { this.routeSub.unsubscribe(); }

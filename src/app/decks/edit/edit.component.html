@@ -1,5 +1,5 @@
 <div class="sans-serif edit" *ngIf="user">
-  <ng-container *ngIf="!deck.uid else editDeckHeader">
+  <ng-container *ngIf="!uid else editDeckHeader">
     <div class="action-shortcuts negative">
       <a [class.disabled]="!deckForm.valid" (click)="onSubmit()" class="save" title="Speichern"><i
           class="feather icon-save"></i></a>
@@ -20,7 +20,7 @@
       <h1 class="sans-serif">Deck bearbeiten</h1>
     </div>
   </ng-template>
-  <form *ngIf="deck" [formGroup]="deckForm" (ngSubmit)="onSubmit()">
+  <form [formGroup]="deckForm" (ngSubmit)="onSubmit()">
     <div class="formgroup">
       <label for="name">
         Name des Decks
@@ -35,12 +35,5 @@
       </label>
       <input type="text" id="description" formControlName="description">
     </div>
-    <!-- <button type="submit" [class.disabled]="!deckForm.valid && !deckForm.untouched">Speichern</button> -->
-    <!-- <a (click)="onDelete()" class="muted" *ngIf="deck.uid">Löschen</a> -->
-    <!-- <a (click)="onDeleteWithCards()" class="muted" *ngIf="deck.uid">Deck und Karten löschen</a> -->
-    <ng-container *ngIf="user.role == 'admin'">
-      <angular2csv [data]="data" filename="vokabeldojo_example.csv" [options]="options"></angular2csv>
-      <input type="file" accept=".csv" (change)="importCSVCards($event.target)" />
-    </ng-container>
   </form>
 </div>

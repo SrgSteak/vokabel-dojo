@@ -76,7 +76,6 @@ export class WordQuizComponent implements OnInit {
         case WordType.kanji:
           card.examples.forEach(example => {
             this.deck.push({
-              cardType: CardType.simple,
               japanese: example.japanese,
               reading: example.reading,
               german: [example.german],

@@ -10,6 +10,10 @@ $contentInset: 40px;
   font-style: italic;
 }
 
+.c-pointer {
+  cursor: pointer;
+}
+
 /* Add this class to things you do not want to print!*/
 @media print
 {
@@ -536,7 +540,7 @@ form > button:hover {
   display: inline-block;
   font-size: 12px;
   min-width: 25px;
-  // min-height: 54px;
+  transition: all 0.2s;
 }
 
 .menu .button {

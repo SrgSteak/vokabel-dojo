@@ -8,8 +8,9 @@ describe('VerbTableComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ VerbTableComponent ]
-    })
+    declarations: [VerbTableComponent],
+    teardown: { destroyAfterEach: false }
+})
     .compileComponents();
   }));
 

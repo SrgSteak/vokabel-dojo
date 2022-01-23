@@ -1,5 +1,6 @@
 export const environment = {
   production: true,
+  useRelay: false, // false
   firebaseConfig: {
     apiKey: "AIzaSyDDqoCe1KVK-UBZoJrBHm8xQoQD4HtYug8",
     authDomain: "vokabeldojo.firebaseapp.com",

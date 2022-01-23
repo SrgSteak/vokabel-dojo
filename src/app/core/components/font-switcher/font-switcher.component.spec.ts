@@ -8,8 +8,9 @@ describe('FontSwitcherComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FontSwitcherComponent ]
-    })
+    declarations: [FontSwitcherComponent],
+    teardown: { destroyAfterEach: false }
+})
     .compileComponents();
   }));
 

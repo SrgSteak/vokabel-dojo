@@ -63,7 +63,7 @@
     <div class="muted">
       Noch keine Lernkarten vorhanden! <ng-container
         *ngIf="deck && user && (deck.author === user.uid || user.role == 'admin')">
-        <a [routerLink]="['', { outlets: { modal: ['cards', 'new', deck.uid] } }]">
+        <a [routerLink]="['/decks', { outlets: { modal: ['cards', 'new', deck.uid] } }]">
           <i-feather name="plus-circle" class="feather"></i-feather>Jetzt anlegen
         </a>
       </ng-container>

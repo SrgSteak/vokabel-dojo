@@ -1,13 +1,26 @@
+import { SnapshotOptions, DocumentData, QueryDocumentSnapshot } from "firebase/firestore";
 import { CardInterface } from "./card-interface";
 import { CardType, WordType, VerbType, AdjectiveType, VerbContext } from './card-type';
 
+export const cardConverter = {
+  toFirestore(card: Card): DocumentData {
+    return card;
+  },
+
+  fromFirestore(
+    snapshot: QueryDocumentSnapshot,
+    options: SnapshotOptions
+  ): Card {
+    return Card.createFromCardInterface(snapshot.data(options)! as CardInterface);
+  }
+}
+
 export class Card implements CardInterface {
-  cardType: CardType;
+  uid?: string;
   wordType?: WordType;
   verbType?: VerbType;
   verbContext?: VerbContext;
   adjectiveType?: AdjectiveType;
-  uid?: string;
   german?: Array<string>;
   japanese: string;
   _reading: string;
@@ -53,7 +66,6 @@ export class Card implements CardInterface {
     this.updatedAt = new Date();
     this.decks = [];
     this.deck_uids = [];
-    this.cardType = CardType.simple;
   }
 
   getReading(): string {

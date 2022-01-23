@@ -2,14 +2,10 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { WelcomeComponent } from '../welcome/welcome.component';
-import { QuizComponent } from '../syllables/quiz/quiz.component';
-import { LearnComponent } from '../syllables/learn/learn.component';
 import { DictionaryComponent } from '../dictionary/dictionary.component';
-import { OverviewComponent } from '../syllables/overview/overview.component';
 import { WordQuizComponent } from '../words/word-quiz/word-quiz.component';
 import { WordGridComponent } from '../words/word-grid/word-grid.component';
 import { WordListComponent } from '../words/word-list/word-list.component';
-import { AboutComponent } from '../about/about.component';
 import { NumbersComponent } from '../numbers/numbers.component';
 import { AuthGuard } from '../core/auth.guard';
 import { UserProfileComponent } from '../user-profile/user-profile.component';
@@ -17,6 +13,7 @@ import { SelectionComponent } from '../core/components/selection/selection.compo
 import { CardInfoComponent } from '../shared/card-info/card-info.component';
 import { SelectionPageComponent } from '../core/components/selection-page/selection-page.component';
 import { MagicLinkComponent } from '../user-profile/magic-link/magic-link.component';
+import { EditComponent as CardEditComponent } from '../cards/edit/edit.component';
 
 export const ROUTES: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
@@ -50,12 +47,17 @@ export const ROUTES: Routes = [
   // { path: 'cards/user', component: CardListComponent, data: { showUserCards: true }, canActivate: [AuthGuard] },
   // { path: 'cards/new', component: CardEditComponent, outlet: 'modal' },
   // { path: 'cards/new/:deckuid', component: CardEditComponent, outlet: 'modal' },
-  // { path: 'cards/edit/:uid', component: CardEditComponent, outlet: 'modal', canActivate: [AuthGuard] },
 
   // selection routes
   { path: 'selection/:mode', component: SelectionPageComponent },
   // global named router outlets
-  { path: 'card/:card', component: CardInfoComponent, outlet: 'modal' }
+  { path: 'cards/edit/:uid', component: CardEditComponent, outlet: 'modal', canActivate: [AuthGuard] },
+  { path: 'cards/:card', component: CardInfoComponent, outlet: 'modal' },
+  {
+    path: 'cards/new/:deckuid',
+    outlet: 'modal',
+    component: CardEditComponent,
+  },
 
 ]
 
@@ -64,7 +66,7 @@ export const ROUTES: Routes = [
     CommonModule,
     RouterModule.forRoot(ROUTES, {
       useHash: false,
-      scrollPositionRestoration: 'disabled',
+      scrollPositionRestoration: 'enabled',
       anchorScrolling: 'enabled',
       // enableTracing: true // for route event debugging
       // initialNavigation: 'enabled'

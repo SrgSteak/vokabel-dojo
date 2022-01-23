@@ -8,8 +8,9 @@ describe('SelectionPageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SelectionPageComponent ]
-    })
+    declarations: [SelectionPageComponent],
+    teardown: { destroyAfterEach: false }
+})
     .compileComponents();
   }));
 

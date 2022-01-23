@@ -85,3 +85,24 @@ export const ROLL_IN_OUT_ANIMATION =
       animate(`250ms ${easeInOutCubic}`, style({ height: '0px', padding: '0px', margin: '0px' })),
     ])
   ]);
+
+export const COLLAPSE_ANIMATION =
+  trigger('collapse', [
+    transition(':enter', [
+      style({ height: '0px', paddingTop: '0px', paddingBottom: '0px', marginTop: '0px', marginBottom: '0px', opacity: 1 }),
+      group([
+        animate('100ms', style({ opacity: 1 })),
+        animate('250ms ease', style({ height: '*', paddingTop: '*', paddingBottom: '*', marginTop: '*', marginBottom: '*' }))
+        // animate('250ms ease', style({ height: '*', padding: '*', margin: '*' }))
+        // firefox breaks on padding * margin * directives, use explicit Top/Bottom
+      ])
+    ]),
+    transition(':leave', [
+      group([
+        animate('100ms 150ms', style({ opacity: 0 })),
+        animate('250ms ease', style({ height: '0px', paddingTop: '0px', paddingBottom: '0px', marginBottom: '0px', marginTop: '0px' }))
+        // animate('250ms ease', style({ height: '0px', padding: '0px', margin: '0px' }))
+        // firefox breaks on padding * margin * directives, use explicit Top/Bottom
+      ])
+    ])
+  ])

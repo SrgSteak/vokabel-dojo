@@ -12,6 +12,7 @@ import { ModalComponent } from '../shared/modal/modal.component';
 import { WordGridComponent } from '../words/word-grid/word-grid.component';
 import { WordLearnComponent } from '../words/word-learn/word-learn.component';
 import { RouterModule } from '@angular/router';
+import { DecknamePipe } from '../pipes/deckname.pipe';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { RouterModule } from '@angular/router';
     SelectionComponent,
     WordListComponent,
     SelectionPageComponent,
-    ModalComponent
+    ModalComponent,
+    DecknamePipe
   ],
   imports: [
     CommonModule,
@@ -49,7 +51,9 @@ import { RouterModule } from '@angular/router';
       Shuffle
     })
   ],
+  providers: [],
   exports: [
+    DecknamePipe,
     WordLearnComponent,
     WordGridComponent,
     ModalComponent,

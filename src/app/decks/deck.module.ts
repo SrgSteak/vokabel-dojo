@@ -8,8 +8,6 @@ import { AuthGuard } from 'src/app/core/auth.guard';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CoreModule } from 'src/app/core/core.module';
 
-
-
 @NgModule({
   declarations: [
     ListComponent,
@@ -23,6 +21,7 @@ import { CoreModule } from 'src/app/core/core.module';
     RouterModule.forChild([
       {
         path: '',
+        pathMatch: 'full',
         component: ListComponent
       },
       {
@@ -45,7 +44,7 @@ import { CoreModule } from 'src/app/core/core.module';
       },
       {
         path: ':uid',
-        redirectTo: 'decks/:uid/list'
+        redirectTo: ':uid/list'
       },
       {
         path: ':uid/:mode',
