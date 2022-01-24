@@ -1,11 +1,12 @@
 <div class="edit" #editWindow>
+  <!-- create header -->
   <ng-container *ngIf="!uid else editHeader">
     <div class="action-shortcuts negative">
       <a (click)="repeat = !repeat" [class.repeat]="repeat" title="Gleich noch eine anlegen"><i
           class="feather icon-repeat"></i></a>
       <a [class.disabled]="!cardForm.valid" (click)="onSubmit()" class="save" title="Speichern"><i
           class="feather icon-save"></i></a>
-      <a [routerLink]="['/decks', { outlets: { modal: null } }]" title="Schließen"><i class="feather icon-x"></i></a>
+      <a [routerLink]="['', { outlets: { modal: null } }]" title="Schließen"><i class="feather icon-x"></i></a>
     </div>
     <div class="header">
       <h1 class="sans-serif">
@@ -13,6 +14,7 @@
       </h1>
     </div>
   </ng-container>
+  <!-- edit header -->
   <ng-template #editHeader>
     <div class="action-shortcuts negative">
       <a (click)="onDelete()" class="danger"><i class="feather icon-trash"></i></a>
@@ -25,6 +27,7 @@
       </h1>
     </div>
   </ng-template>
+  <!-- header end -->
   <form [formGroup]="cardForm" (ngSubmit)="onSubmit()">
     <!-- wordType -->
     <div class="formgroup collapsible" [class.closed]="!wordTypeToggle" @rollInOutAnimation>
@@ -224,7 +227,7 @@
     <div class="formgroup">
       <div class="form_array">
         <label for="examples" (click)="addExample(examples)">
-          <button class="button">+</button>Beispiel
+          <button class="button">+</button>Beispiele
         </label>
         <ng-container formArrayName="examples" *ngFor="let example of examples.controls; let i = index">
           <div class="input_group" [formGroupName]="i" @rollInOutAnimation>
@@ -262,7 +265,7 @@
         </div>
       </div>
       <label class="container collapsible" *ngFor="let deck of deckForm.controls; let i = index" @rollInOutAnimation>
-        <i class="feather icon-minus-circle" (click)="removeDeckFromCard(i)"></i>
+        <i-feather name="minus-circle" class="v-align-middle icon-small" (click)="removeDeckFromCard(i)"></i-feather>
         {{ deck.value | deckname }}
         <input type="text" [formControlName]="i">
       </label>

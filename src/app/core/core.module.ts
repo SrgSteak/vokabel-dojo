@@ -4,7 +4,7 @@ import { FontSwitcherComponent } from './components/font-switcher/font-switcher.
 import { ReactiveFormsModule } from '@angular/forms';
 import { SelectionComponent } from './components/selection/selection.component';
 import { FeatherModule } from 'angular-feather';
-import { Shuffle, Home, Coffee, ExternalLink, User, Feather, Plus, Edit, Copy, CheckCircle, MinusCircle, MoreHorizontal, PlusCircle, Trash, X, Loader, BarChart2, HelpCircle } from 'angular-feather/icons';
+import { Shuffle, Home, Coffee, ExternalLink, User, Feather, Plus, Edit, Copy, CheckCircle, MinusCircle, MoreHorizontal, PlusCircle, Trash, X, Loader, BarChart2, HelpCircle, ChevronRight } from 'angular-feather/icons';
 import { WordListComponent } from '../words/word-list/word-list.component';
 import { SelectionPageComponent } from './components/selection-page/selection-page.component';
 import { WordQuizComponent } from '../words/word-quiz/word-quiz.component';
@@ -13,6 +13,7 @@ import { WordGridComponent } from '../words/word-grid/word-grid.component';
 import { WordLearnComponent } from '../words/word-learn/word-learn.component';
 import { RouterModule } from '@angular/router';
 import { DecknamePipe } from '../pipes/deckname.pipe';
+import { ListItemComponent as DeckListItemComponent } from '../decks/components/list-item/list-item.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { DecknamePipe } from '../pipes/deckname.pipe';
     WordListComponent,
     SelectionPageComponent,
     ModalComponent,
-    DecknamePipe
+    DecknamePipe,
+    DeckListItemComponent,
   ],
   imports: [
     CommonModule,
@@ -48,7 +50,8 @@ import { DecknamePipe } from '../pipes/deckname.pipe';
       ExternalLink,
       Coffee,
       Home,
-      Shuffle
+      Shuffle,
+      ChevronRight
     })
   ],
   providers: [],
@@ -60,7 +63,8 @@ import { DecknamePipe } from '../pipes/deckname.pipe';
     WordQuizComponent,
     FontSwitcherComponent,
     FeatherModule,
-    WordListComponent
+    WordListComponent,
+    DeckListItemComponent
   ]
 })
 export class CoreModule { }

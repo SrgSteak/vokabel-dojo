@@ -1,7 +1,4 @@
 <div class="word-list" [class.serif]="fontMode === 'serif'" [class.sans-serif]="fontMode === 'sans-serif'">
-  <label class="no-print">
-    <input type="search" [formControl]="searchForm" placeholder="Suche">
-  </label>
   <ng-container *ngFor="let card of cards" @collapse>
     <div (click)="show(card)" class="card c-pointer">
       <span class="japanese">

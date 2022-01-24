@@ -9,6 +9,7 @@ import { Title } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import { SelectService } from 'src/app/core/services/select.service';
 import { DocumentData, onSnapshot, Query } from '@angular/fire/firestore';
+import { DeckInterface } from 'src/app/core/entities/deck';
 
 @Component({
   selector: 'app-deck-public-show',
@@ -18,7 +19,7 @@ import { DocumentData, onSnapshot, Query } from '@angular/fire/firestore';
 export class ShowComponent implements OnInit, OnDestroy {
 
   cards = [];
-  deck: Deck;
+  deck: DeckInterface;
   mode: string;
   allowEdit = false;
   showSubmenu = false;

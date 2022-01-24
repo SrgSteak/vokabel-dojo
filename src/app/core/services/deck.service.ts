@@ -5,7 +5,7 @@ import { Observable, of } from 'rxjs';
 import { distinctUntilChanged, tap } from 'rxjs/operators';
 import _ from 'lodash';
 import { collection, collectionData, doc, docData, docSnapshots, Firestore, orderBy, query, setDoc, where } from '@angular/fire/firestore';
-import { deleteDoc, DocumentReference, DocumentSnapshot, onSnapshot } from 'firebase/firestore';
+import { deleteDoc, DocumentReference, DocumentSnapshot, limit, onSnapshot, Timestamp } from 'firebase/firestore';
 import { deckConverter, DeckInterface } from '../entities/deck';
 
 export interface Deck {
@@ -51,9 +51,9 @@ export class DeckService extends FlashcardService {
     return collectionData(q, { idField: 'uid' }) as Observable<Deck[]>;
   }
 
-  allDecksForUser(uid: string): Observable<Deck[]> {
-    const q = query(this.ref, where('author', '==', uid), orderBy('createdAt', 'desc'));
-    return collectionData(q, { idField: 'uid' }) as Observable<Deck[]>;
+  allDecksForUser(uid: string): Observable<DeckInterface[]> {
+    const q = query(this.ref, where('author', '==', uid), orderBy('createdAt', 'desc')).withConverter(deckConverter);
+    return collectionData(q, { idField: 'uid' });
   }
 
   findByName(name: string): Observable<Deck[]> {
@@ -71,12 +71,33 @@ export class DeckService extends FlashcardService {
     return collectionData(q, { idField: 'uid' }) as Observable<Deck[]>;
   }
 
-  copyDeckForUser(deck: Deck, user_uid: string) {
+  /**
+   * used on the start page to display the newest content
+   * @param numberResults limit number of results
+   * @returns
+   */
+  findNewestPublicDecks(numberResults = 3): Observable<DeckInterface[]> {
+    const q = query(this.ref, where('author', '==', ''), orderBy('updatedAt', 'desc'), limit(numberResults)).withConverter(deckConverter)
+    return collectionData(q, { idField: 'uid' }) as Observable<DeckInterface[]>;
+  }
+
+  /**
+   * used on the start page to display newest decks of the current user
+   * @param user_uid users uid
+   * @param numberResults number of results to display
+   * @returns
+   */
+  findNewestDecksForUser(user_uid: string, numberResults = 3): Observable<DeckInterface[]> {
+    const q = query(this.ref, where('author', '==', user_uid), orderBy('updatedAt', 'desc'), limit(numberResults)).withConverter(deckConverter)
+    return collectionData(q, { idField: 'uid' }) as Observable<DeckInterface[]>;
+  }
+
+  copyDeckForUser(deck: DeckInterface, user_uid: string) {
     deck.author = user_uid;
     return this.add(deck);
   }
 
-  copyCardsIntoDeck(origin_deck: Deck, user_uid: string, deck_uid: string) {
+  copyCardsIntoDeck(origin_deck: DeckInterface, user_uid: string, deck_uid: string) {
     this.cardService.loadForDeckUid(origin_deck.uid).subscribe(cards => {
       cards.forEach(card => {
         card.deck_uids = [deck_uid];
@@ -87,10 +108,11 @@ export class DeckService extends FlashcardService {
     });
   }
 
-  add(deck: Deck): Promise<DocumentReference> {
+  add(deck: DeckInterface): Promise<DocumentReference> {
     return new Promise((resolve, reject) => {
-      deck.createdAt = new Date();
-      deck.updatedAt = new Date();
+      const now = Date.now();
+      deck.createdAt = new Timestamp(now / 1000, 0);
+      deck.updatedAt = new Timestamp(now / 1000, 0);
       const ref = doc(this.ref);
       setDoc(ref, deck).then(() => {
         resolve(ref);
@@ -106,7 +128,7 @@ export class DeckService extends FlashcardService {
 
   write(deck: DeckInterface): Promise<DocumentReference> {
     return new Promise((resolve, reject) => {
-      deck.updatedAt = new Date();
+      deck.updatedAt = new Timestamp(Date.now() / 1000, 0);
       const ref = deck.uid ? doc(this.ref, deck.uid) : doc(this.ref);
       setDoc(ref, deck).then(() => {
         console.log(ref);
@@ -122,34 +144,4 @@ export class DeckService extends FlashcardService {
   delete(id: string) {
     return deleteDoc(doc(this.ref, id));
   }
-
-  // migrateUserDecks() {
-  //   this.afs.collection<User>('users').valueChanges({ idField: 'uid' }).subscribe(_users => {
-  //     _users.forEach(_user => {
-  //       console.log('migrating decks for user: ', _user);
-  //       this.afs.collection('users').doc(_user.uid).collection<Deck>('Decks').valueChanges({ idField: 'uid' }).subscribe(_user_decks => {
-  //         _user_decks.forEach(_user_deck => {
-  //           console.log('migrating deck', _user_deck);
-  //           // migrate me to collection "Decks", add cards from this deck
-  //           _user_deck.author = _user.uid;
-  //           this.add(_user_deck).then(() => {
-  //             console.log('migrated deck! starting cards');
-  //             // now add all cards
-  //             this.getCardsForDeck(_user_deck.uid, _user.uid).valueChanges({ idField: 'uid' }).subscribe(_cards => {
-  //               _cards.forEach(_card => {
-  //                 console.log('migrating card', _card);
-  //                 _card.author = _user.uid;
-  //                 _card.deck_uids = [_user_deck.uid];
-  //                 _card.decks = [{ name: _user_deck.name, uid: _user_deck.uid }];
-  //                 this.cardService.add(_card);
-  //               })
-  //             })
-  //           });
-
-  //         })
-  //       });
-  //     })
-  //   });
-
-  // }
 }

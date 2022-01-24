@@ -44,13 +44,12 @@ export const ROUTES: Routes = [
     path: 'cards',
     loadChildren: () => import('../cards/card.module').then(m => m.CardModule)
   },
-  // { path: 'cards/user', component: CardListComponent, data: { showUserCards: true }, canActivate: [AuthGuard] },
   // { path: 'cards/new', component: CardEditComponent, outlet: 'modal' },
-  // { path: 'cards/new/:deckuid', component: CardEditComponent, outlet: 'modal' },
 
   // selection routes
   { path: 'selection/:mode', component: SelectionPageComponent },
   // global named router outlets
+  { path: 'cards/new/:deckuid', component: CardEditComponent, outlet: 'modal', canActivate: [AuthGuard] },
   { path: 'cards/edit/:uid', component: CardEditComponent, outlet: 'modal', canActivate: [AuthGuard] },
   { path: 'cards/:card', component: CardInfoComponent, outlet: 'modal' },
   {

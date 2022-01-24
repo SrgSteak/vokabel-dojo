@@ -4,8 +4,8 @@ import { Card, cardConverter } from '../entities/card';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import _ from 'lodash';
-import { collection, collectionData, doc, docData, DocumentReference, Firestore, orderBy, query, setDoc, where } from '@angular/fire/firestore';
-import { deleteDoc, DocumentData, Query } from 'firebase/firestore';
+import { collection, collectionData, doc, docData, DocumentReference, Firestore, getDoc, orderBy, query, setDoc, where } from '@angular/fire/firestore';
+import { deleteDoc, DocumentData, DocumentSnapshot, Query } from 'firebase/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +22,12 @@ export class CardService {
 
   getCard(uid: string): Observable<Card> {
     const docRef = doc(this.afs, `Cards/${uid}`).withConverter(cardConverter);
-    return docData(docRef, { idField: 'uid' }) as Observable<Card>;
+    return docData(docRef, { idField: 'uid' });
+  }
+
+  getCardOnce(uid: string): Promise<DocumentSnapshot<Card>> {
+    const docRef = doc(this.afs, `Cards/${uid}`).withConverter(cardConverter);
+    return getDoc(docRef);
   }
 
   /**

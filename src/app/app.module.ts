@@ -31,6 +31,7 @@ import { HelpCircle } from 'angular-feather/icons';
 import { connectAuthEmulator, getAuth, provideAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { EditComponent as CardEditComponent } from './cards/edit/edit.component';
+import { SelectbubbleComponent } from './core/selectbubble/selectbubble.component';
 
 let resolvePersistenceEnabled: (enabled: boolean) => void;
 
@@ -95,7 +96,8 @@ export const persistenceEnabled = new Promise<boolean>(resolve => {
     OnyomiPipe,
     VerbTableComponent,
     AdjectiveTableComponent,
-    MagicLinkComponent
+    MagicLinkComponent,
+    SelectbubbleComponent
   ],
   bootstrap: [AppComponent],
   providers: [VocabularyService, FlashcardService, AngularFirestore]

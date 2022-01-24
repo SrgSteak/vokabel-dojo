@@ -7,12 +7,13 @@ import { ShowComponent } from './show/show.component';
 import { AuthGuard } from 'src/app/core/auth.guard';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CoreModule } from 'src/app/core/core.module';
+import { ListItemComponent } from './components/list-item/list-item.component';
 
 @NgModule({
   declarations: [
     ListComponent,
     EditComponent,
-    ShowComponent
+    ShowComponent,
   ],
   imports: [
     CommonModule,

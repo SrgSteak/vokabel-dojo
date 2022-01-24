@@ -1,9 +1,9 @@
 import { Injectable, InjectionToken, Inject, EventEmitter } from '@angular/core';
 import { CardService } from './card.service';
 import { CardInterface } from '../entities/card-interface';
-import { Subscription, forkJoin, Observable } from 'rxjs';
+import { Subscription, forkJoin, Observable, zip } from 'rxjs';
 import { Card } from '../entities/card';
-import { DocumentSnapshot } from '@angular/fire/compat/firestore';
+import { DocumentSnapshot } from 'firebase/firestore';
 
 export const SESSION_STORAGE = new InjectionToken<Storage>('Browser Storage', {
   providedIn: 'root',
@@ -61,23 +61,20 @@ export class SelectService {
       try {
         this.loading = true;
         const uids = JSON.parse(this.sessionStorage.getItem('selection'));
-        const promises = [];
+        const promises: Promise<DocumentSnapshot<Card>>[] = [];
         uids.forEach(uid => {
-          const p = this.cardService.get(uid);
-          promises.push(p);
+          console.log(uid);
+          if (uid) {
+            const p = this.cardService.getCardOnce(uid);
+            promises.push(p);
+          }
         });
-        Promise.all(promises).then(results => {
-          forkJoin(results).subscribe(_results => {
-            const cards = [];
-            _results.forEach((_result: DocumentSnapshot<CardInterface>) => {
-              const card = Card.createFromCardInterface(_result.data());
-              card.uid = _result.id;
-              cards.push(card);
-            });
-            this._cards = cards;
-            this.loadedSelection.emit(this.cards);
-            this.loading = false;
-          });
+        console.log(promises);
+        forkJoin(promises).subscribe(_results => {
+          console.log(_results);
+          this._cards = _results.map(res => res.data());
+          this.loadedSelection.emit(this._cards);
+          this.loading = false;
         });
       } catch (error) {
         console.log(error);

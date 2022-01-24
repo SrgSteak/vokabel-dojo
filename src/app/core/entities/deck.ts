@@ -1,4 +1,4 @@
-import { DocumentData, QueryDocumentSnapshot, SnapshotOptions } from "firebase/firestore";
+import { DocumentData, QueryDocumentSnapshot, SnapshotOptions, Timestamp } from "firebase/firestore";
 
 export interface DeckInterface {
     name: string;
@@ -6,8 +6,8 @@ export interface DeckInterface {
     uid: string;
     userCount?: number;
     cardCount?: number;
-    createdAt?: Date;
-    updatedAt?: Date;
+    createdAt?: Timestamp;
+    updatedAt?: Timestamp;
     author: string;
     numberCards: number;
 }

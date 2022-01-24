@@ -1,4 +1,4 @@
-import { animate, state, style, transition, trigger, group, animation, useAnimation, stagger, query } from '@angular/animations';
+import { animate, state, style, transition, trigger, group, animation, useAnimation, stagger, query, sequence } from '@angular/animations';
 
 export const easeInOutCubic = 'cubic-bezier(0.645, 0.045, 0.355, 1.000)';
 export const woshIn = animation([
@@ -86,13 +86,35 @@ export const ROLL_IN_OUT_ANIMATION =
     ])
   ]);
 
+export const BUBBLE_ROLL_ANIMATION =
+  trigger('bubble', [
+    transition(':enter', [
+      style({ transform: 'translateX(100px) rotate(15deg)' }),
+      animate('250ms ease', style({ transform: 'translateX(0) rotate(0deg)' }))
+    ]),
+    transition(':increment', [
+      sequence([
+        // style({ transform: 'rotate(0deg)' }),
+        animate('125ms ease', style({ transform: 'rotate(15deg)' })),
+        animate('125ms ease', style({ transform: 'rotate(0deg)' }))
+      ])
+    ]),
+    transition(':decrement', [
+      sequence([
+        // style({ transform: 'rotate(0deg)' }),
+        animate('125ms ease', style({ transform: 'rotate(-15deg)' })),
+        animate('125ms ease', style({ transform: 'rotate(0deg)' }))
+      ])
+    ])
+  ]);
+
 export const COLLAPSE_ANIMATION =
   trigger('collapse', [
     transition(':enter', [
-      style({ height: '0px', paddingTop: '0px', paddingBottom: '0px', marginTop: '0px', marginBottom: '0px', opacity: 1 }),
+      style({ height: '0px', paddingTop: '0px', paddingBottom: '0px', marginTop: '0px', marginBottom: '0px', opacity: 0 }),
       group([
-        animate('100ms', style({ opacity: 1 })),
-        animate('250ms ease', style({ height: '*', paddingTop: '*', paddingBottom: '*', marginTop: '*', marginBottom: '*' }))
+        animate('400ms', style({ opacity: 1 })),
+        animate(`50ms ${easeInOutCubic}`, style({ height: '*', paddingTop: '*', paddingBottom: '*', marginTop: '*', marginBottom: '*' }))
         // animate('250ms ease', style({ height: '*', padding: '*', margin: '*' }))
         // firefox breaks on padding * margin * directives, use explicit Top/Bottom
       ])

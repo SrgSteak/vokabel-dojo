@@ -16,6 +16,8 @@
       align-self: flex-start;
       position: sticky;
       top: 0px;
+      overflow-y: auto;
+      height: 100vh;
     }
   }
   .manual {

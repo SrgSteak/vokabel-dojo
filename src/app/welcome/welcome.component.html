@@ -15,7 +15,7 @@
       <div class="row">
         <div class="col">
 
-          <a class="grid-content" routerLink="['/user']">
+          <a class="grid-content" routerLink="/user">
             <p>
               <i-feather name="user" class="feather"></i-feather>
             </p>
@@ -28,7 +28,7 @@
             </p>
             <span class="choice">Decks zum Kurs</span>
           </a>
-          <a routerLink="['', {outlets: { modal: 'dictionary' } } ]" class="grid-content">
+          <a [routerLink]="['', {outlets: { modal: 'dictionary' } } ]" class="grid-content">
             <p>
               <i-feather name="feather" class="feather"></i-feather>
             </p>
@@ -48,13 +48,39 @@
           </a>
         </div>
       </div>
-      <div class="row">
-        <div class="col" *ngIf="decks.length > 0">
-          <a [routerLink]="['/','decks', deck.uid, 'list']" class="grid-content" *ngFor="let deck of decks">
-            <p><i class="feather icon-copy"></i></p>
-            <span class="choice">{{ deck.name }}</span>
-          </a>
-        </div>
+    </div>
+    <div class="slot" *ngIf="userDecks.length" @collapse>
+      <h1>
+        Deine neuesten Decks
+      </h1>
+      <div class="d-flex ox-auto">
+        <app-list-item [deck]="deck" *ngFor="let deck of userDecks"></app-list-item>
+        <a [routerLink]="['/', 'decks', 'user']" class="deck-list-item flex-shrink-0">
+          <div class="deck_name">
+            Zu meinen Decks
+          </div>
+          <div class="deck_created">
+            Alle anzeigen <i-feather name="chevron-right"></i-feather>
+          </div>
+
+        </a>
+      </div>
+    </div>
+    <div class="slot" *ngIf="publicDecks.length" @collapse>
+      <h1>
+        Neues im Dojo
+      </h1>
+      <div class="deck_grid">
+        <app-list-item [deck]="deck" *ngFor="let deck of publicDecks"></app-list-item>
+        <a [routerLink]="['/', 'decks']" class="deck-list-item flex-shrink-0">
+          <div class="deck_name">
+            Zu den öffentlichen Decks
+          </div>
+          <div class="deck_created">
+            Alle anzeigen <i-feather name="chevron-right"></i-feather>
+          </div>
+
+        </a>
       </div>
     </div>
   </div>

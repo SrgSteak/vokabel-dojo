@@ -282,7 +282,7 @@ export class EditComponent implements OnInit {
 
   onSubmit() {
     if (this.cardForm.valid) {
-      console.log(this.cardForm.value);
+      this.cardForm.get('author').setValue(this.user.role == 'admin' ? '' : this.user.uid);
       this.cardService.write(this.cardForm.value).then(reference => {
         // prepare empty form and patch up some values or close the modal
         if (this.repeat) {
@@ -297,42 +297,6 @@ export class EditComponent implements OnInit {
         }
       })
     }
-    // if (this.cardForm.valid) {
-    //   this.card.author = this.user.role == 'admin' ? '' : this.user.uid;
-    //   if (this.wordType) {
-    //     this.card.wordType = this.wordType.value;
-    //   }
-    //   if (this.verbType) {
-    //     this.card.verbType = this.verbType.value;
-    //   }
-    //   if (this.adjectiveType) {
-    //     this.card.adjectiveType = this.adjectiveType.value;
-    //   }
-    //   this.card.german = this.german.value;
-    //   this.card.japanese = this.japanese.value;
-    //   this.card.chinese_readings = this.chinese_readings.value;
-    //   this.card.japanese_readings = this.japanese_readings.value;
-    //   this.card.examples = this.examples.value;
-    //   this.card.deck_uids = this.deckForm.value;
-    //   this.card.information = this.information.value;
-    //   if (this.card.uid) {
-    //     this.cardService.update(this.card);
-    //   } else {
-    //     this.cardService.add(this.card);
-    //   }
-    //   this.updateCard.emit(this.card);
-    //   if (this.repeat) {
-    //     this.card = { german: [], decks: [] };
-    //     this.japanese.reset();
-    //     this.german.clear();
-    //     this.japanese_readings.clear();
-    //     this.chinese_readings.clear();
-    //     this.examples.clear();
-    //     this.information.reset();
-    //   } else {
-    //     this.close();
-    //   }
-    // }
   }
 
   onDelete() {

@@ -44,10 +44,14 @@
     <p *ngIf="deck.description">{{ deck.description }}
     </p>
     <p>
-      <button class="button no-print" (click)="addToCollection()" *ngIf="user">
+      <button class="button no-print" (click)="addToCollection()" *ngIf="user && deck.author !== user.uid">
         <i-feather name="copy" class="feather"></i-feather> Zu meinen Decks
         hinzufügen
       </button>
+      <a [routerLink]="['', { outlets: { modal: ['cards', 'new', deck.uid] } }]" class="button no-print"
+        *ngIf="user && deck.author == user.uid">
+        <i-feather name="plus"></i-feather> Neue Karte hinzufügen
+      </a>
       <button class="button no-print" (click)="selectAll()">
         <i-feather name="check-circle" class="feather"></i-feather> Alle Karten auswählen
       </button>
@@ -63,7 +67,7 @@
     <div class="muted">
       Noch keine Lernkarten vorhanden! <ng-container
         *ngIf="deck && user && (deck.author === user.uid || user.role == 'admin')">
-        <a [routerLink]="['/decks', { outlets: { modal: ['cards', 'new', deck.uid] } }]">
+        <a [routerLink]="['', { outlets: { modal: ['cards', 'new', deck.uid] } }]">
           <i-feather name="plus-circle" class="feather"></i-feather>Jetzt anlegen
         </a>
       </ng-container>
