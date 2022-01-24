@@ -27,6 +27,7 @@
         [class.disabled]="selectService.cards.length < 5">Buchstabieren</a>
       <a class="button" [routerLink]="['', { outlets: { primary: ['selection', 'learn'], modal: null }}]"
         [class.disabled]="selectService.cards.length < 5">Wiederholen</a>
+      <span *ngIf="selectService.cards.length < 5">Du brauchst mindestens 5 Karten für diese Modi.</span>
       <app-word-list [cards]="selectService.cards"></app-word-list>
       <ng-container *ngIf="decks && decks.length else noDecks">
         <h2>Hinzufügen zu</h2>
