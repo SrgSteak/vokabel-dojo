@@ -8,7 +8,7 @@
         {{ card.german.join(', ') }}
       </span>
       <div class="type">
-        <ng-container *ngIf="card.cardType == cardTypes.word">
+        <ng-container *ngIf="card.wordType">
           <ng-container [ngSwitch]="card.wordType">
             <div class="wordType noun" *ngSwitchCase="wordTypes.noun">
               Nomen

@@ -12,6 +12,6 @@
         <i-feather name="plus-circle"></i-feather> Neues Deck anlegen
       </a>
     </ng-container>
-    <app-list-item [deck]="deck" *ngFor="let deck of decks"></app-list-item>
+    <app-list-item [deck]="deck" [displayBanner]="displayPublic" *ngFor="let deck of decks"></app-list-item>
   </div>
 </div>

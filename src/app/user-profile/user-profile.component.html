@@ -1,4 +1,5 @@
 <div class="content">
+  <a routerLink="" class="backlink muted"><i class="feather icon-chevron-left"></i>Home</a>
   <div class="user">
     <div *ngIf="auth.user | async; then authenticated else guest">
       <!-- template will replace this div -->
@@ -58,10 +59,31 @@
         <p>Email: {{ user.email }}</p>
         <p>UID: {{ user.uid }}</p>
         <p>Berechtigung: {{ user.role }}</p>
-        <p><a [routerLink]="['/decks/user']">Meine Decks</a></p>
+        <div class="d-flex ox-auto">
+          <a [routerLink]="['/', 'decks', 'user']" class="deck-list-item flex-shrink-0">
+            <div class="deck_name">
+              Zu meinen Decks
+            </div>
+            <div class="deck_created">
+              Alle anzeigen <i-feather name="chevron-right"></i-feather>
+            </div>
+
+          </a>
+          <a [routerLink]="['/', 'cards', 'user']" class="deck-list-item flex-shrink-0">
+            <div class="deck_name">
+              Zu meinen Karten
+            </div>
+            <div class="deck_created">
+              Alle anzeigen <i-feather name="chevron-right"></i-feather>
+            </div>
+
+          </a>
+        </div>
         <button class="button" (click)="auth.signOut()">Abmelden</button>
-        <button class="button" (click)="auth.deleteAccount()">Account löschen</button>
-        <button (click)="migrate()" *ngIf="user.role == 'admin'">Migrate Cards</button>
+        <hr>
+        <p>Wenn du deinen Account und alle Daten dazu löschen möchtest, kannst du das hier tun. Beachte jedoch das ich
+          KEINE Daten wiederherstellen kann, sie sind unwiederruflich gelöscht!</p>
+        <button class="button" (click)="deleteAccount()">Account löschen</button>
       </div>
     </ng-template>
   </div>

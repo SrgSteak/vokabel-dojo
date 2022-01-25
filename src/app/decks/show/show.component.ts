@@ -89,6 +89,7 @@ export class ShowComponent implements OnInit, OnDestroy {
    * TODO: add loading indicator, show copy progress, redirect
    */
   addToCollection() {
+    this.showSubmenu = false;
     if (confirm('Dieses Deck jetzt kopieren?')) {
       const addSub = this.deckService.copyDeckForUser(this.deck, this.user.uid).then(reference => {
         this.deckService.copyCardsIntoDeck(this.deck, this.user.uid, reference.id);

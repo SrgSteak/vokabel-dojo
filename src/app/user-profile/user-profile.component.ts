@@ -22,9 +22,6 @@ export class UserProfileComponent implements OnInit {
     }
   }
 
-  migrate() {
-  }
-
   promptMagicLink() {
     this.router.navigate([{ outlets: { modal: ['user', 'magic-link'] } }]);
   }

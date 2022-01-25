@@ -9,6 +9,12 @@ import { DeckInterface } from 'src/app/core/entities/deck';
 export class ListItemComponent implements OnInit {
 
   @Input() deck: DeckInterface;
+  @Input() displayBanner: boolean;
+
+  public get isNew(): boolean {
+    return this.deck.updatedAt.seconds > (Date.now() / 1000) - 48 * 3600;
+  }
+
 
   constructor() { }
 

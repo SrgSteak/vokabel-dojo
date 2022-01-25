@@ -119,9 +119,9 @@ export class CardService {
    * observable of all user (author == uid) cards
    * @param uid the uid of the given user
    */
-  allCardsForUser(uid: string): Observable<Array<CardInterface>> {
-    const q = query(this.ref, where('author', '==', uid), orderBy('createdAt', 'desc'));
-    return collectionData(q, { idField: 'uid' }) as Observable<CardInterface[]>;
+  allCardsForUser(uid: string): Observable<Card[]> {
+    const q = query(this.ref, where('author', '==', uid), orderBy('createdAt', 'desc')).withConverter(cardConverter);
+    return collectionData(q) as Observable<Card[]>;
   }
 
   /**

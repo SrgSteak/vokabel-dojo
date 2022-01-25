@@ -3,7 +3,7 @@
 a {
     justify-content: center;
     align-items: center;
-    position: absolute;
+    position: fixed;
     bottom: 20px;
     right: 20px;
     background-color: $secondaryBackgroundColor;
@@ -13,4 +13,5 @@ a {
     border-radius: 100%;
     font-family: arial;
     text-decoration: none;
+    border: 1px solid $fourthBackgroundColor;
 }

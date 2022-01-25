@@ -24,24 +24,21 @@ export class ListComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.authSub = this.authService.user.subscribe(_user => {
       this.user = _user
+      this.dataSub = this.route.data.subscribe(data => {
+        if (data.showUserCards) {
+          this.cardSub = this.cardService.allCardsForUser(this.user.uid).subscribe(data => {
+            this.cards = data;
+          })
+        } else {
+          this.cardSub = this.cardService.allPublicCards().subscribe(data => {
+            this.cards = data.map(e => {
+              const card = Card.createFromCardInterface(e);
+              return card;
+            })
+          })
+        }
+      });
     })
-    this.dataSub = this.route.data.subscribe(data => {
-      if (data.showUserCards) {
-        this.cardSub = this.cardService.allCardsForUser(this.user.uid).subscribe(data => {
-          this.cards = data.map(e => {
-            const card = Card.createFromCardInterface(e);
-            return card;
-          })
-        })
-      } else {
-        this.cardSub = this.cardService.allPublicCards().subscribe(data => {
-          this.cards = data.map(e => {
-            const card = Card.createFromCardInterface(e);
-            return card;
-          })
-        })
-      }
-    });
   }
 
   ngOnDestroy() {

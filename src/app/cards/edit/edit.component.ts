@@ -1,14 +1,32 @@
-import { Component, OnInit, Output, EventEmitter, HostBinding, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, HostBinding, ViewChild, ElementRef } from '@angular/core';
 import { CardService } from 'src/app/core/services/card.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
+import { FormBuilder, Validators, FormArray, FormControl, ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Deck, DeckService } from 'src/app/core/services/deck.service';
-import { CardInterface } from 'src/app/core/entities/card-interface';
-import { CardType, WordType, VerbType, AdjectiveType } from 'src/app/core/entities/card-type';
+import { WordType, VerbType, AdjectiveType, VerbContext } from 'src/app/core/entities/card-type';
 import { FLY_IN_OUT_ANIMATION, ROLL_IN_OUT_ANIMATION } from 'src/app/core/animations/modal.animation';
 import { Subscription, Observable, Subject } from 'rxjs';
 import { switchMap, distinctUntilChanged, debounceTime } from 'rxjs/operators';
 import { AuthService, User } from 'src/app/core/auth.service';
+
+export function requiredWhenWordType(type: WordType): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    console.log(control.value, control.root.get('wordType')?.value, type);
+    if (control.root.get('wordType')?.value == type) {
+      if (Array.isArray(control.value)) {
+        control.value.forEach(val => {
+          if (!val || val == '') {
+            return { requiredWhenWordType: { value: control.value } };
+          }
+        });
+      }
+      if (control.value == '' || control.value == null || control.value == undefined) {
+        return { requiredWhenWordType: { value: control.value } };
+      }
+    }
+    return null;
+  }
+}
 
 @Component({
   selector: 'app-edit',
@@ -24,16 +42,14 @@ export class EditComponent implements OnInit {
   @HostBinding('@flyInOutTrigger') flyInOutTrigger = 'in';
   @ViewChild('editWindow', { static: true }) editWindow: ElementRef;
   @ViewChild('searchWindow', { static: false }) searchWindow: ElementRef;
-  @Output() updateCard = new EventEmitter<CardInterface>();
-  @Output() deleteCard = new EventEmitter();
 
   cardForm = this.fb.group({
     uid: [''],
     wordType: [undefined],
-    verbType: [''],
-    verbContext: [''],
-    adjectiveType: [''],
-    german: this.fb.array([]),
+    verbType: ['', requiredWhenWordType(WordType.verb)],
+    verbContext: ['', requiredWhenWordType(WordType.verb)],
+    adjectiveType: ['', requiredWhenWordType(WordType.adjective)],
+    german: this.fb.array([], requiredWhenWordType(undefined)),
     japanese: ['', Validators.required],
     japanese_readings: this.fb.array([]),
     chinese_readings: this.fb.array([]),
@@ -60,6 +76,7 @@ export class EditComponent implements OnInit {
 
   wordTypeToggle = false;
   verbTypeToggle = false;
+  verbContextToggle = false;
   adjectiveTypeToggle = false;
   toggleSearch = false;
   repeat = false;
@@ -75,6 +92,7 @@ export class EditComponent implements OnInit {
   private wordSub: Subscription;
   private verbSub: Subscription;
   private adjectiveSub: Subscription;
+  private verbContextSub: Subscription;
 
   get german() {
     return this.cardForm.get('german') as FormArray;
@@ -100,6 +118,9 @@ export class EditComponent implements OnInit {
   get verbType() {
     return this.cardForm.get('verbType') as FormControl;
   }
+  get verbContext() {
+    return this.cardForm.get('verbContext') as FormControl;
+  }
   get adjectiveType() {
     return this.cardForm.get('adjectiveType') as FormControl;
   }
@@ -114,6 +135,11 @@ export class EditComponent implements OnInit {
   get verbTypes() {
     return VerbType;
   }
+
+  get verbContexts() {
+    return VerbContext;
+  }
+
   get adjectiveTypes() {
     return AdjectiveType;
   }
@@ -134,8 +160,12 @@ export class EditComponent implements OnInit {
           // this.removeField('adjectiveType');
           // this.addField('verbType', this.card.verbType ? this.card.verbType : null);
           this.verbTypeToggle = true;
+          this.verbContextToggle = true;
           this.verbSub = this.verbType.valueChanges.subscribe((value: VerbType) => {
             this.verbTypeToggle = false;
+          });
+          this.verbContextSub = this.verbContext.valueChanges.subscribe((value: VerbContext) => {
+            this.verbContextToggle = false;
           });
           break;
 
@@ -162,6 +192,10 @@ export class EditComponent implements OnInit {
 
           break;
       }
+      this.verbContext.updateValueAndValidity({ emitEvent: false });
+      this.verbType.updateValueAndValidity({ emitEvent: false });
+      this.adjectiveType.updateValueAndValidity({ emitEvent: false });
+      this.german.updateValueAndValidity({ emitEvent: false });
       this.wordTypeToggle = false;
     });
     this.authSub = this.authService.user.subscribe(_user => {
@@ -223,6 +257,8 @@ export class EditComponent implements OnInit {
   ngOnDestroy() {
     if (this.authSub) { this.authSub.unsubscribe(); }
     if (this.routeSub) { this.routeSub.unsubscribe(); }
+    if (this.wordSub) { this.wordSub.unsubscribe(); }
+    if (this.verbContextSub) { this.verbContextSub.unsubscribe(); }
     if (this.cardTypeSub) { this.cardTypeSub.unsubscribe(); }
     if (this.cardSub) { this.cardSub.unsubscribe(); }
     if (this.deckSub) { this.deckSub.unsubscribe(); }
@@ -286,10 +322,17 @@ export class EditComponent implements OnInit {
       this.cardService.write(this.cardForm.value).then(reference => {
         // prepare empty form and patch up some values or close the modal
         if (this.repeat) {
+          const type = this.cardForm.get('wordType').value;
+          const verbtype = this.cardForm.get('verbType').value;
           this.cardForm.reset();
+          this.cardForm.get('wordType').setValue(type);
           this.cardForm.get('author').setValue(this.user.uid)
           const uidForm = new FormControl('', Validators.required);
           uidForm.setValue(this.deckUid);
+          this.examples.clear();
+          this.japanese_readings.clear();
+          this.chinese_readings.clear();
+          this.german.clear();
           this.deckForm.clear();
           this.deckForm.push(uidForm);
         } else {
@@ -301,9 +344,14 @@ export class EditComponent implements OnInit {
 
   onDelete() {
     if (confirm('Karte löschen? Sie wird aus allen Decks entfernt in denen sie enthalten war.')) {
-      this.cardService.delete(this.uid);
-      this.deleteCard.emit();
-      this.close();
+      this.cardSub.unsubscribe(); // delete triggers another refresh with empty data.
+      this.cardService.delete(this.uid).then(() => {
+        this.close();
+      }, error => {
+        console.error('Konnte Karte nicht löschen');
+        console.error(error);
+        this.close();
+      });
     }
   }
 

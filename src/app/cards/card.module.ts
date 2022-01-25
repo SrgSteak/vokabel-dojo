@@ -7,6 +7,7 @@ import { AuthGuard } from '../core/auth.guard';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FeatherModule } from 'angular-feather';
 import { Trash } from 'angular-feather/icons';
+import { CoreModule } from '../core/core.module';
 
 
 
@@ -16,6 +17,7 @@ import { Trash } from 'angular-feather/icons';
   ],
   imports: [
     CommonModule,
+    CoreModule,
     ReactiveFormsModule,
     FeatherModule.pick({
       Trash

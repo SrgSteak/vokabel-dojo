@@ -84,7 +84,7 @@ export class EditComponent implements OnInit, OnDestroy {
         this.deckForm.get('createdAt').setValue(new Date());
       }
       if (!this.deckForm.get('author').value) {
-        this.deckForm.get('author').setValue(this.user.uid);
+        this.deckForm.get('author').setValue(this.user.role == 'admin' ? '' : this.user.uid);
       }
       this.DeckService.write(this.deckForm.value).then(reference => {
         this.router.navigate([{ outlets: { primary: [reference.id], modal: null } }], { relativeTo: this.route.parent });

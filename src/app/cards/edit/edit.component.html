@@ -126,7 +126,7 @@
     <!-- verbType -->
     <div class="formgroup collapsible" [class.closed]="!verbTypeToggle" *ngIf="wordType.value == wordTypes.verb"
       @rollInOutAnimation>
-      <label (click)="verbTypeToggle = !verbTypeToggle" class="formgroup-header">Verb-Art
+      <label (click)="verbTypeToggle = !verbTypeToggle" class="formgroup-header">Verb-Gruppe
         <ng-container [ngSwitch]="verbType.value">
           <span class="muted" *ngSwitchCase="verbTypes.single">Einstufig</span>
           <span class="muted" *ngSwitchCase="verbTypes.five">Fünfstufig</span>
@@ -141,6 +141,38 @@
         </label>
         <label class="container">Fünfstufig
           <input type="radio" [formControl]="verbType" value="{{ verbTypes.five}}" name="verbType">
+          <span class="checkmark">
+            <span class="checkmark_inner"></span>
+          </span>
+        </label>
+      </div>
+    </div>
+
+    <!-- verbContext -->
+    <div class="formgroup collapsible" [class.closed]="!verbContextToggle" *ngIf="wordType.value == wordTypes.verb"
+      @rollInOutAnimation>
+      <label (click)="verbContextToggle = !verbContextToggle" class="formgroup-header">Verb-Art
+        <ng-container [ngSwitch]="verbContext.value">
+          <span class="muted" *ngSwitchCase="verbContexts.transitive">Transitiv</span>
+          <span class="muted" *ngSwitchCase="verbContexts.intransitive">Intransitiv</span>
+        </ng-container>
+      </label>
+      <div *ngIf="verbContextToggle" @rollInOutAnimation>
+        <label class="container">Transitiv (消す - Ich lösche das Licht)
+          <input type="radio" [formControl]="verbContext" value="{{ verbContexts.transitive}}" name="verbContext">
+          <span class="checkmark">
+            <span class="checkmark_inner"></span>
+          </span>
+        </label>
+        <label class="container">Intransitiv (消える - Das Licht geht *von alleine*
+          aus)
+          <input type="radio" [formControl]="verbContext" value="{{ verbContexts.intransitive}}" name="verbContext">
+          <span class="checkmark">
+            <span class="checkmark_inner"></span>
+          </span>
+        </label>
+        <label class="container">Nicht zutreffend / Unbekannt
+          <input type="radio" [formControl]="verbContext" value="{{ verbContexts.unknown}}" name="verbContext">
           <span class="checkmark">
             <span class="checkmark_inner"></span>
           </span>
@@ -167,6 +199,12 @@
         <label class="container">な-Adjektiv
           <input type="radio" [formControl]="adjectiveType" value="{{ adjectiveTypes.naAdjective}}"
             name="adjectiveType">
+          <span class="checkmark">
+            <span class="checkmark_inner"></span>
+          </span>
+        </label>
+        <label class="container">Unbekannt / Nicht zutreffend
+          <input type="radio" [formControl]="adjectiveType" value="{{ adjectiveTypes.unknown}}" name="adjectiveType">
           <span class="checkmark">
             <span class="checkmark_inner"></span>
           </span>

@@ -11,7 +11,9 @@ export const cardConverter = {
     snapshot: QueryDocumentSnapshot,
     options: SnapshotOptions
   ): Card {
-    return Card.createFromCardInterface(snapshot.data(options)! as CardInterface);
+    const card = Card.createFromCardInterface(snapshot.data(options)! as CardInterface);
+    card.uid = snapshot.id;
+    return card;
   }
 }
 

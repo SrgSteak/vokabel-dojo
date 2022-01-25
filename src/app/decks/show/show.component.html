@@ -16,14 +16,16 @@
     <a (click)="addToCollection()" *ngIf="user">
       <i-feather name="copy" class="feather"></i-feather> Deck kopieren
     </a>
-    <a (click)="selectAll()">
+    <a (click)="selectAll(); showSubmenu = false">
       <i-feather name="check-circle" class="feather"></i-feather> Karten auswählen
     </a>
     <ng-container *ngIf="user.role == 'admin' || user.uid == deck.author">
-      <a routerLinkActive="active" [routerLink]="['/decks', { outlets: { modal: ['edit', deck.uid]}}]">
+      <a routerLinkActive="active" [routerLink]="['/decks', { outlets: { modal: ['edit', deck.uid]}}]"
+        (click)="showSubmenu = false">
         <i-feather name="edit" class="feather"></i-feather> Bearbeiten
       </a>
-      <a routerLinkActive="active" [routerLink]="['/decks', { outlets: { modal: ['new']}}]">
+      <a routerLinkActive="active" [routerLink]="['/decks', { outlets: { modal: ['new']}}]"
+        (click)="showSubmenu = false">
         <i-feather name="plus" class="feather"></i-feather> Deck anlegen
       </a>
       <span class="label">Karten</span>
@@ -37,8 +39,10 @@
 <div class="content">
   <a routerLink="/decks/{{deck.uid}}/list" *ngIf="mode != 'list' && deck" class="backlink muted">
     <i class="feather icon-chevron-left"></i> {{ deck.name }}</a>
-  <a routerLink="/decks" *ngIf="mode == 'list'" class="backlink muted">
+  <a routerLink="/decks" *ngIf="mode == 'list' && deck?.author !== user?.uid" class="backlink muted">
     <i class="feather icon-chevron-left"></i> Alle Decks</a>
+  <a routerLink="/decks/user" *ngIf="mode == 'list' && deck?.author == user?.uid" class="backlink muted">
+    <i class="feather icon-chevron-left"></i> Meine Decks</a>
   <ng-container *ngIf="mode == 'list' && deck">
     <h1>{{ deck.name }}</h1>
     <p *ngIf="deck.description">{{ deck.description }}
