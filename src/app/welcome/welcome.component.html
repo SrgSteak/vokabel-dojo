@@ -12,14 +12,12 @@
       </ng-container>
     </ng-template>
     <div class="d-flex j-content-center f-wrap">
-
       <a class="grid-content" routerLink="/user">
         <p>
           <i-feather name="user" class="feather"></i-feather>
         </p>
         <span class="choice">Loginbereich</span>
       </a>
-
       <a routerLink="/decks" class="grid-content">
         <p>
           <i-feather name="copy" class="feather"></i-feather>
@@ -32,34 +30,26 @@
         </p>
         <span class="choice">Wörterbuch</span>
       </a>
-
       <a routerLink="/syllables" class="grid-content">
         <p>
           <i-feather name="grid" class="feather"></i-feather>
         </p>
         <span class="choice">Silbentabelle</span>
       </a>
-      <!-- <a routerLink="/about" class="grid-content" disabled>
-        <p>
-          <i-feather name="bar-chart-2" class="feather"></i-feather>
-        </p>
-        <span class="choice">Statistik</span>
-      </a> -->
       <a routerLink="/about" class="grid-content">
         <p>
           <i-feather name="help-circle" class="feather"></i-feather>
         </p>
         <span class="choice">Handbuch</span>
       </a>
-
     </div>
     <div class="slot" *ngIf="publicDecks.length" @collapse>
       <h1>
         Neues im Dojo
       </h1>
-      <div class="d-flex ox-auto">
+      <div class="d-flex ox-auto s-snap-type-xm">
         <app-list-item [deck]="deck" [displayBanner]="true" *ngFor="let deck of publicDecks"></app-list-item>
-        <a [routerLink]="['/', 'decks']" class="deck-list-item flex-shrink-0">
+        <a [routerLink]="['/', 'decks']" class="deck-list-item flex-shrink-0 s-snap-align-c">
           <div class="deck_name">
             Zu den öffentlichen Decks
           </div>
@@ -74,9 +64,9 @@
       <h1>
         Deine neuesten Decks
       </h1>
-      <div class="d-flex ox-auto">
+      <div class="d-flex ox-auto s-snap-type-xm">
         <app-list-item [deck]="deck" *ngFor="let deck of userDecks"></app-list-item>
-        <a [routerLink]="['/', 'decks', 'user']" class="deck-list-item flex-shrink-0">
+        <a [routerLink]="['/', 'decks', 'user']" class="deck-list-item flex-shrink-0 s-snap-align-c">
           <div class="deck_name">
             Zu meinen Decks
           </div>

@@ -17,6 +17,7 @@ a.deck-list-item {
   color: white;
   text-decoration: none;
   overflow: hidden;
+  scroll-snap-align: center;
   &:hover {
       @media(hover: hover) {
           background-color: rgb(0,55,55);
@@ -81,6 +82,10 @@ a.deck-list-item {
   overflow-x: auto;
 }
 /* overflow end */
+
+.s-snap-type-xm {
+  scroll-snap-type: x mandatory;
+}
 
 .icon-small {
   height: 16px !important;
