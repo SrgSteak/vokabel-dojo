@@ -98,6 +98,13 @@ export class WordQuizComponent implements OnInit {
 
   reset() {
     this.displayError = false;
+    this.deck.forEach(card => {
+      card.hits = 0;
+      card.misses = 0;
+    });
+    this.deckService.totalHits = 0;
+    this.deckService.totalMisses = 0;
+
     this.shuffle();
     this.nextCard(true);
   }

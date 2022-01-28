@@ -54,8 +54,7 @@ export const ROUTES: Routes = [
     path: 'cards/new/:deckuid',
     outlet: 'modal',
     component: CardEditComponent,
-  },
-
+  }
 ]
 
 @NgModule({
