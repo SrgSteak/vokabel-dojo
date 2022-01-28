@@ -36,11 +36,18 @@
         </div>
       </ng-container>
       <ng-template #noDecks>
-        Du hast noch keine Decks. Du kannst <a [routerLink]="['', { outlets: { modal: ['decks', 'new']}}]">hier welche
-          anlegen</a> und
-        anschließend
-        deine ausgewählten Karten
-        hinzufügen.
+        <ng-container *ngIf="user">
+          Du hast noch keine Decks. Du kannst <a [routerLink]="['/decks', { outlets: { modal: ['new']}}]">hier welche
+            anlegen</a> und
+          anschließend
+          deine ausgewählten Karten
+          hinzufügen.
+        </ng-container>
+        <ng-container *ngIf="!user">
+          Mit <a [routerLink]="['', { outlets: { primary: ['user'], modal: null}}]">einem Account</a> kannst du deine
+          Auswahl zu
+          eigenen Decks hinzufügen.
+        </ng-container>
       </ng-template>
     </ng-container>
     <ng-template #howTo>

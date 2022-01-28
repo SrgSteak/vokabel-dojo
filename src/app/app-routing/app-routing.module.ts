@@ -44,8 +44,6 @@ export const ROUTES: Routes = [
     path: 'cards',
     loadChildren: () => import('../cards/card.module').then(m => m.CardModule)
   },
-  // { path: 'cards/new', component: CardEditComponent, outlet: 'modal' },
-
   // selection routes
   { path: 'selection/:mode', component: SelectionPageComponent },
   // global named router outlets
