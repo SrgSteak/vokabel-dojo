@@ -1,0 +1,36 @@
+// read -> get/list
+// write -> create, update, delete
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Secure by default - nobody is allowed anything by default
+    match /{document=**} {
+      allow read: if false;
+      allow write: if false;
+    }
+
+    match /Decks/{deck} {
+      // allow owners to read their data, allow all to read public data
+      allow read: if request.auth.uid == resource.data.author || resource.data.author == '';
+
+      // only allow logged in users to create data
+      allow create: if request.auth.uid != null;
+
+      // allow owners and admins to write and update decks
+      allow update, delete: if request.auth.uid == resource.data.author || get(/databases/$(database)/documents/users/$(request.auth.uid)).role == 'admin';
+    }
+    match /Cards/{card} {
+      // allow owners to read their cards, allow read if author is '' aka public
+    	allow read: if request.auth.uid == resource.data.author || resource.data.author == '';
+
+      allow create: if request.auth.uid != null;
+
+      allow update, delete: if request.auth.uid == resource.data.author || get(/databases/$(database)/documents/users/$(request.auth.uid)).role == 'admin';
+    }
+    match /users/{userId} {
+        // only the owner is allowed to read his data from the user table
+      allow read, update, delete: if request.auth != null && request.auth.uid == userId;
+      allow create: if request.auth != null;
+    }
+  }
+}

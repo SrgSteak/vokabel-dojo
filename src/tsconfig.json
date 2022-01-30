@@ -20,7 +20,8 @@
       "dom"
     ],
     "types": [
-      "jasmine"
+      "jasmine",
+      "jest"
     ],
     "paths": {
       "core-js/es7/reflect": [

@@ -4,8 +4,8 @@ import { FlashcardService } from 'src/app/flashcard.service';
 import { Observable, of } from 'rxjs';
 import { distinctUntilChanged, tap } from 'rxjs/operators';
 import _ from 'lodash';
-import { collection, collectionData, doc, docData, docSnapshots, Firestore, orderBy, query, setDoc, where } from '@angular/fire/firestore';
-import { deleteDoc, DocumentReference, DocumentSnapshot, limit, onSnapshot, Timestamp } from 'firebase/firestore';
+import { collection, collectionData, doc, docData, Firestore, orderBy, query, setDoc, where } from '@angular/fire/firestore';
+import { deleteDoc, DocumentReference, limit, Timestamp } from 'firebase/firestore';
 import { deckConverter, DeckInterface } from '../entities/deck';
 
 export interface Deck {
