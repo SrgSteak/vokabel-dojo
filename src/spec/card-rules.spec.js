@@ -139,7 +139,6 @@ describe('/Cards/{card} rules for firestore', () => {
         const aliceDeckDoc = doc(aliceDeckCol);
         await assertSucceeds(setDoc(aliceDeckDoc, { author: '' }));
 
-
         // "login" authenticated and read the deck
         const roger = env.authenticatedContext('roger');
         const rogerDocRef = doc(roger.firestore(), `Cards/${aliceDeckDoc.id}`);
