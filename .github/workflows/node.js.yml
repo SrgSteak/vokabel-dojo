@@ -26,6 +26,5 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
       - run: npm ci
-      - run: curl -sL https://firebase.tools | bash
-      - run: firebase use staging
-      - run: firebase emulators:exec "npm run test-jest"
+      - run: npm install -g firebase-tools
+      - run: firebase emulators:exec --only firestore --project fake-project-id "npm run test-jest"
