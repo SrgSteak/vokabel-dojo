@@ -27,4 +27,7 @@ jobs:
           cache: "npm"
       - run: npm ci
       - run: npm install -g firebase-tools
+      - name: firestore rule tests
       - run: firebase emulators:exec --only firestore --project fake-project-id "npm run test-jest"
+      - name: karma test suite
+      - run: npm test -- --no-watch --no-progress --browsers=ChromeHeadlessCI

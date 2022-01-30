@@ -12,7 +12,7 @@ export class ListItemComponent implements OnInit {
   @Input() displayBanner: boolean;
 
   public get isNew(): boolean {
-    return this.deck.updatedAt.seconds > (Date.now() / 1000) - 48 * 3600;
+    return this.deck.updatedAt?.seconds > (Date.now() / 1000) - 48 * 3600;
   }
 
 

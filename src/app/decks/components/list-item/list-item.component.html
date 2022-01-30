@@ -6,7 +6,7 @@
     <div class="deck_description">
         {{ deck.description }}
     </div>
-    <div class="deck_created">
+    <div class="deck_created" *ngIf="deck.createdAt">
         {{ deck.createdAt.toDate() | date:'dd.MM.yy'}}
     </div>
 </a>
