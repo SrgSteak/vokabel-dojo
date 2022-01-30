@@ -4,7 +4,7 @@ const fs = require('fs');
 const { setLogLevel, deleteDoc } = require('firebase/firestore')
 
 
-//TODO: check admin role, check expectations of all tests
+//TODO: check admin role
 describe('/Decks/{deck} rules for firestore', () => {
   let env;
   beforeAll(async () => {
@@ -112,7 +112,7 @@ describe('/Decks/{deck} rules for firestore', () => {
     const aliceDeckCol = collection(alice.firestore(), 'Decks');
     const aliceDeckDoc = doc(aliceDeckCol);
     await assertSucceeds(setDoc(aliceDeckDoc, { author: 'alice' }));
-    await assertSucceeds(setDoc(aliceDeckDoc, { author: 'alice', name: 'alice deck', desc: 'my first deck' }));
+    expect(await assertSucceeds(setDoc(aliceDeckDoc, { author: 'alice', name: 'alice deck', desc: 'my first deck' })));
   });
 
   test('authenticated people should be able to delete their decks', async () => {
@@ -121,7 +121,7 @@ describe('/Decks/{deck} rules for firestore', () => {
     const aliceDeckCol = collection(alice.firestore(), 'Decks');
     const aliceDeckDoc = doc(aliceDeckCol);
     await assertSucceeds(setDoc(aliceDeckDoc, { author: 'alice', name: 'alice deck', desc: 'my first deck' }));
-    await assertSucceeds(deleteDoc(aliceDeckDoc));
+    expect(await assertSucceeds(deleteDoc(aliceDeckDoc)));
   });
 
   test('authenticated people should not be able read private decks from others', async () => {

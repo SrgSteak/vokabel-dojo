@@ -29,8 +29,9 @@ service cloud.firestore {
     }
     match /users/{userId} {
         // only the owner is allowed to read his data from the user table
-      allow read, update, delete: if request.auth != null && request.auth.uid == userId;
-      allow create: if request.auth != null;
+      allow create, read, delete: if request.auth != null && request.auth.uid == userId;
+        // only owner is allowed to update data and only if the change won't touch the users role
+      allow update: if request.auth != null && request.auth.uid == userId && getAfter(/databases/$(database)/documents/users/$(userId)).data.role == 'user';
     }
   }
 }

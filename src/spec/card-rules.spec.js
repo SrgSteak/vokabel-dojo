@@ -3,6 +3,7 @@ const { collection, doc, setDoc, getDoc } = require('@firebase/firestore');
 const fs = require('fs');
 const { setLogLevel, deleteDoc } = require('firebase/firestore')
 
+// todo: check admin role
 describe('/Cards/{card} rules for firestore', () => {
     let env;
     beforeAll(async () => {

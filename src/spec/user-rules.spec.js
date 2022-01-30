@@ -36,7 +36,7 @@ describe('/users/{userId} rules for firestore', () => {
         // set up a card with author = '' aka public card
         const alice = env.authenticatedContext('alice');
         const aliceCardCol = collection(alice.firestore(), 'users');
-        const aliceCardDoc = doc(aliceCardCol);
+        const aliceCardDoc = doc(aliceCardCol, 'alice');
         await assertSucceeds(setDoc(aliceCardDoc, { name: 'alice', email: 'a@a.a' }));
 
         // "login" unauthenticated and delete the cards
@@ -45,100 +45,82 @@ describe('/users/{userId} rules for firestore', () => {
         expect(await assertFails(deleteDoc(unauthDocRef)));
     });
 
-    // test('unauthenticated people should not be able to update a card', async () => {
-    //     // set up a deck with author = '' aka public deck
-    //     const alice = env.authenticatedContext('alice');
-    //     const aliceCardCol = collection(alice.firestore(), 'Cards');
-    //     const aliceCardDoc = doc(aliceCardCol);
-    //     const publicCardDoc = doc(aliceCardCol);
-    //     await assertSucceeds(setDoc(aliceCardDoc, { author: '' }));
-    //     await assertSucceeds(setDoc(publicCardDoc, { author: 'alice' }));
+    test('unauthenticated people should not be able to update a user', async () => {
+        // set up a deck with author = '' aka public deck
+        const alice = env.authenticatedContext('alice');
+        const aliceCardCol = collection(alice.firestore(), 'users');
+        const aliceCardDoc = doc(aliceCardCol, 'alice');
+        await assertSucceeds(setDoc(aliceCardDoc, { name: 'alice', role: 'user' }));
 
 
-    //     // "login" unauthenticated and read the deck
-    //     const unauth = env.unauthenticatedContext();
-    //     const unauthDocRef = doc(unauth.firestore(), `Cards/${aliceCardDoc.id}`);
-    //     const unauthPublicDocRef = doc(unauth.firestore(), `Cards/${publicCardDoc.id}`);
-    //     expect(await assertFails(setDoc(unauthDocRef, { author: 'nobody' })));
-    //     expect(await assertFails(setDoc(unauthPublicDocRef, { author: 'nobody' })));
-    // });
+        // "login" unauthenticated and read the deck
+        const unauth = env.unauthenticatedContext();
+        const unauthDocRef = doc(unauth.firestore(), `users/${aliceCardDoc.id}`);
+        expect(await assertFails(setDoc(unauthDocRef, { name: 'nobody', role: 'user' })));
+    });
 
-    // test('unauthenticated people should be able read public cards', async () => {
-    //     // set up a deck with author = '' aka public card
-    //     const alice = env.authenticatedContext('alice');
-    //     const aliceDeckCol = collection(alice.firestore(), 'Cards');
-    //     const aliceDeckDoc = doc(aliceDeckCol);
-    //     await assertSucceeds(setDoc(aliceDeckDoc, { author: '' }));
-
-    //     // "login" unauthenticated and read the card
-    //     const unauth = env.unauthenticatedContext();
-    //     const unauthDocRef = doc(unauth.firestore(), `Cards/${aliceDeckDoc.id}`);
-    //     expect(await assertSucceeds(getDoc(unauthDocRef)));
-    // });
-
-    // test('unauthenticated people should not be able read private cards', async () => {
-    //     // set up a deck with author = alice aka private deck
-    //     const alice = env.authenticatedContext('alice');
-    //     const aliceDeckCol = collection(alice.firestore(), 'Cards');
-    //     const aliceDeckDoc = doc(aliceDeckCol);
-    //     await assertSucceeds(setDoc(aliceDeckDoc, { author: 'alice' }));
+    test('unauthenticated people should not be able to read a user', async () => {
+        // set up a deck with author = '' aka public deck
+        const alice = env.authenticatedContext('alice');
+        const aliceCardCol = collection(alice.firestore(), 'users');
+        const aliceCardDoc = doc(aliceCardCol, 'alice');
+        await assertSucceeds(setDoc(aliceCardDoc, { name: 'alice' }));
 
 
-    //     // "login" unauthenticated and read the deck
-    //     const unauth = env.unauthenticatedContext();
-    //     const unauthDocRef = doc(unauth.firestore(), `Cards/${aliceDeckDoc.id}`);
-    //     expect(await assertFails(getDoc(unauthDocRef)));
-    // });
+        // "login" unauthenticated and read the deck
+        const unauth = env.unauthenticatedContext();
+        const unauthDocRef = doc(unauth.firestore(), `users/${aliceCardDoc.id}`);
+        expect(await assertFails(getDoc(unauthDocRef)));
+    });
 
-    // test('authenticated people should be able create a card', async () => {
-    //     const nobody = env.authenticatedContext('alice');
-    //     const nobRef = collection(nobody.firestore(), 'Cards');
-    //     const nobDecRef = doc(nobRef);
-    //     expect(await assertSucceeds(setDoc(nobDecRef, {})));
-    // });
+    test('authenticated people should be able create one user for themselves', async () => {
+        const nobody = env.authenticatedContext('alice');
+        const nobRef = collection(nobody.firestore(), 'users');
+        const nobDecRef = doc(nobRef, 'alice');
+        expect(await assertSucceeds(setDoc(nobDecRef, {})));
 
-    // test('authenticated people should be able to update their cards', async () => {
-    //     // set up a deck with author = alice aka private deck
-    //     const alice = env.authenticatedContext('alice');
-    //     const aliceCardCol = collection(alice.firestore(), 'Cards');
-    //     const aliceCardDoc = doc(aliceCardCol);
-    //     await assertSucceeds(setDoc(aliceCardDoc, { author: 'alice' }));
-    //     expect(await assertSucceeds(setDoc(aliceCardDoc, { author: 'alice', name: 'alice card', desc: 'my first card' })));
-    // });
+        const otherDecRef = doc(nobRef, 'somebodyelse');
+        expect(await assertFails(setDoc(otherDecRef, { name: 'mysecondAccount' })));
+    });
 
-    // test('authenticated people should be able to delete their cards', async () => {
-    //     // set up a deck with author = alice aka private deck
-    //     const alice = env.authenticatedContext('alice');
-    //     const aliceDeckCol = collection(alice.firestore(), 'Cards');
-    //     const aliceDeckDoc = doc(aliceDeckCol);
-    //     await assertSucceeds(setDoc(aliceDeckDoc, { author: 'alice', name: 'alice card', desc: 'my first card' }));
-    //     expect(await assertSucceeds(deleteDoc(aliceDeckDoc)));
-    // });
+    test('authenticated people should be able to update their user data', async () => {
+        // set up a deck with author = alice aka private deck
+        const alice = env.authenticatedContext('alice');
+        const aliceCardCol = collection(alice.firestore(), 'users');
+        const aliceCardDoc = doc(aliceCardCol, 'alice');
+        await assertSucceeds(setDoc(aliceCardDoc, { author: 'alice' }));
+        expect(await assertSucceeds(setDoc(aliceCardDoc, { name: 'alice card', email: 'a@a.a', role: 'user', settings: { font: 'arial' } })));
+    });
 
-    // test('authenticated people should not be able read private cards from others', async () => {
-    //     // set up a deck with author = alice aka private deck
-    //     const alice = env.authenticatedContext('alice');
-    //     const aliceDeckCol = collection(alice.firestore(), 'Cards');
-    //     const aliceDeckDoc = doc(aliceDeckCol);
-    //     await assertSucceeds(setDoc(aliceDeckDoc, { author: 'alice' }));
+    test('authenticated people should not be able to update their user role', async () => {
+        // set up a deck with author = alice aka private deck
+        const alice = env.authenticatedContext('alice');
+        const aliceCardCol = collection(alice.firestore(), 'users');
+        const aliceCardDoc = doc(aliceCardCol, 'alice');
+        await assertSucceeds(setDoc(aliceCardDoc, { author: 'alice' }));
+        expect(await assertFails(setDoc(aliceCardDoc, { name: 'alice card', email: 'a@a.a', role: 'admin', settings: { font: 'arial' } })));
+    });
 
-    //     // "login" unauthenticated and read the deck
-    //     const roger = env.authenticatedContext('roger');
-    //     const rogerDocRef = doc(roger.firestore(), `Cards/${aliceDeckDoc.id}`);
-    //     expect(await assertFails(getDoc(rogerDocRef)));
-    // });
+    test('authenticated people should be able to delete their user data', async () => {
+        // set up a deck with author = alice aka private deck
+        const alice = env.authenticatedContext('alice');
+        const aliceDeckCol = collection(alice.firestore(), 'users');
+        const aliceDeckDoc = doc(aliceDeckCol, 'alice');
+        await assertSucceeds(setDoc(aliceDeckDoc, { author: 'alice', name: 'alice card', desc: 'my first card' }));
+        expect(await assertSucceeds(deleteDoc(aliceDeckDoc)));
+    });
 
-    // test('authenticated people should be able to read public cards', async () => {
-    //     // set up a deck with author = alice aka private deck
-    //     const alice = env.authenticatedContext('alice');
-    //     const aliceDeckCol = collection(alice.firestore(), 'Cards');
-    //     const aliceDeckDoc = doc(aliceDeckCol);
-    //     await assertSucceeds(setDoc(aliceDeckDoc, { author: '' }));
+    test('authenticated people should not be able read user data from others', async () => {
+        // set up a deck with author = alice aka private deck
+        const alice = env.authenticatedContext('alice');
+        const aliceDeckCol = collection(alice.firestore(), 'users');
+        const aliceDeckDoc = doc(aliceDeckCol, 'alice');
+        await assertSucceeds(setDoc(aliceDeckDoc, { author: 'alice' }));
 
-    //     // "login" authenticated and read the deck
-    //     const roger = env.authenticatedContext('roger');
-    //     const rogerDocRef = doc(roger.firestore(), `Cards/${aliceDeckDoc.id}`);
-    //     expect(await assertSucceeds(getDoc(rogerDocRef)));
-    // });
+        // "login" unauthenticated and read the deck
+        const roger = env.authenticatedContext('roger');
+        const rogerDocRef = doc(roger.firestore(), `users/${aliceDeckDoc.id}`);
+        expect(await assertFails(getDoc(rogerDocRef)));
+    });
 });
 
