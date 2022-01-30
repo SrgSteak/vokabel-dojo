@@ -27,4 +27,5 @@ jobs:
           cache: "npm"
       - run: npm ci
       - run: curl -sL https://firebase.tools | bash
+      - run: firebase use staging
       - run: firebase emulators:exec "npm run test-jest"
