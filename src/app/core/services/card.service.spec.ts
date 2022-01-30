@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { CardService } from './card.service';
 
-describe('CardService', () => {
+xdescribe('CardService', () => {
   beforeEach(() => TestBed.configureTestingModule({ teardown: { destroyAfterEach: false } }));
 
   it('should be created', () => {

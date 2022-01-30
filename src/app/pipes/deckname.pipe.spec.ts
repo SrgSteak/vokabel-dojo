@@ -1,4 +1,4 @@
-import { DecknamePipe } from './deckname.pipe';
+// import { DecknamePipe } from './deckname.pipe';
 
 // describe('DecknamePipe', () => {
 //   it('create an instance', () => {

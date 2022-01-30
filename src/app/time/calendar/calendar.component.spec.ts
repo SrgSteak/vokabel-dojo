@@ -2,16 +2,16 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CalendarComponent } from './calendar.component';
 
-describe('CalendarComponent', () => {
+xdescribe('CalendarComponent', () => {
   let component: CalendarComponent;
   let fixture: ComponentFixture<CalendarComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-    declarations: [CalendarComponent],
-    teardown: { destroyAfterEach: false }
-})
-    .compileComponents();
+      declarations: [CalendarComponent],
+      teardown: { destroyAfterEach: false }
+    })
+      .compileComponents();
   }));
 
   beforeEach(() => {

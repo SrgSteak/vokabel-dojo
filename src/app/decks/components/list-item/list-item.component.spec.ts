@@ -1,19 +1,20 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Timestamp } from 'firebase/firestore';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ListItemComponent } from './list-item.component';
 
-fdescribe('ListItemComponent', () => {
+describe('ListItemComponent', () => {
   let component: ListItemComponent;
   let fixture: ComponentFixture<ListItemComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      declarations: [ListItemComponent]
+      declarations: [ListItemComponent],
+      teardown: { destroyAfterEach: false }
     })
       .compileComponents();
-  });
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ListItemComponent);

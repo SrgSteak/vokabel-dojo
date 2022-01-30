@@ -14,7 +14,7 @@ export class ListComponent implements OnInit {
 
   decks = [];
   displayPublic = true;
-  user: User;
+  user: User = this.AuthService.getUser();
   routeSub: Subscription;
   authSub: Subscription;
   deckSub: Subscription;

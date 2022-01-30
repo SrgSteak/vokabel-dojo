@@ -2,15 +2,15 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SelectbubbleComponent } from './selectbubble.component';
 
-describe('SelectbubbleComponent', () => {
+xdescribe('SelectbubbleComponent', () => {
   let component: SelectbubbleComponent;
   let fixture: ComponentFixture<SelectbubbleComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SelectbubbleComponent ]
+      declarations: [SelectbubbleComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

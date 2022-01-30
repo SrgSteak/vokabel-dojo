@@ -2,16 +2,16 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SelectionPageComponent } from './selection-page.component';
 
-describe('SelectionPageComponent', () => {
+xdescribe('SelectionPageComponent', () => {
   let component: SelectionPageComponent;
   let fixture: ComponentFixture<SelectionPageComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-    declarations: [SelectionPageComponent],
-    teardown: { destroyAfterEach: false }
-})
-    .compileComponents();
+      declarations: [SelectionPageComponent],
+      teardown: { destroyAfterEach: false }
+    })
+      .compileComponents();
   }));
 
   beforeEach(() => {

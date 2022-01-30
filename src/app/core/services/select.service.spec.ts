@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { SelectService } from './select.service';
 
-describe('SelectService', () => {
+xdescribe('SelectService', () => {
   beforeEach(() => TestBed.configureTestingModule({ teardown: { destroyAfterEach: false } }));
 
   it('should be created', () => {
