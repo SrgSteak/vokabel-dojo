@@ -34,51 +34,43 @@ describe('/Cards/{card} rules for firestore', () => {
     });
 
     test('unauthenticated people should not be able to delete a card', async () => {
-        // set up a card with author = '' aka public card
-        const alice = env.authenticatedContext('alice');
-        const aliceCardCol = collection(alice.firestore(), 'Cards');
-        const aliceCardDoc = doc(aliceCardCol);
-        const publicCardDoc = doc(aliceCardCol);
-        await assertSucceeds(setDoc(aliceCardDoc, { author: '' }));
-        await assertSucceeds(setDoc(publicCardDoc, { author: 'alice' }));
-
-        // "login" unauthenticated and delete the cards
-        const unauth = env.unauthenticatedContext();
-        const unauthDocRef = doc(unauth.firestore(), `Cards/${aliceCardDoc.id}`);
-        const unauthPublicDocRef = doc(unauth.firestore(), `Cards/${publicCardDoc.id}`);
-        expect(await assertFails(deleteDoc(unauthDocRef)));
-        expect(await assertFails(deleteDoc(unauthPublicDocRef)));
+        await env.withSecurityRulesDisabled(async context => {
+            // create a public card alice
+            const firestore = context.firestore();
+            await setDoc(doc(firestore, 'Cards/new'), { author: '' });
+            await setDoc(doc(firestore, 'Cards/new2'), { author: 'alice' });
+        }).then(async () => {
+            // "login" unauthenticated and read the card
+            const unauth = env.unauthenticatedContext().firestore();
+            expect(await assertFails(deleteDoc(doc(unauth, `Cards/new`))));
+            expect(await assertFails(deleteDoc(doc(unauth, `Cards/new2`))));
+        });
     });
 
     test('unauthenticated people should not be able to update a card', async () => {
-        // set up a deck with author = '' aka public deck
-        const alice = env.authenticatedContext('alice');
-        const aliceCardCol = collection(alice.firestore(), 'Cards');
-        const aliceCardDoc = doc(aliceCardCol);
-        const publicCardDoc = doc(aliceCardCol);
-        await assertSucceeds(setDoc(aliceCardDoc, { author: '' }));
-        await assertSucceeds(setDoc(publicCardDoc, { author: 'alice' }));
-
-
-        // "login" unauthenticated and read the deck
-        const unauth = env.unauthenticatedContext();
-        const unauthDocRef = doc(unauth.firestore(), `Cards/${aliceCardDoc.id}`);
-        const unauthPublicDocRef = doc(unauth.firestore(), `Cards/${publicCardDoc.id}`);
-        expect(await assertFails(setDoc(unauthDocRef, { author: 'nobody' })));
-        expect(await assertFails(setDoc(unauthPublicDocRef, { author: 'nobody' })));
+        await env.withSecurityRulesDisabled(async context => {
+            // create a public card alice
+            const firestore = context.firestore();
+            await setDoc(doc(firestore, 'Cards/new'), { author: '' });
+            await setDoc(doc(firestore, 'Cards/new2'), { author: 'alice' });
+        }).then(async () => {
+            // "login" unauthenticated and read the card
+            const unauth = env.unauthenticatedContext().firestore();
+            expect(await assertFails(setDoc(doc(unauth, `Cards/new`), { author: 'nobody' })));
+            expect(await assertFails(setDoc(doc(unauth, `Cards/new2`), { author: 'nobody' })));
+        });
     });
 
     test('unauthenticated people should be able read public cards', async () => {
-        // set up a deck with author = '' aka public card
-        const alice = env.authenticatedContext('alice');
-        const aliceDeckCol = collection(alice.firestore(), 'Cards');
-        const aliceDeckDoc = doc(aliceDeckCol);
-        await assertSucceeds(setDoc(aliceDeckDoc, { author: '' }));
-
-        // "login" unauthenticated and read the card
-        const unauth = env.unauthenticatedContext();
-        const unauthDocRef = doc(unauth.firestore(), `Cards/${aliceDeckDoc.id}`);
-        expect(await assertSucceeds(getDoc(unauthDocRef)));
+        await env.withSecurityRulesDisabled(async context => {
+            // create a public card
+            await setDoc(doc(context.firestore(), 'Cards/new'), { author: '' });
+        }).then(async () => {
+            // "login" unauthenticated and read the card
+            const unauth = env.unauthenticatedContext();
+            const unauthDocRef = doc(unauth.firestore(), `Cards/new`);
+            expect(await assertSucceeds(getDoc(unauthDocRef)));
+        });
     });
 
     test('unauthenticated people should not be able read private cards', async () => {
@@ -99,7 +91,7 @@ describe('/Cards/{card} rules for firestore', () => {
         const nobody = env.authenticatedContext('alice');
         const nobRef = collection(nobody.firestore(), 'Cards');
         const nobDecRef = doc(nobRef);
-        expect(await assertSucceeds(setDoc(nobDecRef, {})));
+        expect(await assertSucceeds(setDoc(nobDecRef, { author: 'alice' })));
     });
 
     test('authenticated people should be able to update their cards', async () => {
@@ -134,16 +126,15 @@ describe('/Cards/{card} rules for firestore', () => {
     });
 
     test('authenticated people should be able to read public cards', async () => {
-        // set up a deck with author = alice aka private deck
-        const alice = env.authenticatedContext('alice');
-        const aliceDeckCol = collection(alice.firestore(), 'Cards');
-        const aliceDeckDoc = doc(aliceDeckCol);
-        await assertSucceeds(setDoc(aliceDeckDoc, { author: '' }));
-
-        // "login" authenticated and read the deck
-        const roger = env.authenticatedContext('roger');
-        const rogerDocRef = doc(roger.firestore(), `Cards/${aliceDeckDoc.id}`);
-        expect(await assertSucceeds(getDoc(rogerDocRef)));
+        await env.withSecurityRulesDisabled(async context => {
+            // create a public card alice
+            await setDoc(doc(context.firestore(), 'Cards/new'), { author: '' });
+        }).then(async () => {
+            // "login" authenticated and read the deck
+            const roger = env.authenticatedContext('roger');
+            const rogerDocRef = doc(roger.firestore(), `Cards/new`);
+            expect(await assertSucceeds(getDoc(rogerDocRef)));
+        });
     });
 });
 

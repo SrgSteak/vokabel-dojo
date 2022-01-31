@@ -10,13 +10,13 @@ import { CardInterface } from 'src/app/core/entities/card-interface';
 import { Card } from 'src/app/core/entities/card';
 import { FontSwitcherService } from 'src/app/core/services/font-switcher.service';
 import { CardType, WordType, AdjectiveType, VerbType } from 'src/app/core/entities/card-type';
-import { COLLAPSE_ANIMATION } from 'src/app/core/animations/modal.animation';
+import { APPEAR_ANIMATION } from 'src/app/core/animations/modal.animation';
 
 @Component({
   selector: 'app-word-list',
   templateUrl: './word-list.component.html',
   styleUrls: ['./word-list.component.scss'],
-  animations: [COLLAPSE_ANIMATION]
+  animations: [APPEAR_ANIMATION]
 })
 export class WordListComponent implements OnInit, OnDestroy, OnChanges {
 

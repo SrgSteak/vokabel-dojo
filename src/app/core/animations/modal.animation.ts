@@ -108,23 +108,18 @@ export const BUBBLE_ROLL_ANIMATION =
     ])
   ]);
 
-export const COLLAPSE_ANIMATION =
-  trigger('collapse', [
+export const APPEAR_ANIMATION =
+  trigger('appear', [
     transition(':enter', [
-      style({ height: '0px', paddingTop: '0px', paddingBottom: '0px', marginTop: '0px', marginBottom: '0px', opacity: 0 }),
+      style({ opacity: 0 }),
       group([
         animate('400ms', style({ opacity: 1 })),
-        animate(`50ms ${easeInOutCubic}`, style({ height: '*', paddingTop: '*', paddingBottom: '*', marginTop: '*', marginBottom: '*' }))
-        // animate('250ms ease', style({ height: '*', padding: '*', margin: '*' }))
-        // firefox breaks on padding * margin * directives, use explicit Top/Bottom
       ])
     ]),
     transition(':leave', [
       group([
         animate('100ms 150ms', style({ opacity: 0 })),
         animate('250ms ease', style({ height: '0px', paddingTop: '0px', paddingBottom: '0px', marginBottom: '0px', marginTop: '0px' }))
-        // animate('250ms ease', style({ height: '0px', padding: '0px', margin: '0px' }))
-        // firefox breaks on padding * margin * directives, use explicit Top/Bottom
       ])
     ])
   ])

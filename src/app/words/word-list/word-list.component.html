@@ -1,5 +1,5 @@
 <div class="word-list" [class.serif]="fontMode === 'serif'" [class.sans-serif]="fontMode === 'sans-serif'">
-  <ng-container *ngFor="let card of cards" @collapse>
+  <ng-container *ngFor="let card of cards" @appear>
     <div (click)="show(card)" class="card c-pointer">
       <span class="japanese">
         {{ card.japanese }}

@@ -1,15 +1,10 @@
 <div class="content">
   <div class="welcome">
-    <div *ngIf="auth.user | async; then authenticated else guest">
-      <!-- template will replace this div -->
-    </div>
+    <ng-container *ngIf="user else guest">
+      <p>Willkommen zurück, {{ user.displayName }}. Was möchtest du heute trainieren?</p>
+    </ng-container>
     <ng-template #guest>
       <p>Was möchtest du heute trainieren?</p>
-    </ng-template>
-    <ng-template #authenticated>
-      <ng-container *ngIf="auth.user | async as user">
-        <p>Willkommen zurück, {{ user.displayName }}. Was möchtest du heute trainieren?</p>
-      </ng-container>
     </ng-template>
     <div class="d-flex j-content-center f-wrap">
       <a class="grid-content" routerLink="/user">
@@ -43,7 +38,7 @@
         <span class="choice">Handbuch</span>
       </a>
     </div>
-    <div class="slot" *ngIf="publicDecks.length" @collapse>
+    <div class="slot" *ngIf="publicDecks.length" @appear>
       <h1>
         Neues im Dojo
       </h1>
@@ -60,7 +55,7 @@
         </a>
       </div>
     </div>
-    <div class="slot" *ngIf="userDecks.length" @collapse>
+    <div class="slot" *ngIf="userDecks.length" @appear>
       <h1>
         Deine neuesten Decks
       </h1>

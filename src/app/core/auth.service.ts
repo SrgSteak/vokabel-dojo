@@ -40,6 +40,7 @@ export class AuthService {
           const ref = doc(this.db, `users/${user.uid}`);
           return docData(ref);
         } else {
+          localStorage.removeItem('user')
           return of(null)
         }
       }),

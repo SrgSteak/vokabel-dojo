@@ -1,19 +1,20 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { AuthService } from '../core/auth.service';
+import { AuthService, User } from '../core/auth.service';
 import { DeckService } from '../core/services/deck.service';
 import { Title } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import { DeckInterface } from '../core/entities/deck';
-import { COLLAPSE_ANIMATION } from '../core/animations/modal.animation';
+import { APPEAR_ANIMATION } from '../core/animations/modal.animation';
 
 @Component({
   selector: 'app-welcome',
   templateUrl: './welcome.component.html',
   styleUrls: ['./welcome.component.scss'],
-  animations: [COLLAPSE_ANIMATION]
+  animations: [APPEAR_ANIMATION]
 })
 export class WelcomeComponent implements OnInit, OnDestroy {
 
+  user: User = null;
   userDecks = [];
   userDeckSub: Subscription;
 
@@ -24,7 +25,9 @@ export class WelcomeComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.title.setTitle('Vokabeldojo | Home');
+    this.user = this.auth.getUser();
     this.auth.user.subscribe(user => {
+      this.user = user;
       this.publicDeckSub = this.deckService.findNewestPublicDecks().subscribe(res => {
         this.publicDecks = res;
       });

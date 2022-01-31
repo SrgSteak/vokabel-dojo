@@ -1,6 +1,6 @@
 // read -> get/list
 // write -> create, update, delete
-
+rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     // Secure by default - nobody is allowed anything by default
@@ -12,26 +12,25 @@ service cloud.firestore {
     match /Decks/{deck} {
       // allow owners to read their data, allow all to read public data
       allow read: if request.auth.uid == resource.data.author || resource.data.author == '';
-
-      // only allow logged in users to create data
-      allow create: if request.auth.uid != null;
-
-      // allow owners and admins to write and update decks
-      allow update, delete: if request.auth.uid == resource.data.author || get(/databases/$(database)/documents/users/$(request.auth.uid)).role == 'admin';
+      // allow owners to create/update decks to be their own - allow admins all author ids
+      allow create, update: if request.auth.uid == request.resource.data.author || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+      // allow owners and admins to delete their decks
+      allow delete: if request.auth.uid == resource.data.author || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
     }
+
     match /Cards/{card} {
       // allow owners to read their cards, allow read if author is '' aka public
     	allow read: if request.auth.uid == resource.data.author || resource.data.author == '';
 
-      allow create: if request.auth.uid != null;
+      allow create, update: if request.auth.uid == request.resource.data.author || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
 
-      allow update, delete: if request.auth.uid == resource.data.author || get(/databases/$(database)/documents/users/$(request.auth.uid)).role == 'admin';
+      allow delete: if request.auth.uid == resource.data.author || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
     }
+
     match /users/{userId} {
         // only the owner is allowed to read his data from the user table
-      allow create, read, delete: if request.auth != null && request.auth.uid == userId;
-        // only owner is allowed to update data and only if the change won't touch the users role
-      allow update: if request.auth != null && request.auth.uid == userId && getAfter(/databases/$(database)/documents/users/$(userId)).data.role == 'user';
+      allow create, update: if request.auth.uid == userId && getAfter(/databases/$(database)/documents/users/$(userId)).data.role == 'user';
+      allow read, delete: if request.auth.uid == userId;
     }
   }
 }

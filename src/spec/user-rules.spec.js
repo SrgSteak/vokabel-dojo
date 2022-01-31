@@ -37,7 +37,7 @@ describe('/users/{userId} rules for firestore', () => {
         const alice = env.authenticatedContext('alice');
         const aliceCardCol = collection(alice.firestore(), 'users');
         const aliceCardDoc = doc(aliceCardCol, 'alice');
-        await assertSucceeds(setDoc(aliceCardDoc, { name: 'alice', email: 'a@a.a' }));
+        await assertSucceeds(setDoc(aliceCardDoc, { name: 'alice', email: 'a@a.a', role: 'user' }));
 
         // "login" unauthenticated and delete the cards
         const unauth = env.unauthenticatedContext();
@@ -64,7 +64,7 @@ describe('/users/{userId} rules for firestore', () => {
         const alice = env.authenticatedContext('alice');
         const aliceCardCol = collection(alice.firestore(), 'users');
         const aliceCardDoc = doc(aliceCardCol, 'alice');
-        await assertSucceeds(setDoc(aliceCardDoc, { name: 'alice' }));
+        await assertSucceeds(setDoc(aliceCardDoc, { name: 'alice', role: 'user' }));
 
 
         // "login" unauthenticated and read the deck
@@ -77,10 +77,10 @@ describe('/users/{userId} rules for firestore', () => {
         const nobody = env.authenticatedContext('alice');
         const nobRef = collection(nobody.firestore(), 'users');
         const nobDecRef = doc(nobRef, 'alice');
-        expect(await assertSucceeds(setDoc(nobDecRef, {})));
+        expect(await assertSucceeds(setDoc(nobDecRef, { role: 'user' })));
 
         const otherDecRef = doc(nobRef, 'somebodyelse');
-        expect(await assertFails(setDoc(otherDecRef, { name: 'mysecondAccount' })));
+        expect(await assertFails(setDoc(otherDecRef, { name: 'mysecondAccount', role: 'user' })));
     });
 
     test('authenticated people should be able to update their user data', async () => {
@@ -88,7 +88,7 @@ describe('/users/{userId} rules for firestore', () => {
         const alice = env.authenticatedContext('alice');
         const aliceCardCol = collection(alice.firestore(), 'users');
         const aliceCardDoc = doc(aliceCardCol, 'alice');
-        await assertSucceeds(setDoc(aliceCardDoc, { author: 'alice' }));
+        await assertSucceeds(setDoc(aliceCardDoc, { author: 'alice', role: 'user' }));
         expect(await assertSucceeds(setDoc(aliceCardDoc, { name: 'alice card', email: 'a@a.a', role: 'user', settings: { font: 'arial' } })));
     });
 
@@ -97,7 +97,7 @@ describe('/users/{userId} rules for firestore', () => {
         const alice = env.authenticatedContext('alice');
         const aliceCardCol = collection(alice.firestore(), 'users');
         const aliceCardDoc = doc(aliceCardCol, 'alice');
-        await assertSucceeds(setDoc(aliceCardDoc, { author: 'alice' }));
+        await assertSucceeds(setDoc(aliceCardDoc, { name: 'alice', role: 'user' }));
         expect(await assertFails(setDoc(aliceCardDoc, { name: 'alice card', email: 'a@a.a', role: 'admin', settings: { font: 'arial' } })));
     });
 
@@ -106,7 +106,7 @@ describe('/users/{userId} rules for firestore', () => {
         const alice = env.authenticatedContext('alice');
         const aliceDeckCol = collection(alice.firestore(), 'users');
         const aliceDeckDoc = doc(aliceDeckCol, 'alice');
-        await assertSucceeds(setDoc(aliceDeckDoc, { author: 'alice', name: 'alice card', desc: 'my first card' }));
+        await assertSucceeds(setDoc(aliceDeckDoc, { name: 'alice', role: 'user' }));
         expect(await assertSucceeds(deleteDoc(aliceDeckDoc)));
     });
 
@@ -115,7 +115,7 @@ describe('/users/{userId} rules for firestore', () => {
         const alice = env.authenticatedContext('alice');
         const aliceDeckCol = collection(alice.firestore(), 'users');
         const aliceDeckDoc = doc(aliceDeckCol, 'alice');
-        await assertSucceeds(setDoc(aliceDeckDoc, { author: 'alice' }));
+        await assertSucceeds(setDoc(aliceDeckDoc, { author: 'alice', role: 'user' }));
 
         // "login" unauthenticated and read the deck
         const roger = env.authenticatedContext('roger');
