@@ -4,6 +4,9 @@ import { CardType, WordType, VerbType, AdjectiveType, VerbContext } from './card
 
 export const cardConverter = {
   toFirestore(card: Card): DocumentData {
+    if (card.author == undefined || card.author == null) {
+      card.author = '';
+    }
     return card;
   },
 
