@@ -11,7 +11,7 @@ service cloud.firestore {
 
     match /Decks/{deck} {
       // allow owners to read their data, allow all to read public data
-      allow read: if request.auth.uid == resource.data.author || resource.data.author == '';
+      allow read: if (request.auth != null && request.auth.uid == resource.data.author) || resource.data.author == '';
       // allow owners to create/update decks to be their own - allow admins all author ids
       allow create, update: if request.auth.uid == request.resource.data.author || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
       // allow owners and admins to delete their decks
@@ -29,8 +29,8 @@ service cloud.firestore {
 
     match /users/{userId} {
         // only the owner is allowed to read his data from the user table
-      allow create, update: if request.auth.uid == userId && getAfter(/databases/$(database)/documents/users/$(userId)).data.role == 'user';
-      allow read, delete: if request.auth.uid == userId;
+      allow create, update: if request.auth != null && request.auth.uid == userId && getAfter(/databases/$(database)/documents/users/$(userId)).data.role == 'user';
+      allow read, delete: if request.auth != null && request.auth.uid == userId;
     }
   }
 }
