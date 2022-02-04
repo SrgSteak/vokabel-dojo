@@ -11,7 +11,6 @@ import { AuthService, User } from 'src/app/core/auth.service';
 
 export function requiredWhenWordType(type: WordType): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
-    console.log(control.value, control.root.get('wordType')?.value, type);
     if (control.root.get('wordType')?.value == type) {
       if (Array.isArray(control.value)) {
         control.value.forEach(val => {
@@ -66,13 +65,9 @@ export class EditComponent implements OnInit {
     debounceTime(300),
     distinctUntilChanged(),
     switchMap((phrase: string) => {
-      if (this.user.role == 'admin') {
-        return this.deckService.findByName(phrase);
-      } else {
-        return this.deckService.findByNameForUser(this.user.uid, phrase);
-      }
-    }
-    ));
+      return this.deckService.findByNameForUser(this.user?.role == 'admin' ? '' : this.user.uid, phrase);
+    })
+  );
 
   wordTypeToggle = false;
   verbTypeToggle = false;

@@ -138,8 +138,8 @@ export class CardService {
     }));
   }
 
-  queryForDeckUid(uid): Query<DocumentData> {
-    const q = query(this.ref, where('deck_uids', 'array-contains', uid), orderBy('createdAt', 'desc'));
+  queryForDeckUid(uid: string, authors = ['']): Query<DocumentData> {
+    const q = query(this.ref, where('author', 'in', authors), where('deck_uids', 'array-contains', uid), orderBy('author'), orderBy('createdAt', 'desc'));
     return q;
   }
 

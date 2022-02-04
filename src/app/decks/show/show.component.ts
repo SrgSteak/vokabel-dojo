@@ -49,24 +49,21 @@ export class ShowComponent implements OnInit, OnDestroy {
         this.user = user;
         this.allowEdit = user.role === 'admin';
       }
-    });
-    this.routeSub = this.route.paramMap.subscribe(params => {
-      this.mode = params.get('mode');
-      this.deckSub = this.deckService.getDeck(params.get('uid')).subscribe(data => {
-        this.deck = data;
-        this.title.setTitle('Vokabeldojo | ' + this.deck.name);
-        this.deck.uid = params.get('uid');
-      });
-      this.queryUnsubFunc = onSnapshot(this.cardService.queryForDeckUid(params.get('uid')), (querySnapshot) => {
-        this.cards = querySnapshot.docs.map(doc => {
-          const card = Card.createFromCardInterface(doc.data());
-          card.uid = doc.id;
-          return card;
+      this.routeSub = this.route.paramMap.subscribe(params => {
+        this.mode = params.get('mode');
+        this.deckSub = this.deckService.getDeck(params.get('uid')).subscribe(data => {
+          this.deck = data;
+          this.title.setTitle('Vokabeldojo | ' + this.deck.name);
+          this.deck.uid = params.get('uid');
+        });
+        this.queryUnsubFunc = onSnapshot(this.cardService.queryForDeckUid(params.get('uid'), [user.uid, '']), (querySnapshot) => {
+          this.cards = querySnapshot.docs.map(doc => {
+            const card = Card.createFromCardInterface(doc.data());
+            card.uid = doc.id;
+            return card;
+          });
         });
       });
-      // this.cardSub = this.cardService.loadForDeckUid(params.get('uid')).subscribe(cards => {
-      //   this.cards = cards;
-      // });
     });
   }
 

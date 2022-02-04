@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { ActionCodeSettings, Auth, GoogleAuthProvider, isSignInWithEmailLink, OAuthProvider, sendSignInLinkToEmail, signInWithEmailLink, signInWithPopup } from '@angular/fire/auth';
-import { Observable, of } from 'rxjs';
-import { switchMap, tap, distinctUntilChanged } from 'rxjs/operators';
+import { ActionCodeSettings, Auth, GoogleAuthProvider, isSignInWithEmailLink, OAuthProvider, onAuthStateChanged, sendSignInLinkToEmail, signInWithEmailLink, signInWithPopup } from '@angular/fire/auth';
+import { BehaviorSubject } from 'rxjs';
+import { distinctUntilChanged } from 'rxjs/operators';
 import _ from 'lodash';
-import { authState } from 'rxfire/auth';
-import { doc, Firestore, setDoc } from '@angular/fire/firestore';
+import { doc, Firestore, onSnapshot, setDoc } from '@angular/fire/firestore';
 import { docData } from 'rxfire/firestore';
 
 export interface User {
@@ -24,7 +23,8 @@ interface Settings {
 @Injectable({ providedIn: 'root' })
 export class AuthService {
 
-  user: Observable<User>;
+  user: BehaviorSubject<User>;
+  private snapUnSub;
   private _user: User = localStorage.getItem('user') !== null ? JSON.parse(localStorage.getItem('user')) : null;
 
   constructor(
@@ -32,30 +32,20 @@ export class AuthService {
     private db: Firestore,
     private router: Router
   ) {
-
-    //// Get auth data, then get firestore user document || null
-    this.user = authState(this.afAuth).pipe(
-      switchMap(user => {
-        if (user && user.uid) {
-          const ref = doc(this.db, `users/${user.uid}`);
-          return docData(ref);
-        } else {
-          localStorage.removeItem('user')
-          return of(null)
-        }
-      }),
-      // Add these lines to set/read the user data to local storage
-      tap(user => {
-        if (user && user.uid) {
-          this._user = user;
-          localStorage.setItem('user', JSON.stringify(user))
-        }
-      })
-    )
-  }
-
-  getUser(): User | null {
-    return this._user;
+    this.user = new BehaviorSubject<User>(this._user);
+    onAuthStateChanged(this.afAuth, (user) => {
+      if (user) { // logged in
+        const ref = doc(this.db, `users/${user.uid}`);
+        this.snapUnSub = onSnapshot(ref, (user) => {
+          localStorage.setItem('user', JSON.stringify(user.data()));
+          this.user.next(user.data() as User);
+        });
+      } else { // logged out
+        localStorage.removeItem('user');
+        this.user.next(null);
+        if (this.snapUnSub) { this.snapUnSub(); }
+      }
+    });
   }
 
   googleLogin() {
@@ -130,7 +120,7 @@ export class AuthService {
     // Sets user data to firestore on login
     if (user.uid) {
       const userRef = doc(this.db, `users/${user.uid}`); // no document with this uid? storedUser will be undefined but can be added to the db
-      docData(userRef).pipe(
+      const sub = docData(userRef).pipe(
         distinctUntilChanged((prev, curr) => _.isEqual(prev, curr))
       ).subscribe(storedUser => {
         if (!storedUser) { // new user!
@@ -149,6 +139,11 @@ export class AuthService {
 
         setDoc(userRef, storedUser, { merge: true }).then(() => {
           localStorage.setItem('user', JSON.stringify(user));
+        }).then(() => {
+          if (sub) {
+            console.log('unsubscribe user update');
+            sub.unsubscribe()
+          };
         });
       });
     } else { // this is a new user, unknown to the firebase db. create him
@@ -158,7 +153,6 @@ export class AuthService {
 
   signOut() {
     this.afAuth.signOut().then(() => {
-      localStorage.removeItem('user');
       this.router.navigate(['/']);
     });
   }
@@ -168,7 +162,6 @@ export class AuthService {
    */
   deleteAccount() {
     this.afAuth.currentUser.delete().then(() => {
-      localStorage.removeItem('user');
       this.router.navigate(['/']);
     }, (error) => {
       alert('Du musst dich neu Anmelden, um diese Aktion zu bestätigen. ' + error);

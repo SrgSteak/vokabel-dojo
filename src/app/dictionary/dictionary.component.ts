@@ -26,13 +26,14 @@ export class DictionaryComponent implements OnInit, OnDestroy {
   searchForm = new FormControl('');
 
   private searchFormSub: Subscription;
+  private userSub: Subscription;
   private cardSub: Subscription;
   private cards: Card[] = [];
 
   constructor(private router: Router, private auth: AuthService, private cardService: CardService) { }
 
   ngOnInit() {
-    this.auth.user.subscribe(user => {
+    this.userSub = this.auth.user.subscribe(user => {
       this.user = user;
     });
     this.cardSub = this.cardService.allPublicCards().subscribe(cards => {

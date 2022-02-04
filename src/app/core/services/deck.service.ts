@@ -89,7 +89,7 @@ export class DeckService extends FlashcardService {
    */
   findNewestDecksForUser(user_uid: string, numberResults = 3): Observable<DeckInterface[]> {
     const q = query(this.ref, where('author', '==', user_uid), orderBy('updatedAt', 'desc'), limit(numberResults)).withConverter(deckConverter)
-    return collectionData(q, { idField: 'uid' }) as Observable<DeckInterface[]>;
+    return collectionData(q, { idField: 'uid' });
   }
 
   copyDeckForUser(deck: DeckInterface, user_uid: string) {

@@ -64,6 +64,7 @@ export class CardInfoComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this.routerSub) { this.routerSub.unsubscribe(); }
     if (this.cardSub) { this.cardSub.unsubscribe(); }
+    if (this.authSub) { this.authSub.unsubscribe(); }
   }
 
   close() {

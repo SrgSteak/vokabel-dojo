@@ -16,30 +16,34 @@ export class WelcomeComponent implements OnInit, OnDestroy {
 
   user: User = null;
   userDecks = [];
-  userDeckSub: Subscription;
-
   publicDecks: DeckInterface[] = [];
+
+  userDeckSub: Subscription;
   publicDeckSub: Subscription;
+  authSub: Subscription;
 
   constructor(public auth: AuthService, private deckService: DeckService, private title: Title) { }
 
   ngOnInit() {
     this.title.setTitle('Vokabeldojo | Home');
-    this.user = this.auth.getUser();
-    this.auth.user.subscribe(user => {
+    this.authSub = this.auth.user.subscribe(user => {
       this.user = user;
       this.publicDeckSub = this.deckService.findNewestPublicDecks().subscribe(res => {
         this.publicDecks = res;
       });
-      if (user) {
+      if (user && user.uid) {
         this.userDeckSub = this.deckService.findNewestDecksForUser(user.uid).subscribe(res => {
           this.userDecks = res;
         });
+      } else {
+        this.userDecks = [];
+        if (this.userDeckSub) { this.userDeckSub.unsubscribe(); }
       }
     });
   }
 
   ngOnDestroy() {
+    if (this.authSub) { this.authSub.unsubscribe(); }
     if (this.userDeckSub) { this.userDeckSub.unsubscribe(); }
     if (this.publicDeckSub) { this.publicDeckSub.unsubscribe(); }
   }
