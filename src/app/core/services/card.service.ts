@@ -139,7 +139,7 @@ export class CardService {
   }
 
   queryForDeckUid(uid: string, authors = ['']): Query<DocumentData> {
-    const q = query(this.ref, where('author', 'in', authors), where('deck_uids', 'array-contains', uid), orderBy('author'), orderBy('createdAt', 'desc'));
+    const q = query(this.ref, where('author', 'in', authors), where('deck_uids', 'array-contains', uid), orderBy('createdAt', 'desc'));
     return q;
   }
 

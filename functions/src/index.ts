@@ -29,7 +29,7 @@ async function deleteQueryBatch(
   // Recurse on the next process tick, to avoid
   // exploding the stack.
   process.nextTick(() => {
-    deleteQueryBatch(db, query, resolve);
+    deleteQueryBatch(db, query, resolve).then(() => resolve()).catch(() => { console.log('could not execute deleteQueryBatch') });
   });
 }
 
@@ -41,11 +41,11 @@ export const onUserDelete = functions.firestore.document('/users/{documentId}').
   const cardQuery = db.collection('Cards').where('author', '==', uid).limit(20);
   const deckQuery = db.collection('Decks').where('author', '==', uid).limit(20);
   return Promise.all([
-    new Promise((resolve, reject) => {
-      deleteQueryBatch(db, cardQuery, resolve)
+    new Promise<void>((resolve, reject) => {
+      deleteQueryBatch(db, cardQuery, resolve).then(() => resolve(), () => reject())
     }),
-    new Promise((resolve, reject) => {
-      deleteQueryBatch(db, deckQuery, resolve)
+    new Promise<void>((resolve, reject) => {
+      deleteQueryBatch(db, deckQuery, resolve).then(() => resolve(), () => reject())
     })
   ]);
 });
