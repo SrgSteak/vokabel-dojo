@@ -40,8 +40,7 @@ export class ShowComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     public auth: AuthService,
-    private title: Title,
-    private cdr: ChangeDetectorRef) { }
+    private title: Title) { }
 
   ngOnInit() {
     this.userSub = this.auth.user.subscribe(user => {
@@ -56,7 +55,7 @@ export class ShowComponent implements OnInit, OnDestroy {
           this.title.setTitle('Vokabeldojo | ' + this.deck.name);
           this.deck.uid = params.get('uid');
         });
-        this.queryUnsubFunc = onSnapshot(this.cardService.queryForDeckUid(params.get('uid'), [user.uid, '']), (querySnapshot) => {
+        this.queryUnsubFunc = onSnapshot(this.cardService.queryForDeckUid(params.get('uid'), user?.uid ? [user.uid, ''] : ['']), (querySnapshot) => {
           this.cards = querySnapshot.docs.map(doc => {
             const card = Card.createFromCardInterface(doc.data());
             card.uid = doc.id;

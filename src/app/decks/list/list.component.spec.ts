@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AuthService, User } from 'src/app/core/auth.service';
 import { Deck, DeckService } from 'src/app/core/services/deck.service';
 
@@ -19,10 +19,7 @@ describe('ListComponent', () => {
   }
 
   let authServiceSub: Partial<AuthService> = {
-    user: of({ uid: '', role: 'user', email: '' }),
-    getUser(): User | null {
-      return null;
-    }
+    user: new BehaviorSubject({ uid: '', role: 'user', email: '' })
   }
 
   beforeEach(waitForAsync(() => {

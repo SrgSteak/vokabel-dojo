@@ -6,6 +6,7 @@ import { distinctUntilChanged } from 'rxjs/operators';
 import _ from 'lodash';
 import { doc, Firestore, onSnapshot, setDoc } from '@angular/fire/firestore';
 import { docData } from 'rxfire/firestore';
+import { deleteDoc } from 'firebase/firestore';
 
 export interface User {
   uid: string;
@@ -34,11 +35,13 @@ export class AuthService {
   ) {
     this.user = new BehaviorSubject<User>(this._user);
     onAuthStateChanged(this.afAuth, (user) => {
-      if (user) { // logged in
+      if (user && user.uid) { // logged in
         const ref = doc(this.db, `users/${user.uid}`);
         this.snapUnSub = onSnapshot(ref, (user) => {
-          localStorage.setItem('user', JSON.stringify(user.data()));
-          this.user.next(user.data() as User);
+          if (user) {
+            localStorage.setItem('user', JSON.stringify(user.data()));
+            this.user.next(user.data() as User);
+          }
         });
       } else { // logged out
         localStorage.removeItem('user');
@@ -161,10 +164,15 @@ export class AuthService {
    * deletes the login user from the firebase auth
    */
   deleteAccount() {
-    this.afAuth.currentUser.delete().then(() => {
-      this.router.navigate(['/']);
-    }, (error) => {
-      alert('Du musst dich neu Anmelden, um diese Aktion zu bestätigen. ' + error);
+    if (this.snapUnSub) { this.snapUnSub(); }
+    localStorage.removeItem('user');
+    deleteDoc(doc(this.db, `users/${this.user.value.uid}`)).then(() => {
+      this.afAuth.currentUser.delete().then(() => {
+        this.user.next(null);
+        this.router.navigate(['/']);
+      }, (error) => {
+        alert('Du musst dich neu Anmelden, um diese Aktion zu bestätigen. ' + error);
+      });
     });
   }
 }
