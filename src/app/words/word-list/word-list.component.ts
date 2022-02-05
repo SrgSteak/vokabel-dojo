@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, OnChanges, SimpleChanges, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import FuzzySearch from 'fuzzy-search';
@@ -10,20 +10,21 @@ import { CardInterface } from 'src/app/core/entities/card-interface';
 import { Card } from 'src/app/core/entities/card';
 import { FontSwitcherService } from 'src/app/core/services/font-switcher.service';
 import { CardType, WordType, AdjectiveType, VerbType } from 'src/app/core/entities/card-type';
+import { APPEAR_ANIMATION } from 'src/app/core/animations/modal.animation';
 
 @Component({
   selector: 'app-word-list',
   templateUrl: './word-list.component.html',
-  styleUrls: ['./word-list.component.scss']
+  styleUrls: ['./word-list.component.scss'],
+  animations: [APPEAR_ANIMATION]
 })
-export class WordListComponent implements OnInit, OnDestroy {
+export class WordListComponent implements OnInit, OnDestroy, OnChanges {
 
   @Input() cards: Array<Card>;
   @Input() user: User;
   @Input() deck: Deck;
   @Input() allowEdit = false;
   @Output() selectedCard = new EventEmitter<CardInterface>();
-  words: Array<Card>;
   showSubmenu = false;
   modeSub: Subscription;
   searchFormSub: Subscription;
@@ -66,21 +67,31 @@ export class WordListComponent implements OnInit, OnDestroy {
     return VerbType;
   }
 
-  constructor(private router: Router, private cardService: CardService, public fontSwitcherService: FontSwitcherService) { }
+  constructor(
+    private router: Router,
+    private cardService: CardService,
+    public fontSwitcherService: FontSwitcherService,
+    private cdr: ChangeDetectorRef
+  ) { }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    for (const propName in changes) {
+      const chng = changes[propName];
+      const cur = JSON.stringify(chng.currentValue);
+      const prev = JSON.stringify(chng.previousValue);
+      this.cdr.detectChanges();
+      // this.changeLog.push(`${propName}: currentValue = ${cur}, previousValue = ${prev}`);
+    }
+  }
 
   ngOnInit() {
-    this.words = this.cards;
-    if (!this.words) {
+    if (!this.cards) {
       this.cardSub = this.cardService.allPublicCards().subscribe(data => {
         this.cards = data.map(e => {
           const card = Card.createFromCardInterface(e);
           return card;
         });
-        this.words = this.cards;
-        this.updateTable();
       })
-    } else {
-      this.updateTable();
     }
     this.modeSub = this.modeForm.valueChanges.subscribe(() => {
       this.updateFilter();
@@ -107,17 +118,8 @@ export class WordListComponent implements OnInit, OnDestroy {
       const searcher = new FuzzySearch(this.cards, ['german', 'japanese', 'examples.german', 'examples.japanese', 'examples.reading', 'japanese_readings', 'chinese_readings'], {
         caseSensitive: false,
       });
-      this.words = searcher.search(this.searchForm.value);
-    } else {
-      this.words = this.cards;
+      this.cards = searcher.search(this.searchForm.value);
     }
-    this.updateTable();
-  }
-
-  updateTable() {
-    this.showGerman = this.containsGerman();
-    this.showExamples = this.containsExamples();
-    this.showReadings = this.containsReadings();
   }
 
   reading(word: CardInterface, mode: string) {
@@ -174,38 +176,8 @@ export class WordListComponent implements OnInit, OnDestroy {
     }
   }
 
-  containsReadings() {
-    let asdf = false;
-    this.words.forEach(card => {
-      if (card.hasReadings()) {
-        asdf = true;
-      }
-    });
-    return asdf;
-  }
-
-  containsGerman() {
-    let asdf = false;
-    this.words.forEach(card => {
-      if (card.hasGerman()) {
-        asdf = true;
-      }
-    });
-    return asdf;
-  }
-
-  containsExamples() {
-    let asdf = false
-    this.words.forEach(card => {
-      if (card.hasExamples()) {
-        asdf = true;
-      }
-    });
-    return asdf;
-  }
-
   show(card: CardInterface) {
     this.selectedCard.emit(card);
-    this.router.navigate([{ outlets: { modal: ['card', card.uid] } }])
+    this.router.navigate([{ outlets: { modal: ['cards', card.uid] } }])
   }
 }

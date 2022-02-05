@@ -1,0 +1,4 @@
+<a [routerLink]="[ { outlets: { modal: 'selection'}}]" *ngIf="selectService.cards.length" class="d-flex"
+    [@bubble]="selectService.cards.length">{{
+    selectService.cards.length
+    }}</a>

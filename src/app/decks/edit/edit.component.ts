@@ -7,6 +7,7 @@ import { Card } from 'src/app/core/entities/card';
 import { AuthService, User } from 'src/app/core/auth.service';
 import { Subscription } from 'rxjs';
 import { FLY_IN_OUT_ANIMATION } from 'src/app/core/animations/modal.animation';
+import { DeckInterface } from 'src/app/core/entities/deck';
 
 @Component({
   selector: 'app-deck-public-edit',
@@ -20,7 +21,6 @@ export class EditComponent implements OnInit, OnDestroy {
 
   @HostBinding('@flyInOutTrigger') flyInOutTrigger = 'in';
 
-  deck: Deck;
   user: User;
 
   userSub: Subscription;
@@ -28,25 +28,15 @@ export class EditComponent implements OnInit, OnDestroy {
   routeSub: Subscription;
 
   deckForm = this.fb.group({
-    name: ['', [Validators.required]],
-    description: ['']
+    name: ['', [Validators.required, Validators.minLength(1)]],
+    description: [''],
+    uid: [null],
+    author: [''],
+    createdAt: [''],
+    updatedAt: ['']
   });
 
-  options = {
-    fieldSeparator: ';',
-    showLabels: false,
-    headers: ['japanese', 'reading', 'german'],
-    useBom: false,
-    removeNewLines: false
-  };
-  data = [
-    {
-      japanese: "綺麗",
-      reading: "きれい",
-      german: "schön"
-    },
-  ];
-
+  uid: string;
 
   constructor(
     private authService: AuthService,
@@ -63,21 +53,16 @@ export class EditComponent implements OnInit, OnDestroy {
     this.userSub = this.authService.user.subscribe(_user => {
       this.user = _user;
       this.routeSub = this.route.paramMap.subscribe(params => {
-        if (params.has('uid')) {
-          this.deckSub = this.DeckService.get(params.get('uid')).subscribe(deck => {
-            this.deck = deck;
+        if (params.has('uid')) { // edit form
+          this.uid = params.get('uid');
+          this.deckSub = this.DeckService.getDeck(params.get('uid')).subscribe(deck => {
             if (deck) {
-              this.deck.uid = params.get('uid');
-              if (this.user.role == 'admin' || this.user.uid == this.deck.author) {
-              } else {
-                this.router.navigate(['/decks/', this.deck.uid]);
+              if (this.user.role != 'admin' && this.user.uid != deck.author) {
+                this.router.navigate(['/decks/', deck.uid]);
               }
-              this.deckForm.get('name').setValue(this.deck.name);
-              this.deckForm.get('description').setValue(this.deck.description);
+              this.deckForm.patchValue(deck);
             }
           });
-        } else {
-          this.deck = { name: '', description: '', author: '', uid: '', numberCards: 0 };
         }
       });
     })
@@ -89,19 +74,21 @@ export class EditComponent implements OnInit, OnDestroy {
     if (this.deckSub) { this.deckSub.unsubscribe(); }
   }
 
+  /**
+   * write changes to the document store.
+   * Will redirect to the document show on success
+   */
   onSubmit() {
     if (this.deckForm.valid) {
-      this.deck.name = this.deckForm.get('name').value;
-      this.deck.description = this.deckForm.get('description').value;
-      this.deck.author = this.user.role == 'admin' ? '' : this.user.uid;
-      if (this.deck.uid) {
-        this.DeckService.update(this.deck.uid, this.deck);
-        this.router.navigate([{ outlets: { primary: ['decks', this.deck.uid], modal: null } }]);
-      } else {
-        this.DeckService.add(this.deck).then(reference => {
-          this.router.navigate([{ outlets: { primary: ['decks', reference.id], modal: null } }]);
-        })
+      if (!this.deckForm.get('createdAt').value) {
+        this.deckForm.get('createdAt').setValue(new Date());
       }
+      if (!this.deckForm.get('author').value) {
+        this.deckForm.get('author').setValue(this.user.role == 'admin' ? '' : this.user.uid);
+      }
+      this.DeckService.write(this.deckForm.value).then(reference => {
+        this.router.navigate([{ outlets: { primary: [reference.id], modal: null } }], { relativeTo: this.route.parent });
+      });
     } else {
       this.deckForm.markAsTouched();
     }
@@ -109,49 +96,17 @@ export class EditComponent implements OnInit, OnDestroy {
 
   onDelete() {
     if (confirm('Deck löschen? Lernkarten bleiben erhalten.')) {
-      this.DeckService.delete(this.deck.uid);
+      this.DeckService.delete(this.uid);
       this.router.navigate([{ outlets: { primary: ['decks'], modal: null } }]);
     }
   }
 
   onDeleteWithCards() {
     if (confirm('Deck und alle enthaltenen Lernkarten löschen?')) {
-      this.CardService.deleteForDeck(this.deck.uid);
-      this.DeckService.delete(this.deck.uid);
-      this.router.navigate([{ outlets: { primary: ['decks'], modal: null } }]);
-    }
-  }
-
-  importCSVCards(input: HTMLInputElement): void {
-    if (input.files && input.files.length) {
-      const fileReader = new FileReader();
-      fileReader.onload = this.onFileLoad();
-      for (let index = 0; index < input.files.length; index++) {
-        fileReader.readAsText(input.files[index], "UTF-8");
-      }
-    }
-  }
-
-  private onFileLoad() {
-    return (file) => {
-      const csvSeparator = ';';
-      const csv = [];
-      const lines = file.target.result.split('\r');
-      lines.forEach(element => {
-        const cols: string[] = element.split(csvSeparator);
-        csv.push(cols);
-      });
-      console.log(csv);
-      csv.forEach(line => {
-        if (line.japanese !== 'japanese') {
-          const card = new Card();
-          card.japanese = line[0];
-          card.japanese_readings = line[1].split(',');
-          card.german = line[2].split(',');
-          // card.decks.push(this.deck.uid);
-          this.CardService.add(card);
-        }
+      this.CardService.deleteForDeck(this.uid).then(() => {
+        this.DeckService.delete(this.uid);
+        this.router.navigate([{ outlets: { primary: ['decks'], modal: null } }]);
       });
     }
-  };
+  }
 }

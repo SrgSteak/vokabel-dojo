@@ -1,59 +1,66 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
 import { CardInterface } from '../entities/card-interface';
-import { Card } from '../entities/card';
+import { Card, cardConverter } from '../entities/card';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import _ from 'lodash';
+import { collection, collectionData, doc, docData, DocumentReference, Firestore, getDoc, orderBy, query, setDoc, where } from '@angular/fire/firestore';
+import { deleteDoc, DocumentData, DocumentSnapshot, Query } from 'firebase/firestore';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CardService {
 
-  constructor(private afs: AngularFirestore) { }
+  private ref = collection(this.afs, 'Cards');
 
-  get(id: string) {
-    return this.afs.collection('Cards').doc<CardInterface>(id);
+  constructor(private readonly afs: Firestore) { }
+
+  get(id: string): Observable<Card> {
+    return docData(doc(this.afs, `Cards/${id}`)) as Observable<Card>;
   }
 
   getCard(uid: string): Observable<Card> {
-    return this.afs.collection('Cards').doc<CardInterface>(uid).snapshotChanges().pipe(
-      distinctUntilChanged(
-        (prev, curr) => _.isEqual(prev?.payload.data(), curr?.payload.data())
-      ),
-      map(cardInterface => {
-        const card = Card.createFromCardInterface(cardInterface.payload.data());
-        card.uid = cardInterface.payload.id;
-        return card;
-      })
-    );
+    const docRef = doc(this.afs, `Cards/${uid}`).withConverter(cardConverter);
+    return docData(docRef, { idField: 'uid' });
+  }
+
+  getCardOnce(uid: string): Promise<DocumentSnapshot<Card>> {
+    const docRef = doc(this.afs, `Cards/${uid}`).withConverter(cardConverter);
+    return getDoc(docRef);
   }
 
   /**
    * get all cards that are found with the given uid array
    * @param uids
    */
-  getMultiple(uids: Array<string>) {
-    return this.afs.collection<Card>(
-      'Cards',
-      ref => ref.orderBy('createdAt', 'desc').where('uid', 'in', uids)
-    ).valueChanges({ idField: 'uid' }).pipe(map(cardinterfaces => {
-      const cards = [];
-      cardinterfaces.forEach(_cardInterface => {
-        cards.push(Card.createFromCardInterface(_cardInterface));
-      })
-      return cards;
-    }));
+  getMultiple(uids: Array<string>): Observable<Card[]> {
+    const q = query(this.ref, where('uid', 'in', uids));
+    return collectionData(q, { idField: 'uid' }) as Observable<Card[]>;
+    // return this.afs.collection<Card>(
+    //   'Cards',
+    //   ref => ref.orderBy('createdAt', 'desc').where('uid', 'in', uids)
+    // ).valueChanges({ idField: 'uid' }).pipe(map(cardinterfaces => {
+    //   const cards = [];
+    //   cardinterfaces.forEach(_cardInterface => {
+    //     cards.push(Card.createFromCardInterface(_cardInterface));
+    //   })
+    //   return cards;
+    // }));
   }
 
   /**
    * @param card New Card to add to Database
    */
-  add(card: CardInterface) {
-    card.createdAt = new Date();
-    card.updatedAt = new Date();
-    this.afs.collection('Cards').add(Object.assign({}, card));
+  add(card: CardInterface): Promise<DocumentReference> {
+    return new Promise((resolve, reject) => {
+      card.createdAt = new Date();
+      card.updatedAt = new Date();
+      const ref = doc(this.ref);
+      setDoc(ref, Object.assign({}, card)).then(() => {
+        resolve(ref);
+      })
+    });
   }
 
   /**
@@ -62,61 +69,78 @@ export class CardService {
    */
   update(card: CardInterface) {
     card.updatedAt = new Date();
-    try {
-      this.afs.collection('Cards').doc(card.uid).set(Object.assign({}, card), { merge: true });
-    } catch (e) {
-      console.error(e);
-      console.log(card);
-    }
+    return setDoc(doc(this.ref, card.uid), Object.assign({}, card), { merge: true });
+  }
+
+  /**
+   * saves a card to the document store.
+   * Can be used to create or update entries.
+   * @param card
+   * @returns The document reference
+   */
+  write(card: CardInterface): Promise<DocumentReference> {
+    return new Promise((resolve, reject) => {
+      card.updatedAt = new Date();
+      let ref: DocumentReference;
+      if (card.uid) {
+        ref = doc(this.ref, card.uid)
+      } else {
+        card.createdAt = new Date();
+        ref = doc(this.ref);
+      }
+      setDoc(ref, Object.assign({}, card)).then(() => {
+        resolve(ref);
+      }, (error) => {
+        console.error('could not write Card!', card);
+        console.error(error);
+        reject(error);
+      })
+    });
   }
 
   delete(id: string) {
-    this.afs.collection('Cards').doc(id).delete();
+    return deleteDoc(doc(this.ref, id));
   }
 
-  loadAll() {
-    return this.afs.collection<Card>(
-      'Cards',
-      ref => ref.orderBy('createdAt', 'desc')
-    );
+  loadAll(): Observable<CardInterface[]> {
+    const q = query(this.ref, orderBy('createdAt', 'desc'));
+    return collectionData(q, { idField: 'uid' }) as Observable<CardInterface[]>;
   }
 
   /**
    * observable of all public (author == '') cards
    */
   allPublicCards(): Observable<Array<CardInterface>> {
-    return this.afs.collection<CardInterface>(
-      'Cards',
-      ref => ref.orderBy('createdAt', 'desc').where('author', '==', '')
-    ).valueChanges({ idField: 'uid' });
+    const q = query(this.ref, where('author', '==', ''), orderBy('createdAt', 'desc'));
+    return collectionData(q, { idField: 'uid' }) as Observable<CardInterface[]>;
   }
 
   /**
    * observable of all user (author == uid) cards
    * @param uid the uid of the given user
    */
-  allCardsForUser(uid: string): Observable<Array<CardInterface>> {
-    return this.afs.collection<CardInterface>(
-      'Cards',
-      ref => ref.orderBy('createdAt', 'desc').where('author', '==', uid)
-    ).valueChanges({ idField: 'uid' });
+  allCardsForUser(uid: string): Observable<Card[]> {
+    const q = query(this.ref, where('author', '==', uid), orderBy('createdAt', 'desc')).withConverter(cardConverter);
+    return collectionData(q) as Observable<Card[]>;
   }
 
   /**
    * loads all cards that are in the given deck uid. should replace "loadForDeck"
    * @param uid the uid of the deck
    */
-  loadForDeckUid(uid: string): Observable<Array<Card>> {
-    return this.afs.collection<CardInterface>(
-      'Cards',
-      ref => ref.orderBy('createdAt', 'desc').where('deck_uids', 'array-contains', uid)
-    ).valueChanges({ idField: 'uid' }).pipe(map(cardinterfaces => {
+  loadForDeckUid(uid: string): Observable<Card[]> {
+    return (collectionData(this.queryForDeckUid(uid), { idField: 'uid' }) as Observable<CardInterface[]>).pipe(map(cardinterfaces => {
       const cards = [];
       cardinterfaces.forEach(_cardInterface => {
         cards.push(Card.createFromCardInterface(_cardInterface));
       })
       return cards;
     }));
+  }
+
+  queryForDeckUid(uid: string, authors = ['']): Query<DocumentData> {
+    const q = query(this.ref, where('author', 'in', authors), where('deck_uids', 'array-contains', uid), orderBy('createdAt', 'desc'));
+    return q;
   }
 
   deleteForUser(uid: string) {
@@ -129,11 +153,14 @@ export class CardService {
     })
   }
 
-  deleteForDeck(deckUid: string) {
-    const sub = this.loadForDeckUid(deckUid).subscribe(cards => {
-      if (sub) { sub.unsubscribe(); }
-      cards.forEach(card => {
-        this.delete(card.uid);
+  deleteForDeck(deckUid: string): Promise<null> {
+    return new Promise((resolve, reject) => {
+      const sub = this.loadForDeckUid(deckUid).subscribe(cards => {
+        if (sub) { sub.unsubscribe(); }
+        cards.forEach(card => {
+          this.delete(card.uid);
+        });
+        resolve(null);
       });
     });
   }

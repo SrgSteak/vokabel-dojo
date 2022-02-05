@@ -1,25 +1,23 @@
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase, AngularFireList, AngularFireObject } from '@angular/fire/database';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { addDoc, collection, doc, Firestore } from '@angular/fire/firestore';
+import { docData } from 'rxfire/firestore';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SubscriptionService {
 
-  constructor(private db: AngularFirestore) { }
+  constructor(private db: Firestore) { }
 
   getSubscriptions() {
-    this.db.collection('subscriptions').get().subscribe(asdf => {
-      asdf.forEach(sub => {console.log(sub)});
+    const ref = doc(this.db, 'subscriptions')
+    docData(ref).pipe().subscribe(asdf => {
+      asdf.forEach(sub => { console.log(sub) });
     });
   }
 
   addSubscription(sub: PushSubscription) {
-    // const ref = this.db.collection('subscriptions', ref => ref.where(sub.toJSON().keys.p256dh, '==', 'keys.p256dh'));
-
-    this.db.collection('subscriptions').add(sub.toJSON());
-    this.getSubscriptions();
-
+    const ref = collection(this.db, 'subscriptions');
+    addDoc(ref, sub.toJSON());
   }
 }

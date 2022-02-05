@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { AngularFireAuth } from '@angular/fire/auth';
-import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
-
-import { Observable, of } from 'rxjs';
-import { switchMap, tap, startWith, distinctUntilChanged } from 'rxjs/operators';
-import firebase from 'firebase';
+import { ActionCodeSettings, Auth, GoogleAuthProvider, isSignInWithEmailLink, OAuthProvider, onAuthStateChanged, sendSignInLinkToEmail, signInWithEmailLink, signInWithPopup } from '@angular/fire/auth';
+import { BehaviorSubject } from 'rxjs';
+import { distinctUntilChanged } from 'rxjs/operators';
 import _ from 'lodash';
-import { DeckService } from './services/deck.service';
-import { CardService } from './services/card.service';
+import { doc, Firestore, onSnapshot, setDoc } from '@angular/fire/firestore';
+import { docData } from 'rxfire/firestore';
+import { deleteDoc } from 'firebase/firestore';
 
 export interface User {
   uid: string;
@@ -26,47 +24,40 @@ interface Settings {
 @Injectable({ providedIn: 'root' })
 export class AuthService {
 
-  user: Observable<User>;
+  user: BehaviorSubject<User>;
+  private snapUnSub;
   private _user: User = localStorage.getItem('user') !== null ? JSON.parse(localStorage.getItem('user')) : null;
 
   constructor(
-    private afAuth: AngularFireAuth,
-    private afs: AngularFirestore,
-    private router: Router,
-    private deckService: DeckService,
-    private cardService: CardService
+    private afAuth: Auth,
+    private db: Firestore,
+    private router: Router
   ) {
-
-    //// Get auth data, then get firestore user document || null
-    this.user = this.afAuth.authState.pipe(
-      switchMap(user => {
-        if (user && user.uid) {
-          return this.afs.doc<User>(`users/${user.uid}`).valueChanges()
-        } else {
-          return of(null)
-        }
-      }),
-      // Add these lines to set/read the user data to local storage
-      tap(user => {
-        if (user && user.uid) {
-          this._user = user;
-          localStorage.setItem('user', JSON.stringify(user))
-        }
-      })
-    )
-  }
-
-  getUser(): User | null {
-    return this._user;
+    this.user = new BehaviorSubject<User>(this._user);
+    onAuthStateChanged(this.afAuth, (user) => {
+      if (user && user.uid) { // logged in
+        const ref = doc(this.db, `users/${user.uid}`);
+        this.snapUnSub = onSnapshot(ref, (user) => {
+          if (user) {
+            localStorage.setItem('user', JSON.stringify(user.data()));
+            this.user.next(user.data() as User);
+          }
+        });
+      } else { // logged out
+        localStorage.removeItem('user');
+        this.user.next(null);
+        if (this.snapUnSub) { this.snapUnSub(); }
+      }
+    });
   }
 
   googleLogin() {
-    const provider = new firebase.auth.GoogleAuthProvider()
+    const provider = new GoogleAuthProvider()
     return this.oAuthLogin(provider);
   }
 
   appleLogin() {
-    const provider = new firebase.auth.OAuthProvider('apple.com');
+    const provider = new OAuthProvider('apple.com');
     provider.addScope('email');
     provider.addScope('name');
     provider.setCustomParameters({ locale: 'de' });
@@ -74,14 +65,14 @@ export class AuthService {
   }
 
   private oAuthLogin(provider) {
-    return this.afAuth.signInWithPopup(provider)
+    return signInWithPopup(this.afAuth, provider)
       .then((credential) => {
         this.updateUserData(credential.user)
       })
   }
 
   emailLogin(email: string, username: string) {
-    const settings: firebase.auth.ActionCodeSettings = {
+    const settings: ActionCodeSettings = {
       url: 'https://vokabeldojo.web.app/user/finish-magic-link',
       handleCodeInApp: true,
       iOS: {
@@ -94,7 +85,7 @@ export class AuthService {
       },
       dynamicLinkDomain: 'vokabeldojo.page.link'
     }
-    this.afAuth.sendSignInLinkToEmail(email, settings).then(() => {
+    sendSignInLinkToEmail(this.afAuth, email, settings).then(() => {
       window.alert('E-Mail wurde erfolgreich gesendet. Bitte prüfe dein Postfach und folge dem Link.');
       window.localStorage.setItem('magicLinkEmail', email);
       window.localStorage.setItem('magicLinkName', username);
@@ -105,13 +96,13 @@ export class AuthService {
   }
 
   emailValidateLogin() {
-    if (this.afAuth.isSignInWithEmailLink(window.location.href)) {
+    if (isSignInWithEmailLink(this.afAuth, window.location.href)) {
       let email = window.localStorage.getItem('magicLinkEmail');
       if (!email) {
         email = window.prompt('Bitte die E-Mail eingeben von der dieser Link stammt');
       }
 
-      this.afAuth.signInWithEmailLink(email, window.location.href).then((result) => {
+      signInWithEmailLink(this.afAuth, email, window.location.href).then((result) => {
         window.localStorage.removeItem('magicLinkEmail');
         const user = result.user;
         let username = window.localStorage.getItem('magicLinkName');
@@ -119,10 +110,8 @@ export class AuthService {
         if (!username) {
           username = window.prompt('Bitte geben Sie noch ihren Usernamen an');
         }
-        user.updateProfile({ displayName: username }).then(() => {
-          this.updateUserData(user);
-          this.router.navigate(['/']);
-        });
+        this.updateUserData(user);
+        this.router.navigate(['/']);
       }).catch((error) => {
         window.alert('Bei der überprüfung ist ein Fehler aufgetreten.');
         console.error(error);
@@ -132,10 +121,9 @@ export class AuthService {
 
   public updateUserData(user) {
     // Sets user data to firestore on login
-    let userRef: AngularFirestoreDocument<User>;
     if (user.uid) {
-      userRef = this.afs.doc(`users/${user.uid}`); // no document with this uid? storedUser will be undefined but can be added to the db
-      userRef.valueChanges().pipe(
+      const userRef = doc(this.db, `users/${user.uid}`); // no document with this uid? storedUser will be undefined but can be added to the db
+      const sub = docData(userRef).pipe(
         distinctUntilChanged((prev, curr) => _.isEqual(prev, curr))
       ).subscribe(storedUser => {
         if (!storedUser) { // new user!
@@ -152,8 +140,14 @@ export class AuthService {
         storedUser.role = storedUser.role ? storedUser.role : 'user'
         storedUser.settings = storedUser.settings ? storedUser.settings : { fontStyle: 'serif' };
 
-        userRef.set(storedUser, { merge: true });
-        localStorage.setItem('user', JSON.stringify(user));
+        setDoc(userRef, storedUser, { merge: true }).then(() => {
+          localStorage.setItem('user', JSON.stringify(user));
+        }).then(() => {
+          if (sub) {
+            console.log('unsubscribe user update');
+            sub.unsubscribe()
+          };
+        });
       });
     } else { // this is a new user, unknown to the firebase db. create him
       console.log('user has no uid!', user);
@@ -162,7 +156,6 @@ export class AuthService {
 
   signOut() {
     this.afAuth.signOut().then(() => {
-      localStorage.removeItem('user');
       this.router.navigate(['/']);
     });
   }
@@ -171,19 +164,11 @@ export class AuthService {
    * deletes the login user from the firebase auth
    */
   deleteAccount() {
-    this.afAuth.currentUser.then(user => {
-      // this.cardService.allCardsForUser(user.uid).subscribe((cards) => {
-      //   cards.forEach(card => {
-      //     this.cardService.delete(card.uid);
-      //   });
-      // });
-      // this.deckService.allDecksForUser(user.uid).subscribe((decks) => {
-      //   decks.forEach(deck => {
-      //     this.deckService.delete(deck.uid);
-      //   });
-      // });
-      user.delete().then(() => {
-        localStorage.removeItem('user');
+    if (this.snapUnSub) { this.snapUnSub(); }
+    localStorage.removeItem('user');
+    deleteDoc(doc(this.db, `users/${this.user.value.uid}`)).then(() => {
+      this.afAuth.currentUser.delete().then(() => {
+        this.user.next(null);
         this.router.navigate(['/']);
       }, (error) => {
         alert('Du musst dich neu Anmelden, um diese Aktion zu bestätigen. ' + error);

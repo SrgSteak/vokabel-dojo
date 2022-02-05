@@ -1,13 +1,15 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { DeckService, Deck } from 'src/app/core/services/deck.service';
 import { CardService } from 'src/app/core/services/card.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService, User } from 'src/app/core/auth.service';
-import { Card } from 'src/app/core/entities/card';
+import { Card, cardConverter } from 'src/app/core/entities/card';
 import { CardInterface } from 'src/app/core/entities/card-interface';
 import { Title } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import { SelectService } from 'src/app/core/services/select.service';
+import { DocumentData, onSnapshot, Query } from '@angular/fire/firestore';
+import { DeckInterface } from 'src/app/core/entities/deck';
 
 @Component({
   selector: 'app-deck-public-show',
@@ -17,7 +19,7 @@ import { SelectService } from 'src/app/core/services/select.service';
 export class ShowComponent implements OnInit, OnDestroy {
 
   cards = [];
-  deck: Deck;
+  deck: DeckInterface;
   mode: string;
   allowEdit = false;
   showSubmenu = false;
@@ -28,6 +30,8 @@ export class ShowComponent implements OnInit, OnDestroy {
   cardSub: Subscription;
   deckSub: Subscription;
   authSub: Subscription;
+
+  private queryUnsubFunc;
 
   constructor(
     private deckService: DeckService,
@@ -44,21 +48,26 @@ export class ShowComponent implements OnInit, OnDestroy {
         this.user = user;
         this.allowEdit = user.role === 'admin';
       }
-    });
-    this.routeSub = this.route.paramMap.subscribe(params => {
-      this.mode = params.get('mode');
-      this.deckSub = this.deckService.get(params.get('uid')).subscribe(data => {
-        this.deck = data;
-        this.title.setTitle('Vokabeldojo | ' + this.deck.name);
-        this.deck.uid = params.get('uid');
-      });
-      this.cardSub = this.cardService.loadForDeckUid(params.get('uid')).subscribe(cards => {
-        this.cards = cards;
+      this.routeSub = this.route.paramMap.subscribe(params => {
+        this.mode = params.get('mode');
+        this.deckSub = this.deckService.getDeck(params.get('uid')).subscribe(data => {
+          this.deck = data;
+          this.title.setTitle('Vokabeldojo | ' + this.deck.name);
+          this.deck.uid = params.get('uid');
+        });
+        this.queryUnsubFunc = onSnapshot(this.cardService.queryForDeckUid(params.get('uid'), user?.uid ? [user.uid, ''] : ['']), (querySnapshot) => {
+          this.cards = querySnapshot.docs.map(doc => {
+            const card = Card.createFromCardInterface(doc.data());
+            card.uid = doc.id;
+            return card;
+          });
+        });
       });
     });
   }
 
   ngOnDestroy() {
+    if (this.queryUnsubFunc) { this.queryUnsubFunc(); }
     if (this.cardSub) { this.cardSub.unsubscribe(); }
     if (this.deckSub) { this.deckSub.unsubscribe(); }
     if (this.routeSub) { this.routeSub.unsubscribe(); }
@@ -76,6 +85,7 @@ export class ShowComponent implements OnInit, OnDestroy {
    * TODO: add loading indicator, show copy progress, redirect
    */
   addToCollection() {
+    this.showSubmenu = false;
     if (confirm('Dieses Deck jetzt kopieren?')) {
       const addSub = this.deckService.copyDeckForUser(this.deck, this.user.uid).then(reference => {
         this.deckService.copyCardsIntoDeck(this.deck, this.user.uid, reference.id);

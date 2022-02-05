@@ -14,6 +14,7 @@ export enum WordType {
 }
 
 export enum VerbType {
+  unknown = 'unknown',
   single = 'single',
   ichidan = 'single',
   five = 'five',
@@ -23,6 +24,7 @@ export enum VerbType {
 }
 
 export enum AdjectiveType {
+  unknown = 'unknown',
   iAdjective = 'iAdjective',
   naAdjective = 'naAdjective'
 }
@@ -30,4 +32,10 @@ export enum AdjectiveType {
 export enum CardType {
   simple, // two sided card
   word // one of the specialized WordTypes above
+}
+
+export enum VerbContext {
+  unknown = 'unknown',
+  transitive = '1',
+  intransitive = '2'
 }

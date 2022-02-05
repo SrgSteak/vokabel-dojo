@@ -1,0 +1,12 @@
+<a [routerLink]="['/', 'decks', deck.uid, 'list']" class="deck-list-item flex-shrink-0 s-snap-align-c">
+    <div class="banner" *ngIf="displayBanner && isNew">neu</div>
+    <div class="deck_name">
+        {{ deck.name }}
+    </div>
+    <div class="deck_description">
+        {{ deck.description }}
+    </div>
+    <div class="deck_created" *ngIf="deck.createdAt">
+        {{ deck.createdAt.toDate() | date:'dd.MM.yy'}}
+    </div>
+</a>

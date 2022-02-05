@@ -1,8 +1,8 @@
 <ng-container *ngIf="card else loading">
   <div class="scroll-content">
     <div class="action-shortcuts">
-      <a (click)="select()">
-        <i-feather name="check-circle" class="feather" [class.blue]="selectService.contains(card)"></i-feather>
+      <a (click)="select()" [class.blue]="selectService.contains(card)">
+        <i-feather name="check-circle" class="feather"></i-feather>
       </a>
       <a [routerLink]="['', { outlets: { modal: ['cards', 'edit', card.uid] } }]" class="edit"
         *ngIf="user && (card.author == user.uid || user.role == 'admin')">
@@ -86,7 +86,7 @@
       </div>
     </ng-container>
   </div>
-  <ng-container *ngIf="card.cardType == cardTypes.word">
+  <ng-container *ngIf="card.wordType">
     <ng-container [ngSwitch]="card.wordType">
       <div class="wordType noun" *ngSwitchCase="wordTypes.noun">
         Nomen
@@ -146,5 +146,10 @@
   </ng-container>
 </ng-container>
 <ng-template #loading>
-  <div class="loading">Loading card data...</div>
+  <div class="scroll-content">
+    <div class="action-shortcuts">
+      <a [routerLink]="['', { outlets: { modal: null } }]" class="edit"><i class="feather icon-x"></i></a>
+    </div>
+    <div class="section">Loading card data...</div>
+  </div>
 </ng-template>

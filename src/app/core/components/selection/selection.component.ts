@@ -7,6 +7,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { CardService } from '../../services/card.service';
 import { Subscription } from 'rxjs';
 import { FLY_IN_OUT_ANIMATION } from '../../animations/modal.animation';
+import { DeckInterface } from '../../entities/deck';
 
 @Component({
   selector: 'app-selection',
@@ -80,7 +81,8 @@ export class SelectionComponent implements OnInit {
 
   submitNewDeck() {
     if (this.createDeckForm.valid) {
-      let deck: Deck = {
+      let deck: DeckInterface = {
+        uid: null,
         name: this.createDeckForm.get('name').value,
         description: '',
         author: this.user.uid,

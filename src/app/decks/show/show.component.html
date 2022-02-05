@@ -7,23 +7,25 @@
   </ng-container>
   <app-font-switcher></app-font-switcher>
   <span class="label">Lernmodus</span>
-  <a routerLinkActive="active" routerLink="/decks/{{deck.uid}}/quiz">Vokabelquiz</a>
-  <a routerLinkActive="active" routerLink="/decks/{{deck.uid}}/grid">Buchstabieren</a>
-  <a routerLinkActive="active" routerLink="/decks/{{deck.uid}}/learn">Wiederholen</a>
-  <a routerLinkActive="active" routerLink="/decks/{{deck.uid}}/list">Liste</a>
+  <a routerLinkActive="active" routerLink="/decks/{{deck.uid}}/quiz" (click)="showSubmenu = false">Vokabelquiz</a>
+  <a routerLinkActive="active" routerLink="/decks/{{deck.uid}}/grid" (click)="showSubmenu = false">Buchstabieren</a>
+  <a routerLinkActive="active" routerLink="/decks/{{deck.uid}}/learn" (click)="showSubmenu = false">Wiederholen</a>
+  <a routerLinkActive="active" routerLink="/decks/{{deck.uid}}/list" (click)="showSubmenu = false">Liste</a>
   <ng-container *ngIf="auth.user | async as user">
     <span class="label">Deck</span>
     <a (click)="addToCollection()" *ngIf="user">
       <i-feather name="copy" class="feather"></i-feather> Deck kopieren
     </a>
-    <a (click)="selectAll()">
+    <a (click)="selectAll(); showSubmenu = false">
       <i-feather name="check-circle" class="feather"></i-feather> Karten auswählen
     </a>
     <ng-container *ngIf="user.role == 'admin' || user.uid == deck.author">
-      <a routerLinkActive="active" [routerLink]="['', { outlets: { modal: ['decks', 'edit', deck.uid]}}]">
+      <a routerLinkActive="active" [routerLink]="['/decks', { outlets: { modal: ['edit', deck.uid]}}]"
+        (click)="showSubmenu = false">
         <i-feather name="edit" class="feather"></i-feather> Bearbeiten
       </a>
-      <a routerLinkActive="active" [routerLink]="['', { outlets: { modal: ['decks', 'new']}}]">
+      <a routerLinkActive="active" [routerLink]="['/decks', { outlets: { modal: ['new']}}]"
+        (click)="showSubmenu = false">
         <i-feather name="plus" class="feather"></i-feather> Deck anlegen
       </a>
       <span class="label">Karten</span>
@@ -37,17 +39,23 @@
 <div class="content">
   <a routerLink="/decks/{{deck.uid}}/list" *ngIf="mode != 'list' && deck" class="backlink muted">
     <i class="feather icon-chevron-left"></i> {{ deck.name }}</a>
-  <a routerLink="/decks" *ngIf="mode == 'list'" class="backlink muted">
+  <a routerLink="/decks" *ngIf="mode == 'list' && deck?.author !== user?.uid" class="backlink muted">
     <i class="feather icon-chevron-left"></i> Alle Decks</a>
+  <a routerLink="/decks/user" *ngIf="mode == 'list' && deck?.author == user?.uid" class="backlink muted">
+    <i class="feather icon-chevron-left"></i> Meine Decks</a>
   <ng-container *ngIf="mode == 'list' && deck">
     <h1>{{ deck.name }}</h1>
     <p *ngIf="deck.description">{{ deck.description }}
     </p>
     <p>
-      <button class="button no-print" (click)="addToCollection()" *ngIf="user">
+      <button class="button no-print" (click)="addToCollection()" *ngIf="user && deck.author !== user.uid">
         <i-feather name="copy" class="feather"></i-feather> Zu meinen Decks
         hinzufügen
       </button>
+      <a [routerLink]="['', { outlets: { modal: ['cards', 'new', deck.uid] } }]" class="button no-print"
+        *ngIf="user && deck.author == user.uid">
+        <i-feather name="plus"></i-feather> Neue Karte hinzufügen
+      </a>
       <button class="button no-print" (click)="selectAll()">
         <i-feather name="check-circle" class="feather"></i-feather> Alle Karten auswählen
       </button>

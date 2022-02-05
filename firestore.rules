@@ -1,0 +1,36 @@
+// read -> get/list
+// write -> create, update, delete
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Secure by default - nobody is allowed anything by default
+    match /{document=**} {
+      allow read: if false;
+      allow write: if false;
+    }
+
+    match /Decks/{deck} {
+      // allow owners to read their data, allow all to read public data
+      allow read: if (request.auth != null && request.auth.uid == resource.data.author) || resource.data.author == '';
+      // allow owners to create/update decks to be their own - allow admins all author ids
+      allow create, update: if request.auth.uid == request.resource.data.author || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+      // allow owners and admins to delete their decks
+      allow delete: if request.auth.uid == resource.data.author || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    match /Cards/{card} {
+      // allow owners to read their cards, allow read if author is '' aka public
+    	allow read: if request.auth.uid == resource.data.author || resource.data.author == '';
+      // TODO: add rule to check related deck_uids -> deck.author is request.author
+      allow create, update: if request.auth.uid == request.resource.data.author || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+
+      allow delete: if request.auth.uid == resource.data.author || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    match /users/{userId} {
+        // only the owner is allowed to read his data from the user table
+      allow create, update: if request.auth != null && request.auth.uid == userId && getAfter(/databases/$(database)/documents/users/$(userId)).data.role == 'user' || get(/databases/$(database)/documents/users/$(userId)).data.role == 'admin';
+      allow read, delete: if request.auth != null && request.auth.uid == userId;
+    }
+  }
+}

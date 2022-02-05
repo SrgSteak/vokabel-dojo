@@ -20,12 +20,15 @@
     ],
     "source": "functions"
   },
+  "firestore": {
+    "rules": "firestore.rules"
+  },
   "emulators": {
     "functions": {
       "port": 5001
     },
     "hosting": {
-      "port": 5000
+      "port": 6001
     },
     "ui": {
       "enabled": true
@@ -33,8 +36,8 @@
     "firestore": {
       "port": 8080
     },
-    "database": {
-      "port": 9000
+    "auth": {
+      "port": 9099
     }
   }
 }

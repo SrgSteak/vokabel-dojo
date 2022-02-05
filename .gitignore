@@ -1,5 +1,8 @@
+/.angular/cache
 node_modules
 *.cache
 dist
 .firebase
 .DS_Store
+seed_data
+*.log

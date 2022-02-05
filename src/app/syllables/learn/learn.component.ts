@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
-import { SyllablesService, flashcard } from '../syllables.service';
+import { SyllablesService, flashcard } from '../../syllables.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
@@ -8,11 +8,11 @@ import { Subscription } from 'rxjs';
   templateUrl: './learn.component.html',
   styleUrls: ['learn.component.css']
 })
-export class LearnComponent implements OnInit, OnDestroy  {
+export class LearnComponent implements OnInit, OnDestroy {
   hiragana: Array<flashcard>;
   show = 0;
-  displayLeft='hiragana';
-  displayRight='german';
+  displayLeft = 'hiragana';
+  displayRight = 'german';
   displayMode = 'always';
   clicked = false;
   showSubmenu = false;
@@ -39,7 +39,7 @@ export class LearnComponent implements OnInit, OnDestroy  {
   }
 
   ngOnInit() {
-    this.formSub = this.filterForm.valueChanges.subscribe( () => {
+    this.formSub = this.filterForm.valueChanges.subscribe(() => {
       this.setActiveRows();
     });
   }

@@ -2,8 +2,115 @@
 
 $contentInset: 40px;
 
+/* Deck listings */
+a.deck-list-item {
+  cursor: pointer;
+  width: 170px;
+  height: 100px;
+  background-color: rgb(0,40,40);
+  border-radius: 4px;
+  margin: 5px;
+  position: relative;
+  display: block;
+  transition: 0.3s;
+  padding: 10px;
+  color: white;
+  text-decoration: none;
+  overflow: hidden;
+  scroll-snap-align: center;
+  &:hover {
+      @media(hover: hover) {
+          background-color: rgb(0,55,55);
+          box-shadow: inset 0 0 10px #000000;
+      }
+  }
+  .banner {
+    position: absolute;
+    top: 6px;
+    right: -15px;
+    transform: rotate(45deg);
+    width: 60px;
+    text-align: center;
+    background-color: #004343;
+  }
+  .deck_name {
+      text-align: left;
+      font-family: sans-serif;
+  }
+
+  .deck_description {
+      font-size: 12px;
+      margin-top: 5px;
+  }
+
+  .deck_created {
+      i-feather {
+        vertical-align: middle;
+        height: 16px;
+        width: 16px;
+      }
+      position: absolute;
+      font-size: 10px;
+      bottom: 5px;
+      right: 5px;
+      text-align: right;
+  }
+}
+/* Deck listings end */
+
+/* css flex */
+.d-flex {
+  display: flex;
+}
+.f-wrap {
+  flex-wrap: wrap;
+}
+
+.flex-shrink-0 {
+  flex-shrink: 0;
+}
+.j-content-space-evenly {
+  justify-content: space-evenly;
+}
+.j-content-center {
+  justify-content: center;
+}
+/* css flex end */
+
+/* overflow */
+.ox-auto {
+  overflow-x: auto;
+}
+/* overflow end */
+
+.s-snap-type-xm {
+  scroll-snap-type: x mandatory;
+}
+
+.icon-small {
+  height: 16px !important;
+  width: 16px !important;
+}
+
+.icon-medium {
+  height: 24px;
+  width: 24px;
+}
+
+.v-align-middle {
+  vertical-align: middle;
+}
+
+.align-c {
+  text-align: center;
+}
+
 .italic {
   font-style: italic;
+}
+
+.c-pointer {
+  cursor: pointer;
 }
 
 /* Add this class to things you do not want to print!*/
@@ -30,6 +137,7 @@ body {
   height: 100%;
   width: 100%;
   overflow: auto;
+  overflow-x: hidden;
   background-image : url(assets/background.png);
 }
 
@@ -532,7 +640,13 @@ form > button:hover {
   display: inline-block;
   font-size: 12px;
   min-width: 25px;
-  // min-height: 54px;
+  transition: all 0.2s;
+  font-family: arial;
+  i-feather {
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+  }
 }
 
 .menu .button {

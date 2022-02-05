@@ -1,10 +1,10 @@
-import { CardType, WordType, VerbType, AdjectiveType } from "./card-type";
+import { CardType, WordType, VerbType, AdjectiveType, VerbContext } from "./card-type";
 
 export interface CardInterface {
   author?: string,
-  cardType: CardType, // simple flashcard or extended word type?
-  wordType?: WordType, // extended card with a fixed word type
+  wordType?: WordType, // simple flashcard or extended card with a fixed word type
   verbType?: VerbType, // if the word type is verb, is it one-step or five-step?
+  verbContext?: VerbContext // if the verb is transitive, intransitive or if it is unknown (null)
   adjectiveType?: AdjectiveType, // if the word type is verb, is it one-step or five-step?
   uid?: string;                       // the document uid (useful for equal checks)
   german?: Array<string>;             // the german meaning(s)

@@ -8,37 +8,32 @@ export class FontSwitcherService {
 
   readonly onChange: EventEmitter<string> = new EventEmitter<string>();
   private _currentStyle = 'serif';
-  private user: User;
 
   get currentStyle() {
     return this._currentStyle;
   }
 
-  constructor(private authService: AuthService) {
-    this.authService.user.subscribe(user => {
-      this.user = user;
-      try {
-        this._currentStyle = this.user.settings.fontStyle
-      } catch (error) {
-        console.log('user has no style B)');
-      }
-    });
+  constructor() {
+    this.loadSetting();
   }
 
   updateFontStyle(style: string, noNotification: boolean) {
-    this.updateUserSettings(style);
+    window.localStorage.setItem('userSettings', JSON.stringify({ style: style }));
     this._currentStyle = style;
     if (!noNotification) {
       this.onChange.emit(style);
     }
   }
 
-  private updateUserSettings(style: string) {
-    if (this.user.settings) {
-      this.user.settings.fontStyle = style;
-    } else {
-      this.user.settings = { fontStyle: style };
+  private loadSetting() {
+    try {
+      const data = window.localStorage.getItem('userSettings');
+      if (data) {
+        this._currentStyle = JSON.parse(data).style;
+      }
+    } catch (error) {
+      console.error(error);
+      this._currentStyle = 'serif';
     }
-    this.authService.updateUserData(this.user);
   }
 }

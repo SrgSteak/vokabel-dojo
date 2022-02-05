@@ -44,14 +44,9 @@ p {
 }
 
 .answer {
-  @media screen and (max-width: 799px) {
-    font-size: 3vh;
-    width: 100%;
-  }
-  @media screen and (min-width: 800px) {
-       font-size: 20px;
-  }
-  min-width: 250px;
+  width: 400px;
+  flex-shrink: 2;
+  flex-grow: 2;
   min-height: 30px;
   padding: 5px;
   text-align: center;

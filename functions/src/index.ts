@@ -5,22 +5,47 @@ admin.initializeApp();
 // // Start writing Firebase Functions
 // // https://firebase.google.com/docs/functions/typescript
 
+
+async function deleteQueryBatch(
+  db: FirebaseFirestore.Firestore,
+  query: FirebaseFirestore.Query<FirebaseFirestore.DocumentData>,
+  resolve: any) {
+  const snapshot = await query.get();
+
+  const batchSize = snapshot.size;
+  if (batchSize === 0) {
+    // When there are no documents left, we are done
+    resolve();
+    return;
+  }
+
+  // Delete documents in a batch
+  const batch = db.batch();
+  snapshot.docs.forEach((doc) => {
+    batch.delete(doc.ref);
+  });
+  await batch.commit();
+
+  // Recurse on the next process tick, to avoid
+  // exploding the stack.
+  process.nextTick(() => {
+    deleteQueryBatch(db, query, resolve).then(() => resolve()).catch(() => { console.log('could not execute deleteQueryBatch') });
+  });
+}
+
+
 export const onUserDelete = functions.firestore.document('/users/{documentId}').onDelete((snapshot, context) => {
   const uid = context.params.documentId; // the user uid
+  const db = admin.firestore();
   // const promises: Array<Promise<any>> = [];
+  const cardQuery = db.collection('Cards').where('author', '==', uid).limit(20);
+  const deckQuery = db.collection('Decks').where('author', '==', uid).limit(20);
   return Promise.all([
-    admin.firestore().collection('Decks').where('author', '==', uid).get().then(decksSnapshot => {
-      decksSnapshot.forEach(deckSnapshot => {
-        console.log('would now delete deck uid: ' + deckSnapshot.id);
-        // promises.push(admin.firestore().collection('Decks').doc(deckSnapshot.id).delete());
-      });
-
+    new Promise<void>((resolve, reject) => {
+      deleteQueryBatch(db, cardQuery, resolve).then(() => resolve(), () => reject())
     }),
-    admin.firestore().collection('Cards').where('author', '==', uid).get().then(cardsSnapshot => {
-      cardsSnapshot.forEach(cardSnapshot => {
-        console.log('would now delete card uid: ' + cardSnapshot.id);
-        // promises.push(admin.firestore().collection('Cards').doc(cardSnapshot.id).delete());
-      })
+    new Promise<void>((resolve, reject) => {
+      deleteQueryBatch(db, deckQuery, resolve).then(() => resolve(), () => reject())
     })
   ]);
 });

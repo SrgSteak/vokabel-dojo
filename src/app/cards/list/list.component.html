@@ -4,7 +4,9 @@
     <app-word-list [cards]="cards" *ngIf="cards.length"></app-word-list>
   </ng-container>
   <ng-template #noCards>
-    Du hast noch keine Karten. Du kannst welche in deinen Decks anlegen oder aus öffentlichen Decks oder dem Wörterbuch
+    Du hast noch keine Karten. Du kannst neue Karten in <a [routerLink]="['/', 'decks', 'user']">deinen Decks
+      anlegen</a> oder bestehende aus öffentlichen Decks oder
+    dem Wörterbuch
     kopieren.
   </ng-template>
   <button class="button danger" (click)="deleteAll()">

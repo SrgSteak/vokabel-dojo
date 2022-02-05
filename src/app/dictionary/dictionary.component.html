@@ -6,5 +6,15 @@
   <a [routerLink]="['', { outlets: { modal: null } }]"><i class="feather icon-x"></i></a>
 </div>
 <div class="content">
-  <app-word-list (selectedCard)=editCard($event)></app-word-list>
+  <label class="no-print">
+    <input type="search" [formControl]="searchForm" placeholder="Suche">
+  </label>
+  <ng-container *ngIf="results.length > 0 else empty">
+    <app-word-list (selectedCard)=editCard($event) [cards]="results"></app-word-list>
+  </ng-container>
+  <ng-template #empty>
+    <p class="align-c">
+      Starte eine Suche indem du etwas oben eingibst.
+    </p>
+  </ng-template>
 </div>
