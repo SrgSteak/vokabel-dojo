@@ -44,11 +44,11 @@ export class EditComponent implements OnInit {
 
   cardForm = this.fb.group({
     uid: [''],
-    wordType: [undefined],
+    wordType: [WordType.simple],
     verbType: ['', requiredWhenWordType(WordType.verb)],
     verbContext: ['', requiredWhenWordType(WordType.verb)],
     adjectiveType: ['', requiredWhenWordType(WordType.adjective)],
-    german: this.fb.array([], requiredWhenWordType(undefined)),
+    german: this.fb.array([], requiredWhenWordType(WordType.simple)),
     japanese: ['', Validators.required],
     japanese_readings: this.fb.array([]),
     chinese_readings: this.fb.array([]),

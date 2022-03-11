@@ -7,18 +7,21 @@ import { ShowComponent } from './show/show.component';
 import { AuthGuard } from 'src/app/core/auth.guard';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CoreModule } from 'src/app/core/core.module';
-import { ListItemComponent } from './components/list-item/list-item.component';
+import { SharedLearnmodeModule } from '../shared/shared-learnmode/shared-learnmode.module';
+import { ModeSelectComponent } from './components/mode-select/mode-select.component';
 
 @NgModule({
   declarations: [
     ListComponent,
     EditComponent,
     ShowComponent,
+    ModeSelectComponent
   ],
   imports: [
     CommonModule,
     CoreModule,
     ReactiveFormsModule,
+    SharedLearnmodeModule,
     RouterModule.forChild([
       {
         path: '',
@@ -44,7 +47,13 @@ import { ListItemComponent } from './components/list-item/list-item.component';
         canActivate: [AuthGuard]
       },
       {
+        path: ':uid/mode-select',
+        outlet: 'modal',
+        component: ModeSelectComponent
+      },
+      {
         path: ':uid',
+        pathMatch: 'full',
         redirectTo: ':uid/list'
       },
       {

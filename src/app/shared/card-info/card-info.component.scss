@@ -26,7 +26,10 @@
     color: $lighterTextColor;
   }
   .japanese {
-    text-align: center;
+    text-align: left;
+    @include bigger-than(sm) {
+      text-align: center;
+    }
     font-weight: 800;
     font-size: 50px;
   }
@@ -116,4 +119,13 @@ ul {
   &.noun {
     background-color: $nounColor;
   }
+
+}
+
+app-kanji {
+  width: 80%;
+  @include bigger-than(sm) {
+    width: 30%;
+}
+  margin: auto;
 }

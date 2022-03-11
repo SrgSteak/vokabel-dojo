@@ -75,6 +75,19 @@ export const FLY_IN_OUT_ANIMATION =
     ])
   ]);
 
+export const LEARNMODE_ANIMATION =
+  trigger('learnmodeAnimation', [
+    transition(':enter', [
+      style({ height: 0, overflow: 'hidden' }),
+      animate(`250ms ${easeInOutCubic}`, style({ height: '*', overflow: 'show' })),
+    ]),
+    transition(':leave', [
+      style({ overflow: 'hidden' }),
+      animate(`250ms ${easeInOutCubic}`, style({ height: '0px', padding: '0px', margin: '0px' })),
+    ])
+  ])
+
+
 export const ROLL_IN_OUT_ANIMATION =
   trigger('rollInOutAnimation', [
     transition(':enter', [

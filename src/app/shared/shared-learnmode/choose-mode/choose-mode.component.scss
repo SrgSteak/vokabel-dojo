@@ -1,0 +1,45 @@
+@import "_variables";
+
+:host {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 20px;
+    padding-top: 20px;
+    color: $primaryTextColor;
+    @include bigger-than(sm) {
+        justify-content: space-evenly;
+    }
+    > .option {
+        display: flex;
+        flex-flow: column;
+        justify-content: space-between;
+        background-color: $fourthBackgroundColor;
+        border-radius: 5px;
+        width: 200px;
+        box-shadow: 5px 5px 8px #00000020;
+        transition: all 0.2s;
+        &:hover {
+            transform: scale(1.01);
+            box-shadow: 5px 5px 15px #00000015;
+        }
+    img {
+        height: auto;
+        width: 100%;
+    }
+    .description {
+        font-family: arial;
+        justify-self: start;
+        flex-grow: 1;
+        margin-bottom: 5px;
+    }
+    .button {
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        justify-self: flex-end;
+    }
+}
+}

@@ -1,5 +1,7 @@
 <div class="content">
-  <a routerLink="" class="backlink muted"><i class="feather icon-chevron-left"></i>Home</a>
+  <a routerLink="" class="backlink muted">
+    <i-feather name="chevron-left"></i-feather>Home
+  </a>
   <div class="user">
     <div *ngIf="auth.user | async; then authenticated else guest">
       <!-- template will replace this div -->
@@ -23,28 +25,13 @@
         für einen Passwortlosen Login mit Magic Link.</p>
       <h3>Login/Registrierung</h3>
       <button class="button" (click)="auth.googleLogin()">
-        <i class="fa fa-google"></i> Sign in with Google
+        <i-feather name="log-in"></i-feather> Sign in with Google
       </button>
       <button class="button" (click)="auth.appleLogin()">
-        <i class="fa fa-apple"></i> Sign in with Apple
+        <i-feather name="log-in"></i-feather> Sign in with Apple
       </button>
       <button class="button" (click)="promptMagicLink()">
-        <i class="fa fa-email"></i> Connect Email
-      </button>
-      <button class="button disabled">
-        <i class="fa fa-google"></i> Facebook
-      </button>
-      <button class="button disabled">
-        <i class="fa fa-google"></i> Twitter
-      </button>
-      <button class="button disabled">
-        <i class="fa fa-google"></i> Github
-      </button>
-      <button class="button disabled">
-        <i class="fa fa-google"></i> Yahoo!
-      </button>
-      <button class="button disabled">
-        <i class="fa fa-google"></i> Microsoft
+        <i-feather name="mail"></i-feather> Connect Email
       </button>
 
       <p>Der Social Media Dienst deiner Wahl wird noch nicht unterstützt oder du hast Probleme? <a
@@ -79,11 +66,15 @@
 
           </a>
         </div>
-        <button class="button" (click)="auth.signOut()">Abmelden</button>
+        <button class="button" (click)="auth.signOut()">
+          <i-feather name="log-out"></i-feather> Abmelden
+        </button>
         <hr>
         <p>Wenn du deinen Account und alle Daten dazu löschen möchtest, kannst du das hier tun. Beachte jedoch das ich
           KEINE Daten wiederherstellen kann, sie sind unwiederruflich gelöscht!</p>
-        <button class="button" (click)="deleteAccount()">Account löschen</button>
+        <button class="button" (click)="deleteAccount()">
+          <i-feather name="trash" class="misses"></i-feather> Account löschen
+        </button>
       </div>
     </ng-template>
   </div>

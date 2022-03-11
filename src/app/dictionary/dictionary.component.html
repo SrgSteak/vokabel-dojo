@@ -3,7 +3,9 @@
     <a [routerLink]="['', { outlets: { modal: ['cards', 'new'] } }]" class="edit" *ngIf="user.role === 'admin'"><i
         class="feather icon-plus"></i></a>
   </ng-container>
-  <a [routerLink]="['', { outlets: { modal: null } }]"><i class="feather icon-x"></i></a>
+  <a [routerLink]="['', { outlets: { modal: null } }]">
+    <i-feather name="x"></i-feather>
+  </a>
 </div>
 <div class="content">
   <label class="no-print">

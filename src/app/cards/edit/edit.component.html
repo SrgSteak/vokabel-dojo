@@ -2,11 +2,15 @@
   <!-- create header -->
   <ng-container *ngIf="!uid else editHeader">
     <div class="action-shortcuts negative">
-      <a (click)="repeat = !repeat" [class.repeat]="repeat" title="Gleich noch eine anlegen"><i
-          class="feather icon-repeat"></i></a>
-      <a [class.disabled]="!cardForm.valid" (click)="onSubmit()" class="save" title="Speichern"><i
-          class="feather icon-save"></i></a>
-      <a [routerLink]="['', { outlets: { modal: null } }]" title="Schließen"><i class="feather icon-x"></i></a>
+      <a (click)="repeat = !repeat" [class.repeat]="repeat" title="Gleich noch eine anlegen">
+        <i-feather name="repeat"></i-feather>
+      </a>
+      <a [class.disabled]="!cardForm.valid" (click)="onSubmit()" class="save" title="Speichern">
+        <i-feather name="save"></i-feather>
+      </a>
+      <a [routerLink]="['', { outlets: { modal: null } }]" title="Schließen">
+        <i-feather name="x"></i-feather>
+      </a>
     </div>
     <div class="header">
       <h1 class="sans-serif">
@@ -17,9 +21,15 @@
   <!-- edit header -->
   <ng-template #editHeader>
     <div class="action-shortcuts negative">
-      <a (click)="onDelete()" class="danger"><i class="feather icon-trash"></i></a>
-      <a [class.disabled]="!cardForm.valid" (click)="onSubmit()" class="save"><i class="feather icon-save"></i></a>
-      <a [routerLink]="['', { outlets: { modal: null } }]"><i class="feather icon-x"></i></a>
+      <a (click)="onDelete()" class="danger">
+        <i-feather name="trash"></i-feather>
+      </a>
+      <a [class.disabled]="!cardForm.valid" (click)="onSubmit()" class="save">
+        <i-feather name="save"></i-feather>
+      </a>
+      <a [routerLink]="['', { outlets: { modal: null } }]">
+        <i-feather name="x"></i-feather>
+      </a>
     </div>
     <div class="header">
       <h1 class="sans-serif">
@@ -33,7 +43,7 @@
     <div class="formgroup collapsible" [class.closed]="!wordTypeToggle" @rollInOutAnimation>
       <label (click)="wordTypeToggle = !wordTypeToggle" class="formgroup-header">Kartentyp
         <ng-container [ngSwitch]="wordType.value">
-          <span class="muted" *ngSwitchCase="null">Einfach</span>
+          <span class="muted" *ngSwitchCase="wordTypes.simple">Einfach</span>
           <span class="muted" *ngSwitchCase="wordTypes.noun">Nomen</span>
           <span class="muted" *ngSwitchCase="wordTypes.surunoun">する-Nomen</span>
           <span class="muted" *ngSwitchCase="wordTypes.verb">Verb</span>
@@ -49,7 +59,7 @@
       </label>
       <div *ngIf="wordTypeToggle" @rollInOutAnimation>
         <label class="container">Einfach <span class="muted">Lernkarte</span>
-          <input type="radio" [formControl]="wordType" name="wordType">
+          <input type="radio" [formControl]="wordType" value="{{ wordTypes.simple }}" name="wordType">
           <span class="checkmark">
             <span class="checkmark_inner"></span>
           </span>
@@ -303,7 +313,7 @@
         </div>
       </div>
       <label class="container collapsible" *ngFor="let deck of deckForm.controls; let i = index" @rollInOutAnimation>
-        <i-feather name="minus-circle" class="v-align-middle icon-small" (click)="removeDeckFromCard(i)"></i-feather>
+        <i-feather name="minus-circle" class="v-align-middle" (click)="removeDeckFromCard(i)"></i-feather>
         {{ deck.value | deckname }}
         <input type="text" [formControlName]="i">
       </label>

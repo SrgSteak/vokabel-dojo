@@ -1,0 +1,84 @@
+<!-- <app-font-switcher></app-font-switcher> -->
+<div class="h-100 o-auto">
+    <div class="header">
+        <h1 class="sans-serif">
+            Lernmodus Einstellungen
+        </h1>
+    </div>
+    <span class="label">Frage zeigt</span>
+    <form [formGroup]="quizModeService.modeForm">
+        <label class="container" [class.disabled]="quizModeService.answerMode === 'german'">Deutsch
+            <input type="radio" formControlName="left" value="german" name="left">
+            <span class="checkmark">
+                <span class="checkmark_inner"></span>
+            </span>
+        </label>
+        <label class="container" [class.disabled]="quizModeService.answerMode === 'japanese'">Japanisch
+            <input type="radio" formControlName="left" value="japanese" name="left">
+            <span class="checkmark">
+                <span class="checkmark_inner"></span>
+            </span>
+        </label>
+        <label class="container" [class.disabled]="quizModeService.answerMode === 'reading'"
+            (click)="quizModeService.modeForm.get('rubi').setValue(false)">Lesung
+            <input type="radio" formControlName="left" value="reading" name="left">
+            <span class="checkmark">
+                <span class="checkmark_inner"></span>
+            </span>
+        </label>
+    </form>
+    <span class="label">Antwort zeigt</span>
+    <form [formGroup]="quizModeService.modeForm">
+        <label class="container" [class.disabled]="quizModeService.questionMode === 'german'">Deutsch
+            <input type="radio" formControlName="right" value="german" name="right">
+            <span class="checkmark">
+                <span class="checkmark_inner"></span>
+            </span>
+        </label>
+        <label class="container" [class.disabled]="quizModeService.questionMode === 'japanese'">Japanisch
+            <input type="radio" formControlName="right" value="japanese" name="right">
+            <span class="checkmark">
+                <span class="checkmark_inner"></span>
+            </span>
+        </label>
+        <label class="container" [class.disabled]="quizModeService.questionMode === 'reading'"
+            (click)="quizModeService.modeForm.get('rubi').setValue(false)">Lesung
+            <input type="radio" formControlName="right" value="reading" name="right">
+            <span class="checkmark">
+                <span class="checkmark_inner"></span>
+            </span>
+        </label>
+        <span class="label">Anzeige von Lesungen</span>
+        <label class="container"
+            [class.disabled]="quizModeService.answerMode === 'reading' || quizModeService.questionMode === 'reading'">Ruby
+            (ルビ)
+            <input type="checkbox" formControlName="rubi" name="rubi">
+            <span class="checkmark">
+                <span class="checkmark_inner"></span>
+            </span>
+        </label>
+        <span class="label">Schwierigkeitsgrad</span>
+        <label class="container">Einfach
+            <input type="radio" formControlName="difficulty" value="1" name="difficulty">
+            <span class="checkmark">
+                <span class="checkmark_inner"></span>
+            </span>
+        </label>
+        <label class="container">Moderat
+            <input type="radio" formControlName="difficulty" value="2" name="difficulty">
+            <span class="checkmark">
+                <span class="checkmark_inner"></span>
+            </span>
+        </label>
+        <label class="container">Schwer
+            <input type="radio" formControlName="difficulty" value="3" name="difficulty">
+            <span class="checkmark">
+                <span class="checkmark_inner"></span>
+            </span>
+        </label>
+        <div class="align-c buttons">
+            <button class="button border" (click)="cancel()">Abbrechen</button>
+            <button class="button border" (click)="start()">Lernmodus starten</button>
+        </div>
+    </form>
+</div>

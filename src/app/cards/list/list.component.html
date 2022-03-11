@@ -1,5 +1,7 @@
 <div class="content">
-  <a routerLink="" class="backlink muted"><i class="feather icon-chevron-left"></i>Home</a>
+  <a routerLink="" class="backlink muted">
+    <i-feather name="chevron-left"></i-feather>Home
+  </a>
   <ng-container *ngIf="cards.length else noCards">
     <app-word-list [cards]="cards" *ngIf="cards.length"></app-word-list>
   </ng-container>

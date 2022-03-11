@@ -3,8 +3,9 @@
 <div *ngIf="show" class="menu" #menu (click)="toggle()">
   <div class="links">
     <ng-container *ngIf="auth.user | async as user else login">
-      <a routerLinkActive="active" routerLink="/user" [routerLinkActiveOptions]="{exact: true}"><i
-          class="feather icon-user"></i>{{ user.displayName }}</a>
+      <a routerLinkActive="active" routerLink="/user" [routerLinkActiveOptions]="{exact: true}">
+        <i-feather name="user" class="icon-user"></i-feather>{{ user.displayName }}
+      </a>
       <ng-container *ngIf=" auth.user | async as user">
         <span class="label">Mein Bereich</span>
         <a routerLinkActive="active" routerLink="/decks/user" [routerLinkActiveOptions]="{exact: true}">Meine Decks</a>

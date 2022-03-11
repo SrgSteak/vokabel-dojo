@@ -1,4 +1,5 @@
 export enum WordType {
+  simple = '',
   noun = '0', // Substantiv / Hauptwort / Dingwort
   verb = '1', // Verb /Zeit- oder Tätigkeitswort
   adjective = '2', // Adjektiv / Eigenschafts- oder Beiwort
@@ -10,7 +11,8 @@ export enum WordType {
   interjection = '8', // Interjektion / Ausrufe- oder Empfindungswort
   kanji = '9', // this card is specifically a kanji description
   suffix = '10', // ~san, hinten angehängte Elemente
-  surunoun = '11' // Nomen, die auch als verb verwendet werden können (das Schwimmen, er ist schwimmen)
+  surunoun = '11', // Nomen, die auch als verb verwendet werden können (das Schwimmen, er ist schwimmen)
+  sentence = '100'
 }
 
 export enum VerbType {

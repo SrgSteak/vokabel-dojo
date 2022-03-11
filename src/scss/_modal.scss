@@ -1,0 +1,35 @@
+@import "_variables";
+
+:host {
+    position: fixed;
+    width: 720px;
+    background: $mainColor;
+    color: white;
+    padding: 8px;
+    border-radius: 8px;
+    height: 80%;
+    left: 0;
+    right: 0;
+    margin: auto;
+    top: 50px;
+    @media only screen and (max-width: 736px) {
+      width: calc(100% - 16px);
+      top: initial;
+      bottom: 0;
+      border-bottom-left-radius: 0px;
+      border-bottom-right-radius: 0px;
+    }
+  }
+
+.header {
+  position: sticky;
+  top: -8px;
+  background: $mainColor;
+  z-index: 10;
+  padding: 5px 0px;
+  box-shadow: 0px 0px 1px 2px $mainColor;
+  h1 {
+    margin: 0;
+    font-size: 1.4em;
+  }
+}

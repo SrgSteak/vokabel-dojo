@@ -1,3 +1,15 @@
+/* MENU */
+// Menu and Button Background
+$backgroundColor: rgb(0, 40, 40);
+// Active (selected) Links
+$activeColor: rgb(0,30,30);
+// hover color on links
+$highlightColor: rgb(0, 60,60);
+// color of menu group labels
+$labelColor: rgb(0,140,140);
+
+$mutedColor: rgba(200,200,200, 0.3);
+
 // general
 $contentMaxWidth: 1000px; // sets the maximum content witdh of the router outlet. margin left-right is auto
 
@@ -31,3 +43,54 @@ $primaryBackgroundColor:  #002828;
 $secondaryBackgroundColor: #003333;
 $thirdBackgroundColor: #003030;
 $fourthBackgroundColor: white;
+
+// mixins and scss function stuff
+
+$breakpoints: (
+  xs: 576px,
+  sm: 768px,
+  md: 992px,
+  lg: 1200px
+);
+
+@mixin bigger-than($breakpoint) {
+
+    // If the breakpoint exists in the map.
+    @if map-has-key($breakpoints, $breakpoint) {
+
+      // Get the breakpoint value.
+      $breakpoint-value: map-get($breakpoints, $breakpoint);
+
+      // Write the media query.
+      @media (min-width: $breakpoint-value) {
+        @content;
+      }
+
+    // If the breakpoint doesn't exist in the map.
+    } @else {
+
+      // Log a warning.
+      @warn 'Invalid breakpoint: #{$breakpoint}.';
+    }
+  }
+
+  @mixin smaller-than($breakpoint) {
+
+    // If the breakpoint exists in the map.
+    @if map-has-key($breakpoints, $breakpoint) {
+
+      // Get the breakpoint value.
+      $breakpoint-value: map-get($breakpoints, $breakpoint);
+
+      // Write the media query.
+      @media (max-width: ($breakpoint-value + 1)) {
+        @content;
+      }
+
+    // If the breakpoint doesn't exist in the map.
+    } @else {
+
+      // Log a warning.
+      @warn 'Invalid breakpoint: #{$breakpoint}.';
+    }
+  }

@@ -1,5 +1,7 @@
 <div class="content">
-  <a routerLink="" class="backlink muted"><i class="feather icon-chevron-left"></i>Home</a>
+  <a routerLink="" class="backlink muted">
+    <i-feather name="chevron-left"></i-feather>Home
+  </a>
   <div class="filter">
     <a [routerLink]="['/decks']" [class.selected_filter]="displayPublic">Öffentliche Decks</a> |
     <a [routerLink]="['/decks', 'user']" [class.selected_filter]="!displayPublic" [class.disabled]="!user">Deine

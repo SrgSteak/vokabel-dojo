@@ -1,5 +1,7 @@
 <div class="content">
-  <a routerLink="" class="backlink muted"><i class="feather icon-chevron-left"></i>Home</a>
+  <a routerLink="" class="backlink muted">
+    <i-feather name="chevron-left"></i-feather>Home
+  </a>
   <div class="about">
     <h1>Vokabeldojo</h1>
     <p class="align-c">Für den Japanischkurs in der <a href="www.japanischlernen.at">Nihongo Gakuen</a> als Lernhilfe
@@ -52,6 +54,7 @@
           </ul>
           <li><a [routerLink]="['/about']" fragment="report-a-bug">Fehler melden und weiterentwickeln</a></li>
           <li><a [routerLink]="['/about']" fragment="special-thanks">Danksagungen</a></li>
+          <li><a [routerLink]="['/about']" fragment="attribution">Attributionen</a></li>
         </ol>
       </div>
       <div class="manual">
@@ -217,6 +220,8 @@
           <li>Ingvalt</li>
           <li>Rene S.</li>
         </ul>
+        <h2 id="attribution">Attributionen</h2>
+        <p>KanjiVG (<a href="http://kanjivg.tagaini.net">http://kanjivg.tagaini.net</a>) Copyright by Ulrich Apel</p>
         <a [routerLink]="['/about']" fragment="index">Nach oben</a>
       </div>
     </div>

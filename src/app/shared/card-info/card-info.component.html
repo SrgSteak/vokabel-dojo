@@ -1,15 +1,5 @@
 <ng-container *ngIf="card else loading">
   <div class="scroll-content">
-    <div class="action-shortcuts">
-      <a (click)="select()" [class.blue]="selectService.contains(card)">
-        <i-feather name="check-circle" class="feather"></i-feather>
-      </a>
-      <a [routerLink]="['', { outlets: { modal: ['cards', 'edit', card.uid] } }]" class="edit"
-        *ngIf="user && (card.author == user.uid || user.role == 'admin')">
-        <i class="feather icon-edit"></i>
-      </a>
-      <a [routerLink]="['', { outlets: { modal: null } }]" class="edit"><i class="feather icon-x"></i></a>
-    </div>
     <ng-container *ngIf="card.information && card.information.length else header">
       <div class="d-flex section">
         <div class="japanese">
@@ -71,6 +61,15 @@
       </span>
       <app-adjective-table [card]="card">
       </app-adjective-table>
+    </div>
+    <div class="section kanji" *ngIf="card.wordType === wordTypes.kanji">
+      <span>
+        Logogramm
+      </span>
+      <app-kanji [strokeNumber]="true" [hideGrid]="false" [draw]="true" [character]="card.japanese"></app-kanji>
+      <a
+        href="mailto:schmidt91robin@icloud.com?subject=Vokabeldojo - Problem mit {{ card.japanese }}&body=Hallo, Ich habe ein Problem und zwar:">Problem
+        melden</a>
     </div>
     <ng-container *ngIf="card.deck_uids.length">
       <div class="section">
@@ -144,11 +143,25 @@
       </div>
     </ng-container>
   </ng-container>
+  <div class="action-shortcuts">
+    <a (click)="select()" [class.blue]="selectService.contains(card)">
+      <i-feather name="check-circle" class="feather"></i-feather>
+    </a>
+    <a [routerLink]="['', { outlets: { modal: ['cards', 'edit', card.uid] } }]" class="edit"
+      *ngIf="user && (card.author == user.uid || user.role == 'admin')">
+      <i-feather name="edit"></i-feather>
+    </a>
+    <a [routerLink]="['', { outlets: { modal: null } }]" class="edit">
+      <i-feather name="x"></i-feather>
+    </a>
+  </div>
 </ng-container>
 <ng-template #loading>
   <div class="scroll-content">
     <div class="action-shortcuts">
-      <a [routerLink]="['', { outlets: { modal: null } }]" class="edit"><i class="feather icon-x"></i></a>
+      <a [routerLink]="['', { outlets: { modal: null } }]" class="edit">
+        <i-feather name="x"></i-feather>
+      </a>
     </div>
     <div class="section">Loading card data...</div>
   </div>

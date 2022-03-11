@@ -128,8 +128,8 @@ export class CardService {
    * loads all cards that are in the given deck uid. should replace "loadForDeck"
    * @param uid the uid of the deck
    */
-  loadForDeckUid(uid: string): Observable<Card[]> {
-    return (collectionData(this.queryForDeckUid(uid), { idField: 'uid' }) as Observable<CardInterface[]>).pipe(map(cardinterfaces => {
+  loadForDeckUid(uid: string, authors = ['']): Observable<Card[]> {
+    return (collectionData(this.queryForDeckUid(uid, authors), { idField: 'uid' }) as Observable<CardInterface[]>).pipe(map(cardinterfaces => {
       const cards = [];
       cardinterfaces.forEach(_cardInterface => {
         cards.push(Card.createFromCardInterface(_cardInterface));

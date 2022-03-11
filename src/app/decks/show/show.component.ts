@@ -1,20 +1,23 @@
-import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DeckService, Deck } from 'src/app/core/services/deck.service';
 import { CardService } from 'src/app/core/services/card.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService, User } from 'src/app/core/auth.service';
-import { Card, cardConverter } from 'src/app/core/entities/card';
+import { Card } from 'src/app/core/entities/card';
 import { CardInterface } from 'src/app/core/entities/card-interface';
 import { Title } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import { SelectService } from 'src/app/core/services/select.service';
-import { DocumentData, onSnapshot, Query } from '@angular/fire/firestore';
+import { onSnapshot } from '@angular/fire/firestore';
 import { DeckInterface } from 'src/app/core/entities/deck';
+import { LEARNMODE_ANIMATION } from 'src/app/core/animations/modal.animation';
+import { Learnmode } from 'src/app/shared/shared-learnmode/choose-mode/choose-mode.component';
 
 @Component({
   selector: 'app-deck-public-show',
   templateUrl: './show.component.html',
-  styleUrls: ['./show.component.scss']
+  styleUrls: ['./show.component.scss'],
+  animations: [LEARNMODE_ANIMATION]
 })
 export class ShowComponent implements OnInit, OnDestroy {
 
@@ -23,6 +26,7 @@ export class ShowComponent implements OnInit, OnDestroy {
   mode: string;
   allowEdit = false;
   showSubmenu = false;
+  showLearnmodeSelection = false;
   user: User;
 
   userSub: Subscription;
@@ -98,5 +102,24 @@ export class ShowComponent implements OnInit, OnDestroy {
     this.cards.forEach(_card => {
       this.selectService.addCard(_card);
     })
+  }
+
+  startLearnMode(mode: Learnmode) {
+    this.showLearnmodeSelection = false;
+    switch (mode) {
+      case Learnmode.learn:
+        this.router.navigate(['/', 'decks', this.deck.uid, 'learn']);
+        break;
+      case Learnmode.quiz:
+        this.router.navigate(['/', 'decks', this.deck.uid, 'quiz']);
+        break;
+      case Learnmode.spell:
+        this.router.navigate(['/', 'decks', this.deck.uid, 'grid']);
+        break;
+    }
+  }
+
+  closeToList() {
+    this.router.navigate(['/', 'decks', this.deck.uid, 'list']);
   }
 }
