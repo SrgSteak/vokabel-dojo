@@ -124,7 +124,7 @@ ul {
 
 app-kanji {
   width: 80%;
-  @include bigger-than(sm) {
+  @include bigger-than(xs) {
     width: 30%;
 }
   margin: auto;
