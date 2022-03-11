@@ -14,7 +14,7 @@ export class QuizResultsComponent implements OnInit {
   @Output() public end = new EventEmitter();
   @Output() public again = new EventEmitter();
 
-  @Input() public scores: Card[];
+  @Input() public scores: Card[] = [];
 
   constructor(private selectService: SelectService) { }
 
