@@ -42,6 +42,7 @@ export class ModeSelectComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     if (this.cardSub) { this.cardSub.unsubscribe(); }
+    if (this.authSub) { this.authSub.unsubscribe(); }
   }
 
   navigateToSelection(mode: Learnmode) {
