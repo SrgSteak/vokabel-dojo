@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { KanjiComponent } from './kanji.component';
 
 describe('KanjiComponent', () => {
@@ -8,9 +8,10 @@ describe('KanjiComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ KanjiComponent ]
+      imports: [HttpClientTestingModule],
+      declarations: [KanjiComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
