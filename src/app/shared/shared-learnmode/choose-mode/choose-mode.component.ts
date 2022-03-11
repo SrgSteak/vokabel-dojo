@@ -19,7 +19,7 @@ export enum Learnmode {
 })
 export class ChooseModeComponent implements OnInit {
 
-  @Input() private cards: Card[];
+  @Input() private cards: Card[] = [];
   @Output() public selectedMode = new EventEmitter<Learnmode>();
 
 
@@ -29,8 +29,7 @@ export class ChooseModeComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
   public supportsLearnMode() {
     return this.cards.length > 4;
