@@ -17,8 +17,8 @@ import {
   styleUrls: ['./kanji.component.scss'],
 })
 export class KanjiComponent implements OnInit, OnChanges, OnDestroy {
-  @Input() strokeNumber: boolean;
-  @Input() hideGrid: boolean;
+  @Input() strokeNumber: boolean = true;
+  @Input() hideGrid: boolean = false;
   @Input() draw: boolean;
   @Input() character: string;
   @ViewChild('handle') private handle: ElementRef;
@@ -34,6 +34,9 @@ export class KanjiComponent implements OnInit, OnChanges, OnDestroy {
     if (changes.draw?.currentValue !== changes.draw?.previousValue) {
       this.drawLines();
     }
+    if (changes.character?.currentValue !== changes.character?.previousValue) {
+      this.loadSVG(changes.character.currentValue);
+    }
     if (
       changes.strokeNumber?.currentValue !== changes.strokeNumber?.previousValue
     ) {
@@ -47,19 +50,7 @@ export class KanjiComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnInit() {
     if (this.character) {
-      this.httpClient
-        .get(`./assets/kanji/0${this.character.codePointAt(0).toString(16)}.svg`, {
-          headers: { Accept: 'image/svg+xml' },
-          responseType: 'text',
-        })
-        .subscribe({
-          next: (response) => {
-            this.prepareSVG(response);
-          },
-          error: (error) => {
-            console.error(error);
-          },
-        });
+      this.loadSVG(this.character);
     }
   }
 
@@ -67,6 +58,22 @@ export class KanjiComponent implements OnInit, OnChanges, OnDestroy {
     if (this.intervalHandle) {
       clearInterval(this.intervalHandle);
     }
+  }
+
+  private loadSVG(character: string) {
+    this.httpClient
+      .get(`./assets/kanji/0${character.codePointAt(0).toString(16)}.svg`, {
+        headers: { Accept: 'image/svg+xml' },
+        responseType: 'text',
+      })
+      .subscribe({
+        next: (response) => {
+          this.prepareSVG(response);
+        },
+        error: (error) => {
+          console.error(error);
+        },
+      });
   }
 
   private prepareSVG(svg: string) {
@@ -77,7 +84,6 @@ export class KanjiComponent implements OnInit, OnChanges, OnDestroy {
       this.renderer.setAttribute(paths[i], 'pathLength', '1');
       this.renderer.addClass(paths[i], 'visible');
     }
-    // this.drawLines();
   }
 
   public drawLines() {

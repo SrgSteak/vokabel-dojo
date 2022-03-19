@@ -1,0 +1,21 @@
+@import "_variables";
+
+:host {
+    display: block;
+    .d-flex {
+        gap: 5px;
+        app-kanji-part {
+            // &:first-child {
+            //     width: 120px
+            // }
+            width: 60px;
+        }
+    }
+}
+.bigger {
+    width: 127px !important;
+    @media print {
+        width: 120px !important;
+        align-self: stretch;
+    }
+}

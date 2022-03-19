@@ -98,6 +98,9 @@ a.deck-list-item {
   padding: 5px
 }
 
+.m-0 {
+  margin: 0;
+}
 // .m-2 {
 //   margin: 2px;
 // }
@@ -124,6 +127,13 @@ a.deck-list-item {
   overflow: hidden;
 }
 
+.p-relative {
+  position: relative;
+}
+.p-sticky {
+  position: sticky;
+}
+
 /* css flex */
 .d-flex {
   display: flex;
@@ -135,20 +145,50 @@ a.deck-list-item {
   gap: 10px
 }
 
+.a-items-start {
+  align-items: flex-start;
+}
+
+.a-items-center {
+  align-items: center;
+}
+
+.a-items-end {
+  align-items: flex-end;
+}
+
 .flex-shrink-0 {
   flex-shrink: 0;
+}
+
+.f-flow-col {
+  flex-flow: column;
 }
 .j-content-space-evenly {
   justify-content: space-evenly;
 }
+.j-content-space-between {
+  justify-content: space-between;
+}
 .j-content-center {
   justify-content: center;
 }
+.j-content-end {
+  justify-content: flex-end;
+}
+
 /* css flex end */
 
 /* overflow */
 .ox-auto {
   overflow-x: auto;
+}
+
+.ox-scroll {
+  overflow-x: scroll;
+}
+.oy-scroll {
+  overflow-y: scroll;
 }
 /* overflow end */
 
@@ -195,6 +235,23 @@ i-feather {
     }
 }
 
+/* Add this class to things you do not want to print!*/
+.print, .print *
+{
+  @media not print
+  {
+  display: none !important;
+  }
+}
+
+.page-break-after {
+  page-break-after: always;
+}
+
+.page-break-not-inside {
+  break-inside: avoid;
+}
+
 /* Add application styles & imports to this file! */
 html {
   margin: 0;
@@ -211,7 +268,9 @@ body {
   width: 100%;
   overflow: auto;
   overflow-x: hidden;
-  background-image : url(assets/background.png);
+  @media not print {
+    background-image : url(assets/background.png);
+  }
 }
 
 ul {
@@ -254,9 +313,9 @@ ul {
 
 /* the router component content*/
 .content {
-  padding-top: 40px;
   position: relative;
   height: calc(100% - 40px);
+  padding-top: 40px;
   padding-left: $contentInset;
   padding-right: 15px; // $contentInset;
   max-width: $contentMaxWidth;

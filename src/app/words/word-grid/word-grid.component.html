@@ -1,10 +1,3 @@
-<button class="submenu2 no-print" [class.open]="showSubmenu" [class.closed-menu]="!showSubmenu"
-  (click)="showSubmenu ? showSubmenu = false : showSubmenu = true" title="Einstellungen Lernmodus">⋮</button>
-<div class="menu" *ngIf="showSubmenu">
-  <app-font-switcher></app-font-switcher>
-</div>
-
-
 <div class="word-grid {{ fontSwitcherService.currentStyle }}">
   <div class="word" [class.success]="buildWordString == currentWord.answer" (click)="skipWord()">
     <span class="question">

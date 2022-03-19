@@ -1,0 +1,93 @@
+@import "_variables";
+
+.section {
+    padding-bottom: 15px;
+}
+
+.notepad {
+    border-radius: 4px;
+    overflow: hidden;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    max-width: 250px;
+    aspect-ratio: 1/1;
+    background-color: $fourthBackgroundColor;
+    box-shadow: 3px 4px 5px 0px rgba(0,0,0,0.3);
+    .actions {
+        button {
+            margin: 0
+        }
+    }
+    .notepad-body {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        canvas {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+        }
+        .notepad-background {
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: 1fr 1fr 1fr;
+            gap: 1px;
+            background-color: lightgray;
+            div {
+                background-color: white;
+            }
+        }
+    }
+}
+
+.selection {
+    &.a-self-center {
+        align-self: center;
+    }
+    app-kanji-parts {
+        padding-bottom: 5px;
+    }
+    span {
+        font-weight: lighter;
+        color: $lighterTextColor;
+    }
+}
+
+.group-header {
+    top: 0;
+    background-color: white;
+}
+
+ul {
+    margin: 0;
+    @include smaller-than(sm) {
+    }
+        width: 100%;
+        li {
+            display: inline-block;
+            padding: 5px;
+            font-size: 20px;
+        }
+}
+
+.index {
+    height: 200px;
+    @include smaller-than(sm) {
+        height: 100px;
+    }
+    li {
+        transition: background-color 0.3s ease;
+        @media(hover: hover) {
+            &:hover {
+                background-color: $hoverColor;
+                color: $secondaryTextColor;
+            }
+        }
+    }
+}

@@ -5,7 +5,7 @@
         <div class="japanese">
           {{ card.japanese }}
         </div>
-        <div>
+        <div class="common p-5" *ngIf="card.information?.length">
           <span>{{ card.information }}</span>
         </div>
       </div>

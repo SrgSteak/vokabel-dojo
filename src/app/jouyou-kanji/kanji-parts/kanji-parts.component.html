@@ -1,0 +1,7 @@
+<div class="d-flex a-items-start" *ngIf="svg">
+    <app-kanji-part [strokeNumber]="paths.length" [showNumbers]="true" [svg]="svg" class="bigger flex-shrink-0"></app-kanji-part>
+    <div class="d-flex f-wrap a-items-start">
+        <app-kanji-part [strokeNumber]="strokes + 1" [svg]="svg" *ngFor="let path of paths; let strokes=index;"></app-kanji-part>
+        <app-kanji-part [strokeNumber]="0" [svg]="svg" *ngFor="let placehoder of placeholders" class="print"></app-kanji-part>
+    </div>
+</div>

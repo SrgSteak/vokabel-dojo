@@ -1,0 +1,53 @@
+<div class="content">
+    <a routerLink="" class="backlink muted no-print">
+        <i-feather name="chevron-left"></i-feather>Home
+      </a>
+    <h1 class="no-print m-0">常用漢字 - Jōyō-Kanji</h1>
+    <p class="no-print">Baue deinen individuellen Lernblock! Wenn du ein iPad oder ein Gerät mit Touchscreen verwendest, kannst du eine Leinwand einblenden lassen. Diese Seite wurde speziell für Druckvorlagen entworfen. Mit "Hintergrund drucken" kannst du dir ein Hilfsgitter in den Kästchen anzeigen lassen.</p>
+    <div class="section">
+        <button (click)="toggleNotepad()" class="button no-print">
+        <i-feather name="eye" *ngIf="!showNotepad"></i-feather>
+        <i-feather name="eye-off" *ngIf="showNotepad"></i-feather>
+            {{ showNotepad ? 'Leinwand ausblenden' : 'Leinwand einblenden' }}
+        </button>
+    </div>
+    <div class="d-flex f-wrap h-100 f-flow-col">
+        <div class="index flex-shrink-0 m-0 oy-scroll no-print">
+            <div class="p-relative" *ngFor="let group of groupSortedList">
+                <div class="group-header p-sticky">
+                    {{ group.header }}
+                </div>
+                <ul>
+                    <li *ngFor="let kanji of group.kanji" class="c-pointer" [class.selected]="isSelected(kanji.number)" (click)="toggleMark(kanji.number)">{{ kanji.shinjitai }}</li>
+                </ul>
+            </div>
+        </div>
+        <div class="selection" [class.a-self-center]="selection.length < 1">
+            <span *ngIf="selection.length < 1">Wähle ein Kanji um dir den Aufbau anzusehen</span>
+            <app-kanji-parts [character]="kanji.shinjitai"  *ngFor="let kanji of selection;" class="page-break-not-inside"></app-kanji-parts>
+            <!-- <app-kanji [character]="kanji.shinjitai"  *ngFor="let kanji of selection"></app-kanji> -->
+        </div>
+    </div>
+
+    <div class="notepad no-print" #notepad *ngIf="showNotepad" @fadeInOutTrigger>
+        <div class="actions d-flex j-content-space-between a-items-center" (mousedown)="startDrag($event)" (touchstart)="startDrag($event)">
+            <button class="button" (mousedown)="startDrag($event)" (touchstart)="startDrag($event)"><i-feather name="move"></i-feather></button>
+            <button class="button red" (click)="clear()"><i-feather name="trash"></i-feather></button>
+            <button class="button" (click)="toggleNotepad()"><i-feather name="x"></i-feather></button>
+        </div>
+        <div class="notepad-body" (mousedown)="startPainting($event)" (touchstart)="startPainting($event)">
+            <div class="notepad-background">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+            <canvas #canvas></canvas>
+        </div>
+    </div>
+</div>

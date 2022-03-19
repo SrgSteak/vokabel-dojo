@@ -4,7 +4,7 @@ import { FontSwitcherComponent } from './components/font-switcher/font-switcher.
 import { ReactiveFormsModule } from '@angular/forms';
 import { SelectionComponent } from './components/selection/selection.component';
 import { FeatherModule } from 'angular-feather';
-import { Shuffle, Home, Coffee, ExternalLink, User, Feather, Plus, Edit, Copy, CheckCircle, MinusCircle, MoreHorizontal, PlusCircle, Trash, X, Loader, BarChart2, HelpCircle, ChevronRight, Grid, ChevronLeft, Mail, LogIn, LogOut, Save, Repeat } from 'angular-feather/icons';
+import { Shuffle, Home, Coffee, ExternalLink, User, Feather, Plus, Edit, Copy, CheckCircle, MinusCircle, MoreHorizontal, PlusCircle, Trash, X, Loader, BarChart2, HelpCircle, ChevronRight, Grid, ChevronLeft, Mail, LogIn, LogOut, Save, Repeat, Book } from 'angular-feather/icons';
 import { WordListComponent } from '../words/word-list/word-list.component';
 import { SelectionPageComponent } from './components/selection-page/selection-page.component';
 import { WordQuizComponent } from '../words/word-quiz/word-quiz.component';
@@ -37,6 +37,7 @@ import { QuizResultsComponent } from '../shared/shared-learnmode/quiz-results/qu
     ReactiveFormsModule,
     RouterModule.forChild([]),
     FeatherModule.pick({
+      Book,
       CheckCircle,
       MinusCircle,
       MoreHorizontal,

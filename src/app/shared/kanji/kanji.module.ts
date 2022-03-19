@@ -4,11 +4,12 @@ import { KanjiComponent } from './kanji/kanji.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FeatherModule } from 'angular-feather';
 import { RotateCcw } from 'angular-feather/icons';
+import { KanjiPartComponent } from './kanji-part/kanji-part.component';
 
 
 
 @NgModule({
-  declarations: [KanjiComponent],
+  declarations: [KanjiComponent, KanjiPartComponent],
   imports: [
     CommonModule,
     HttpClientModule,
@@ -16,6 +17,6 @@ import { RotateCcw } from 'angular-feather/icons';
       RotateCcw
     })
   ],
-  exports: [KanjiComponent]
+  exports: [KanjiComponent, KanjiPartComponent]
 })
 export class KanjiModule { }
