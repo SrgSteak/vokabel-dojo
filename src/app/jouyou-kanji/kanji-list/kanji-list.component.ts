@@ -2282,8 +2282,8 @@ export class KanjiListComponent implements OnInit, OnDestroy {
   // an event e is triggered to the coordinates where
   // the said event is triggered.
   getPosition(event: MouseEvent | TouchEvent) {
-    this.coord.x = event instanceof MouseEvent ? event.clientX : event.changedTouches[0].clientX - this.canvas.nativeElement.parentElement.parentElement.offsetLeft;
-    this.coord.y = event instanceof MouseEvent ? event.clientY : event.changedTouches[0].clientY - (this.canvas.nativeElement.parentElement.parentElement.offsetTop + this.canvas.nativeElement.parentElement.offsetTop);
+    this.coord.x = (event instanceof MouseEvent ? event.clientX : event.changedTouches[0].clientX) - this.canvas.nativeElement.parentElement.parentElement.offsetLeft;
+    this.coord.y = (event instanceof MouseEvent ? event.clientY : event.changedTouches[0].clientY) - (this.canvas.nativeElement.parentElement.parentElement.offsetTop + this.canvas.nativeElement.parentElement.offsetTop);
   }
 
   // The following functions toggle the flag to start
@@ -2356,7 +2356,6 @@ export class KanjiListComponent implements OnInit, OnDestroy {
           y: this.mouseposition.y - event.clientY
         });
       } else {
-        // console.log('AAAAA', event.changedTouches[0].clientX);
         this.updateNotepadPosition({
           x: this.mouseposition.x - event.changedTouches[0].clientX,
           y: this.mouseposition.y - event.changedTouches[0].clientY

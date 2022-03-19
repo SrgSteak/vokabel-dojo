@@ -1,3 +1,4 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { KanjiPartsComponent } from './kanji-parts.component';
@@ -8,6 +9,7 @@ describe('KanjiPartsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
       declarations: [ KanjiPartsComponent ]
     })
     .compileComponents();
