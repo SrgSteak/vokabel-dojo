@@ -1,0 +1,29 @@
+<div id="mode-0" class="option flex-shrink-0 p-5 c-pointer s-snap-align-c" [class.muted]="!supportsLearnMode()"
+    (click)="sMode(learnmode.learn, supportsLearnMode())">
+    <div class="title">
+        Lernen
+    </div>
+    <img src="assets/learnmodes/Learn.svg" alt="Bild des 'Lernen'-Modus">
+    <div class="description">Lerne die Karten kennen! Du siehst die klassische Karteikarte mit "Vor"- und
+        "Rückansicht" und drillst dir die Vokabeln in deinen Kopf.</div>
+    <div class="button">Starten</div>
+</div>
+<div id="mode-1" class="option flex-shrink-0 p-5 c-pointer s-snap-align-c" [class.muted]="!supportsQuizMode()"
+    (click)="sMode(learnmode.quiz, supportsQuizMode())">
+    <div class="title">
+        Quiz
+    </div>
+    <img src="assets/learnmodes/Quiz.svg" alt="Bild des 'Quiz'-Modus">
+    <div class="description">Überprüfe dein Wissen mit diesem einfachen Frage/Antwort Spiel.</div>
+    <div class="button">Starten</div>
+</div>
+<div id="mode-2" class="option flex-shrink-0 p-5 c-pointer s-snap-align-c" [class.muted]="!supportsSpellMode()"
+    (click)="sMode(learnmode.spell, supportsSpellMode())">
+    <div class="title">
+        Buchstabieren
+    </div>
+    <img src="assets/learnmodes/Spell.svg" alt="Bild des 'Buchstabieren'-Modus">
+    <div class="description">Schreibe das gesuchte Wort mit Kanji/Hiragana/Katakana und werde ein
+        Vokabelmeister!</div>
+    <div class="button">Starten</div>
+</div>

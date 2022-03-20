@@ -32,6 +32,7 @@ import { connectAuthEmulator, getAuth, provideAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { EditComponent as CardEditComponent } from './cards/edit/edit.component';
 import { SelectbubbleComponent } from './core/selectbubble/selectbubble.component';
+import { KanjiModule } from './shared/kanji/kanji.module';
 
 let resolvePersistenceEnabled: (enabled: boolean) => void;
 
@@ -46,6 +47,7 @@ export const persistenceEnabled = new Promise<boolean>(resolve => {
     BrowserAnimationsModule,
     ReactiveFormsModule,
     AppRoutingModule,
+    KanjiModule,
     provideAuth(() => {
       const auth = getAuth();
       if (environment.useRelay) {

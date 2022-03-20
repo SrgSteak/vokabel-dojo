@@ -1,115 +1,55 @@
-<button class="submenu2 no-print" [class.open]="showSubmenu" [class.closed-menu]="!showSubmenu"
-  (click)="showSubmenu ? showSubmenu = false : showSubmenu = true" title="Einstellungen Wortquiz">⋮</button>
-<div class="menu" *ngIf="showSubmenu">
-  <span class="label">Anzeige</span>
-  <form [formGroup]="modeForm">
-    <label class="container" [class.disabled]="answerMode === 'reading' || questionMode === 'reading'">Ruby (ルビ)
-      <input type="checkbox" formControlName="rubi" name="rubi">
-      <span class="checkmark">
-        <span class="checkmark_inner"></span>
-      </span>
-    </label>
-  </form>
-  <app-font-switcher></app-font-switcher>
-  <span class="label">Fragen</span>
-  <form [formGroup]="modeForm">
-    <label class="container" [class.disabled]="answerMode === 'german'">Deutsch
-      <input type="radio" formControlName="left" value="german" name="left">
-      <span class="checkmark">
-        <span class="checkmark_inner"></span>
-      </span>
-    </label>
-    <label class="container" [class.disabled]="answerMode === 'japanese'">Japanisch
-      <input type="radio" formControlName="left" value="japanese" name="left">
-      <span class="checkmark">
-        <span class="checkmark_inner"></span>
-      </span>
-    </label>
-    <label class="container" [class.disabled]="answerMode === 'reading'"
-      (click)="this.modeForm.get('rubi').setValue()">Lesung
-      <input type="radio" formControlName="left" value="reading" name="left">
-      <span class="checkmark">
-        <span class="checkmark_inner"></span>
-      </span>
-    </label>
-  </form>
-  <span class="label">Antworten</span>
-  <form [formGroup]="modeForm">
-    <label class="container" [class.disabled]="questionMode === 'german'">Deutsch
-      <input type="radio" formControlName="right" value="german" name="right">
-      <span class="checkmark">
-        <span class="checkmark_inner"></span>
-      </span>
-    </label>
-    <label class="container" [class.disabled]="questionMode === 'japanese'">Japanisch
-      <input type="radio" formControlName="right" value="japanese" name="right">
-      <span class="checkmark">
-        <span class="checkmark_inner"></span>
-      </span>
-    </label>
-    <label class="container" [class.disabled]="questionMode === 'reading'"
-      (click)="this.modeForm.get('rubi').setValue()">Lesung
-      <input type="radio" formControlName="right" value="reading" name="right">
-      <span class="checkmark">
-        <span class="checkmark_inner"></span>
-      </span>
-    </label>
-  </form>
-  <span class="label">Schwierigkeitsgrad</span>
-  <a [class.active]="numberAnswers == 3" (click)="updateNumberAnswers(3)">Leicht</a>
-  <a [class.active]="numberAnswers == 5" (click)="updateNumberAnswers(5)">Mittel</a>
-  <a [class.active]="numberAnswers == 8" (click)="updateNumberAnswers(8)">Schwer</a>
+<app-quiz-options *ngIf="displaySettings" (started)="start()" (cancelled)="end()">
+</app-quiz-options>
 
-  <button class="button" (click)="showSubmenu = false; shuffle();">
-    <i-feather name="shuffle" class="feather"></i-feather> Mischen
-  </button>
-</div>
-
-<div class="word-quiz {{ fontSwitcher.currentStyle }}">
-  <div class="card" (mousedown)="peekRubi = true" (mouseup)="peekRubi = false" (touchstart)="peekRubi = true"
-    (touchend)="peekRubi = false">
-    <ng-container [ngSwitch]="questionMode">
-      <ng-container *ngSwitchCase="'japanese'">
-        <ng-container *ngIf="peekRubi || rubi else simple">
-          <ruby>{{ showCard.japanese }}<rt>{{ showCard.reading }}</rt></ruby>
-        </ng-container>
-        <ng-template #simple>
-          {{ showCard.japanese }}
-        </ng-template>
-      </ng-container>
-
-      <ng-container *ngSwitchCase="'german'">
-        {{ showCard.german.join(', ') }}
-      </ng-container>
-    </ng-container>
-  </div>
-
-  <div class="answers">
-    <div class="answer" *ngFor="let answer of answers" (click)="answerSelect(showCard, answer)"
-      [class.error]="displayError && answer.uid !== showCard.uid">
-      <ng-container [ngSwitch]="answerMode">
+<app-quiz-results *ngIf="displayEndscreen" (end)="leave()" (again)="newRound()" [scores]="scoredWords">
+</app-quiz-results>
+<ng-container *ngIf="!displaySettings && !displayEndscreen">
+  <div class="word-quiz {{ fontSwitcher.currentStyle }}">
+    <div class="card" (mousedown)="peekRubi = true" (mouseup)="peekRubi = false" (touchstart)="peekRubi = true"
+      (touchend)="peekRubi = false">
+      <ng-container [ngSwitch]="questionMode">
         <ng-container *ngSwitchCase="'japanese'">
-          <ng-container *ngIf="rubi else japanese">
-            <ruby>{{ answer.japanese }}<rt>{{ answer.reading }}</rt></ruby>
+          <ng-container *ngIf="peekRubi || rubi else simple">
+            <ruby>{{ showCard.japanese }}<rt>{{ showCard.reading }}</rt></ruby>
           </ng-container>
-          <ng-template #japanese>
-            {{ answer.japanese }}
+          <ng-template #simple>
+            {{ showCard.japanese }}
           </ng-template>
         </ng-container>
+
         <ng-container *ngSwitchCase="'german'">
-          <ng-container>
-            {{ answer.german.join(', ') }}
-          </ng-container>
-        </ng-container>
-        <ng-container *ngSwitchCase="'reading'">
-          {{ answer.reading }}
+          {{ showCard.german.join(', ') }}
         </ng-container>
       </ng-container>
     </div>
-  </div>
-</div>
 
-<app-modal>
+    <div class="answers">
+      <div class="answer" *ngFor="let answer of answers" (click)="answerSelect(showCard, answer)"
+        [class.error]="displayError && answer.uid !== showCard.uid">
+        <ng-container [ngSwitch]="answerMode">
+          <ng-container *ngSwitchCase="'japanese'">
+            <ng-container *ngIf="rubi else japanese">
+              <ruby>{{ answer.japanese }}<rt>{{ answer.reading }}</rt></ruby>
+            </ng-container>
+            <ng-template #japanese>
+              {{ answer.japanese }}
+            </ng-template>
+          </ng-container>
+          <ng-container *ngSwitchCase="'german'">
+            <ng-container>
+              {{ answer.german.join(', ') }}
+            </ng-container>
+          </ng-container>
+          <ng-container *ngSwitchCase="'reading'">
+            {{ answer.reading }}
+          </ng-container>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<app-modal *ngIf="!displaySettings && !displayEndscreen">
   <div class="main-content">
     <div class="stat-grid">
       <ng-container *ngFor="let card of scoredWords">
@@ -119,9 +59,13 @@
         </div>
       </ng-container>
     </div>
-    <a (click)="reset()">Zurücksetzen</a>
+    <a (click)="reset()">Statistik zurücksetzen</a>
+    <a (click)="newRound()" *ngIf="index == deck.length">Noch einmal</a>
+    <a (click)="end()" *ngIf="index == deck.length">Beenden und falsch beantwortete zu meiner Auswahl hinzufügen</a>
   </div>
   <div class="teaser teaser2">
+    Karte: {{ index + 1 }} / {{ deck.length }}
+    Durchlauf: {{ round }}
     Hits: <span class="hits">{{ deckService.totalHits }}</span>
     Misses: <span class="misses">{{ deckService.totalMisses }}</span>
   </div>

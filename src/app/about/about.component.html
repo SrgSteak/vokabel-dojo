@@ -1,5 +1,7 @@
 <div class="content">
-  <a routerLink="" class="backlink muted"><i class="feather icon-chevron-left"></i>Home</a>
+  <a routerLink="" class="backlink muted">
+    <i-feather name="chevron-left"></i-feather>Home
+  </a>
   <div class="about">
     <h1>Vokabeldojo</h1>
     <p class="align-c">Für den Japanischkurs in der <a href="www.japanischlernen.at">Nihongo Gakuen</a> als Lernhilfe
@@ -29,6 +31,9 @@
             <a [routerLink]="['/about']" fragment="dictionary">Wörterbuch</a>
           </li>
           <li>
+            <a [routerLink]="['/about']" fragment="jouyou-kanji">常用漢字 - Jōyō-Kanji</a>
+          </li>
+          <li>
             <a [routerLink]="['/about']" fragment="selection">Auswahl</a>
           </li>
           <li><a [routerLink]="['/about']" fragment="syllables">Silben</a>
@@ -52,6 +57,7 @@
           </ul>
           <li><a [routerLink]="['/about']" fragment="report-a-bug">Fehler melden und weiterentwickeln</a></li>
           <li><a [routerLink]="['/about']" fragment="special-thanks">Danksagungen</a></li>
+          <li><a [routerLink]="['/about']" fragment="attribution">Attributionen</a></li>
         </ol>
       </div>
       <div class="manual">
@@ -110,6 +116,11 @@
           sogenannte "Fuzzy Search" und gibt dir alle Treffer die die gesuchten Zeichen
           enthalten. Egal wie viele Zeichen dazwischen sind. Unterstützt sowohl Kanji, Romaji als auch Hiragana/Katakana
           Eingaben.
+        </p>
+        <h2 id="jouyou-kanji">常用漢字 - Jōyō-Kanji</h2>
+        <p>
+          Die Jōyō-Kanji („Schriftzeichen für den regulären Gebrauch“) ist eine offizielle Liste von 2136 Kanji welche für Behörden, Medien und Schulen verbindlich sind. Um die Schreibweise dieser Kanji zu üben, wurde dieser Bereich eingebaut um sich selbst Druckvorlagen zusammenzustellen. Falls du ein Tablet, Smartphone oder einen Computer mit Touchscreen verwendest, kannst du eine Leinwand einblenden lassen auf der du zeichnen kannst.
+          <a [routerLink]="['/jouyou-kanji']">Zur Jōyō-Kanji Seite</a>
         </p>
         <h2 id="selection">Auswahl</h2>
         <p>Die Auswahl erlaubt dir Lernkarten in eine Zwischenablage zu legen um sie zu einem späteren Zeitpunkt zu
@@ -217,6 +228,8 @@
           <li>Ingvalt</li>
           <li>Rene S.</li>
         </ul>
+        <h2 id="attribution">Attributionen</h2>
+        <p>KanjiVG (<a href="http://kanjivg.tagaini.net">http://kanjivg.tagaini.net</a>) Copyright by Ulrich Apel</p>
         <a [routerLink]="['/about']" fragment="index">Nach oben</a>
       </div>
     </div>

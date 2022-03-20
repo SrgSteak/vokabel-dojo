@@ -1,0 +1,15 @@
+<h1 [class.hits]="score > 85" [class.misses]="score < 65" class="align-c" *ngIf="hasScore">{{ score }}%</h1>
+<h1 class="align-c" *ngIf="!hasScore">Abgebrochen</h1>
+
+<h2 (click)="showMisses = !showMisses" class="c-pointer">Falsche Antworten {{ misses.length }} / {{ scores.length }}
+    <i-feather name="chevron-right" [class.rotate]="showMisses" *ngIf="misses.length"></i-feather>
+</h2>
+<app-word-list [cards]="misses" *ngIf="showMisses && misses.length" @rollInOutAnimation></app-word-list>
+
+<h2 (click)="showHits = !showHits" class="c-pointer">Richtige Antworten {{ hits.length }} / {{ scores.length }}
+    <i-feather name="chevron-right" [class.rotate]="showHits" *ngIf="hits.length"></i-feather>
+</h2>
+<app-word-list [cards]="hits" *ngIf="showHits && hits.length" @rollInOutAnimation></app-word-list>
+<button class="button" (click)="again.emit()">Noch einmal</button>
+<button class="button" (click)="end.emit()">Beenden</button>
+<button class="button" (click)="addMissesToSelection()">Falsche Antworten zu meiner Auswahl hinzufügen</button>

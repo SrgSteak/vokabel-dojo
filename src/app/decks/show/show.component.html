@@ -1,5 +1,3 @@
-<button class="submenu no-print" [class.open]="showSubmenu" [class.closed-menu]="!showSubmenu"
-  (click)="showSubmenu ? showSubmenu = false : showSubmenu = true" title="Einstellungen Lernmodus">✍︎</button>
 <div class="menu" *ngIf="showSubmenu">
   <ng-container *ngIf="deck">
     <span class="label label-header">{{ deck.name }}</span>
@@ -38,16 +36,23 @@
 </div>
 <div class="content">
   <a routerLink="/decks/{{deck.uid}}/list" *ngIf="mode != 'list' && deck" class="backlink muted">
-    <i class="feather icon-chevron-left"></i> {{ deck.name }}</a>
+    <i-feather name="chevron-left"></i-feather> {{ deck.name }}
+  </a>
   <a routerLink="/decks" *ngIf="mode == 'list' && deck?.author !== user?.uid" class="backlink muted">
-    <i class="feather icon-chevron-left"></i> Alle Decks</a>
+    <i-feather name="chevron-left"></i-feather> Alle Decks
+  </a>
   <a routerLink="/decks/user" *ngIf="mode == 'list' && deck?.author == user?.uid" class="backlink muted">
-    <i class="feather icon-chevron-left"></i> Meine Decks</a>
+    <i-feather name="chevron-left"></i-feather> Meine Decks
+  </a>
   <ng-container *ngIf="mode == 'list' && deck">
     <h1>{{ deck.name }}</h1>
     <p *ngIf="deck.description">{{ deck.description }}
     </p>
     <p>
+      <a [routerLink]="['/decks', { outlets: { modal: [deck?.uid, 'mode-select'] } }]" class="button no-print">
+        <i-feather name="copy" class="feather"></i-feather> {{ showLearnmodeSelection ? 'Abbrechen' : 'Lernmodus
+        wählen'}}
+      </a>
       <button class="button no-print" (click)="addToCollection()" *ngIf="user && deck.author !== user.uid">
         <i-feather name="copy" class="feather"></i-feather> Zu meinen Decks
         hinzufügen
@@ -63,7 +68,7 @@
   </ng-container>
   <ng-container *ngIf="cards.length > 0 else empty">
     <app-word-list [cards]="cards" [allowEdit]="allowEdit" *ngIf="mode === 'list'"></app-word-list>
-    <app-word-quiz [cards]="cards" *ngIf="mode === 'quiz'"></app-word-quiz>
+    <app-word-quiz [cards]="cards" (close)="closeToList()" *ngIf="mode === 'quiz'"></app-word-quiz>
     <app-word-grid [deck]="cards" *ngIf="mode === 'grid'"></app-word-grid>
     <app-word-learn [_cards]="cards" *ngIf="mode === 'learn'"></app-word-learn>
   </ng-container>
@@ -78,3 +83,5 @@
     </div>
   </ng-template>
 </div>
+<button class="submenu no-print" [class.open]="showSubmenu" [class.closed-menu]="!showSubmenu"
+  (click)="showSubmenu ? showSubmenu = false : showSubmenu = true" title="Einstellungen Lernmodus">✍︎</button>

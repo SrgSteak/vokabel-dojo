@@ -1,3 +1,10 @@
+:host {
+  display: block;
+  overflow: hidden;
+  padding: 3px; // for the shadow
+  margin: -3px; // to "get back" to the original size
+}
+
 .word-list {
   padding-top: 10px;
   padding-bottom: 20px;
@@ -12,11 +19,6 @@
   border: 1px solid gray;
   -webkit-appearance: none;
 }
-
-// .word-list span {
-//   width: 10%;
-//   display: inline-block;
-// }
 
 tr {
   min-height: 25px;

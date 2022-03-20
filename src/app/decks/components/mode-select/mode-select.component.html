@@ -1,0 +1,14 @@
+<div class="modal sans-serif">
+    <div class="header">
+        <h1 class="sans-serif">Lernmodus starten</h1>
+        <div class="action-shortcuts negative">
+            <a [routerLink]="['/decks', { outlets: { modal: null } }]">
+                <i-feather name="x"></i-feather>
+            </a>
+        </div>
+    </div>
+    <div *ngIf="loading">Lade...</div>
+    <p *ngIf="!loading">Du hast derzeit {{ cards.length > 1 ? cards.length + ' Karten' : 'eine Karte' }} gewählt, die im
+        Lernmodus verwendet werden. Karten die nicht den Lernmodus geeignet sind, werden ausgelassen.</p>
+    <app-choose-mode (selectedMode)="navigateToSelection($event)" [cards]="cards" *ngIf="!loading"></app-choose-mode>
+</div>

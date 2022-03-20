@@ -1,25 +1,5 @@
 @import "_variables";
-
-:host {
-  position: fixed;
-  width: 720px;
-  background: $mainColor;
-  color: white;
-  padding: 8px;
-  border-radius: 8px;
-  height: 80%;
-  left: 0;
-  right: 0;
-  margin: auto;
-  top: 50px;
-  @media only screen and (max-width: 736px) {
-    width: calc(100% - 16px);
-    top: initial;
-    bottom: 0;
-    border-bottom-left-radius: 0px;
-    border-bottom-right-radius: 0px;
-  }
-}
+@import "_modal";
 
 .edit {
   overflow: auto;

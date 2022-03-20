@@ -1,9 +1,12 @@
 <div class="sans-serif edit" *ngIf="user">
   <ng-container *ngIf="!uid else editDeckHeader">
     <div class="action-shortcuts negative">
-      <a [class.disabled]="!deckForm.valid" (click)="onSubmit()" class="save" title="Speichern"><i
-          class="feather icon-save"></i></a>
-      <a [routerLink]="['/decks', { outlets: { modal: null } }]"><i class="feather icon-x"></i></a>
+      <a [class.disabled]="!deckForm.valid" (click)="onSubmit()" class="save" title="Speichern">
+        <i-feather name="save"></i-feather>
+      </a>
+      <a [routerLink]="['/decks', { outlets: { modal: null } }]">
+        <i-feather name="x"></i-feather>
+      </a>
     </div>
     <div class="header">
       <h1 class="sans-serif">Neues Deck anlegen</h1>
@@ -11,10 +14,15 @@
   </ng-container>
   <ng-template #editDeckHeader>
     <div class="action-shortcuts negative">
-      <a (click)="onDelete()" class="danger"><i class="feather icon-trash"></i></a>
-      <a [class.disabled]="!deckForm.valid" (click)="onSubmit()" class="save" title="Speichern"><i
-          class="feather icon-save"></i></a>
-      <a [routerLink]="['/decks', { outlets: { modal: null } }]"><i class="feather icon-x"></i></a>
+      <a (click)="onDelete()" class="danger">
+        <i-feather name="trash"></i-feather>
+      </a>
+      <a [class.disabled]="!deckForm.valid" (click)="onSubmit()" class="save" title="Speichern">
+        <i-feather name="save"></i-feather>
+      </a>
+      <a [routerLink]="['/decks', { outlets: { modal: null } }]">
+        <i-feather name="x"></i-feather>
+      </a>
     </div>
     <div class="header">
       <h1 class="sans-serif">Deck bearbeiten</h1>

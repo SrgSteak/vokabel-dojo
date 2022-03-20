@@ -4,7 +4,7 @@ import { FontSwitcherComponent } from './components/font-switcher/font-switcher.
 import { ReactiveFormsModule } from '@angular/forms';
 import { SelectionComponent } from './components/selection/selection.component';
 import { FeatherModule } from 'angular-feather';
-import { Shuffle, Home, Coffee, ExternalLink, User, Feather, Plus, Edit, Copy, CheckCircle, MinusCircle, MoreHorizontal, PlusCircle, Trash, X, Loader, BarChart2, HelpCircle, ChevronRight, Grid } from 'angular-feather/icons';
+import { Shuffle, Home, Coffee, ExternalLink, User, Feather, Plus, Edit, Copy, CheckCircle, MinusCircle, MoreHorizontal, PlusCircle, Trash, X, Loader, BarChart2, HelpCircle, ChevronRight, Grid, ChevronLeft, Mail, LogIn, LogOut, Save, Repeat, Book } from 'angular-feather/icons';
 import { WordListComponent } from '../words/word-list/word-list.component';
 import { SelectionPageComponent } from './components/selection-page/selection-page.component';
 import { WordQuizComponent } from '../words/word-quiz/word-quiz.component';
@@ -14,12 +14,16 @@ import { WordLearnComponent } from '../words/word-learn/word-learn.component';
 import { RouterModule } from '@angular/router';
 import { DecknamePipe } from '../pipes/deckname.pipe';
 import { ListItemComponent as DeckListItemComponent } from '../decks/components/list-item/list-item.component';
+import { QuizOptionsComponent } from '../shared/shared-learnmode/quiz-options/quiz-options.component';
+import { QuizResultsComponent } from '../shared/shared-learnmode/quiz-results/quiz-results.component';
 
 @NgModule({
   declarations: [
     WordLearnComponent,
     WordGridComponent,
     WordQuizComponent,
+    QuizOptionsComponent,
+    QuizResultsComponent,
     FontSwitcherComponent,
     SelectionComponent,
     WordListComponent,
@@ -33,6 +37,7 @@ import { ListItemComponent as DeckListItemComponent } from '../decks/components/
     ReactiveFormsModule,
     RouterModule.forChild([]),
     FeatherModule.pick({
+      Book,
       CheckCircle,
       MinusCircle,
       MoreHorizontal,
@@ -52,7 +57,13 @@ import { ListItemComponent as DeckListItemComponent } from '../decks/components/
       Home,
       Shuffle,
       ChevronRight,
-      Grid
+      ChevronLeft,
+      Grid,
+      Mail,
+      LogIn,
+      LogOut,
+      Save,
+      Repeat
     })
   ],
   providers: [],
@@ -62,6 +73,8 @@ import { ListItemComponent as DeckListItemComponent } from '../decks/components/
     WordGridComponent,
     ModalComponent,
     WordQuizComponent,
+    QuizOptionsComponent,
+    QuizResultsComponent,
     FontSwitcherComponent,
     FeatherModule,
     WordListComponent,

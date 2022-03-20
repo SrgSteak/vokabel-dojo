@@ -44,6 +44,10 @@ export const ROUTES: Routes = [
     path: 'cards',
     loadChildren: () => import('../cards/card.module').then(m => m.CardModule)
   },
+  {
+    path: 'jouyou-kanji',
+    loadChildren: () => import('../jouyou-kanji/jouyou-kanji.module').then(m => m.JouyouKanjiModule)
+  },
   // selection routes
   { path: 'selection/:mode', component: SelectionPageComponent },
   // global named router outlets

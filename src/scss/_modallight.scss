@@ -1,0 +1,84 @@
+@import "_variables";
+
+:host {
+  position: fixed;
+  overflow-y: auto;
+  width: 720px;
+  background: $fourthBackgroundColor;
+  box-shadow: 3px 4px 5px 0px rgba(0,0,0,0.3);
+  color: $primaryTextColor;
+  border-radius: 8px;
+  height: 80%;
+  left: 0;
+  right: 0;
+  margin: auto;
+  top: 50px;
+  @media only screen and (max-width: 736px) {
+    width: 100%;
+    top: initial;
+    bottom: 0;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+  &.negative {
+    background: $primaryBackgroundColor;
+    color: $secondaryTextColor;
+    box-shadow: none;
+    }
+}
+
+.modal {
+  padding: 0 8px;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  padding: 5px 0px;
+  background-color: $fourthBackgroundColor;
+  h1 {
+    margin: 0;
+    font-size: 1.4em;
+  }
+}
+
+.action-shortcuts {
+  transition: all 0.2s;
+  .feather {
+    height: 17px;
+    width: 17px;
+
+  }
+  position: absolute;
+  top: 0;
+  right: 5px;
+  a {
+    vertical-align:top;
+    display: inline-block;
+    margin-right: 6px;
+    text-decoration: none;
+    color: white;
+    background: $mainColor;
+    padding: 5px 8px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    transition: all 0.2s;
+  }
+  a:last-child {
+    margin-right: 0;
+  }
+  a:hover {
+    @media(hover: hover) {
+      padding-top: 8px;
+    }
+  }
+  .blue {
+    color: $checkmark_checked;
+  }
+}
+
+.negative {
+  .header {
+    background-color: $primaryBackgroundColor;
+  }
+}

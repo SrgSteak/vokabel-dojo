@@ -1,0 +1,14 @@
+@import "_modal";
+
+.label {
+    font-family: arial;
+    color: $labelColor;
+    font-size: 12px;
+    display: block;
+    padding-top: 20px;
+}
+
+.buttons {
+    position: sticky;
+    bottom: 0;
+}
