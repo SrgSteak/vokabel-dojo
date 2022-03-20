@@ -2,14 +2,15 @@
     <a routerLink="" class="backlink muted no-print">
         <i-feather name="chevron-left"></i-feather>Home
       </a>
-    <h1 class="no-print m-0">常用漢字 - Jōyō-Kanji</h1>
-    <p class="no-print">Baue deinen individuellen Lernblock! Wenn du ein iPad oder ein Gerät mit Touchscreen verwendest, kannst du eine Leinwand einblenden lassen. Diese Seite wurde speziell für Druckvorlagen entworfen. Mit "Hintergrund drucken" kannst du dir ein Hilfsgitter in den Kästchen anzeigen lassen.</p>
-    <div class="section">
-        <button (click)="toggleNotepad()" class="button no-print">
+      <div class="section no-print">
+    <h1 class="m-0">常用漢字 - Jōyō-Kanji</h1>
+    <p>Baue deinen individuellen Lernblock! Wenn du ein iPad oder ein Gerät mit Touchscreen verwendest, kannst du eine Leinwand einblenden lassen. Diese Seite wurde speziell für Druckvorlagen entworfen. Mit "Hintergrund drucken" kannst du dir ein Hilfsgitter in den Kästchen anzeigen lassen.</p>
+    <button (click)="toggleNotepad()" class="button">
         <i-feather name="eye" *ngIf="!showNotepad"></i-feather>
         <i-feather name="eye-off" *ngIf="showNotepad"></i-feather>
-            {{ showNotepad ? 'Leinwand ausblenden' : 'Leinwand einblenden' }}
-        </button>
+        {{ showNotepad ? 'Leinwand ausblenden' : 'Leinwand einblenden' }}
+    </button>
+    <button (click)="window.print();" class="button">Drucken</button>
     </div>
     <div class="d-flex f-wrap h-100 f-flow-col">
         <div class="index flex-shrink-0 m-0 oy-scroll no-print">

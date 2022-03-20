@@ -31,6 +31,9 @@
             <a [routerLink]="['/about']" fragment="dictionary">Wörterbuch</a>
           </li>
           <li>
+            <a [routerLink]="['/about']" fragment="jouyou-kanji">常用漢字 - Jōyō-Kanji</a>
+          </li>
+          <li>
             <a [routerLink]="['/about']" fragment="selection">Auswahl</a>
           </li>
           <li><a [routerLink]="['/about']" fragment="syllables">Silben</a>
@@ -113,6 +116,11 @@
           sogenannte "Fuzzy Search" und gibt dir alle Treffer die die gesuchten Zeichen
           enthalten. Egal wie viele Zeichen dazwischen sind. Unterstützt sowohl Kanji, Romaji als auch Hiragana/Katakana
           Eingaben.
+        </p>
+        <h2 id="jouyou-kanji">常用漢字 - Jōyō-Kanji</h2>
+        <p>
+          Die Jōyō-Kanji („Schriftzeichen für den regulären Gebrauch“) ist eine offizielle Liste von 2136 Kanji welche für Behörden, Medien und Schulen verbindlich sind. Um die Schreibweise dieser Kanji zu üben, wurde dieser Bereich eingebaut um sich selbst Druckvorlagen zusammenzustellen. Falls du ein Tablet, Smartphone oder einen Computer mit Touchscreen verwendest, kannst du eine Leinwand einblenden lassen auf der du zeichnen kannst.
+          <a [routerLink]="['/jouyou-kanji']">Zur Jōyō-Kanji Seite</a>
         </p>
         <h2 id="selection">Auswahl</h2>
         <p>Die Auswahl erlaubt dir Lernkarten in eine Zwischenablage zu legen um sie zu einem späteren Zeitpunkt zu
