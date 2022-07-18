@@ -7,7 +7,10 @@ Um die Firestore db regeln zu testen, verwende 'firebase emulators:exec "npm run
 Das Ruleset für die db befindet sich in ./firestore.rules, die tests dazu unter src/spec/*.spec.js
 
 ## Angular functional/unit tests
+```
 npm test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
+```
+
 Die Karma configuration ist karma.conf.js, die test dateien befinden sich als *.spec.ts neben den Code Dateien.
 
 ## Angular component tests
@@ -15,8 +18,14 @@ TBA
 
 # Development
 ## Run with local emulators
-Terminal 1: firebase emulators:start
+```
+# emulators run in foreground
+firebase emulators:start
+
+# start project in second terminal window
 Terminal 2: ng s --configuration=development
+```
+
 
 # CI
 Automatisierte Tests via Github Actions für pushes und pull requests für dev branch sind aktiv.
