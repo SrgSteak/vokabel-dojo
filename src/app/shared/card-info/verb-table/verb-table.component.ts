@@ -7,14 +7,28 @@ export enum konjugationType {
   negatedMasu = 1,
   pastMasu = 2,
   negatedPastMasu = 3,
+
+  neutral = 4,
+  negatedNeutral = 5,
+  pastNeutral = 6,
+  negatedPastNeutral = 7,
+
   lemma = 10,
   te = 20,
+}
+
+export enum vocalType {
+  a,
+  i,
+  u,
+  e,
+  o
 }
 
 @Component({
   selector: 'app-verb-table',
   templateUrl: './verb-table.component.html',
-  styleUrls: ['./verb-table.component.css']
+  styleUrls: ['./verb-table.component.scss']
 })
 export class VerbTableComponent implements OnInit {
 
@@ -28,10 +42,31 @@ export class VerbTableComponent implements OnInit {
     return konjugationType;
   }
 
+  private kana = [
+    ['わ', 'い', 'う', 'え', 'お'],
+    ['か', 'き', 'く', 'け', 'こ'],
+    ['さ', 'し', 'す', 'せ', 'そ'],
+    ['た', 'ち', 'つ', 'て', 'と'],
+    ['な', 'に', 'ぬ', 'ね', 'の'],
+    ['は', 'ひ', 'ふ', 'へ', 'ほ'],
+    ['ま', 'み', 'む', 'め', 'も'],
+    ['や', '', 'ゆ', '', 'よ'],
+    ['ら', 'り', 'る', 'れ', 'ろ'],
+    ['わ', '', '', '', 'を'],
+    ['ん', '', '', '', ''],
+    ['が', 'ぎ', 'ぐ', 'げ', 'ご'],
+    ['ざ', 'じ', 'ず', 'ぜ', 'ぞ'],
+    ['だ', 'ぢ', 'づ', 'で', 'ど'],
+    ['ば', 'び', 'ぶ', 'べ', 'ぼ'],
+    ['ぱ', 'ぴ', 'ぷ', 'ぺ', 'ぽ']
+  ];
+
   constructor() { }
 
   ngOnInit() {
   }
+
+
 
   masuForm() {
     // step 1: is verb in the dictionary form? (lemma)
@@ -43,10 +78,6 @@ export class VerbTableComponent implements OnInit {
       // TODO: check if forms can be revised to lemma out of konjugations
       lemma = this.formLemma(this.card.japanese);
     }
-  }
-
-  negatedMasuForm() {
-
   }
 
   private isLemma(word: string) {
@@ -76,6 +107,8 @@ export class VerbTableComponent implements OnInit {
             return word.substring(0, word.length - 1) + 'ました'
           case konjugationType.negatedPastMasu:
             return word.substring(0, word.length - 1) + 'ませんでした'
+          case konjugationType.negatedNeutral:
+            return word.substring(0, word.length - 1) + 'ない'
           case konjugationType.lemma:
             return word;
           case konjugationType.te:
@@ -94,6 +127,8 @@ export class VerbTableComponent implements OnInit {
             return word.substring(0, word.length - 1) + this.flexUToI(word.substring(word.length - 1, word.length)) + 'ました'
           case konjugationType.negatedPastMasu:
             return word.substring(0, word.length - 1) + this.flexUToI(word.substring(word.length - 1, word.length)) + 'ませんでした'
+          case konjugationType.negatedNeutral:
+            return word.substring(0, word.length -1) + this.flex(word.substring(word.length - 1, word.length), vocalType.a) + 'ない'
           case konjugationType.lemma:
             return word;
           case konjugationType.te:
@@ -151,6 +186,16 @@ export class VerbTableComponent implements OnInit {
     return word.indexOf(suffix, word.length - suffix.length) !== -1;
   }
 
+  private flex(syllable: string, vocalType): string {
+    for (let row = 0; row < this.kana.length; row++) {
+      const element = this.kana[row];
+      if (element.indexOf(syllable) !== -1) {
+        return element[vocalType];
+      }
+    }
+    return '';
+  }
+
   private flexUToI(syllable): string {
     switch (syllable) {
       case 'る':
@@ -179,39 +224,6 @@ export class VerbTableComponent implements OnInit {
         return 'ぎ';
       case 'う':
         return 'い';
-      default:
-        return '';
-    }
-  }
-
-  private flexIToU(syllable): string {
-    switch (syllable) {
-      case 'り':
-        return 'る';
-      case 'み':
-        return 'む';
-      case 'ぴ':
-        return 'ぷ';
-      case 'び':
-        return 'ぶ';
-      case 'ひ':
-        return 'ふ';
-      case 'ぢ':
-        return 'づ';
-      case 'ち':
-        return 'つ';
-      case 'に':
-        return 'ぬ';
-      case 'じ':
-        return 'ず';
-      case 'し':
-        return 'す';
-      case 'き':
-        return 'く';
-      case 'ぎ':
-        return 'ぐ';
-      case 'い':
-        return 'う';
       default:
         return '';
     }

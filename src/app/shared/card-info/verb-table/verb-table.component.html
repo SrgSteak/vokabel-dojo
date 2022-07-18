@@ -1,5 +1,5 @@
 <span>Dieses Feature ist experimentell, bitte mit Vorsicht verwenden</span>
-<table>
+<table *ngIf="card">
   <tr>
     <td>Masu-Form</td>
     <td>{{ flexLemma(card.japanese, card.verbType, konjugationTypes.masu) }}</td>
