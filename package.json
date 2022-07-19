@@ -13,7 +13,7 @@
     "@angular/platform-browser-dynamic": "^12.2.16",
     "@angular/router": "^12.2.16",
     "@angular/service-worker": "^12.2.16",
-    "angular-feather": "^6.4.1",
+    "angular-feather": "~6.1.0",
     "core-js": "^3.9.1",
     "firebase": "^9.4.0",
     "firebase-functions": "^3.6.0",
