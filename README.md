@@ -20,10 +20,20 @@ TBA
 ## Run with local emulators
 ```
 # emulators run in foreground
-firebase emulators:start
+# firebase emulators:start and more in this command
+npm run emulators
 
 # start project in second terminal window
 Terminal 2: ng s --configuration=development
+```
+
+# Troubleshoot
+## Port 8080 is not open on localost, could not start Firestore Emulator
+```
+lsof -i :8080
+ps ax | grep [PID]
+# find one like /Users/rs/.cache/firebase/emulators/cloud-firestore-emulator-v1.13.1.jar
+kill [PID]
 ```
 
 

@@ -32,7 +32,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "test-jest": "jest --detectOpenHandles src/spec/*",
-    "emulators": "npm run firebase emulators:start",
+    "emulators": "firebase emulators:start",
     "locally": "ng s --configuration=development",
     "compile:server": "tsc -p server.tsconfig.json",
     "predeploy": "npm --prefix functions run build"
