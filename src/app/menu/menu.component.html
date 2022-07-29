@@ -25,13 +25,20 @@
     <a routerLinkActive="active" [routerLink]="[ { outlets: { modal: 'selection'}}]">
       <i-feather name="check-circle" class="feather"></i-feather> Auswahl
     </a>
+
+
     <span class="label">Silben</span>
     <a routerLinkActive="active" routerLink="/syllables" [routerLinkActiveOptions]="{exact:
       true}" (click)="toggle()">Tabelle</a>
     <a routerLinkActive="active" routerLink="syllables/learn" (click)="toggle()">Lernmodus</a>
     <a routerLinkActive="active" routerLink="syllables/quiz" (click)="toggle()">Quizmodus</a>
+
+
     <span class="label">Vokabel</span>
     <a routerLinkActive="active" routerLink="/decks">Alle Decks</a>
+
+    <span class="label">Kanji</span>
+    <a routerLinkActive="active" routerLink="/jouyou-kanji">Jōyō Kanji</a>
 
     <span class="label">Allgemein</span>
     <a routerLinkActive="active" routerLink="/about">
