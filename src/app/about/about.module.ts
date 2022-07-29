@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AboutComponent } from './about.component';
 import { RouterModule } from '@angular/router';
-import { CheckCircle, MinusCircle, X } from 'angular-feather/icons';
+import { CheckCircle, ChevronLeft, MinusCircle, X } from 'angular-feather/icons';
 import { FeatherModule } from 'angular-feather';
 
 @NgModule({
@@ -12,6 +12,7 @@ import { FeatherModule } from 'angular-feather';
   imports: [
     CommonModule,
     FeatherModule.pick({
+      ChevronLeft,
       MinusCircle,
       CheckCircle,
       X
