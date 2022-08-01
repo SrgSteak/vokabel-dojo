@@ -109,6 +109,10 @@ export class VerbTableComponent implements OnInit {
             return word.substring(0, word.length - 1) + 'ませんでした'
           case konjugationType.negatedNeutral:
             return word.substring(0, word.length - 1) + 'ない'
+          case konjugationType.negatedPastNeutral:
+            return word.substring(0, word.length - 1) + 'なかった'
+          case konjugationType.pastNeutral:
+            return word.substring(0, word.length - 1) + 'た'
           case konjugationType.lemma:
             return word;
           case konjugationType.te:
@@ -128,21 +132,36 @@ export class VerbTableComponent implements OnInit {
           case konjugationType.negatedPastMasu:
             return word.substring(0, word.length - 1) + this.flexUToI(word.substring(word.length - 1, word.length)) + 'ませんでした'
           case konjugationType.negatedNeutral:
-            return word.substring(0, word.length -1) + this.flex(word.substring(word.length - 1, word.length), vocalType.a) + 'ない'
+            return word.substring(0, word.length - 1) + this.flex(word.substring(word.length - 1, word.length), vocalType.a) + 'ない'
+          case konjugationType.negatedPastNeutral:
+            return word.substring(0, word.length - 1) + this.flex(word.substring(word.length - 1, word.length), vocalType.a) + 'なかった'
+          case konjugationType.pastNeutral:
+            const ending = word.substring(word.length - 1, word.length);
+            switch (ending) {
+              case 'る':
+              case 'う':
+                return word.substring(0, word.length - 1) + 'った';
+              case 'ぶ':
+              case 'む':
+              case 'ぬ':
+                return word.substring(0, word.length - 1) + 'んだ';
+              case 'ぐ':
+                return word.substring(0, word.length - 1) + 'いだ';
+              case 'つ':
+                return word.substring(0, word.length - 1) + 'った';
+              default:
+                return word.substring(0, word.length - 1) + this.flex(ending, vocalType.i) + 'た';
+            }
           case konjugationType.lemma:
             return word;
           case konjugationType.te:
             switch (word.substring(word.length - 1, word.length)) {
               case 'う':
-                return word.substring(0, word.length - 1) + 'って';
               case 'る':
-                return word.substring(0, word.length - 1) + 'って';
               case 'つ':
                 return word.substring(0, word.length - 1) + 'って';
               case 'む':
-                return word.substring(0, word.length - 1) + 'んで';
               case 'ぬ':
-                return word.substring(0, word.length - 1) + 'んで';
               case 'ぶ':
                 return word.substring(0, word.length - 1) + 'んで';
               case 'す':

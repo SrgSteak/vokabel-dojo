@@ -1,26 +1,32 @@
-<span>Dieses Feature ist experimentell, bitte mit Vorsicht verwenden</span>
-<table *ngIf="card">
-  <tr>
-    <td>Masu-Form</td>
-    <td>{{ flexLemma(card.japanese, card.verbType, konjugationTypes.masu) }}</td>
-  </tr>
-  <tr>
-
-    <td>Verneinung</td>
-    <td>{{ flexLemma(card.japanese, card.verbType, konjugationTypes.negatedMasu) }}</td>
-  </tr>
-  <tr>
-
-    <td>Vergangenheit</td>
-    <td>{{ flexLemma(card.japanese, card.verbType, konjugationTypes.pastMasu) }}</td>
-  </tr>
-  <tr>
-
-    <td>Verneinte Vergangenheit</td>
-    <td>{{ flexLemma(card.japanese, card.verbType, konjugationTypes.negatedPastMasu) }}</td>
-  </tr>
-  <tr>
-    <td>て-Form</td>
-    <td>{{ flexLemma(card.japanese, card.verbType, konjugationTypes.te) }}</td>
-  </tr>
-</table>
+<span>Dieses Feature ist experimentell, alle Angaben ohne Gewähr</span>
+<div class="d-flex ox-auto s-snap-type-xm f-gap-10" *ngIf="card">
+  <div class="flex-shrink-0 s-snap-align-c">
+    <h2><ruby>普<rt>ふ</rt>通<rt>つう</rt>形<rt>けい</rt></ruby> / Neutral Form</h2>
+    <dl>
+      <dt><ruby>辞<rt>じ</rt>書<rt>しょ</rt>形<rt>けい</rt></ruby> / Wörterbuchform</dt>
+      <dd>{{ card.japanese }}</dd>
+      <dt>Verneinung</dt>
+      <dd>{{ flexLemma(card.japanese, card.verbType, konjugationTypes.negatedNeutral) }}</dd>
+      <dt>Vergangenheit</dt>
+      <dd>{{ flexLemma(card.japanese, card.verbType, konjugationTypes.pastNeutral) }}</dd>
+      <dt>Verneinte Vergangenheit</dt>
+      <dd>{{ flexLemma(card.japanese, card.verbType, konjugationTypes.negatedPastNeutral) }}</dd>
+      <dt>て-Form</dt>
+      <dd>{{ flexLemma(card.japanese, card.verbType, konjugationTypes.te) }}</dd>
+    </dl>
+  </div>
+  <hr>
+  <div class="flex-shrink-0 s-snap-align-c">
+    <h2>ます<ruby>体<rt>たい</rt></ruby> / Masu Stil</h2>
+    <dl>
+        <dt>Masu-Form</dt>
+        <dd>{{ flexLemma(card.japanese, card.verbType, konjugationTypes.masu) }}</dd>
+        <dt>Verneinung</dt>
+        <dd>{{ flexLemma(card.japanese, card.verbType, konjugationTypes.negatedMasu) }}</dd>
+        <dt>Vergangenheit</dt>
+        <dd>{{ flexLemma(card.japanese, card.verbType, konjugationTypes.pastMasu) }}</dd>
+        <dt>Verneinte Vergangenheit</dt>
+        <dd>{{ flexLemma(card.japanese, card.verbType, konjugationTypes.negatedPastMasu) }}</dd>
+    </dl>
+  </div>
+</div>

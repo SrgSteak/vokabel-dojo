@@ -589,6 +589,7 @@ label.container:hover {
 
 /* TABLES */
 table {
+  box-sizing: border-box;
   page-break-inside: auto;
   border-collapse: collapse;
   width: 100%;
@@ -602,6 +603,7 @@ table {
 }
 
 tr {
+  box-sizing: border-box;
   page-break-inside:avoid;
   page-break-after:auto;
 }
@@ -615,12 +617,14 @@ tr {
 
 th {
   // background-color: teal;
+  box-sizing: border-box;
   border-style: none;
   border: 1px solid;
   // height: 45px;
 }
 
 td {
+  box-sizing: border-box;
   padding: 0;
   border: 1px solid;
   // height: 45px;

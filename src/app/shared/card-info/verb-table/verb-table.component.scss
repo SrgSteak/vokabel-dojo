@@ -1,7 +1,55 @@
-table {
-  text-align: left;
+@import "_variables";
+
+hr {
+  border-style: solid;
+  border-right: 2px;
+  opacity: .2;
+  margin-block-start: 5em;
+  margin-block-end: 5em;
 }
-td {
-  padding: 5px;
+
+span {
+  margin-bottom: 10px;
 }
-tr:nth-child(even) {background-color: #f2f2f2;}
+
+.ox-auto {
+  position: relative;
+}
+
+.s-snap-align-c {
+  width: 100%;
+  @include bigger-than(xs) {
+    width: calc(50% - 11px);
+  }
+  h2 {
+    position: sticky;
+    display: inline;
+    left: 0;
+    top: 0;
+    width: 100%;
+    padding: 0px 5px;
+  }
+}
+
+dl {
+  display: flex;
+  flex-flow: row;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 10px;
+  dt {
+    font-size: 0.75em;
+    color: $lighterTextColor;
+    width: calc(50% - 5px);
+    // text-align: right;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+  dd {
+    margin-inline-start: 0px;
+    width: calc(50% - 5px);
+  }
+}
