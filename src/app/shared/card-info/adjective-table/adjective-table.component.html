@@ -1,11 +1,16 @@
-<span>Dieses Feature ist experimentell, bitte mit Vorsicht verwenden</span>
-<table>
-  <tr>
-    <th></th>
-    <th>Verneinung</th>
-  </tr>
-  <tr>
-    <td>{{ flexLemma(card, konjugationTypes.default) }}</td>
-    <td>{{ flexLemma(card, konjugationTypes.negated) }}</td>
-  </tr>
-</table>
+<span>Dieses Feature ist experimentell, alle Angaben ohne Gewähr</span>
+
+<div class="d-flex ox-auto s-snap-type-xm f-gap-10" *ngIf="card">
+  <div class="flex-shrink-0 s-snap-align-c">
+    <dl>
+      <dt><ruby>辞<rt>じ</rt>書<rt>しょ</rt>形<rt>けい</rt></ruby> / Wörterbuchform</dt>
+      <dd>{{ card.japanese }}</dd>
+      <dt>Verneinung</dt>
+      <dd>{{ flexLemma(card, konjugationTypes.negated) }}</dd>
+      <dt>Vergangenheit</dt>
+      <dd>{{ flexLemma(card, konjugationTypes.past) }}</dd>
+      <dt>Verneinte Vergangenheit</dt>
+      <dd>{{ flexLemma(card, konjugationTypes.negatedPast) }}</dd>
+    </dl>
+  </div>
+</div>

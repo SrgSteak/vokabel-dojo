@@ -1,0 +1,27 @@
+@import "_variables";
+.s-snap-align-c {
+  width: 100%;
+}
+dl {
+  display: flex;
+  flex-flow: row;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 10px;
+  dt {
+    @include smaller-than(xxs) {
+      font-size: 0.75em;
+    }
+    color: $lighterTextColor;
+    width: calc(50% - 5px);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+  dd {
+    margin-inline-start: 0px;
+    width: calc(50% - 5px);
+  }
+}
