@@ -10,3 +10,12 @@ updates:
     # Labels on pull requests for version updates only
     labels:
       - "pip dependencies"
+
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    target-branch: "dev"
+    # Labels on pull requests for security and version updates
+    labels:
+      - "npm dependencies"
