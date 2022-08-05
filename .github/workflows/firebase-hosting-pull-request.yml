@@ -22,7 +22,7 @@ jobs:
       - run: firebase emulators:exec --only firestore --project fake-project-id "npm run test-jest"
       - run: npm test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
 
-      # deploy to test channel, returns URL for temporary hosting
+      # deploy to temporary hosting channel, returns URL
       - run: npm run build -- --configuration production
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
