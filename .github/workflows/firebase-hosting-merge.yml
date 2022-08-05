@@ -25,6 +25,7 @@ jobs:
       - run: npm test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
 
       # deploy to production hosting channel, returns URL
+      - run: npm run build -- --configuration production
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
