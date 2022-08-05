@@ -8,7 +8,22 @@ jobs:
     if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
     runs-on: ubuntu-latest
     steps:
+      # git checkout the source code
       - uses: actions/checkout@v2
+
+      # test steps
+      - name: Use Node.js 14.x
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14.x
+          cache: "npm"
+      - run: npm ci
+      - run: npm install -g firebase-tools
+      - run: firebase emulators:exec --only firestore --project fake-project-id "npm run test-jest"
+      - run: npm test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
+
+      # deploy to test channel, returns URL for temporary hosting
+      - run: ng build --configuration production
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
