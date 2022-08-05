@@ -1,7 +1,8 @@
 /.angular/cache
 node_modules
 *.cache
-dist
+dist/vokabeldojo/*
+!dist/vokabeldojo/.gitignore
 .firebase
 .DS_Store
 seed_data
