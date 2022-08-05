@@ -1,7 +1,7 @@
 /.angular/cache
 node_modules
 *.cache
-dist
+dist/demo/*
 .firebase
 .DS_Store
 seed_data
