@@ -23,7 +23,7 @@ jobs:
       - run: npm test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
 
       # deploy to test channel, returns URL for temporary hosting
-      - run: ng build --configuration production
+      - run: npm run build -- --configuration production
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
