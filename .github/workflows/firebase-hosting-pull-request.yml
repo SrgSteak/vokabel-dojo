@@ -23,7 +23,7 @@ jobs:
       - run: npm test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
 
       # place version tag into env
-      - run: sed -i "s/versiontag/$GITHUB_REF_NAME $(date +'%y%m%d')/g" src/environments/environment.prod.ts
+      - run: sed -i "s|versiontag|$GITHUB_REF_NAME $(date +'%y%m%d')|g" ./src/environments/environment.prod.ts
 
       # deploy to temporary hosting channel, returns URL
       - run: npm run build -- --configuration production
