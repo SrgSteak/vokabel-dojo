@@ -1,4 +1,5 @@
 export const environment = {
+  version: "local",
   production: false,
   useRelay: true,
   firebaseConfig: {

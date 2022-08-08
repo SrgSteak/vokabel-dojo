@@ -1,4 +1,5 @@
 export const environment = {
+  version: "versiontag",
   production: true,
   useRelay: false, // false
   firebaseConfig: {
