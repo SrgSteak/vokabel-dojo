@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, HostListener, ElementRef } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../core/auth.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-menu',
@@ -10,6 +10,7 @@ import { AuthService } from '../core/auth.service';
 export class MenuComponent implements OnInit {
 
   show = false;
+  version = environment.version;
 
   @ViewChild('menu', { static: false }) menu: ElementRef;
 
