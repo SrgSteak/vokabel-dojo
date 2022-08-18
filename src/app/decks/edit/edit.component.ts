@@ -31,9 +31,7 @@ export class EditComponent implements OnInit, OnDestroy {
     name: ['', [Validators.required, Validators.minLength(1)]],
     description: [''],
     uid: [null],
-    author: [''],
-    createdAt: [''],
-    updatedAt: ['']
+    author: ['']
   });
 
   uid: string;
@@ -80,13 +78,10 @@ export class EditComponent implements OnInit, OnDestroy {
    */
   onSubmit() {
     if (this.deckForm.valid) {
-      if (!this.deckForm.get('createdAt').value) {
-        this.deckForm.get('createdAt').setValue(new Date());
-      }
       if (!this.deckForm.get('author').value) {
         this.deckForm.get('author').setValue(this.user.role == 'admin' ? '' : this.user.uid);
       }
-      this.DeckService.write(this.deckForm.value).then(reference => {
+      this.DeckService.write(this.deckForm.value as DeckInterface).then(reference => {
         this.router.navigate([{ outlets: { primary: [reference.id], modal: null } }], { relativeTo: this.route.parent });
       });
     } else {

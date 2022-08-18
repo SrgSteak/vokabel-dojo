@@ -8,6 +8,7 @@ import { FLY_IN_OUT_ANIMATION, ROLL_IN_OUT_ANIMATION } from 'src/app/core/animat
 import { Subscription, Observable, Subject } from 'rxjs';
 import { switchMap, distinctUntilChanged, debounceTime } from 'rxjs/operators';
 import { AuthService, User } from 'src/app/core/auth.service';
+import { CardInterface } from 'src/app/core/entities/card-interface';
 
 export function requiredWhenWordType(type: WordType): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
@@ -53,8 +54,6 @@ export class EditComponent implements OnInit {
     japanese_readings: this.fb.array([]),
     chinese_readings: this.fb.array([]),
     examples: this.fb.array([]),
-    createdAt: [''],
-    updatedAt: [''],
     deck_uids: this.fb.array([]),
     information: [''],
     author: ['']
@@ -314,13 +313,14 @@ export class EditComponent implements OnInit {
   onSubmit() {
     if (this.cardForm.valid) {
       this.cardForm.get('author').setValue(this.user.role == 'admin' ? '' : this.user.uid);
-      this.cardService.write(this.cardForm.value).then(reference => {
+      this.cardService.write(this.cardForm.value as unknown as CardInterface).then(reference => {
         // prepare empty form and patch up some values or close the modal
         if (this.repeat) {
           const type = this.cardForm.get('wordType').value;
           const verbtype = this.cardForm.get('verbType').value;
           this.cardForm.reset();
           this.cardForm.get('wordType').setValue(type);
+          this.cardForm.get('verbType').setValue(verbtype);
           this.cardForm.get('author').setValue(this.user.uid)
           const uidForm = new FormControl('', Validators.required);
           uidForm.setValue(this.deckUid);

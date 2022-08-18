@@ -134,7 +134,6 @@
       }
     }
   },
-  "defaultProject": "vokabeldojo",
   "cli": {
     "analytics": false,
     "warnings": {}
