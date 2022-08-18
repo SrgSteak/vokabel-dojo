@@ -1,4 +1,5 @@
 @import "_variables";
+@import "_forms";
 
 $contentInset: 40px;
 
@@ -258,6 +259,7 @@ html {
   padding: 0;
   height: 100%;
   width: 100%;
+  font-size: 16px;
   // overflow: hidden;
 }
 /* the App background */
@@ -681,99 +683,6 @@ img {
 }
 /* Text Colors and other Stuff END */
 
-/* Forms */
-label {
-  font-size: 12px;
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-form > input {
-  // -webkit-appearance: none;
-  width: 100%;
-  padding: 5px;
-  margin-bottom: 10px;
-  box-sizing: border-box;
-}
-
-.formgroup > input {
-  width: 100%;
-  padding: 5px;
-  box-sizing: border-box;
-}
-
-.formgroup > textarea {
-  width: 100%;
-  padding: 5px;
-  box-sizing: border-box;
-}
-
-.form_array {
-  margin-bottom: 10px;
-  width: 100%;
-}
-
-.input_group {
-  overflow: hidden;
-  // width: 95%;
-  // margin-left: 5%;
-  display: flex;
-  // margin-bottom: 15px;
-  // justify-content: center;
-  // align-content: center;
-  button {
-    width: 25px;
-    display: inline-block;
-    height: 29px;
-  }
-  div {
-    display: inline;
-    label {
-      width: 100%;
-      display: inline-block;
-      input {
-        margin-left: 5px;
-        width: 75%;
-        padding: 5px;
-        margin-bottom: 10px;
-        box-sizing: border-box;
-      }
-    }
-  }
-}
-
-.input_group > input {
-  width: 90%;
-  padding: 5px;
-  // margin-bottom: 10px;
-  margin-top: 10px;
-  box-sizing: border-box;
-}
-
-.form_array .button {
-  border: solid;
-  border-width: 1px;
-  border-color: white;
-}
-
-form > button {
-  margin: 0px;
-  margin-top: 10px;
-  margin-right: 10px;
-  background-color: $backgroundColor;
-  border-radius : 4px;
-  border: none;
-  color: white;
-  padding: 6px 7px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 12px;
-}
-
-form > button:hover {
-  background-color: $highlightColor;
-}
-
 .button {
   margin: 0px;
   margin-top: 10px;
@@ -798,6 +707,9 @@ form > button:hover {
   &.border {
     border: 1px solid $secondaryTextColor;
   }
+  &:hover {
+    background-color: $highlightColor;
+  }
 }
 
 .menu .button {
@@ -807,6 +719,3 @@ form > button:hover {
   border-color: white;
 }
 
-.button:hover {
-  background-color: $highlightColor;
-}

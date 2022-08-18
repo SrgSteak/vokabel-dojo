@@ -1,20 +1,20 @@
 /* MENU */
 // Menu and Button Background
-$backgroundColor: rgb(0, 40, 40);
+$backgroundColor: #002828;
 // Active (selected) Links
-$activeColor: rgb(0,30,30);
+$activeColor: #001e1e;
 // hover color on links
-$highlightColor: rgb(0, 60,60);
+$highlightColor: #003c3c;
 // color of menu group labels
-$labelColor: rgb(0,140,140);
+$labelColor: #008c8c;
 
-$mutedColor: rgba(200,200,200, 0.3);
+$mutedColor: #c8c8c84d;
 
 // general
 $contentMaxWidth: 1000px; // sets the maximum content witdh of the router outlet. margin left-right is auto
 
 // forms
-$errorColor: rgb(150, 20, 20);
+$errorColor: #961414;
 
 $oddTableColor: #6464641a;
 $lighterTextColor: #646464;
@@ -44,8 +44,10 @@ $secondaryBackgroundColor: #003333;
 $thirdBackgroundColor: #003030;
 $fourthBackgroundColor: white;
 
-// mixins and scss function stuff
+$lightBackground: white;
+$darkBackground: $mainColor;
 
+// mixins and scss function stuff
 $breakpoints: (
   xxs: 320px,
   xs: 576px,
