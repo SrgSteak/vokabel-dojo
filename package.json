@@ -38,7 +38,6 @@
     "predeploy": "npm --prefix functions run build"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^12.2.17",
     "@angular/cli": "^12.2.17",
     "@angular/compiler-cli": "^12.2.16",
     "@angular/language-service": "^12.2.16",
