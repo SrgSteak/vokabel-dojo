@@ -15,7 +15,7 @@
     "@angular/service-worker": "^12.2.16",
     "angular-feather": "~6.1.0",
     "core-js": "^3.9.1",
-    "firebase": "^9.4.0",
+    "firebase": "^9.9.3",
     "firebase-functions": "^3.6.0",
     "fuzzy-search": "^3.2.1",
     "rxfire": "^6.0.0",
