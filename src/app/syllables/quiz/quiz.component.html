@@ -1,3 +1,29 @@
+<app-modal>
+  <div class="main-content">
+    <div class="stat-grid">
+      <div class="stat" *ngFor="let char of scoredHiragana" [class.muted]="char.hits == 0 && char.misses == 0">
+        {{ char[questionMode] }} {{ char.hits }}/{{ char.misses }}</div>
+    </div>
+    <a (click)="reset()">Zurücksetzen</a>
+  </div>
+  <div class="teaser">
+    Hits: {{ syllablesService.totalHits }} | Misses: {{ syllablesService.totalMisses }}
+  </div>
+</app-modal>
+<div class="content {{ font }}">
+  <div class="quiz">
+    <div class="card">
+      {{ showCard[questionMode]}}
+    </div>
+    <div class="answers">
+      <div class="answer" *ngFor="let answer of answers" (click)="answerSelect(this.showCard, answer)"
+        [class.error]="displayError && answer.hiragana !== showCard.hiragana">
+        {{ answer[answerMode] }}
+      </div>
+    </div>
+  </div>
+</div>
+
 <button class="submenu no-print" [class.open]="showSubmenu" [class.closed-menu]="!showSubmenu"
   (click)="showSubmenu ? showSubmenu = false : showSubmenu = true" title="Einstellungen Quizmodus">✍︎</button>
 <div class="menu" *ngIf="showSubmenu">
@@ -104,29 +130,4 @@
       </span>
     </label>
   </form>
-</div>
-<app-modal>
-  <div class="main-content">
-    <div class="stat-grid">
-      <div class="stat" *ngFor="let char of scoredHiragana" [class.muted]="char.hits == 0 && char.misses == 0">
-        {{ char[questionMode] }} {{ char.hits }}/{{ char.misses }}</div>
-    </div>
-    <a (click)="reset()">Zurücksetzen</a>
-  </div>
-  <div class="teaser">
-    Hits: {{ syllablesService.totalHits }} | Misses: {{ syllablesService.totalMisses }}
-  </div>
-</app-modal>
-<div class="content {{ font }}">
-  <div class="quiz">
-    <div class="card">
-      {{ showCard[questionMode]}}
-    </div>
-    <div class="answers">
-      <div class="answer" *ngFor="let answer of answers" (click)="answerSelect(this.showCard, answer)"
-        [class.error]="displayError && answer.hiragana !== showCard.hiragana">
-        {{ answer[answerMode] }}
-      </div>
-    </div>
-  </div>
 </div>
