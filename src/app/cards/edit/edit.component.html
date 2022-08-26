@@ -304,8 +304,7 @@
     <!-- deck search and decks-->
     <div class="formgroup searchcontainer" formArrayName="deck_uids">
       <label>Decks</label>
-      <input type="search" class="deck_search" (keyup)="phrase$.next($event.target.value)"
-        (focus)="toggleSearch = true">
+      <input type="search" class="deck_search" (keyup)="updatedPhrase($event)" (focus)="toggleSearch = true">
       <div class="searchahead collapsible" *ngIf="toggleSearch" #searchWindow @rollInOutAnimation>
         <div class="suggestion" *ngFor="let suggestion of suggestions | async"
           (click)="toggleSearch = false; addDeckToCard(suggestion)">

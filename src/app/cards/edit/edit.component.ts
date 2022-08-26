@@ -260,7 +260,8 @@ export class EditComponent implements OnInit {
     if (this.adjectiveSub) { this.adjectiveSub.unsubscribe(); }
   }
 
-  updatedPhrase(phrase: string) {
+  updatedPhrase(event: KeyboardEvent) {
+    const phrase = (event.target as HTMLInputElement).value;
     if (phrase != '') {
       this.phrase$.next(phrase);
     } else {
