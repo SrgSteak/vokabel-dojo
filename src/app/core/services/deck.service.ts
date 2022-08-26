@@ -129,9 +129,12 @@ export class DeckService extends FlashcardService {
   write(deck: DeckInterface): Promise<DocumentReference> {
     return new Promise((resolve, reject) => {
       deck.updatedAt = new Timestamp(Date.now() / 1000, 0);
+      if (!deck.uid) {
+        deck.createdAt = new Timestamp(Date.now() / 1000, 0);
+        console.log(deck);
+      }
       const ref = deck.uid ? doc(this.ref, deck.uid) : doc(this.ref);
-      setDoc(ref, deck).then(() => {
-        console.log(ref);
+      setDoc(ref, deck, { merge: true}).then(() => {
         resolve(ref);
       }, (error) => {
         console.error('could not update Deck!', deck);

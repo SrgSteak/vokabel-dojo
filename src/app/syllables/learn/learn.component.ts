@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-learn',
   templateUrl: './learn.component.html',
-  styleUrls: ['learn.component.css']
+  styleUrls: ['learn.component.scss']
 })
 export class LearnComponent implements OnInit, OnDestroy {
   hiragana: Array<flashcard>;

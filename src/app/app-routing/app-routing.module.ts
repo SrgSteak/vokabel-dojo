@@ -66,7 +66,7 @@ export const ROUTES: Routes = [
     CommonModule,
     RouterModule.forRoot(ROUTES, {
       useHash: false,
-      scrollPositionRestoration: 'enabled',
+      scrollPositionRestoration: 'disabled',
       anchorScrolling: 'enabled',
       // enableTracing: true // for route event debugging
       // initialNavigation: 'enabled'

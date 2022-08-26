@@ -41,20 +41,20 @@
   <form [formGroup]="cardForm" (ngSubmit)="onSubmit()">
     <!-- wordType -->
     <div class="formgroup collapsible" [class.closed]="!wordTypeToggle" @rollInOutAnimation>
-      <label (click)="wordTypeToggle = !wordTypeToggle" class="formgroup-header">Kartentyp
+      <label (click)="wordTypeToggle = !wordTypeToggle" class="formgroup-header"><span class="muted">Kartentyp</span>
         <ng-container [ngSwitch]="wordType.value">
-          <span class="muted" *ngSwitchCase="wordTypes.simple">Einfach</span>
-          <span class="muted" *ngSwitchCase="wordTypes.noun">Nomen</span>
-          <span class="muted" *ngSwitchCase="wordTypes.surunoun">する-Nomen</span>
-          <span class="muted" *ngSwitchCase="wordTypes.verb">Verb</span>
-          <span class="muted" *ngSwitchCase="wordTypes.adjective">Adjektiv</span>
-          <span class="muted" *ngSwitchCase="wordTypes.adverb">Adverb</span>
-          <span class="muted" *ngSwitchCase="wordTypes.pronoun">Pronomen</span>
-          <span class="muted" *ngSwitchCase="wordTypes.preposition">Präposition</span>
-          <span class="muted" *ngSwitchCase="wordTypes.conjunction">Konjunktion</span>
-          <span class="muted" *ngSwitchCase="wordTypes.numeral">Numeral</span>
-          <span class="muted" *ngSwitchCase="wordTypes.interjection">Interjektion</span>
-          <span class="muted" *ngSwitchCase="wordTypes.kanji">Kanji</span>
+          <span *ngSwitchCase="wordTypes.simple"> Einfach</span>
+          <span *ngSwitchCase="wordTypes.noun"> Nomen</span>
+          <span *ngSwitchCase="wordTypes.surunoun"> する-Nomen</span>
+          <span *ngSwitchCase="wordTypes.verb"> Verb</span>
+          <span *ngSwitchCase="wordTypes.adjective"> Adjektiv</span>
+          <span *ngSwitchCase="wordTypes.adverb"> Adverb</span>
+          <span *ngSwitchCase="wordTypes.pronoun"> Pronomen</span>
+          <span *ngSwitchCase="wordTypes.preposition"> Präposition</span>
+          <span *ngSwitchCase="wordTypes.conjunction"> Konjunktion</span>
+          <span *ngSwitchCase="wordTypes.numeral"> Numeral</span>
+          <span *ngSwitchCase="wordTypes.interjection"> Interjektion</span>
+          <span *ngSwitchCase="wordTypes.kanji"> Kanji</span>
         </ng-container>
       </label>
       <div *ngIf="wordTypeToggle" @rollInOutAnimation>
@@ -279,7 +279,7 @@
         </label>
         <ng-container formArrayName="examples" *ngFor="let example of examples.controls; let i = index">
           <div class="input_group" [formGroupName]="i" @rollInOutAnimation>
-            <button class="button" (click)="$event.preventDefault(); removeReadingAtIndex(examples,i)">-</button>
+            <button class="button top" (click)="$event.preventDefault(); removeReadingAtIndex(examples,i)">-</button>
             <div class="formgroup">
 
               <label>Japanisch</label>
@@ -304,8 +304,7 @@
     <!-- deck search and decks-->
     <div class="formgroup searchcontainer" formArrayName="deck_uids">
       <label>Decks</label>
-      <input type="search" class="deck_search" (keyup)="phrase$.next($event.target.value)"
-        (focus)="toggleSearch = true">
+      <input type="search" class="deck_search" (keyup)="updatedPhrase($event)" (focus)="toggleSearch = true">
       <div class="searchahead collapsible" *ngIf="toggleSearch" #searchWindow @rollInOutAnimation>
         <div class="suggestion" *ngFor="let suggestion of suggestions | async"
           (click)="toggleSearch = false; addDeckToCard(suggestion)">

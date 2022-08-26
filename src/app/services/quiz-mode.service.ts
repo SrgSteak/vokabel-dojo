@@ -18,8 +18,8 @@ export class QuizModeService {
   reset() {
     this.modeForm.get('left').setValue('japanese');
     this.modeForm.get('right').setValue('german');
-    this.modeForm.get('ruby').setValue(false);
-    this.modeForm.get('difficulty').setValue(1);
+    this.modeForm.get('rubi').setValue(null);
+    this.modeForm.get('difficulty').setValue('1');
   }
 
   get questionMode() {

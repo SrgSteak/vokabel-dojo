@@ -29,7 +29,6 @@ export class KanjiPartComponent implements OnInit, AfterViewInit, OnChanges, OnD
   }
 
   ngAfterViewInit(): void {
-    // console.log(this.strokeNumber, this.svg);
     this.prepareSVG(this.svg);
   }
 

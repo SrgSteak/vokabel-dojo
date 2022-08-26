@@ -20,7 +20,7 @@
             </span>
         </label>
         <label class="container" [class.disabled]="quizModeService.answerMode === 'reading'"
-            (click)="quizModeService.modeForm.get('rubi').setValue(false)">Lesung
+            (click)="quizModeService.modeForm.get('rubi').setValue(null)">Lesung
             <input type="radio" formControlName="left" value="reading" name="left">
             <span class="checkmark">
                 <span class="checkmark_inner"></span>
@@ -42,7 +42,7 @@
             </span>
         </label>
         <label class="container" [class.disabled]="quizModeService.questionMode === 'reading'"
-            (click)="quizModeService.modeForm.get('rubi').setValue(false)">Lesung
+            (click)="quizModeService.modeForm.get('rubi').setValue(null)">Lesung
             <input type="radio" formControlName="right" value="reading" name="right">
             <span class="checkmark">
                 <span class="checkmark_inner"></span>

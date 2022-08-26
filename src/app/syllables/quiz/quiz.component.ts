@@ -177,7 +177,7 @@ export class QuizComponent implements OnInit {
     if (rows.length > 0) {
       this.hiragana = this.syllablesService.getForRows(rows);
     } else {
-      this.hiragana = this.syllablesService.getAll();
+      this.hiragana = this.syllablesService.getForRows(['a', 'k', 's', 't', 'na', 'h', 'm', 'y', 'r', 'w', 'n', 'dakuten_h', 'dakuten_k', 'dakuten_t', 'dakuten_s', 'handakuten_h']);
     }
     this.layout();
   }

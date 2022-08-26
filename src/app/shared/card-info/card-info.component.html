@@ -1,20 +1,8 @@
 <ng-container *ngIf="card else loading">
   <div class="scroll-content">
-    <ng-container *ngIf="card.information && card.information.length else header">
-      <div class="section">
-        <div class="japanese">
-          {{ card.japanese }}
-        </div>
-        <div class="common p-5" *ngIf="card.information?.length">
-          <span>{{ card.information }}</span>
-        </div>
-      </div>
-    </ng-container>
-    <ng-template #header>
-      <div class="japanese">
-        {{ card.japanese }}
-      </div>
-    </ng-template>
+    <div class="japanese">
+      {{ card.japanese }}
+    </div>
     <div class="section readings" *ngIf="card.hasReadings()">
       <span>
         Lesungen
@@ -62,11 +50,14 @@
       <app-adjective-table [card]="card">
       </app-adjective-table>
     </div>
-    <div class="section kanji" *ngIf="card.wordType === wordTypes.kanji">
+    <div class="section kanji">
       <span>
         Logogramm
       </span>
-      <app-kanji [strokeNumber]="true" [hideGrid]="false" [draw]="true" [character]="card.japanese"></app-kanji>
+      <div class="d-flex j-content-center">
+        <app-kanji [strokeNumber]="true" [hideGrid]="false" [draw]="true" [character]="char"
+          *ngFor="let char of card.japanese.split('')"></app-kanji>
+      </div>
       <a href="mailto:schmidt91robin@icloud.com?subject=Vokabeldojo - Problem mit {{ card.japanese }}&body=Hallo, Ich habe ein Problem und zwar:"
         class="no-print">Problem
         melden</a>

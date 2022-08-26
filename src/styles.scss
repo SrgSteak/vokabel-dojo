@@ -1,13 +1,18 @@
 @import "_variables";
+@import "_forms";
 
 $contentInset: 40px;
+
+* {
+  box-sizing: border-box;
+}
 
 /* Deck listings */
 a.deck-list-item {
   cursor: pointer;
   width: 170px;
   height: 100px;
-  background-color: rgb(0,40,40);
+  background-color: rgb(0, 40, 40);
   border-radius: 4px;
   margin: 5px;
   position: relative;
@@ -18,12 +23,14 @@ a.deck-list-item {
   text-decoration: none;
   overflow: hidden;
   scroll-snap-align: center;
+
   &:hover {
-      @media(hover: hover) {
-          background-color: rgb(0,55,55);
-          box-shadow: inset 0 0 10px #000000;
-      }
+    @media(hover: hover) {
+      background-color: rgb(0, 55, 55);
+      box-shadow: inset 0 0 10px #000000;
+    }
   }
+
   .banner {
     position: absolute;
     top: 6px;
@@ -33,29 +40,32 @@ a.deck-list-item {
     text-align: center;
     background-color: #004343;
   }
+
   .deck_name {
-      text-align: left;
-      font-family: sans-serif;
+    text-align: left;
+    font-family: sans-serif;
   }
 
   .deck_description {
-      font-size: 12px;
-      margin-top: 5px;
+    font-size: 12px;
+    margin-top: 5px;
   }
 
   .deck_created {
-      i-feather {
-        vertical-align: middle;
-        height: 16px;
-        width: 16px;
-      }
-      position: absolute;
-      font-size: 10px;
-      bottom: 5px;
-      right: 5px;
-      text-align: right;
+    i-feather {
+      vertical-align: middle;
+      height: 16px;
+      width: 16px;
+    }
+
+    position: absolute;
+    font-size: 10px;
+    bottom: 5px;
+    right: 5px;
+    text-align: right;
   }
 }
+
 /* Deck listings end */
 
 
@@ -87,13 +97,15 @@ a.deck-list-item {
 }
 
 ::-webkit-scrollbar-corner {
-  background:rgba(0, 0, 0, 0);
+  background: rgba(0, 0, 0, 0);
 }
+
 /* scrollbar end */
 
 .p-2 {
   padding: 2px
 }
+
 .p-5 {
   padding: 5px
 }
@@ -101,19 +113,6 @@ a.deck-list-item {
 .m-0 {
   margin: 0;
 }
-// .m-2 {
-//   margin: 2px;
-// }
-
-// .mx-2 {
-//   margin-left: 2px;
-//   margin-right: 2px;
-// }
-
-// .my-2 {
-//   margin-top: 2px;
-//   margin-bottom: 2px;
-// }
 
 .h-100 {
   height: 100%;
@@ -130,6 +129,7 @@ a.deck-list-item {
 .p-relative {
   position: relative;
 }
+
 .p-sticky {
   position: sticky;
 }
@@ -138,9 +138,11 @@ a.deck-list-item {
 .d-flex {
   display: flex;
 }
+
 .f-wrap {
   flex-wrap: wrap;
 }
+
 .f-gap-10 {
   gap: 10px
 }
@@ -164,15 +166,19 @@ a.deck-list-item {
 .f-flow-col {
   flex-flow: column;
 }
+
 .j-content-space-evenly {
   justify-content: space-evenly;
 }
+
 .j-content-space-between {
   justify-content: space-between;
 }
+
 .j-content-center {
   justify-content: center;
 }
+
 .j-content-end {
   justify-content: flex-end;
 }
@@ -187,9 +193,11 @@ a.deck-list-item {
 .ox-scroll {
   overflow-x: scroll;
 }
+
 .oy-scroll {
   overflow-y: scroll;
 }
+
 /* overflow end */
 
 /* for the container */
@@ -227,20 +235,19 @@ i-feather {
 }
 
 /* Add this class to things you do not want to print!*/
-@media print
-{
-    .no-print, .no-print *
-    {
-        display: none !important;
-    }
+@media print {
+
+  .no-print,
+  .no-print * {
+    display: none !important;
+  }
 }
 
 /* Add this class to things you do not want to print!*/
-.print, .print *
-{
-  @media not print
-  {
-  display: none !important;
+.print,
+.print * {
+  @media not print {
+    display: none !important;
   }
 }
 
@@ -258,8 +265,10 @@ html {
   padding: 0;
   height: 100%;
   width: 100%;
+  font-size: 16px;
   // overflow: hidden;
 }
+
 /* the App background */
 body {
   margin: 0;
@@ -268,8 +277,9 @@ body {
   width: 100%;
   overflow: auto;
   overflow-x: hidden;
+
   @media not print {
-    background-image : url(assets/background.png);
+    background-image: url(assets/background.png);
   }
 }
 
@@ -282,6 +292,7 @@ ul {
 .serif {
   font-family: serif;
 }
+
 .sans-serif {
   font-family: sans-serif;
 }
@@ -306,6 +317,7 @@ ul {
   flex-wrap: wrap;
   justify-content: space-around;
   width: 100%;
+
   @media screen and (min-width: 500px) {
     width: 70%;
   }
@@ -321,6 +333,7 @@ ul {
   max-width: $contentMaxWidth;
   margin-left: auto;
   margin-right: auto;
+
   .backlink {
     text-decoration: none;
     position: absolute;
@@ -352,7 +365,7 @@ ul {
 
 .mode:hover {
   @media(hover: hover) {
-    background-color: rgb(0,90,90);
+    background-color: rgb(0, 90, 90);
   }
 }
 
@@ -363,46 +376,60 @@ ul {
 .menu {
   display: block;
   height: 100%;
+
   @media screen and (max-width: 799px) {
     width: 35%;
   }
+
   @media screen and (max-width: 438px) {
     width: 50%;
   }
+
   @media screen and (min-width: 800px) {
     width: 280px;
   }
+
   color: white;
   font-family: arial;
   background-color: $backgroundColor;
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
+  position: fixed;
+  /* Stay in place */
+  z-index: 1;
+  /* Sit on top */
   left: 0;
   top: 0;
   text-align: center;
   overflow: auto;
+
   a {
     cursor: pointer;
     color: white;
     padding: 8px;
     text-decoration: none;
-    display: block; /* Display block instead of inline */
-    transition: 0.3s; /* Transition effects on hover (color) */
+    display: block;
+    /* Display block instead of inline */
+    transition: 0.3s;
+    /* Transition effects on hover (color) */
   }
-  a:hover, .overlay a:focus {
+
+  a:hover,
+  .overlay a:focus {
     @media(hover: hover) {
       background-color: $highlightColor;
     }
   }
+
   .label {
     color: $labelColor;
     font-size: 12px;
     display: block;
     padding-top: 20px;
   }
+
   p {
     font-size: 12px;
-    color: $labelColor;/* rgb(199, 199, 199); */
+    color: $labelColor;
+    /* rgb(199, 199, 199); */
     // text-align: left;
     padding-left: 7px;
     padding-right: 7px;
@@ -424,7 +451,7 @@ a[disabled] {
 
 .disabled {
   cursor: not-allowed;
-  color: $mutedColor !important;
+  color: $mutedColor  !important;
   pointer-events: none;
   text-decoration-line: line-through;
   -webkit-text-decoration-line: line-through;
@@ -440,8 +467,8 @@ button.menu-button {
   margin-top: 10px;
   position: fixed;
   background-color: $backgroundColor;
-  border-top-right-radius : 4px;
-  border-bottom-right-radius : 4px;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
   border: none;
   color: white;
   padding: 6px 7px;
@@ -459,8 +486,8 @@ button.submenu {
   margin-top: 10px;
   position: fixed;
   background-color: $backgroundColor;
-  border-top-right-radius : 4px;
-  border-bottom-right-radius : 4px;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
   border: none;
   color: white;
   padding: 6px 7px;
@@ -479,8 +506,8 @@ button.submenu2 {
   margin-top: 10px;
   position: fixed;
   background-color: $backgroundColor;
-  border-top-right-radius : 4px;
-  border-bottom-right-radius : 4px;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
   border: none;
   color: white;
   padding: 6px 7px;
@@ -500,12 +527,15 @@ button.submenu2 {
 
 button.open {
   left: 30%;
+
   @media screen and (max-width: 799px) {
     left: 35%;
   }
+
   @media screen and (max-width: 438px) {
     left: 50%;
   }
+
   @media screen and (min-width: 800px) {
     left: 280px;
   }
@@ -525,9 +555,11 @@ label.container {
   padding: 8px;
   display: block;
   position: relative;
+
   @media screen and (max-width: 438px) {
     font-size: 14px;
   }
+
   @media screen and (max-width: 799px) {
     padding-left: 12px;
     text-align: left;
@@ -547,23 +579,26 @@ label.container:hover {
   bottom: calc(50% - 10px);
   width: 20px;
   height: 20px;
+
   @media screen and (max-width: 438px) {
     right: 15px;
     width: 16px;
     height: 16px;
     bottom: calc(50% - 8px);
   }
+
   background: #ddd;
   border-radius: 100%;
-  box-shadow: 0px 1px 3px rgba(0,0,0,0.5);
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 .checkmark_inner {
-	position: absolute;
+  position: absolute;
   left: 3px;
   top: 3px;
-	width: 14px;
+  width: 14px;
   height: 14px;
+
   @media screen and (max-width: 438px) {
     // left: 3px;
     // top: 3px;
@@ -573,7 +608,7 @@ label.container:hover {
 
   border-radius: 100%;
   background: #333;
-  box-shadow:inset 0px 1px 3px rgba(0,0,0,0.5);
+  box-shadow:inset 0px 1px 3px rgba(0, 0, 0, 0.5);
   transition: background-color .5s ease;
 }
 
@@ -582,9 +617,10 @@ label.container:hover {
 }
 
 /* When the checkbox is checked, add a blue background */
-.container input:checked ~ .checkmark .checkmark_inner {
+.container input:checked~.checkmark .checkmark_inner {
   background-color: $checkmark_checked;
 }
+
 /* MENU END*/
 
 /* TABLES */
@@ -604,8 +640,8 @@ table {
 
 tr {
   box-sizing: border-box;
-  page-break-inside:avoid;
-  page-break-after:auto;
+  page-break-inside: avoid;
+  page-break-after: auto;
 }
 
 .blank {
@@ -635,6 +671,7 @@ table .label {
   font-weight: bold;
   width: 50px;
 }
+
 /* TABLES END */
 
 /* quiz */
@@ -657,13 +694,16 @@ img {
 
 .muted {
   color: gray;
+
   .button {
     background-color: $mutedColor;
     cursor: not-allowed;
+
     &:hover {
       background-color: $mutedColor;
     }
   }
+
   img {
     filter: grayscale(1) opacity(0.4);
   }
@@ -676,110 +716,19 @@ img {
 .align-l {
   text-align: left;
 }
+
 .align-r {
   text-align: right;
 }
+
 /* Text Colors and other Stuff END */
-
-/* Forms */
-label {
-  font-size: 12px;
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-form > input {
-  // -webkit-appearance: none;
-  width: 100%;
-  padding: 5px;
-  margin-bottom: 10px;
-  box-sizing: border-box;
-}
-
-.formgroup > input {
-  width: 100%;
-  padding: 5px;
-  box-sizing: border-box;
-}
-
-.formgroup > textarea {
-  width: 100%;
-  padding: 5px;
-  box-sizing: border-box;
-}
-
-.form_array {
-  margin-bottom: 10px;
-  width: 100%;
-}
-
-.input_group {
-  overflow: hidden;
-  // width: 95%;
-  // margin-left: 5%;
-  display: flex;
-  // margin-bottom: 15px;
-  // justify-content: center;
-  // align-content: center;
-  button {
-    width: 25px;
-    display: inline-block;
-    height: 29px;
-  }
-  div {
-    display: inline;
-    label {
-      width: 100%;
-      display: inline-block;
-      input {
-        margin-left: 5px;
-        width: 75%;
-        padding: 5px;
-        margin-bottom: 10px;
-        box-sizing: border-box;
-      }
-    }
-  }
-}
-
-.input_group > input {
-  width: 90%;
-  padding: 5px;
-  // margin-bottom: 10px;
-  margin-top: 10px;
-  box-sizing: border-box;
-}
-
-.form_array .button {
-  border: solid;
-  border-width: 1px;
-  border-color: white;
-}
-
-form > button {
-  margin: 0px;
-  margin-top: 10px;
-  margin-right: 10px;
-  background-color: $backgroundColor;
-  border-radius : 4px;
-  border: none;
-  color: white;
-  padding: 6px 7px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 12px;
-}
-
-form > button:hover {
-  background-color: $highlightColor;
-}
 
 .button {
   margin: 0px;
   margin-top: 10px;
   margin-right: 10px;
   background-color: $backgroundColor;
-  border-radius : 4px;
+  border-radius: 4px;
   border: none;
   color: white;
   padding: 6px 7px;
@@ -790,13 +739,19 @@ form > button:hover {
   min-width: 25px;
   transition: all 0.2s;
   font-family: arial;
+
   i-feather {
     width: 16px;
     height: 16px;
     vertical-align: middle;
   }
+
   &.border {
     border: 1px solid $secondaryTextColor;
+  }
+
+  &:hover {
+    background-color: $highlightColor;
   }
 }
 
@@ -805,8 +760,4 @@ form > button:hover {
   border: solid;
   border-width: 1px;
   border-color: white;
-}
-
-.button:hover {
-  background-color: $highlightColor;
 }
