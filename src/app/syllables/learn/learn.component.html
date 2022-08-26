@@ -1,3 +1,13 @@
+<div class="content" (click)="showNext()">
+  <div class="learn">
+    <div class="card">{{ hiragana[show][displayLeft]}}</div>
+    <hr class="line">
+    <div class="card" *ngIf="displayMode == 'always' || (displayMode == 'click' && clicked)">
+      {{ hiragana[show][displayRight] }}
+    </div>
+  </div>
+</div>
+
 <button class="submenu no-print" [class.open]="showSubmenu" [class.closed-menu]="!showSubmenu"
   (click)="showSubmenu ? showSubmenu = false : showSubmenu = true" title="Einstellungen Lernmodus">✍︎</button>
 <div class="menu" *ngIf="showSubmenu">
@@ -88,14 +98,4 @@
       </span>
     </label>
   </form>
-</div>
-
-<div class="content" (click)="showNext()">
-  <div class="learn">
-    <div class="card">{{ hiragana[show][displayLeft]}}</div>
-    <hr class="line">
-    <div class="card" *ngIf="displayMode == 'always' || (displayMode == 'click' && clicked)">
-      {{ hiragana[show][displayRight] }}
-    </div>
-  </div>
 </div>
