@@ -11,36 +11,46 @@
   background-color: white;
   border-radius: 8px;
   padding: 8px;
+
   @include smaller-than(sm) {
     padding-top: 25px;
   }
-  box-shadow: 3px 4px 5px 0px rgba(0,0,0,0.3);
+
+  box-shadow: 3px 4px 5px 0px rgba(0, 0, 0, 0.3);
+
   @media only screen and (max-width: 736px) {
     box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.3);
-    width: calc(100% - 16px);
+    width: 100%;
     top: initial;
     bottom: 0;
     height: 80%;
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
   }
+
   span {
     font-weight: lighter;
     color: $lighterTextColor;
   }
+
   .japanese {
     text-align: left;
+
     @include bigger-than(sm) {
       text-align: center;
     }
+
     font-weight: 800;
     font-size: 50px;
   }
+
   table {
     text-align: left;
+
     tr:nth-child(even) {
       background-color: $oddTableColor;
     }
+
     td {
       padding: 10px;
       border: none;
@@ -55,16 +65,19 @@
 
 .action-shortcuts {
   transition: all 0.2s;
+
   .feather {
     height: 17px;
     width: 17px;
 
   }
+
   position: absolute;
   top: 0;
-  right: 5px;
+  right: 18px;
+
   a {
-    vertical-align:top;
+    vertical-align: top;
     display: inline-block;
     margin-right: 6px;
     text-decoration: none;
@@ -75,14 +88,17 @@
     border-bottom-right-radius: 5px;
     transition: all 0.2s;
   }
+
   a:last-child {
     margin-right: 0;
   }
+
   a:hover {
     @media(hover: hover) {
       padding-top: 8px;
     }
   }
+
   .blue {
     color: $checkmark_checked;
   }
@@ -96,15 +112,19 @@
   margin-right: 2px;
   border-radius: 4px;
 }
+
 .deck:last-child {
   margin-right: 0px;
 }
+
 ul {
   margin: 0;
 }
+
 .decks {
   margin-top: 5px;
 }
+
 .section {
   margin-bottom: 15px;
 }
@@ -119,6 +139,7 @@ ul {
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
   background-color: $mainColor;
+
   &.noun {
     background-color: $nounColor;
   }
@@ -126,9 +147,5 @@ ul {
 }
 
 app-kanji {
-  width: 80%;
-  @include bigger-than(xs) {
-    width: 30%;
-}
-  margin: auto;
+  max-width: 140px;
 }
