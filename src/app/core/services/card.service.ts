@@ -88,7 +88,7 @@ export class CardService {
         card.createdAt = new Date();
         ref = doc(this.ref);
       }
-      setDoc(ref, Object.assign({}, card)).then(() => {
+      setDoc(ref, Object.assign({}, card), { merge: true}).then(() => {
         resolve(ref);
       }, (error) => {
         console.error('could not write Card!', card);

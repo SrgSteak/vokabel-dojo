@@ -1,9 +1,8 @@
 import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
-import { DeckService, Deck } from '../../core/services/deck.service';
+import { DeckService } from '../../core/services/deck.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 import { CardService } from 'src/app/core/services/card.service';
-import { Card } from 'src/app/core/entities/card';
 import { AuthService, User } from 'src/app/core/auth.service';
 import { Subscription } from 'rxjs';
 import { FLY_IN_OUT_ANIMATION } from 'src/app/core/animations/modal.animation';
