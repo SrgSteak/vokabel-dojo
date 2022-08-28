@@ -1,12 +1,12 @@
 /* MENU */
 // Menu and Button Background
-$backgroundColor: #002828;
+$backgroundColor: var(--menu-backg);
 // Active (selected) Links
-$activeColor: #001e1e;
+$activeColor: var(--menu-active);
 // hover color on links
-$highlightColor: #003c3c;
+$highlightColor: var(--forms-highlight);
 // color of menu group labels
-$labelColor: #008c8c;
+$labelColor: var(--menu-label-font-c);
 
 $mutedColor: #c8c8c84d;
 
@@ -39,13 +39,22 @@ $kanjiColor: #005757;
 $primaryTextColor: black;
 $secondaryTextColor: white;
 
-$primaryBackgroundColor:  #002828;
+$primaryBackgroundColor: #002828;
 $secondaryBackgroundColor: #003333;
 $thirdBackgroundColor: #003030;
 $fourthBackgroundColor: white;
 
-$lightBackground: white;
+$lightBackground: var(--light-background);
 $darkBackground: $mainColor;
+$showModalBackground: var(--show-modal-backg);
+$editModalBackground: var(--edit-modal-backg);
+
+//kanji svg colors
+$kanjiBackground: var(--kanji-grid-color); // color of the grid
+$kanjiBlockBackground: var(--kanji-background-color); //color of the nine boxes
+$kanjiStrokeColor: var(--kanji-stroke-color);
+//kanji svg colors end
+
 
 // mixins and scss function stuff
 $breakpoints: (
@@ -58,42 +67,46 @@ $breakpoints: (
 
 @mixin bigger-than($breakpoint) {
 
-    // If the breakpoint exists in the map.
-    @if map-has-key($breakpoints, $breakpoint) {
+  // If the breakpoint exists in the map.
+  @if map-has-key($breakpoints, $breakpoint) {
 
-      // Get the breakpoint value.
-      $breakpoint-value: map-get($breakpoints, $breakpoint);
+    // Get the breakpoint value.
+    $breakpoint-value: map-get($breakpoints, $breakpoint);
 
-      // Write the media query.
-      @media (min-width: $breakpoint-value) {
-        @content;
-      }
+    // Write the media query.
+    @media (min-width: $breakpoint-value) {
+      @content;
+    }
 
     // If the breakpoint doesn't exist in the map.
-    } @else {
-
-      // Log a warning.
-      @warn 'Invalid breakpoint: #{$breakpoint}.';
-    }
   }
 
-  @mixin smaller-than($breakpoint) {
+  @else {
 
-    // If the breakpoint exists in the map.
-    @if map-has-key($breakpoints, $breakpoint) {
+    // Log a warning.
+    @warn 'Invalid breakpoint: #{$breakpoint}.';
+  }
+}
 
-      // Get the breakpoint value.
-      $breakpoint-value: map-get($breakpoints, $breakpoint);
+@mixin smaller-than($breakpoint) {
 
-      // Write the media query.
-      @media (max-width: ($breakpoint-value + 1)) {
-        @content;
-      }
+  // If the breakpoint exists in the map.
+  @if map-has-key($breakpoints, $breakpoint) {
+
+    // Get the breakpoint value.
+    $breakpoint-value: map-get($breakpoints, $breakpoint);
+
+    // Write the media query.
+    @media (max-width: ($breakpoint-value + 1)) {
+      @content;
+    }
 
     // If the breakpoint doesn't exist in the map.
-    } @else {
-
-      // Log a warning.
-      @warn 'Invalid breakpoint: #{$breakpoint}.';
-    }
   }
+
+  @else {
+
+    // Log a warning.
+    @warn 'Invalid breakpoint: #{$breakpoint}.';
+  }
+}

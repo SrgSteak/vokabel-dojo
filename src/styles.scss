@@ -3,6 +3,35 @@
 
 $contentInset: 40px;
 
+:root {
+  color-scheme: light dark;
+  --menu-backg: #002828;
+  --menu-active: #001e1e;
+  --menu-label-font-c: #008c8c;
+  --forms-highlight: #003c3c;
+  --light-background: #ffffff;
+  --show-modal-backg: #ffffff;
+
+  --kanji-stroke-color: #000;
+  --kanji-background-color: #fff;
+  --kanji-grid-color: #d3d3d3;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    // --menu-backg: #d60000;
+    --menu-active: #001e1e;
+    --menu-label-font-c: #008c8c;
+    --forms-highlight: #003c3c;
+    --light-background: #002828;
+    --show-modal-backg: #001e1e;
+    --kanji-stroke-color: #f5f5f5;
+    --kanji-background-color: #000;
+    --kanji-grid-color: #323232;
+  }
+}
+
+
 * {
   box-sizing: border-box;
 }
@@ -280,6 +309,10 @@ body {
 
   @media not print {
     background-image: url(assets/background.png);
+
+    @media (prefers-color-scheme: dark) {
+      background-image: url(assets/background_dark.png);
+    }
   }
 }
 

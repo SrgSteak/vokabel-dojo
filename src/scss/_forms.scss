@@ -1,10 +1,12 @@
 /* Forms */
+$lightInputBackground: #f2f2f2;
 
 form {
   label {
     font-size: 0.875rem;
     font-family: Arial, Helvetica, sans-serif;
   }
+
   input {
     width: 100%;
     padding: 0.5rem;
@@ -14,16 +16,18 @@ form {
     border-radius: 3px;
     box-sizing: border-box;
     font-size: 1rem;
+
     .light & {
-      background-color: 2f2f2f;
+      background-color: $lightInputBackground;
     }
   }
+
   button {
     margin: 0px;
     margin-top: 10px;
     margin-right: 10px;
     background-color: $backgroundColor;
-    border-radius : 4px;
+    border-radius: 4px;
     border: none;
     color: white;
     padding: 6px 7px;
@@ -31,13 +35,14 @@ form {
     text-decoration: none;
     display: inline-block;
     font-size: 12px;
+
     &:hover {
       background-color: $highlightColor;
     }
   }
 }
 
-.formgroup > textarea {
+.formgroup>textarea {
   width: 100%;
   padding: 5px;
   box-sizing: border-box;
@@ -54,11 +59,13 @@ form {
   gap: 1rem;
   padding: 0.5rem 0;
   align-items: center;
+
   button {
     margin: 0;
     width: 1.5rem;
     display: inline-block;
     height: 2rem;
+
     &.top {
       align-self: flex-start;
     }

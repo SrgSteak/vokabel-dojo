@@ -1,3 +1,5 @@
+@import "_variables";
+
 :host {
   display: block;
   overflow: hidden;
@@ -43,21 +45,24 @@ tr:hover {
 }
 
 .card {
-  box-shadow: 0px 1px 3px rgba(0,0,0,0.5);
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.5);
   overflow: hidden;
   position: relative;
-  background-color: white;
+  background-color: $lightBackground;
   border-radius: 5px;
   min-height: 50px;
   padding: 5px;
   margin-bottom: 5px;
+
   .japanese {
     display: block;
     font-size: 20px;
   }
+
   .translation {
     display: block;
   }
+
   .type {
     position: absolute;
     top: 0;
