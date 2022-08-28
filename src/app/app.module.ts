@@ -4,7 +4,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
-import { MenuComponent } from './menu/menu.component';
 import { VocabularyService } from './vocabulary.service';
 import { FlashcardService } from './flashcard.service';
 import { ServiceWorkerModule } from '@angular/service-worker';
@@ -85,7 +84,6 @@ export const persistenceEnabled = new Promise<boolean>(resolve => {
   ],
   declarations: [
     AppComponent,
-    MenuComponent,
     NotificationcenterComponent,
     WelcomeComponent,
     NumbersComponent,

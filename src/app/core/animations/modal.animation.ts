@@ -87,7 +87,6 @@ export const LEARNMODE_ANIMATION =
     ])
   ])
 
-
 export const ROLL_IN_OUT_ANIMATION =
   trigger('rollInOutAnimation', [
     transition(':enter', [

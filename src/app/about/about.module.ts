@@ -4,6 +4,7 @@ import { AboutComponent } from './about.component';
 import { RouterModule } from '@angular/router';
 import { CheckCircle, ChevronLeft, MinusCircle, X } from 'angular-feather/icons';
 import { FeatherModule } from 'angular-feather';
+import { MenuModule } from '../shared/menu/menu.module';
 
 @NgModule({
   declarations: [
@@ -11,6 +12,7 @@ import { FeatherModule } from 'angular-feather';
   ],
   imports: [
     CommonModule,
+    MenuModule,
     FeatherModule.pick({
       ChevronLeft,
       MinusCircle,

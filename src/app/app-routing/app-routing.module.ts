@@ -17,7 +17,6 @@ import { EditComponent as CardEditComponent } from '../cards/edit/edit.component
 
 export const ROUTES: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
-  { path: 'home', pathMatch: 'full', component: WelcomeComponent },
   { path: 'dictionary', component: DictionaryComponent, outlet: 'modal' },
   { path: 'word-quiz', redirectTo: 'word-quiz/hiragana' },
   { path: 'word-quiz/:type', component: WordQuizComponent },
@@ -28,6 +27,10 @@ export const ROUTES: Routes = [
   { path: 'user/magic-link', component: MagicLinkComponent, outlet: 'modal' },
   { path: 'user/finish-magic-link', component: MagicLinkComponent, data: { finishMagicLink: true } },
   { path: 'selection', component: SelectionComponent, outlet: 'modal' },
+  {
+    path: 'home',
+    loadChildren: () => import('../welcome/welcome.module').then(m => m.WelcomeModule)
+  },
   {
     path: 'syllables',
     loadChildren: () => import('../syllables/syllables.module').then(m => m.SyllablesModule)
