@@ -10,9 +10,6 @@ describe('ListComponent', () => {
   let component: ListComponent;
   let fixture: ComponentFixture<ListComponent>;
   let deckServiceSub: Partial<DeckService> = {
-    get(id: string): Observable<Deck> {
-      return of({ name: '', description: '', author: '', numberCards: 0 });
-    },
     allPublicDecks(): Observable<Deck[]> {
       return of([]);
     }
