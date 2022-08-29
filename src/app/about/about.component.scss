@@ -5,13 +5,17 @@
 
 .scripture {
   display: flex;
+
   @media all and (min-width: 752px) {
     justify-content: space-around;
   }
+
   flex-wrap: wrap;
   gap: 15px;
+
   .index {
     flex-basis: 25%;
+
     @media all and (min-width: 752px) {
       align-self: flex-start;
       position: sticky;
@@ -20,23 +24,23 @@
       height: 100vh;
     }
   }
+
   .manual {
-    // flex-grow: 3;
     flex: 1 0 25%;
   }
 }
 
 a {
-  /* color: white; */
-  color: rgb(0,100,100);
+  color: #006464;
   text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
-a:hover {
-  text-decoration: underline;
-}
-
-h1, h2{
+h1,
+h2 {
   text-align: center;
 }
 

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SyllablesService, flashcard } from '../../syllables.service';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { MenuService } from 'src/app/shared/menu/menu.service';
 
 @Component({
   selector: 'app-quiz',
@@ -56,7 +57,7 @@ export class QuizComponent implements OnInit {
     });
   }
 
-  constructor(public syllablesService: SyllablesService) {
+  constructor(public syllablesService: SyllablesService, protected menuService: MenuService) {
     this.hiragana = syllablesService.getForRows(['a', 'k', 's', 't', 'na', 'h', 'm', 'y', 'r', 'w', 'n', 'dakuten_h', 'dakuten_k', 'dakuten_t', 'dakuten_s', 'handakuten_h']);
     this.questionMode = "hiragana";
     this.answerMode = "german";

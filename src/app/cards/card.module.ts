@@ -8,6 +8,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FeatherModule } from 'angular-feather';
 import { Trash } from 'angular-feather/icons';
 import { CoreModule } from '../core/core.module';
+import { MenuModule } from '../shared/menu/menu.module';
 
 
 
@@ -18,6 +19,7 @@ import { CoreModule } from '../core/core.module';
   imports: [
     CommonModule,
     CoreModule,
+    MenuModule,
     ReactiveFormsModule,
     FeatherModule.pick({
       Trash

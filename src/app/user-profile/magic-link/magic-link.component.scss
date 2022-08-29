@@ -8,10 +8,11 @@
   top: 20%;
   margin: auto;
   width: 720px;
-  background-color: white;
+  background-color: $showModalBackground;
   border-radius: 8px;
   padding: 8px;
-  box-shadow: 3px 4px 5px 0px rgba(0,0,0,0.3);
+  box-shadow: 3px 4px 5px 0px rgba(0, 0, 0, 0.3);
+
   @media only screen and (max-width: 736px) {
     box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.3);
     width: calc(100% - 16px);
@@ -28,8 +29,9 @@
   position: absolute;
   top: 0;
   right: 20px;
+
   a {
-    vertical-align:top;
+    vertical-align: top;
     display: inline-block;
     margin-right: 6px;
     text-decoration: none;
@@ -41,9 +43,11 @@
     transition: all 0.2s;
     box-shadow: 2px 2px 2px 0px rgba(36, 36, 36, 0.41);
   }
+
   a:last-child {
     margin-right: 0;
   }
+
   a:hover {
     @media(hover: hover) {
       padding-top: 8px;

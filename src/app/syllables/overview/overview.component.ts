@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SyllablesService } from 'src/app/syllables.service';
 import { FormGroup, FormControl } from '@angular/forms';
+import { MenuService } from 'src/app/shared/menu/menu.service';
 
 @Component({
   selector: 'app-overview',
@@ -23,7 +24,7 @@ export class OverviewComponent implements OnInit {
     return this.settingsForm.get('font').value;
   }
 
-  constructor(public syllablesService: SyllablesService) {
+  constructor(public syllablesService: SyllablesService, protected menuService: MenuService) {
     this.syllables = {
       a: syllablesService.getForRows(['a']),
       k: syllablesService.getForRows(['k']),

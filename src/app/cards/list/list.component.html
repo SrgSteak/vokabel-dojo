@@ -4,6 +4,9 @@
   </a>
   <ng-container *ngIf="cards.length else noCards">
     <app-word-list [cards]="cards" *ngIf="cards.length"></app-word-list>
+    <button class="button danger" (click)="deleteAll()">
+      <i-feather name="trash" class="feather"></i-feather> Alle meine Karten löschen
+    </button>
   </ng-container>
   <ng-template #noCards>
     Du hast noch keine Karten. Du kannst neue Karten in <a [routerLink]="['/', 'decks', 'user']">deinen Decks
@@ -11,7 +14,5 @@
     dem Wörterbuch
     kopieren.
   </ng-template>
-  <button class="button danger" (click)="deleteAll()">
-    <i-feather name="trash" class="feather"></i-feather> Alle meine Karten löschen
-  </button>
 </div>
+<app-menu></app-menu>

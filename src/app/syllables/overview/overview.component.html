@@ -1,28 +1,3 @@
-<button class="submenu no-print" [class.open]="showSubmenu" [class.closed-menu]="!showSubmenu"
-  (click)="showSubmenu ? showSubmenu = false : showSubmenu = true" title="Einstellungen Silbentabelle">✍︎</button>
-<div class="menu" *ngIf="showSubmenu">
-  <span class="label">Anzeige</span>
-  <form [formGroup]="settingsForm">
-    <label class="container serif">Serif
-      <input type="radio" formControlName="font" value="serif" name="font">
-      <span class="checkmark">
-        <span class="checkmark_inner"></span>
-      </span>
-    </label>
-    <label class="container sans-serif">Sans-Serif
-      <input type="radio" formControlName="font" value="sans-serif" name="font">
-      <span class="checkmark">
-        <span class="checkmark_inner"></span>
-      </span>
-    </label>
-  </form>
-  <span class="label">Modus</span>
-  <div class="dropdown-content">
-    <a [class.selected]="display == 'hiragana'" (click)="display = 'hiragana'; showSubmenu = false">Hiragana</a>
-    <a [class.selected]="display == 'katakana'" (click)="display = 'katakana'; showSubmenu = false">Katakana</a>
-  </div>
-</div>
-
 <div class="content {{ font }}">
   <a routerLink="" class="backlink muted">
     <i-feather name="chevron-left"></i-feather>Home
@@ -98,3 +73,31 @@
     <p>Wortwörtlich 超音符, langer-Ton-Symbol. Wird nur bei Katakana verwendet und verlängert den Selbstlaut</p>
   </div>
 </div>
+<app-menu>
+  <ng-container buttons>
+    <button (click)="menuService.toggleMenu('edit')" [class.active]="menuService.selectedMenu === 'edit'"
+      title="Einstellungen Silbentabelle">✍︎</button>
+  </ng-container>
+  <ng-container>
+    <span class="label">Anzeige</span>
+    <form [formGroup]="settingsForm">
+      <label class="container serif">Serif
+        <input type="radio" formControlName="font" value="serif" name="font">
+        <span class="checkmark">
+          <span class="checkmark_inner"></span>
+        </span>
+      </label>
+      <label class="container sans-serif">Sans-Serif
+        <input type="radio" formControlName="font" value="sans-serif" name="font">
+        <span class="checkmark">
+          <span class="checkmark_inner"></span>
+        </span>
+      </label>
+    </form>
+    <span class="label">Modus</span>
+    <div class="dropdown-content">
+      <a [class.selected]="display == 'hiragana'" (click)="display = 'hiragana'; showSubmenu = false">Hiragana</a>
+      <a [class.selected]="display == 'katakana'" (click)="display = 'katakana'; showSubmenu = false">Katakana</a>
+    </div>
+  </ng-container>
+</app-menu>

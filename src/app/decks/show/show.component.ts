@@ -12,6 +12,7 @@ import { onSnapshot } from '@angular/fire/firestore';
 import { DeckInterface } from 'src/app/core/entities/deck';
 import { LEARNMODE_ANIMATION } from 'src/app/core/animations/modal.animation';
 import { Learnmode } from 'src/app/shared/shared-learnmode/choose-mode/choose-mode.component';
+import { MenuService } from 'src/app/shared/menu/menu.service';
 
 @Component({
   selector: 'app-deck-public-show',
@@ -44,6 +45,7 @@ export class ShowComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     public auth: AuthService,
+    protected menuService: MenuService,
     private title: Title) { }
 
   ngOnInit() {

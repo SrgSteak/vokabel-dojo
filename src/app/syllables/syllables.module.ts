@@ -6,6 +6,7 @@ import { LearnComponent } from './learn/learn.component';
 import { QuizComponent } from './quiz/quiz.component';
 import { CoreModule } from '../core/core.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MenuModule } from '../shared/menu/menu.module';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { ReactiveFormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     CoreModule,
+    MenuModule,
     ReactiveFormsModule,
     RouterModule.forChild([
       {

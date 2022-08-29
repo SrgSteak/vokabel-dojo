@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MenuComponent } from './menu/menu.component';
 import { FeatherModule } from 'angular-feather';
 import { Shuffle, Home, Coffee, ExternalLink, User, Feather, Plus, Edit, Copy, CheckCircle, MinusCircle, MoreHorizontal, PlusCircle, Trash, X, Loader, BarChart2, HelpCircle, ChevronRight, Grid, ChevronLeft, Mail, LogIn, LogOut, Save, Repeat, Book } from 'angular-feather/icons';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
@@ -10,6 +11,7 @@ import { Shuffle, Home, Coffee, ExternalLink, User, Feather, Plus, Edit, Copy, C
   exports: [MenuComponent],
   imports: [
     CommonModule,
+    RouterModule.forChild([]),
     FeatherModule.pick({
       Book,
       CheckCircle,

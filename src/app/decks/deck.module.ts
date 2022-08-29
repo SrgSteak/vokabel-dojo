@@ -9,6 +9,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CoreModule } from 'src/app/core/core.module';
 import { SharedLearnmodeModule } from '../shared/shared-learnmode/shared-learnmode.module';
 import { ModeSelectComponent } from './components/mode-select/mode-select.component';
+import { MenuModule } from '../shared/menu/menu.module';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { ModeSelectComponent } from './components/mode-select/mode-select.compon
   imports: [
     CommonModule,
     CoreModule,
+    MenuModule,
     ReactiveFormsModule,
     SharedLearnmodeModule,
     RouterModule.forChild([

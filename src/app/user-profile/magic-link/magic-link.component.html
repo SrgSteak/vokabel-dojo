@@ -2,7 +2,7 @@
   <a [class.disabled]="!form.valid" (click)="onSubmit()" class="save" title="Speichern">
     <i-feather name="save"></i-feather>
   </a>
-  <a routerLink="['', { outlets: { modal: null } }]" title="Schließen">
+  <a [routerLink]="['/user', { outlets: { modal: null } }]" title="Schließen">
     <i-feather name="x"></i-feather>
   </a>
 </div>
