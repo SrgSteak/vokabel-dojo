@@ -7,7 +7,7 @@ import { QuizModeService } from 'src/app/services/quiz-mode.service';
 import { AuthService } from 'src/app/core/auth.service';
 import { CardService } from 'src/app/core/services/card.service';
 import { MenuService } from 'src/app/shared/menu/menu.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SelectService } from 'src/app/core/services/select.service';
 
 @Component({
@@ -58,7 +58,8 @@ export class WordQuizComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     protected menuService: MenuService,
     private selectService: SelectService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) { }
 
   get scoredWords() {
@@ -108,6 +109,14 @@ export class WordQuizComponent implements OnInit, OnDestroy {
   end() {
     this.displaySettings = false;
     this.displayEndscreen = true;
+  }
+
+  leave() {
+    if (this.source === 'selection') {
+      this.router.navigate(['/', { outlets: { primary: ['home'], modal: ['selection']}}]);
+    } else {
+      this.router.navigate(['/', 'decks', this.source]);
+    }
   }
 
   prepareDeck() {
