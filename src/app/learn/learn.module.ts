@@ -10,6 +10,7 @@ import { WordLearnComponent } from './word-learn/word-learn.component';
 import { WordQuizComponent } from './word-quiz/word-quiz.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CoreModule } from '../core/core.module';
+import { WordListComponent } from '../shared/word-list/word-list.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { CoreModule } from '../core/core.module';
     ReactiveFormsModule,
     MenuModule,
     CoreModule,
+    WordListComponent,
     RouterModule.forChild([
       {
         path: ':uid/learn',

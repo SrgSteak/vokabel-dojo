@@ -10,6 +10,7 @@ import { ModalComponent } from '../shared/modal/modal.component';
 import { RouterModule } from '@angular/router';
 import { DecknamePipe } from '../pipes/deckname.pipe';
 import { MenuModule } from '../shared/menu/menu.module';
+import { WordListComponent } from '../shared/word-list/word-list.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { MenuModule } from '../shared/menu/menu.module';
     DecknamePipe,
   ],
   imports: [
+    WordListComponent,
     CommonModule,
     ReactiveFormsModule,
     MenuModule,
