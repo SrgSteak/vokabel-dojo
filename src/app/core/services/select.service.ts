@@ -17,7 +17,6 @@ export class SelectService {
   loading = false;
   readonly loadedSelection = new EventEmitter<Array<Card>>();
   private _cards: Array<Card> = [];
-  private cardSub: Subscription;
 
   get cards() {
     return this._cards;

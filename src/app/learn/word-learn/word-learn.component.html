@@ -2,7 +2,7 @@
   {{ show + 1 }} / {{ cards?.length }}
 </div>
 
-<div class="learn content" [class.serif]="fontMode === 'serif'" [class.sans-serif]="fontMode === 'sans-serif'"
+<div class="learn content c-pointer" [class.serif]="fontMode === 'serif'" [class.sans-serif]="fontMode === 'sans-serif'"
   (click)="next();">
   <a routerLink="/decks/{{source}}/list" *ngIf="source !== 'selection'" class="backlink muted">
     <i-feather name="chevron-left"></i-feather> {{ source | deckname }}

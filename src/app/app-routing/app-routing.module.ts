@@ -3,9 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { DictionaryComponent } from '../dictionary/dictionary.component';
 import { AuthGuard } from '../core/auth.guard';
-import { SelectionComponent } from '../core/components/selection/selection.component';
 import { CardInfoComponent } from '../shared/card-info/card-info.component';
-import { SelectionPageComponent } from '../core/components/selection-page/selection-page.component';
 import { EditComponent as CardEditComponent } from '../cards/edit/edit.component';
 
 export const ROUTES: Routes = [
@@ -43,15 +41,13 @@ export const ROUTES: Routes = [
     path: 'jouyou-kanji',
     loadChildren: () => import('../jouyou-kanji/jouyou-kanji.module').then(m => m.JouyouKanjiModule)
   },
-  // selection routes
-  { path: 'selection/:mode', component: SelectionPageComponent },
   // global named router outlets
   { path: 'cards/new/:deckuid', component: CardEditComponent, outlet: 'modal', canActivate: [AuthGuard] },
   { path: 'cards/edit/:uid', component: CardEditComponent, outlet: 'modal', canActivate: [AuthGuard] },
   { path: 'cards/:card', component: CardInfoComponent, outlet: 'modal' },
   { path: 'cards/new/:deckuid', component: CardEditComponent, outlet: 'modal' },
   { path: 'dictionary', component: DictionaryComponent, outlet: 'modal' },
-  { path: 'selection', component: SelectionComponent, outlet: 'modal' },
+  { path: 'selection', loadComponent: () => import('../core/components/selection/selection.component').then(c => c.SelectionComponent), outlet: 'modal' },
 ]
 
 @NgModule({

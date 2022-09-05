@@ -67,6 +67,9 @@ export class WordLearnComponent implements OnInit, OnDestroy {
       this.source = params.get('uid');
       if (this.source === 'selection') {
         this.cards = this.selectService.cards;
+        this.cardSub = this.selectService.loadedSelection.subscribe(cards => {
+          this.cards = cards;
+        });
       } else {
         this.authService.user.subscribe(user => {
           this.cardSub = this.cardService.loadForDeckUid(params.get('uid'), user ? ['', user.uid] : ['']).subscribe(data => {
