@@ -26,6 +26,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { EditComponent as CardEditComponent } from './cards/edit/edit.component';
 import { SelectbubbleComponent } from './core/selectbubble/selectbubble.component';
 import { KanjiModule } from './shared/kanji/kanji.module';
+import { WordListComponent } from './shared/word-list/word-list.component';
 
 let resolvePersistenceEnabled: (enabled: boolean) => void;
 
@@ -41,6 +42,7 @@ export const persistenceEnabled = new Promise<boolean>(resolve => {
     ReactiveFormsModule,
     AppRoutingModule,
     KanjiModule,
+    WordListComponent,
     provideAuth(() => {
       const auth = getAuth();
       if (environment.useRelay) {

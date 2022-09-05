@@ -3,6 +3,12 @@ import { SyllablesService } from 'src/app/syllables.service';
 import { CardInterface } from 'src/app/core/entities/card-interface';
 import { Card } from 'src/app/core/entities/card';
 import { FontSwitcherService } from 'src/app/core/services/font-switcher.service';
+import { MenuService } from 'src/app/shared/menu/menu.service';
+import { ActivatedRoute } from '@angular/router';
+import { SelectService } from 'src/app/core/services/select.service';
+import { CardService } from 'src/app/core/services/card.service';
+import { AuthService } from 'src/app/core/auth.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-word-grid',
@@ -10,7 +16,7 @@ import { FontSwitcherService } from 'src/app/core/services/font-switcher.service
   styleUrls: ['./word-grid.component.scss']
 })
 export class WordGridComponent implements OnInit {
-  @Input() deck: Array<Card>;
+  deck: Array<Card>;
   preparedDeck: Array<{ question: string, hints: Array<string>, answer: string }> = [];
   syllables: Array<CardInterface>;
   currentWord: { question: string, hints: Array<string>, answer: string };
@@ -20,13 +26,38 @@ export class WordGridComponent implements OnInit {
   show = 0;
   characterSet: Array<string> = [];
   showSubmenu = false;
+  protected source: String;
+  private cardSub: Subscription;
+  private paramSub: Subscription;
 
-  constructor(private syllablesService: SyllablesService, public fontSwitcherService: FontSwitcherService) {
-  }
+  constructor(
+    private route: ActivatedRoute,
+    private syllablesService: SyllablesService,
+    public fontSwitcherService: FontSwitcherService,
+    protected selectService: SelectService,
+    protected menuService: MenuService,
+    protected cardService: CardService,
+    protected authService: AuthService
+  ) { }
 
   ngOnInit() {
-    this.prepareDeck();
-    this.layout();
+
+    this.paramSub = this.route.paramMap.subscribe(params => {
+      this.source = params.get('uid');
+      if (this.source === 'selection') {
+        this.deck = this.selectService.cards;
+        this.prepareDeck();
+        this.layout();
+      } else {
+        this.authService.user.subscribe(user => {
+          this.cardSub = this.cardService.loadForDeckUid(params.get('uid'), user ? ['', user.uid] : ['']).subscribe(data => {
+            this.deck = data;
+            this.prepareDeck();
+            this.layout();
+          })
+        })
+      }
+    });
   }
 
   /**
@@ -57,6 +88,8 @@ export class WordGridComponent implements OnInit {
   }
 
   ngOnDestroy() {
+    this.paramSub?.unsubscribe();
+    this.cardSub?.unsubscribe();
   }
 
   selectedChar(index: number, target: HTMLElement) {

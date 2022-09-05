@@ -29,7 +29,7 @@ export class ChooseModeComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   public supportsLearnMode() {
     return this.cards.length > 4;

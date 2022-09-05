@@ -31,10 +31,7 @@
     </p>
   </ng-container>
   <ng-container *ngIf="cards.length > 0 else empty">
-    <app-word-list [cards]="cards" [allowEdit]="allowEdit" *ngIf="mode === 'list'"></app-word-list>
-    <app-word-quiz [cards]="cards" (close)="closeToList()" *ngIf="mode === 'quiz'"></app-word-quiz>
-    <app-word-grid [deck]="cards" *ngIf="mode === 'grid'"></app-word-grid>
-    <app-word-learn [_cards]="cards" *ngIf="mode === 'learn'"></app-word-learn>
+    <app-word-list [cards]="cards" [allowEdit]="allowEdit"></app-word-list>
   </ng-container>
   <ng-template #empty>
     <div class="muted">

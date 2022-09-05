@@ -1,10 +1,14 @@
 <app-quiz-options *ngIf="displaySettings" (started)="start()" (cancelled)="end()">
 </app-quiz-options>
 
-<app-quiz-results *ngIf="displayEndscreen" (end)="leave()" (again)="newRound()" [scores]="scoredWords">
+<app-quiz-results class="content" *ngIf="displayEndscreen" (end)="leave()" (again)="newRound()" [scores]="scoredWords">
 </app-quiz-results>
 <ng-container *ngIf="!displaySettings && !displayEndscreen">
-  <div class="word-quiz {{ fontSwitcher.currentStyle }}">
+  <div class="content word-quiz {{ fontSwitcher.currentStyle }}">
+    <a routerLink="/decks/{{source}}/list" *ngIf="source !== 'selection'" class="backlink muted">
+      <i-feather name="chevron-left"></i-feather> {{ source | deckname }}
+    </a>
+
     <div class="card" (mousedown)="peekRubi = true" (mouseup)="peekRubi = false" (touchstart)="peekRubi = true"
       (touchend)="peekRubi = false">
       <ng-container [ngSwitch]="questionMode">
@@ -70,3 +74,5 @@
     Misses: <span class="misses">{{ deckService.totalMisses }}</span>
   </div>
 </app-modal>
+
+<app-menu></app-menu>

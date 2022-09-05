@@ -66,9 +66,9 @@ export class EditComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.userSub) { this.userSub.unsubscribe(); }
-    if (this.routeSub) { this.routeSub.unsubscribe(); }
-    if (this.deckSub) { this.deckSub.unsubscribe(); }
+    this.userSub?.unsubscribe();
+    this.routeSub?.unsubscribe();
+    this.deckSub?.unsubscribe();
   }
 
   /**
@@ -81,7 +81,7 @@ export class EditComponent implements OnInit, OnDestroy {
         this.deckForm.get('author').setValue(this.user.role == 'admin' ? '' : this.user.uid);
       }
       this.DeckService.write(this.deckForm.value as DeckInterface).then(reference => {
-        this.router.navigate([{ outlets: { primary: [reference.id], modal: null } }], { relativeTo: this.route.parent });
+        this.router.navigate(['/decks', { outlets: { primary: [reference.id], modal: null } }]);
       });
     } else {
       this.deckForm.markAsTouched();
@@ -91,7 +91,7 @@ export class EditComponent implements OnInit, OnDestroy {
   onDelete() {
     if (confirm('Deck löschen? Lernkarten bleiben erhalten.')) {
       this.DeckService.delete(this.uid);
-      this.router.navigate([{ outlets: { primary: ['decks'], modal: null } }]);
+      this.router.navigate([{ outlets: { primary: ['/', 'decks'], modal: null } }]);
     }
   }
 

@@ -3,7 +3,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import FuzzySearch from 'fuzzy-search';
 import { CardService } from 'src/app/core/services/card.service';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { User } from 'src/app/core/auth.service';
 import { Deck } from 'src/app/core/services/deck.service';
 import { CardInterface } from 'src/app/core/entities/card-interface';
@@ -11,11 +11,14 @@ import { Card } from 'src/app/core/entities/card';
 import { FontSwitcherService } from 'src/app/core/services/font-switcher.service';
 import { CardType, WordType, AdjectiveType, VerbType } from 'src/app/core/entities/card-type';
 import { APPEAR_ANIMATION } from 'src/app/core/animations/modal.animation';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-word-list',
   templateUrl: './word-list.component.html',
   styleUrls: ['./word-list.component.scss'],
+  standalone: true,
+  imports: [RouterModule, CommonModule],
   animations: [APPEAR_ANIMATION]
 })
 export class WordListComponent implements OnInit, OnDestroy, OnChanges {

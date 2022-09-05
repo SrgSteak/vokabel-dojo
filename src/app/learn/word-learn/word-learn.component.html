@@ -1,0 +1,174 @@
+<div class="teaser">
+  {{ show + 1 }} / {{ cards?.length }}
+</div>
+
+<div class="learn content" [class.serif]="fontMode === 'serif'" [class.sans-serif]="fontMode === 'sans-serif'"
+  (click)="next();">
+  <a routerLink="/decks/{{source}}/list" *ngIf="source !== 'selection'" class="backlink muted">
+    <i-feather name="chevron-left"></i-feather> {{ source | deckname }}
+  </a>
+  <div class="card" *ngIf="cards?.length">
+    <ng-container [ngSwitch]="question">
+      <ng-container *ngSwitchCase="'german'">
+        {{ card.german.join(', ') }}
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'japanese'">
+        <ng-container *ngIf="rubi">
+          <ruby *ngIf="card.hasOnlyOneReading() else multiple">{{ card.japanese }}<rt>{{ card.getReading() }}</rt>
+          </ruby>
+          <ng-template #multiple>
+            {{ card.japanese }}
+            <ul>
+              <li *ngFor="let reading of card.japanese_readings">{{ reading }}</li>
+              <hr *ngIf="card.hasChineseReadings() && card.hasJapReadings()" class="line">
+              <li *ngFor="let reading of card.chinese_readings">{{ reading }}</li>
+            </ul>
+          </ng-template>
+        </ng-container>
+        <ng-container *ngIf="!rubi">
+          {{ card.japanese }}
+        </ng-container>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'reading'">
+        <ul>
+          <li *ngFor="let reading of card.japanese_readings">{{ reading }}</li>
+          <hr *ngIf="card.hasChineseReadings() && card.hasJapReadings()" class="line">
+          <li *ngFor="let reading of card.chinese_readings">{{ reading }}</li>
+        </ul>
+      </ng-container>
+    </ng-container>
+  </div>
+  <hr class="line">
+  <div class="card">
+    <ng-container *ngIf="displayMode == 'always' || (clicked)">
+      <ng-container [ngSwitch]="answer">
+        <ng-container *ngSwitchCase="'german'">
+          <ng-container *ngIf="card.hasGerman()">
+            {{ card.german.join(', ') }}
+          </ng-container>
+          <ng-container *ngIf="!card.hasGerman()">
+            <ul>
+              <li *ngFor="let reading of card.japanese_readings">{{ reading }}</li>
+              <hr *ngIf="card.hasChineseReadings() && card.hasJapReadings()" class="line">
+              <li *ngFor="let reading of card.chinese_readings">{{ reading }}</li>
+            </ul>
+          </ng-container>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'japanese'">
+          <ng-container *ngIf="rubi">
+            <ruby *ngIf="card.hasOnlyOneReading() else multiple">{{ card.japanese }}<rt>{{ card.getReading() }}</rt>
+            </ruby>
+            <ng-template #multiple>
+              {{ card.japanese }}
+              <ul>
+                <li *ngFor="let reading of card.japanese_readings">{{ reading }}</li>
+                <hr *ngIf="card.hasChineseReadings() && card.hasJapReadings()" class="line">
+                <li *ngFor="let reading of card.chinese_readings">{{ reading }}</li>
+              </ul>
+            </ng-template>
+          </ng-container>
+          <ng-container *ngIf="!rubi">
+            {{ card.japanese }}
+          </ng-container>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'reading'">
+          <ul>
+            <li *ngFor="let reading of card.japanese_readings">{{ reading }}</li>
+            <hr *ngIf="card.hasChineseReadings() && card.hasJapReadings()" class="line">
+            <li *ngFor="let reading of card.chinese_readings">{{ reading }}</li>
+          </ul>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+  </div>
+</div>
+
+<app-menu>
+  <ng-container buttons>
+    <button (click)="menuService.toggleMenu('settings')" [class.active]="menuService.selectedMenu === 'settings'"
+      title="Einstellungen Lernmodus">⋮</button>
+  </ng-container>
+  <ng-container>
+    <app-font-switcher></app-font-switcher>
+    <form [formGroup]="form">
+      <label class="container" [class.disabled]="question === 'reading' || answer === 'reading'">Ruby (ルビ)
+        <input type="checkbox" formControlName="rubi" name="rubi">
+        <span class="checkmark">
+          <span class="checkmark_inner"></span>
+        </span>
+      </label>
+
+      <span class="label">Weiter</span>
+      <label class="container">Bei Auswahl
+        <input type="radio" formControlName="displayMode" value="click" name="displayMode">
+        <span class="checkmark">
+          <span class="checkmark_inner"></span>
+        </span>
+      </label>
+      <label class="container">Immer
+        <input type="radio" formControlName="displayMode" value="always" name="displayMode">
+        <span class="checkmark">
+          <span class="checkmark_inner"></span>
+        </span>
+      </label>
+      <label class="container">Automatisch
+        <input type="radio" formControlName="displayMode" value="automatic" name="displayMode">
+        <span class="checkmark">
+          <span class="checkmark_inner"></span>
+        </span>
+      </label>
+    </form>
+
+    <span class="label">Oben</span>
+    <form [formGroup]="form">
+      <label class="container" [class.disabled]="answer === 'german'">Deutsch
+        <input type="radio" formControlName="question" value="german" name="question">
+        <span class="checkmark">
+          <span class="checkmark_inner"></span>
+        </span>
+      </label>
+      <label class="container" [class.disabled]="answer === 'japanese'">Japanisch
+        <input type="radio" formControlName="question" value="japanese" name="question">
+        <span class="checkmark">
+          <span class="checkmark_inner"></span>
+        </span>
+      </label>
+      <label class="container" [class.disabled]="answer === 'reading'"
+        (click)="this.form.get('rubi').setValue('')">Lesung
+        <input type="radio" formControlName="question" value="reading" name="question">
+        <span class="checkmark">
+          <span class="checkmark_inner"></span>
+        </span>
+      </label>
+    </form>
+    <span class="label">Unten</span>
+    <form [formGroup]="form">
+      <label class="container" [class.disabled]="question === 'german'">Deutsch
+        <input type="radio" formControlName="answer" value="german" name="answer">
+        <span class="checkmark">
+          <span class="checkmark_inner"></span>
+        </span>
+      </label>
+      <label class="container" [class.disabled]="question === 'japanese'">Japanisch
+        <input type="radio" formControlName="answer" value="japanese" name="answer">
+        <span class="checkmark">
+          <span class="checkmark_inner"></span>
+        </span>
+      </label>
+      <label class="container" [class.disabled]="question === 'reading'"
+        (click)="this.form.get('rubi').setValue('')">Lesung
+        <input type="radio" formControlName="answer" value="reading" name="answer">
+        <span class="checkmark">
+          <span class="checkmark_inner"></span>
+        </span>
+      </label>
+    </form>
+    <button class="button" (click)="showSubmenu = false; shuffle();">
+      <i-feather name="shuffle" class="feather"></i-feather> Mischen
+    </button>
+  </ng-container>
+</app-menu>

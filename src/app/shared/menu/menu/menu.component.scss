@@ -119,9 +119,9 @@
       // TODO: mobile safe area (horizontal) is wider than min-width, add query here
       // padding: 6px 7px 6px calc(env(safe-area-inset-left) + 11px);
 
-      @media(hover: hover) {
-        background-color: #003737;
-      }
+      // @media(hover: hover) {
+      //   background-color: #003737;
+      // }
     }
   }
 }

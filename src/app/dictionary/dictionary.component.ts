@@ -37,7 +37,6 @@ export class DictionaryComponent implements OnInit, OnDestroy {
       this.user = user;
     });
     this.cardSub = this.cardService.allPublicCards().subscribe(cards => {
-      console.log(cards);
       this.cards = cards.map(card => Card.createFromCardInterface(card));
     });
     this.searchFormSub = this.searchForm.valueChanges.pipe(

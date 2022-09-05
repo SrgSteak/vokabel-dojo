@@ -15,27 +15,35 @@
 
 .detail-content .line {
   min-width: 170px;
+
   @media screen and (min-width: 439px) {
     min-width: 235px;
   }
+
   @media screen and (min-width: 600px) {
     min-width: 280px;
   }
+
   @media screen and (min-width: 767px) {
     min-width: 500px;
   }
+
   @media screen and (min-width: 767px) {
     min-width: 500px;
   }
+
   @media screen and (min-width: 1000px) {
     min-width: 750px;
   }
+
   @media screen and (min-width: 1300px) {
     min-width: 1000px;
   }
+
   @media screen and (min-width: 1700px) {
     min-width: 1250px;
   }
+
   width: 100%;
   margin-top: 15px;
   margin-bottom: 15px;
@@ -52,13 +60,17 @@
   text-align: center;
   padding-top: 10px;
   font-size: 5vw;
+
   @media screen and (max-width: 768px) {
     font-size: 35px;
   }
+
   height: 15%;
+
   .question {
     display: block;
   }
+
   .hint {
     display: block;
     font-size: 20px;
@@ -77,20 +89,19 @@
   align-content: flex-end;
   width: 100%;
   padding-bottom: 15px;
+  gap: 1px;
 }
 
 .gridpart {
-  padding: 12px; //12px 12px 12px 12px;
-  margin: 1px;
+  padding: 2px; //12px 12px 12px 12px;
   font-size: 22px;
   background-color: teal;
   transition: all 0.5s ease 0s;
   border-radius: 4px;
   max-height: 35px;
-
   min-height: 33px;
-min-width: 22px;
-text-align: center;
+  min-width: 22px;
+  text-align: center;
 }
 
 .answer {

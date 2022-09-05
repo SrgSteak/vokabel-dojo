@@ -2,9 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { DictionaryComponent } from '../dictionary/dictionary.component';
-import { WordQuizComponent } from '../words/word-quiz/word-quiz.component';
-import { WordGridComponent } from '../words/word-grid/word-grid.component';
-import { WordListComponent } from '../words/word-list/word-list.component';
 import { AuthGuard } from '../core/auth.guard';
 import { SelectionComponent } from '../core/components/selection/selection.component';
 import { CardInfoComponent } from '../shared/card-info/card-info.component';
@@ -13,12 +10,7 @@ import { EditComponent as CardEditComponent } from '../cards/edit/edit.component
 
 export const ROUTES: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
-  { path: 'dictionary', component: DictionaryComponent, outlet: 'modal' },
   { path: 'word-quiz', redirectTo: 'word-quiz/hiragana' },
-  { path: 'word-quiz/:type', component: WordQuizComponent },
-  { path: 'word-grid/:type', component: WordGridComponent },
-  { path: 'word-list', component: WordListComponent },
-  { path: 'selection', component: SelectionComponent, outlet: 'modal' },
   {
     path: 'user',
     loadChildren: () => import('../user/user.module').then(m => m.UserModule)
@@ -40,6 +32,10 @@ export const ROUTES: Routes = [
     loadChildren: () => import('../decks/deck.module').then(m => m.DeckModule)
   },
   {
+    path: 'learn',
+    loadChildren: () => import('../learn/learn.module').then(m => m.LearnModule)
+  },
+  {
     path: 'cards',
     loadChildren: () => import('../cards/card.module').then(m => m.CardModule)
   },
@@ -53,11 +49,9 @@ export const ROUTES: Routes = [
   { path: 'cards/new/:deckuid', component: CardEditComponent, outlet: 'modal', canActivate: [AuthGuard] },
   { path: 'cards/edit/:uid', component: CardEditComponent, outlet: 'modal', canActivate: [AuthGuard] },
   { path: 'cards/:card', component: CardInfoComponent, outlet: 'modal' },
-  {
-    path: 'cards/new/:deckuid',
-    outlet: 'modal',
-    component: CardEditComponent,
-  }
+  { path: 'cards/new/:deckuid', component: CardEditComponent, outlet: 'modal' },
+  { path: 'dictionary', component: DictionaryComponent, outlet: 'modal' },
+  { path: 'selection', component: SelectionComponent, outlet: 'modal' },
 ]
 
 @NgModule({

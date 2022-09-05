@@ -5,6 +5,11 @@ import { DeckService } from 'src/app/core/services/deck.service';
 import { CardInterface } from 'src/app/core/entities/card-interface';
 import { Card } from 'src/app/core/entities/card';
 import { FontSwitcherService } from 'src/app/core/services/font-switcher.service';
+import { SelectService } from 'src/app/core/services/select.service';
+import { ActivatedRoute } from '@angular/router';
+import { CardService } from 'src/app/core/services/card.service';
+import { AuthService } from 'src/app/core/auth.service';
+import { MenuService } from 'src/app/shared/menu/menu.service';
 
 @Component({
   selector: 'app-word-learn',
@@ -13,7 +18,6 @@ import { FontSwitcherService } from 'src/app/core/services/font-switcher.service
 })
 export class WordLearnComponent implements OnInit, OnDestroy {
 
-  @Input() _cards: Array<Card>;
   cards: Array<Card>;
   show = 0;
   clicked = false;
@@ -25,6 +29,8 @@ export class WordLearnComponent implements OnInit, OnDestroy {
     displayMode: new FormControl('click'),  // behaviour for next() function
     rubi: new FormControl('')               // display ruby characters or not
   });
+  cardSub: Subscription;
+  protected source: String;
 
   get question() {
     return this.form.get('question').value;
@@ -39,7 +45,6 @@ export class WordLearnComponent implements OnInit, OnDestroy {
     return this.form.get('rubi').value;
   }
   get fontMode() {
-    // todo
     return this.fontSwitcherService.currentStyle;
   }
 
@@ -47,14 +52,33 @@ export class WordLearnComponent implements OnInit, OnDestroy {
     return this.cards[this.show];
   }
 
-  constructor(private deckService: DeckService, private fontSwitcherService: FontSwitcherService) { }
+  constructor(
+    private router: ActivatedRoute,
+    private selectService: SelectService,
+    private deckService: DeckService,
+    private cardService: CardService,
+    private authService: AuthService,
+    protected menuService: MenuService,
+    private fontSwitcherService: FontSwitcherService
+  ) { }
 
   ngOnInit() {
-    this.cards = this._cards;
+    this.router.paramMap.subscribe(params => {
+      this.source = params.get('uid');
+      if (this.source === 'selection') {
+        this.cards = this.selectService.cards;
+      } else {
+        this.authService.user.subscribe(user => {
+          this.cardSub = this.cardService.loadForDeckUid(params.get('uid'), user ? ['', user.uid] : ['']).subscribe(data => {
+            this.cards = data;
+          })
+        })
+      }
+    });
   }
 
   ngOnDestroy() {
-
+    this.cardSub?.unsubscribe();
   }
 
   shuffle() {

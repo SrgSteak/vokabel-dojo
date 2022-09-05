@@ -1,19 +1,23 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DeckService } from 'src/app/core/services/deck.service';
 import { CardInterface } from 'src/app/core/entities/card-interface';
 import { FontSwitcherService } from 'src/app/core/services/font-switcher.service';
 import { WordType } from 'src/app/core/entities/card-type';
 import { QuizModeService } from 'src/app/services/quiz-mode.service';
+import { AuthService } from 'src/app/core/auth.service';
+import { CardService } from 'src/app/core/services/card.service';
+import { MenuService } from 'src/app/shared/menu/menu.service';
+import { ActivatedRoute } from '@angular/router';
+import { SelectService } from 'src/app/core/services/select.service';
 
 @Component({
   selector: 'app-word-quiz',
   templateUrl: './word-quiz.component.html',
   styleUrls: ['./word-quiz.component.scss']
 })
-export class WordQuizComponent implements OnInit {
+export class WordQuizComponent implements OnInit, OnDestroy {
 
-  @Input() cards: Array<CardInterface>;
-  @Output() close = new EventEmitter();
+  cards: Array<CardInterface>;
   showCard: CardInterface;
   answers: Array<CardInterface>;
   displayError = false;
@@ -30,6 +34,9 @@ export class WordQuizComponent implements OnInit {
   index = 0;
   round = 1;
   deck: Array<CardInterface> = [];
+  protected source: string;
+  protected cardSub: any;
+  protected paramSub: any;
 
   get questionMode() {
     return this.quizModeService.modeForm.get('left').value;
@@ -43,11 +50,15 @@ export class WordQuizComponent implements OnInit {
     return this.quizModeService.modeForm.get('rubi').value;
   }
 
-
   constructor(
     public deckService: DeckService,
     public fontSwitcher: FontSwitcherService,
-    public quizModeService: QuizModeService
+    public quizModeService: QuizModeService,
+    private cardService: CardService,
+    private authService: AuthService,
+    protected menuService: MenuService,
+    private selectService: SelectService,
+    private route: ActivatedRoute
   ) { }
 
   get scoredWords() {
@@ -64,6 +75,23 @@ export class WordQuizComponent implements OnInit {
 
   ngOnInit() {
     this.showSettings();
+    this.paramSub = this.route.paramMap.subscribe(params => {
+      this.source = params.get('uid');
+      if (this.source === 'selection') {
+        this.cards = this.selectService.cards;
+      } else {
+        this.authService.user.subscribe(user => {
+          this.cardSub = this.cardService.loadForDeckUid(params.get('uid'), user ? ['', user.uid] : ['']).subscribe(data => {
+            this.cards = data;
+          })
+        })
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.cardSub?.unsubscribe();
+    this.paramSub?.unsubscribe();
   }
 
   showSettings() {
@@ -80,10 +108,6 @@ export class WordQuizComponent implements OnInit {
   end() {
     this.displaySettings = false;
     this.displayEndscreen = true;
-  }
-
-  leave() {
-    this.close.emit();
   }
 
   prepareDeck() {

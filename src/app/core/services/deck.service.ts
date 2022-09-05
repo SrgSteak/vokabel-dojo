@@ -120,7 +120,6 @@ export class DeckService extends FlashcardService {
       deck.updatedAt = new Timestamp(Date.now() / 1000, 0);
       if (!deck.uid) {
         deck.createdAt = new Timestamp(Date.now() / 1000, 0);
-        console.log(deck);
       }
       const ref = deck.uid ? doc(this.ref, deck.uid) : doc(this.ref);
       setDoc(ref, deck, { merge: true}).then(() => {

@@ -11,7 +11,7 @@ import { SelectService } from 'src/app/core/services/select.service';
 import { onSnapshot } from '@angular/fire/firestore';
 import { DeckInterface } from 'src/app/core/entities/deck';
 import { LEARNMODE_ANIMATION } from 'src/app/core/animations/modal.animation';
-import { Learnmode } from 'src/app/shared/shared-learnmode/choose-mode/choose-mode.component';
+import { Learnmode } from 'src/app/learn/choose-mode/choose-mode.component';
 import { MenuService } from 'src/app/shared/menu/menu.service';
 
 @Component({
