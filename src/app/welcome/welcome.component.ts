@@ -5,6 +5,7 @@ import { Title } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import { DeckInterface } from '../core/entities/deck';
 import { APPEAR_ANIMATION } from '../core/animations/modal.animation';
+import { MenuService } from '../shared/menu/menu.service';
 
 @Component({
   selector: 'app-welcome',
@@ -22,7 +23,7 @@ export class WelcomeComponent implements OnInit, OnDestroy {
   publicDeckSub: Subscription;
   authSub: Subscription;
 
-  constructor(public auth: AuthService, private deckService: DeckService, private title: Title) { }
+  constructor(public auth: AuthService, private deckService: DeckService, private title: Title, protected menuService: MenuService) { }
 
   ngOnInit() {
     this.title.setTitle('Vokabeldojo | Home');

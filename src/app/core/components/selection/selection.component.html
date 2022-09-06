@@ -21,11 +21,11 @@
   </ng-container>
   <ng-template #content>
     <ng-container *ngIf="selectService.cards.length else howTo">
-      <a class="button" [routerLink]="['', { outlets: { primary: ['selection', 'quiz'], modal: null }}]"
+      <a class="button" [routerLink]="['/', { outlets: { primary: ['learn', 'selection', 'quiz'], modal: null }}]"
         [class.disabled]="selectService.cards.length < 5">Vokabelquiz</a>
-      <a class="button" [routerLink]="['', { outlets: { primary: ['selection', 'grid'], modal: null }}]"
+      <a class="button" [routerLink]="['/', { outlets: { primary: ['learn', 'selection', 'grid'], modal: null }}]"
         [class.disabled]="selectService.cards.length < 5">Buchstabieren</a>
-      <a class="button" [routerLink]="['', { outlets: { primary: ['selection', 'learn'], modal: null }}]"
+      <a class="button" [routerLink]="['/', { outlets: { primary: ['learn', 'selection', 'learn'], modal: null }}]"
         [class.disabled]="selectService.cards.length < 5">Wiederholen</a>
       <span *ngIf="selectService.cards.length < 5">Du brauchst mindestens 5 Karten für diese Modi.</span>
       <app-word-list [cards]="selectService.cards"></app-word-list>

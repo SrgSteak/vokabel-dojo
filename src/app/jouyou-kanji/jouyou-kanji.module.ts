@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { KanjiPartsComponent } from './kanji-parts/kanji-parts.component';
 import { FeatherModule } from 'angular-feather';
 import { ChevronLeft, Eye, EyeOff, Move, Trash, X } from 'angular-feather/icons';
+import { MenuModule } from '../shared/menu/menu.module';
 
 
 
@@ -16,6 +17,7 @@ import { ChevronLeft, Eye, EyeOff, Move, Trash, X } from 'angular-feather/icons'
   ],
   imports: [
     CommonModule,
+    MenuModule,
     KanjiModule,
     FeatherModule.pick({
       ChevronLeft,
@@ -26,8 +28,7 @@ import { ChevronLeft, Eye, EyeOff, Move, Trash, X } from 'angular-feather/icons'
       EyeOff
     }),
     RouterModule.forChild([
-      { path: '', component: KanjiListComponent},
-      // { path: ':number', component: KanjiListComponent}
+      { path: '', component: KanjiListComponent}
     ])
   ]
 })

@@ -4,6 +4,7 @@ import { Card } from 'src/app/core/entities/card';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService, User } from 'src/app/core/auth.service';
+import { MenuService } from 'src/app/shared/menu/menu.service';
 
 @Component({
   selector: 'app-card-list',
@@ -18,8 +19,12 @@ export class ListComponent implements OnInit, OnDestroy {
   private dataSub: Subscription;
   private authSub: Subscription;
 
-  constructor(private cardService: CardService, private route: ActivatedRoute, private authService: AuthService) {
-  }
+  constructor(
+    private cardService: CardService,
+    private route: ActivatedRoute,
+    private authService: AuthService,
+    protected menuService: MenuService
+  ) {}
 
   ngOnInit() {
     this.authSub = this.authService.user.subscribe(_user => {

@@ -7,21 +7,32 @@ import { ShowComponent } from './show/show.component';
 import { AuthGuard } from 'src/app/core/auth.guard';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CoreModule } from 'src/app/core/core.module';
-import { SharedLearnmodeModule } from '../shared/shared-learnmode/shared-learnmode.module';
 import { ModeSelectComponent } from './components/mode-select/mode-select.component';
+import { MenuModule } from '../shared/menu/menu.module';
+import { FeatherModule } from 'angular-feather';
+import { ChevronLeft } from 'angular-feather/icons';
+import { ListItemComponent } from './components/list-item/list-item.component';
+import { WordListComponent } from '../shared/word-list/word-list.component';
+import { ChooseModeComponent } from '../learn/choose-mode/choose-mode.component';
 
 @NgModule({
   declarations: [
     ListComponent,
-    EditComponent,
+    ListItemComponent,
     ShowComponent,
-    ModeSelectComponent
+    EditComponent,
+    ModeSelectComponent,
+    ChooseModeComponent,
   ],
   imports: [
     CommonModule,
     CoreModule,
+    MenuModule,
+    WordListComponent,
     ReactiveFormsModule,
-    SharedLearnmodeModule,
+    FeatherModule.pick({
+      ChevronLeft
+    }),
     RouterModule.forChild([
       {
         path: '',

@@ -17,7 +17,6 @@ export class SelectService {
   loading = false;
   readonly loadedSelection = new EventEmitter<Array<Card>>();
   private _cards: Array<Card> = [];
-  private cardSub: Subscription;
 
   get cards() {
     return this._cards;
@@ -63,15 +62,12 @@ export class SelectService {
         const uids = JSON.parse(this.sessionStorage.getItem('selection'));
         const promises: Promise<DocumentSnapshot<Card>>[] = [];
         uids.forEach(uid => {
-          console.log(uid);
           if (uid) {
             const p = this.cardService.getCardOnce(uid);
             promises.push(p);
           }
         });
-        console.log(promises);
         forkJoin(promises).subscribe(_results => {
-          console.log(_results);
           this._cards = _results.map(res => res.data());
           this.loadedSelection.emit(this._cards);
           this.loading = false;

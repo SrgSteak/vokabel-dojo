@@ -2,17 +2,23 @@ import { Component, OnInit, HostBinding } from '@angular/core';
 import { SelectService } from '../../services/select.service';
 import { DeckService, Deck } from '../../services/deck.service';
 import { AuthService, User } from '../../auth.service';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 import { CardService } from '../../services/card.service';
 import { Subscription } from 'rxjs';
 import { FLY_IN_OUT_ANIMATION } from '../../animations/modal.animation';
 import { DeckInterface } from '../../entities/deck';
+import { FeatherModule } from 'angular-feather';
+import { WordListComponent } from 'src/app/shared/word-list/word-list.component';
+import { CoreModule } from '../../core.module';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-selection',
   templateUrl: './selection.component.html',
   styleUrls: ['./selection.component.scss'],
+  standalone: true,
+  imports: [CommonModule, CoreModule, RouterModule, FeatherModule, WordListComponent],
   animations: [
     FLY_IN_OUT_ANIMATION
   ]

@@ -2,6 +2,7 @@ import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { SyllablesService, flashcard } from '../../syllables.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { MenuService } from 'src/app/shared/menu/menu.service';
 
 @Component({
   selector: 'app-learn',
@@ -34,7 +35,7 @@ export class LearnComponent implements OnInit, OnDestroy {
   });
 
 
-  constructor(private syllablesService: SyllablesService) {
+  constructor(private syllablesService: SyllablesService, protected menuService: MenuService) {
     this.hiragana = syllablesService.getAll();
   }
 

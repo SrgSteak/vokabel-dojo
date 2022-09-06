@@ -1,0 +1,113 @@
+.detail {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.detail-content {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.detail-content .line {
+  min-width: 170px;
+
+  @media screen and (min-width: 439px) {
+    min-width: 235px;
+  }
+
+  @media screen and (min-width: 600px) {
+    min-width: 280px;
+  }
+
+  @media screen and (min-width: 767px) {
+    min-width: 500px;
+  }
+
+  @media screen and (min-width: 767px) {
+    min-width: 500px;
+  }
+
+  @media screen and (min-width: 1000px) {
+    min-width: 750px;
+  }
+
+  @media screen and (min-width: 1300px) {
+    min-width: 1000px;
+  }
+
+  @media screen and (min-width: 1700px) {
+    min-width: 1250px;
+  }
+
+  width: 100%;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.word-grid {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 100%;
+}
+
+.word {
+  text-align: center;
+  padding-top: 10px;
+  font-size: 5vw;
+
+  @media screen and (max-width: 768px) {
+    font-size: 35px;
+  }
+
+  height: 15%;
+
+  .question {
+    display: block;
+  }
+
+  .hint {
+    display: block;
+    font-size: 20px;
+  }
+}
+
+.success {
+  color: rgb(0, 200, 100);
+}
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-end;
+  align-content: flex-end;
+  width: 100%;
+  padding-bottom: 15px;
+  gap: 1px;
+}
+
+.gridpart {
+  padding: 2px; //12px 12px 12px 12px;
+  font-size: 22px;
+  background-color: teal;
+  transition: all 0.5s ease 0s;
+  border-radius: 4px;
+  max-height: 35px;
+  min-height: 33px;
+  min-width: 22px;
+  text-align: center;
+}
+
+.answer {
+  width: 80%;
+  margin: auto;
+  height: 15%;
+  // background-color: white;
+  height: 100px;
+}

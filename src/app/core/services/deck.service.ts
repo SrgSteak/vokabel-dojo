@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import { CardService } from './card.service';
 import { FlashcardService } from 'src/app/flashcard.service';
 import { Observable, of } from 'rxjs';
-import { distinctUntilChanged, tap } from 'rxjs/operators';
-import _ from 'lodash';
 import { collection, collectionData, doc, docData, Firestore, orderBy, query, setDoc, where } from '@angular/fire/firestore';
 import { deleteDoc, DocumentReference, limit, Timestamp } from 'firebase/firestore';
 import { deckConverter, DeckInterface } from '../entities/deck';
@@ -30,15 +28,6 @@ export class DeckService extends FlashcardService {
 
   constructor(private readonly afs: Firestore, private cardService: CardService) {
     super();
-  }
-
-  get(id: string): Observable<Deck> {
-    const ref = doc(this.afs, `Decks/${id}`);
-    return (docData(ref, { idField: 'uid' }) as Observable<Deck>).pipe(
-      distinctUntilChanged(
-        (prev, curr) => { return _.isEqual(prev, curr) }
-      )
-    );
   }
 
   getDeck(uid: string): Observable<DeckInterface> {
@@ -131,7 +120,6 @@ export class DeckService extends FlashcardService {
       deck.updatedAt = new Timestamp(Date.now() / 1000, 0);
       if (!deck.uid) {
         deck.createdAt = new Timestamp(Date.now() / 1000, 0);
-        console.log(deck);
       }
       const ref = deck.uid ? doc(this.ref, deck.uid) : doc(this.ref);
       setDoc(ref, deck, { merge: true}).then(() => {

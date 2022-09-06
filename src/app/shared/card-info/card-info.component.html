@@ -56,7 +56,7 @@
       </span>
       <div class="d-flex j-content-center">
         <app-kanji [strokeNumber]="true" [hideGrid]="false" [draw]="true" [character]="char"
-          *ngFor="let char of card.japanese.split('')"></app-kanji>
+          *ngFor="let char of card.japanese.trim().split('')"></app-kanji>
       </div>
       <a href="mailto:schmidt91robin@icloud.com?subject=Vokabeldojo - Problem mit {{ card.japanese }}&body=Hallo, Ich habe ein Problem und zwar:"
         class="no-print">Problem

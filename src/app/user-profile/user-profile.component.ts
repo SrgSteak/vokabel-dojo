@@ -23,6 +23,6 @@ export class UserProfileComponent implements OnInit {
   }
 
   promptMagicLink() {
-    this.router.navigate([{ outlets: { modal: ['user', 'magic-link'] } }]);
+    this.router.navigate(['/user', { outlets: { modal: ['magic-link'] } }]);
   }
 }

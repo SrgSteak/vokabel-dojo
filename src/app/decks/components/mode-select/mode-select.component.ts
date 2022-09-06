@@ -5,7 +5,7 @@ import { FLY_IN_OUT_ANIMATION } from 'src/app/core/animations/modal.animation';
 import { AuthService } from 'src/app/core/auth.service';
 import { Card } from 'src/app/core/entities/card';
 import { CardService } from 'src/app/core/services/card.service';
-import { Learnmode } from 'src/app/shared/shared-learnmode/choose-mode/choose-mode.component';
+import { Learnmode } from 'src/app/learn/choose-mode/choose-mode.component';
 
 @Component({
   selector: 'app-mode-select',
@@ -23,6 +23,7 @@ export class ModeSelectComponent implements OnInit, OnDestroy {
 
   private cardSub: Subscription;
   private authSub: Subscription;
+  private uid: String;
 
   constructor(
     private route: ActivatedRoute,
@@ -41,20 +42,21 @@ export class ModeSelectComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.cardSub) { this.cardSub.unsubscribe(); }
-    if (this.authSub) { this.authSub.unsubscribe(); }
+    this.cardSub?.unsubscribe();
+    this.authSub?.unsubscribe();
   }
 
   navigateToSelection(mode: Learnmode) {
+    const uid = this.route.snapshot.paramMap.get('uid');
     switch (mode) {
       case Learnmode.learn:
-        this.router.navigate(['/decks', { outlets: { primary: [this.route.snapshot.paramMap.get('uid'), 'learn'], modal: null } }]);
+        this.router.navigate(['/learn', { outlets: { primary: [uid, 'learn'], modal: null } }]);
         break;
       case Learnmode.quiz:
-        this.router.navigate(['/decks', { outlets: { primary: [this.route.snapshot.paramMap.get('uid'), 'quiz'], modal: null } }]);
+        this.router.navigate(['/learn', { outlets: { primary: [uid, 'quiz'], modal: null } }]);
         break;
       case Learnmode.spell:
-        this.router.navigate(['/decks', { outlets: { primary: [this.route.snapshot.paramMap.get('uid'), 'grid'], modal: null } }]);
+        this.router.navigate(['/learn', { outlets: { primary: [uid, 'grid'], modal: null } }]);
         break;
     }
   }
