@@ -1,14 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
-import { DictionaryComponent } from '../dictionary/dictionary.component';
 import { AuthGuard } from '../core/auth.guard';
 import { CardInfoComponent } from '../shared/card-info/card-info.component';
 import { EditComponent as CardEditComponent } from '../cards/edit/edit.component';
 
 export const ROUTES: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
-  { path: 'word-quiz', redirectTo: 'word-quiz/hiragana' },
   {
     path: 'user',
     loadChildren: () => import('../user/user.module').then(m => m.UserModule)
@@ -44,9 +42,8 @@ export const ROUTES: Routes = [
   // global named router outlets
   { path: 'cards/new/:deckuid', component: CardEditComponent, outlet: 'modal', canActivate: [AuthGuard] },
   { path: 'cards/edit/:uid', component: CardEditComponent, outlet: 'modal', canActivate: [AuthGuard] },
-  { path: 'cards/:card', component: CardInfoComponent, outlet: 'modal' },
-  { path: 'cards/new/:deckuid', component: CardEditComponent, outlet: 'modal' },
-  { path: 'dictionary', component: DictionaryComponent, outlet: 'modal' },
+  { path: 'cards/:card', component: CardInfoComponent, outlet: 'modal' }, // TODO: make me standalone
+  { path: 'dictionary', loadComponent: () => import('../dictionary/dictionary.component').then(c => c.DictionaryComponent), outlet: 'modal' },
   { path: 'selection', loadComponent: () => import('../core/components/selection/selection.component').then(c => c.SelectionComponent), outlet: 'modal' },
 ]
 

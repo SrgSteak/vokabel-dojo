@@ -1,19 +1,22 @@
 import { Component, OnInit, HostBinding, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AuthService, User } from '../core/auth.service';
 import { CardInterface } from '../core/entities/card-interface';
 import { FLY_IN_OUT_ANIMATION } from '../core/animations/modal.animation';
 import { Card } from '../core/entities/card';
 import { CardService } from '../core/services/card.service';
-import { FormControl } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import FuzzySearch from 'fuzzy-search';
+import { FeatherModule } from 'angular-feather';
 
 @Component({
   selector: 'app-dictionary',
   templateUrl: './dictionary.component.html',
   styleUrls: ['./dictionary.component.scss'],
+  standalone: true,
+  imports: [RouterModule, ReactiveFormsModule, FeatherModule],
   animations: [
     FLY_IN_OUT_ANIMATION
   ]

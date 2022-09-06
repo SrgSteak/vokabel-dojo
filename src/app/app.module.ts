@@ -13,7 +13,6 @@ import { connectFirestoreEmulator, enableMultiTabIndexedDbPersistence, getFirest
 import { connectFunctionsEmulator, FunctionsModule, getFunctions, provideFunctions } from '@angular/fire/functions';
 import { NumberPipe } from './shared/pipes/number.pipe';
 import { CoreModule } from './core/core.module';
-import { DictionaryComponent } from './dictionary/dictionary.component';
 import { CardInfoComponent } from './shared/card-info/card-info.component';
 import { OnyomiPipe } from './shared/pipes/onyomi.pipe';
 import { VerbTableComponent } from './shared/card-info/verb-table/verb-table.component';
@@ -78,7 +77,6 @@ export const persistenceEnabled = new Promise<boolean>(resolve => {
   ],
   declarations: [
     AppComponent,
-    DictionaryComponent,
     CardInfoComponent,
     CardEditComponent,
     VerbTableComponent,

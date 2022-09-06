@@ -28,8 +28,7 @@ import { MenuModule } from '../shared/menu/menu.module';
       EyeOff
     }),
     RouterModule.forChild([
-      { path: '', component: KanjiListComponent},
-      // { path: ':number', component: KanjiListComponent}
+      { path: '', component: KanjiListComponent}
     ])
   ]
 })
