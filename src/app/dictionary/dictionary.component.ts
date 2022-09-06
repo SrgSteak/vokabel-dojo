@@ -10,13 +10,15 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import FuzzySearch from 'fuzzy-search';
 import { FeatherModule } from 'angular-feather';
+import { WordListComponent } from '../shared/word-list/word-list.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-dictionary',
   templateUrl: './dictionary.component.html',
   styleUrls: ['./dictionary.component.scss'],
   standalone: true,
-  imports: [RouterModule, ReactiveFormsModule, FeatherModule],
+  imports: [CommonModule, RouterModule, ReactiveFormsModule, FeatherModule, WordListComponent],
   animations: [
     FLY_IN_OUT_ANIMATION
   ]
