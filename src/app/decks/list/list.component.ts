@@ -33,7 +33,7 @@ export class ListComponent implements OnInit {
     this.authSub = this.AuthService.user.subscribe(_user => {
       this.user = _user;
       if (!this.user) {
-        this.endUserSubs();
+        this.deckSub?.unsubscribe();
       }
       this.routeSub = this.route.data.subscribe(data => {
         if (data.showUserDecks) {
@@ -57,13 +57,9 @@ export class ListComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.endUserSubs();
-    if (this.routeSub) { this.routeSub.unsubscribe(); }
-    if (this.authSub) { this.authSub.unsubscribe(); }
-    if (this.publicDeckSub) { this.publicDeckSub.unsubscribe(); }
-  }
-
-  private endUserSubs() {
-    if (this.deckSub) { this.deckSub.unsubscribe(); }
+    this.deckSub?.unsubscribe();
+    this.routeSub?.unsubscribe();
+    this.authSub?.unsubscribe();
+    this.publicDeckSub?.unsubscribe();
   }
 }

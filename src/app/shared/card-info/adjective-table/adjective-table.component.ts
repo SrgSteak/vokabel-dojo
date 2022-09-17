@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit, Input } from '@angular/core';
 import { CardInterface } from 'src/app/core/entities/card-interface';
 import { AdjectiveType } from 'src/app/core/entities/card-type';
@@ -12,7 +13,9 @@ export enum konjugationType {
 @Component({
   selector: 'app-adjective-table',
   templateUrl: './adjective-table.component.html',
-  styleUrls: ['./adjective-table.component.scss']
+  styleUrls: ['./adjective-table.component.scss'],
+  standalone: true,
+  imports: [CommonModule]
 })
 export class AdjectiveTableComponent implements OnInit {
 

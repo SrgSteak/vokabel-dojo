@@ -1,10 +1,14 @@
+import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { DeckInterface } from 'src/app/core/entities/deck';
 
 @Component({
   selector: 'app-list-item',
   templateUrl: './list-item.component.html',
-  styleUrls: ['./list-item.component.scss']
+  styleUrls: ['./list-item.component.scss'],
+  standalone: true,
+  imports: [RouterModule, CommonModule]
 })
 export class ListItemComponent implements OnInit {
 

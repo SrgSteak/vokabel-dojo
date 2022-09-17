@@ -6,7 +6,8 @@ import { DeckService } from '../core/services/deck.service';
  */
 @Pipe({
   name: 'deckname',
-  pure: false
+  pure: false,
+  standalone: true
 })
 export class DecknamePipe implements PipeTransform {
 

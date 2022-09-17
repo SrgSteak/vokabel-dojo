@@ -18,7 +18,6 @@ import { ChooseModeComponent } from '../learn/choose-mode/choose-mode.component'
 @NgModule({
   declarations: [
     ListComponent,
-    ListItemComponent,
     ShowComponent,
     EditComponent,
     ModeSelectComponent,
@@ -30,6 +29,7 @@ import { ChooseModeComponent } from '../learn/choose-mode/choose-mode.component'
     MenuModule,
     WordListComponent,
     ReactiveFormsModule,
+    ListItemComponent,
     FeatherModule.pick({
       ChevronLeft
     }),

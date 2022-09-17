@@ -1,7 +1,12 @@
 <div class="content">
   <div class="welcome">
     <ng-container *ngIf="user else guest">
-      <p>Willkommen zurück, {{ user.displayName }}. Was möchtest du heute trainieren?</p>
+      <ng-container *ngIf="user.displayName else nameless">
+        <p>Willkommen zurück, {{ user.displayName }}. Was möchtest du heute trainieren?</p>
+      </ng-container>
+      <ng-template #nameless>
+        <p>Willkommen zurück. Was möchtest du heute trainieren?</p>
+      </ng-template>
     </ng-container>
     <ng-template #guest>
       <p>Was möchtest du heute trainieren?</p>

@@ -1,24 +1,16 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { VerbType } from 'src/app/core/entities/card-type';
 import { konjugationType, VerbTableComponent } from './verb-table.component';
 import using from 'jasmine-data-provider';
 
 describe('VerbTableComponent', () => {
   let component: VerbTableComponent;
-  let fixture: ComponentFixture<VerbTableComponent>;
-
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [VerbTableComponent],
-      teardown: { destroyAfterEach: false }
-    })
-      .compileComponents();
-  }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(VerbTableComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    TestBed.configureTestingModule({
+      providers: [VerbTableComponent]
+    })
+      component = TestBed.inject(VerbTableComponent)
   });
 
   it('should create', () => {

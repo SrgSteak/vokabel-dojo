@@ -38,15 +38,15 @@ export class WelcomeComponent implements OnInit, OnDestroy {
         });
       } else {
         this.userDecks = [];
-        if (this.userDeckSub) { this.userDeckSub.unsubscribe(); }
+        this.userDeckSub?.unsubscribe();
       }
     });
   }
 
   ngOnDestroy() {
-    if (this.authSub) { this.authSub.unsubscribe(); }
-    if (this.userDeckSub) { this.userDeckSub.unsubscribe(); }
-    if (this.publicDeckSub) { this.publicDeckSub.unsubscribe(); }
+    this.authSub?.unsubscribe();
+    this.userDeckSub?.unsubscribe();
+    this.publicDeckSub?.unsubscribe();
   }
 
 }

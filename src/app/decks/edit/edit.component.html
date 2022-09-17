@@ -1,4 +1,4 @@
-<div class="sans-serif edit" *ngIf="user">
+<div class="edit" *ngIf="user">
   <ng-container *ngIf="!uid else editDeckHeader">
     <div class="action-shortcuts negative">
       <a [class.disabled]="!deckForm.valid" (click)="onSubmit()" class="save" title="Speichern">
@@ -9,7 +9,7 @@
       </a>
     </div>
     <div class="header">
-      <h1 class="sans-serif">Neues Deck anlegen</h1>
+      <h1>Neues Deck anlegen</h1>
     </div>
   </ng-container>
   <ng-template #editDeckHeader>
@@ -25,7 +25,7 @@
       </a>
     </div>
     <div class="header">
-      <h1 class="sans-serif">Deck bearbeiten</h1>
+      <h1>Deck bearbeiten</h1>
     </div>
   </ng-template>
   <form [formGroup]="deckForm" (ngSubmit)="onSubmit()">

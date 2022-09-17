@@ -9,6 +9,7 @@ import { FeatherModule } from 'angular-feather';
 import { Trash } from 'angular-feather/icons';
 import { CoreModule } from '../core/core.module';
 import { MenuModule } from '../shared/menu/menu.module';
+import { WordListComponent } from '../shared/word-list/word-list.component';
 
 
 
@@ -17,6 +18,7 @@ import { MenuModule } from '../shared/menu/menu.module';
     ListComponent,
   ],
   imports: [
+    WordListComponent,
     CommonModule,
     CoreModule,
     MenuModule,

@@ -21,7 +21,7 @@ export enum VerbType {
   ichidan = 'single',
   five = 'five',
   godan = 'five',
-  suru = 'suru',
+  suru = 'suru', // deprecated
   irregular = 'irregular'
 }
 
