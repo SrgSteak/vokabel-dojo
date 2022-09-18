@@ -10,7 +10,6 @@ describe('ListItemComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      declarations: [ListItemComponent],
       teardown: { destroyAfterEach: false }
     })
       .compileComponents();

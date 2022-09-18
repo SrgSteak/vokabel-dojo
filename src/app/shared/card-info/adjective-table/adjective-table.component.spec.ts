@@ -9,7 +9,6 @@ describe('AdjectiveTableComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [AdjectiveTableComponent],
       providers: [AdjectiveTableComponent]
     })
     component = TestBed.inject(AdjectiveTableComponent);

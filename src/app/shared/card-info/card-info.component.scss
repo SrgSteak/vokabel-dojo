@@ -129,21 +129,14 @@ ul {
   margin-bottom: 15px;
 }
 
-.wordType {
+app-word-type {
   position: absolute;
-  right: 0;
-  bottom: 10px;
-  padding: 5px;
-  color: white;
-  font-family: sans-serif;
-  border-top-left-radius: 5px;
+  top: 0;
+  left: 15px;
+  padding: 6px 5px;
   border-bottom-left-radius: 5px;
-  background-color: $mainColor;
-
-  &.noun {
-    background-color: $nounColor;
-  }
-
+  border-bottom-right-radius: 5px;
+  background: $wordTypeBackgroundColor;
 }
 
 app-kanji {

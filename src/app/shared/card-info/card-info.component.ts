@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router, RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CardService } from 'src/app/core/services/card.service';
 import { Card } from 'src/app/core/entities/card';
@@ -7,11 +7,22 @@ import { FLY_IN_OUT_ANIMATION } from 'src/app/core/animations/modal.animation';
 import { CardType, WordType, AdjectiveType, VerbType } from 'src/app/core/entities/card-type';
 import { SelectService } from 'src/app/core/services/select.service';
 import { AuthService, User } from 'src/app/core/auth.service';
+import { FontSwitcherService } from 'src/app/core/services/font-switcher.service';
+import { FeatherModule } from 'angular-feather';
+import { CommonModule } from '@angular/common';
+import { KanjiModule } from '../kanji/kanji.module';
+import { WordTypeComponent } from '../word-type/word-type.component';
+import { IconsModule } from './icons.module';
+import { DecknamePipe } from 'src/app/pipes/deckname.pipe';
+import { VerbTableComponent } from './verb-table/verb-table.component';
+import { AdjectiveTableComponent } from './adjective-table/adjective-table.component';
 
 @Component({
   selector: 'app-card-info',
   templateUrl: './card-info.component.html',
   styleUrls: ['./card-info.component.scss'],
+  standalone: true,
+  imports: [CommonModule, RouterModule, IconsModule, KanjiModule, WordTypeComponent, VerbTableComponent, AdjectiveTableComponent, DecknamePipe],
   animations: [
     FLY_IN_OUT_ANIMATION
   ]
@@ -47,7 +58,8 @@ export class CardInfoComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private authService: AuthService,
     private cardService: CardService,
-    public selectService: SelectService) {
+    public selectService: SelectService,
+    protected fontService: FontSwitcherService) {
   }
 
   ngOnInit() {
@@ -62,9 +74,9 @@ export class CardInfoComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.routerSub) { this.routerSub.unsubscribe(); }
-    if (this.cardSub) { this.cardSub.unsubscribe(); }
-    if (this.authSub) { this.authSub.unsubscribe(); }
+    this.routerSub?.unsubscribe();
+    this.cardSub?.unsubscribe();
+    this.authSub?.unsubscribe();
   }
 
   close() {

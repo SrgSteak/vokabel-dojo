@@ -54,8 +54,8 @@ export class SelectionComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    if (this.deckSub) { this.deckSub.unsubscribe(); }
-    if (this.authSub) { this.authSub.unsubscribe(); }
+    this.deckSub?.unsubscribe();
+    this.authSub?.unsubscribe();
   }
 
   clear() {

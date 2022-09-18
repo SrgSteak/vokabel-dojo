@@ -1,0 +1,50 @@
+@import "_variables";
+
+:host {
+    display: inline-block;
+    font-size: 1rem;
+}
+
+.wordType {
+    color: $secondaryTextColor;
+
+    &.noun {
+        color: $nounColor;
+    }
+
+    &.verb {
+        color: $verbColor;
+    }
+
+    &.adjective {
+        color: $adjectiveColor;
+    }
+
+    &.adverb {
+        color: $adverbColor;
+    }
+
+    &.pronoun {
+        color: $pronounColor;
+    }
+
+    &.preposition {
+        color: $prepositionColor;
+    }
+
+    &.conjunction {
+        color: $conjunctionColor;
+    }
+
+    &.numeral {
+        color: $numeralColor;
+    }
+
+    &.interjection {
+        color: $interjectionColor;
+    }
+
+    &.kanji {
+        color: $kanjiColor;
+    }
+}

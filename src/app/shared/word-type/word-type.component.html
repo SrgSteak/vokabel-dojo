@@ -1,0 +1,56 @@
+<ng-container [ngSwitch]="card?.wordType">
+    <div class="wordType noun" *ngSwitchCase="wordTypes.noun">
+        Nomen
+    </div>
+    <div class="wordType noun" *ngSwitchCase="wordTypes.surunoun">
+        する-Nomen
+    </div>
+    <div class="wordType verb" *ngSwitchCase="wordTypes.verb">
+        <ng-container [ngSwitch]="card.verbType">
+            <ng-container *ngSwitchCase="verbTypes.ichidan">
+                <ruby>一<rt>いち</rt>段<rt>だん</rt></ruby> Verb
+            </ng-container>
+            <ng-container *ngSwitchCase="verbTypes.godan">
+                <ruby>五<rt>ご</rt>段<rt>だん</rt></ruby> Verb
+            </ng-container>
+            <ng-container *ngSwitchCase="verbTypes.suru">
+                Suru Verb
+            </ng-container>
+            <ng-container *ngSwitchCase="verbTypes.irregular">
+                Irregular Verb
+            </ng-container>
+            <ng-container *ngSwitchDefault>
+                Verb
+            </ng-container>
+        </ng-container>
+    </div>
+    <div class="wordType adjective" *ngSwitchCase="wordTypes.adjective">
+        <ng-container *ngIf="card.adjectiveType == adjectiveTypes.iAdjective else naAdj">
+            い Adjektiv
+        </ng-container>
+        <ng-template #naAdj>
+            な Adjektiv
+        </ng-template>
+    </div>
+    <div class="wordType adverb" *ngSwitchCase="wordTypes.adverb">
+        Adverb
+    </div>
+    <div class="wordType pronoun" *ngSwitchCase="wordTypes.pronoun">
+        Pronomen
+    </div>
+    <div class="wordType preposition" *ngSwitchCase="wordTypes.preposition">
+        Präposition
+    </div>
+    <div class="wordType conjunction" *ngSwitchCase="wordTypes.conjunction">
+        Konjunktion
+    </div>
+    <div class="wordType numeral" *ngSwitchCase="wordTypes.numeral">
+        Numeral
+    </div>
+    <div class="wordType interjection" *ngSwitchCase="wordTypes.interjection">
+        Interjektion
+    </div>
+    <div class="wordType kanji" *ngSwitchCase="wordTypes.kanji">
+        Kanji
+    </div>
+</ng-container>

@@ -74,11 +74,11 @@ export class ShowComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     if (this.queryUnsubFunc) { this.queryUnsubFunc(); }
-    if (this.cardSub) { this.cardSub.unsubscribe(); }
-    if (this.deckSub) { this.deckSub.unsubscribe(); }
-    if (this.routeSub) { this.routeSub.unsubscribe(); }
-    if (this.userSub) { this.userSub.unsubscribe(); }
-    if (this.authSub) { this.authSub.unsubscribe(); }
+    this.cardSub?.unsubscribe();
+    this.deckSub?.unsubscribe();
+    this.routeSub?.unsubscribe();
+    this.userSub?.unsubscribe();
+    this.authSub?.unsubscribe();
   }
 
   editMe(card: CardInterface) {

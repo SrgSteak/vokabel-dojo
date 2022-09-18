@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit, Input } from '@angular/core';
 import { Card } from 'src/app/core/entities/card';
 import { VerbType } from 'src/app/core/entities/card-type';
@@ -28,7 +29,9 @@ export enum vocalType {
 @Component({
   selector: 'app-verb-table',
   templateUrl: './verb-table.component.html',
-  styleUrls: ['./verb-table.component.scss']
+  styleUrls: ['./verb-table.component.scss'],
+  standalone: true,
+  imports: [CommonModule]
 })
 export class VerbTableComponent implements OnInit {
 

@@ -46,9 +46,7 @@ export class LearnComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.formSub) {
-      this.formSub.unsubscribe();
-    }
+    this.formSub?.unsubscribe();
   }
 
   setMode(mode: string) {

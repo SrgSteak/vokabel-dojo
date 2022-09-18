@@ -2183,7 +2183,7 @@ export class KanjiListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.paramSub) { this.paramSub.unsubscribe(); }
+    this.paramSub?.unsubscribe();
   }
 
   toggleNotepad() {

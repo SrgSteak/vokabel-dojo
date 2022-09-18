@@ -13,18 +13,14 @@ import { connectFirestoreEmulator, enableMultiTabIndexedDbPersistence, getFirest
 import { connectFunctionsEmulator, FunctionsModule, getFunctions, provideFunctions } from '@angular/fire/functions';
 import { NumberPipe } from './shared/pipes/number.pipe';
 import { CoreModule } from './core/core.module';
-import { CardInfoComponent } from './shared/card-info/card-info.component';
 import { OnyomiPipe } from './shared/pipes/onyomi.pipe';
-import { VerbTableComponent } from './shared/card-info/verb-table/verb-table.component';
-import { AdjectiveTableComponent } from './shared/card-info/adjective-table/adjective-table.component';
 import { AppRoutingModule } from './app-routing/app-routing.module';
 import { FeatherModule } from 'angular-feather';
-import { HelpCircle } from 'angular-feather/icons';
+import { HelpCircle, X } from 'angular-feather/icons';
 import { connectAuthEmulator, getAuth, provideAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { EditComponent as CardEditComponent } from './cards/edit/edit.component';
 import { SelectbubbleComponent } from './core/selectbubble/selectbubble.component';
-import { KanjiModule } from './shared/kanji/kanji.module';
 
 let resolvePersistenceEnabled: (enabled: boolean) => void;
 
@@ -39,7 +35,6 @@ export const persistenceEnabled = new Promise<boolean>(resolve => {
     BrowserAnimationsModule,
     ReactiveFormsModule,
     AppRoutingModule,
-    KanjiModule,
     provideAuth(() => {
       const auth = getAuth();
       if (environment.useRelay) {
@@ -48,7 +43,7 @@ export const persistenceEnabled = new Promise<boolean>(resolve => {
       return auth;
     }),
     // automatically registered by pwa install
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: false }),//environment.production }),
     // noSQL Database where all subscriptions are stored (to push them from the 'server')
     FunctionsModule,
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
@@ -72,15 +67,13 @@ export const persistenceEnabled = new Promise<boolean>(resolve => {
       return functions;
     }),
     FeatherModule.pick({
-      HelpCircle
+      HelpCircle,
+      X
     })
   ],
   declarations: [
     AppComponent,
-    CardInfoComponent,
     CardEditComponent,
-    VerbTableComponent,
-    AdjectiveTableComponent,
     SelectbubbleComponent,
     NumberPipe,
     OnyomiPipe

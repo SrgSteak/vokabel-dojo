@@ -34,11 +34,7 @@ export class FontSwitcherComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.updateSub) {
-      this.updateSub.unsubscribe();
-    }
-    if (this.formSub) {
-      this.formSub.unsubscribe();
-    }
+      this.updateSub?.unsubscribe();
+      this.formSub?.unsubscribe();
   }
 }

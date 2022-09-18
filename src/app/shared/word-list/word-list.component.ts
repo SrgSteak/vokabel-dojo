@@ -12,13 +12,14 @@ import { FontSwitcherService } from 'src/app/core/services/font-switcher.service
 import { CardType, WordType, AdjectiveType, VerbType } from 'src/app/core/entities/card-type';
 import { APPEAR_ANIMATION } from 'src/app/core/animations/modal.animation';
 import { CommonModule } from '@angular/common';
+import { WordTypeComponent } from '../word-type/word-type.component';
 
 @Component({
   selector: 'app-word-list',
   templateUrl: './word-list.component.html',
   styleUrls: ['./word-list.component.scss'],
   standalone: true,
-  imports: [RouterModule, CommonModule],
+  imports: [RouterModule, CommonModule, WordTypeComponent],
   animations: [APPEAR_ANIMATION]
 })
 export class WordListComponent implements OnInit, OnDestroy, OnChanges {
@@ -105,15 +106,9 @@ export class WordListComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnDestroy() {
-    if (this.cardSub) {
-      this.cardSub.unsubscribe();
-    }
-    if (this.modeSub) {
-      this.modeSub.unsubscribe();
-    }
-    if (this.searchFormSub) {
-      this.searchFormSub.unsubscribe();
-    }
+      this.cardSub?.unsubscribe();
+      this.modeSub?.unsubscribe();
+      this.searchFormSub?.unsubscribe();
   }
 
   updateFilter() {

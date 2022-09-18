@@ -53,13 +53,12 @@ export class DictionaryComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.searchFormSub) { this.searchFormSub.unsubscribe(); }
-    if (this.cardSub) { this.cardSub.unsubscribe(); }
+    this.searchFormSub?.unsubscribe();
+    this.cardSub?.unsubscribe();
   }
 
   private updateFilter() {
     if (this.searchForm.value) {
-      console.log(this.cards, this.searchForm.value);
       const searcher = new FuzzySearch(this.cards, ['german', 'japanese', 'examples.german', 'examples.japanese', 'examples.reading', 'japanese_readings', 'chinese_readings'], {
         caseSensitive: false,
       });

@@ -6,14 +6,12 @@ import { FeatherModule } from 'angular-feather';
 import { Shuffle, Home, Coffee, ExternalLink, User, Feather, Plus, Edit, Copy, CheckCircle, MinusCircle, MoreHorizontal, PlusCircle, Trash, X, Loader, BarChart2, HelpCircle, ChevronRight, Grid, ChevronLeft, Mail, LogIn, LogOut, Save, Repeat, Book } from 'angular-feather/icons';
 import { ModalComponent } from '../shared/modal/modal.component';
 import { RouterModule } from '@angular/router';
-import { DecknamePipe } from '../pipes/deckname.pipe';
 import { MenuModule } from '../shared/menu/menu.module';
 
 @NgModule({
   declarations: [
     FontSwitcherComponent,
     ModalComponent,
-    DecknamePipe,
   ],
   imports: [
     CommonModule,
@@ -52,7 +50,6 @@ import { MenuModule } from '../shared/menu/menu.module';
   ],
   providers: [],
   exports: [
-    DecknamePipe,
     ModalComponent,
     FontSwitcherComponent,
     FeatherModule

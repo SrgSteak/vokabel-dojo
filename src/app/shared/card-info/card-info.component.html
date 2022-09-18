@@ -1,6 +1,6 @@
 <ng-container *ngIf="card else loading">
   <div class="scroll-content">
-    <div class="japanese">
+    <div class="japanese" [class.serif]="fontService.currentStyle === 'serif'">
       {{ card.japanese }}
     </div>
     <div class="section readings" *ngIf="card.hasReadings()">
@@ -28,7 +28,7 @@
       </span>
       <table>
         <tr *ngFor="let example of card.examples">
-          <td><ruby>
+          <td [class.serif]="fontService.currentStyle === 'serif'"><ruby>
               {{ example.japanese }}
               <rt>{{ example.reading }}</rt>
             </ruby>
@@ -76,7 +76,8 @@
       </div>
     </ng-container>
   </div>
-  <ng-container *ngIf="card.wordType">
+  <app-word-type [card]="card" *ngIf="card.wordType"></app-word-type>
+  <!-- <ng-container *ngIf="card.wordType">
     <ng-container [ngSwitch]="card.wordType">
       <div class="wordType noun" *ngSwitchCase="wordTypes.noun">
         Nomen
@@ -133,7 +134,7 @@
         Kanji
       </div>
     </ng-container>
-  </ng-container>
+  </ng-container> -->
   <div class="action-shortcuts">
     <a (click)="select()" [class.blue]="selectService.contains(card)">
       <i-feather name="check-circle" class="feather"></i-feather>
