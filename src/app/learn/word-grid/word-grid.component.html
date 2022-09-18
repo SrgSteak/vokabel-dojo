@@ -1,4 +1,7 @@
 <div class="content word-grid {{ fontSwitcherService.currentStyle }}" *ngIf="deck?.length">
+  <a routerLink="/decks/{{source}}/list" *ngIf="source !== 'selection'" class="backlink muted">
+    <i-feather name="chevron-left"></i-feather> {{ source | deckname }}
+  </a>
   <div class="word" [class.success]="buildWordString == currentWord.answer" (click)="skipWord()">
     <span class="question">
       {{ currentWord.question }}
@@ -14,4 +17,10 @@
     </div>
   </div>
 </div>
-<app-menu></app-menu>
+<app-menu>
+  <ng-container buttons>
+    <button (click)="menuService.toggleMenu('edit')" [class.active]="menuService.selectedMenu === 'edit'"
+      title="Einstellungen Lernmodus">✍︎</button>
+  </ng-container>
+  <app-font-switcher></app-font-switcher>
+</app-menu>

@@ -75,4 +75,13 @@
   </div>
 </app-modal>
 
-<app-menu></app-menu>
+<app-menu>
+  <ng-container buttons>
+    <button (click)="menuService.toggleMenu('settings')" [class.active]="menuService.selectedMenu === 'settings'"
+      title="Einstellungen Lernmodus">⋮</button>
+  </ng-container>
+  <ng-container>
+    <app-font-switcher></app-font-switcher>
+    <button class="button" (click)="showSettings(); menuService.toggleMenu('settings')">Einstellungen</button>
+  </ng-container>
+</app-menu>
