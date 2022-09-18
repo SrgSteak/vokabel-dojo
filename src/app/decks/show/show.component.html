@@ -55,9 +55,9 @@
       <p class="italic">{{ deck.description }}</p>
       <app-font-switcher></app-font-switcher>
       <span class="label">Lernmodus</span>
-      <a routerLinkActive="active" routerLink="/decks/{{deck.uid}}/quiz" (click)="showSubmenu = false">Vokabelquiz</a>
-      <a routerLinkActive="active" routerLink="/decks/{{deck.uid}}/grid" (click)="showSubmenu = false">Buchstabieren</a>
-      <a routerLinkActive="active" routerLink="/decks/{{deck.uid}}/learn" (click)="showSubmenu = false">Wiederholen</a>
+      <a routerLinkActive="active" routerLink="/learn/{{deck.uid}}/quiz" (click)="showSubmenu = false">Vokabelquiz</a>
+      <a routerLinkActive="active" routerLink="/learn/{{deck.uid}}/grid" (click)="showSubmenu = false">Buchstabieren</a>
+      <a routerLinkActive="active" routerLink="/learn/{{deck.uid}}/learn" (click)="showSubmenu = false">Wiederholen</a>
       <a routerLinkActive="active" routerLink="/decks/{{deck.uid}}/list" (click)="showSubmenu = false">Liste</a>
       <ng-container *ngIf="auth.user | async as user">
         <span class="label">Deck</span>
