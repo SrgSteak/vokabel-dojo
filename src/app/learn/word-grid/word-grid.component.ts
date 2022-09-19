@@ -92,14 +92,14 @@ export class WordGridComponent implements OnInit {
     this.cardSub?.unsubscribe();
   }
 
-  selectedChar(index: number, target: HTMLElement) {
+  selectedChar(index: number, target: EventTarget) {
     this.buildWordString = '';
     if (this.buildWord.get(index)) {
       this.buildWord.delete(index);
-      target.removeAttribute('style');
-      target.classList.remove('card-selected');
+      (target as HTMLElement).removeAttribute('style');
+      (target as HTMLElement).classList.remove('card-selected');
     } else {
-      this.updateCardPosition(target);
+      this.updateCardPosition(target as HTMLElement);
       this.buildWord.set(index, this.currentGrid[index]);
     }
 

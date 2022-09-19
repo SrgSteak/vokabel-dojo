@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DeckService, Deck } from '../../core/services/deck.service';
+import { DeckService } from '../../core/services/deck.service';
 import { AuthService, User } from '../../core/auth.service';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
