@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FeatherModule } from 'angular-feather';
-import { CheckCircle, X } from 'angular-feather/icons';
+import { CheckCircle, Edit, X } from 'angular-feather/icons';
 
 
 
@@ -9,7 +9,8 @@ import { CheckCircle, X } from 'angular-feather/icons';
   declarations: [],
   imports: [
     CommonModule,
-    FeatherModule.pick({ X, CheckCircle })
+    // icons on the top left to select, open edit mode and close the modal
+    FeatherModule.pick({CheckCircle, Edit, X})
   ],
   exports: [FeatherModule]
 })
