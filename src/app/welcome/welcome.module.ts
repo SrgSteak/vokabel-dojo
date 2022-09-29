@@ -75,6 +75,7 @@ import { ListItemComponent } from '../decks/components/list-item/list-item.compo
     RouterModule.forChild([
       {
         path: '',
+        title: 'Vokabeldojo | Home',
         component: WelcomeComponent
       }
     ])

@@ -26,8 +26,8 @@ import { CommonModule } from '@angular/common';
 export class SelectionComponent implements OnInit {
 
   @HostBinding('@flyInOutTrigger') flyInOutTrigger = 'in';
-  private user: User;
-  private decks = [];
+  protected user: User;
+  protected decks = [];
   private deckSub: Subscription;
   private authSub: Subscription;
 

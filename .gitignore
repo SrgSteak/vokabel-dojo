@@ -7,3 +7,4 @@ dist/vokabeldojo/*
 .DS_Store
 seed_data
 *.log
+coverage

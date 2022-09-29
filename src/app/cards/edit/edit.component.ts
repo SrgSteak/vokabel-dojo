@@ -1,7 +1,7 @@
 import { Component, OnInit, HostBinding, ViewChild, ElementRef } from '@angular/core';
 import { CardService } from 'src/app/core/services/card.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, Validators, FormArray, FormControl, ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
+import { FormBuilder, Validators, FormArray, FormControl, ValidatorFn, AbstractControl, ValidationErrors, ReactiveFormsModule } from '@angular/forms';
 import { Deck, DeckService } from 'src/app/core/services/deck.service';
 import { WordType, VerbType, AdjectiveType, VerbContext } from 'src/app/core/entities/card-type';
 import { FLY_IN_OUT_ANIMATION, ROLL_IN_OUT_ANIMATION } from 'src/app/core/animations/modal.animation';
@@ -9,6 +9,9 @@ import { Subscription, Observable, Subject } from 'rxjs';
 import { switchMap, distinctUntilChanged, debounceTime } from 'rxjs/operators';
 import { AuthService, User } from 'src/app/core/auth.service';
 import { CardInterface } from 'src/app/core/entities/card-interface';
+import { CommonModule } from '@angular/common';
+import { DecknamePipe } from 'src/app/pipes/deckname.pipe';
+import { IconsModule } from 'src/app/shared/card-info/icons.module';
 
 export function requiredWhenWordType(type: WordType): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
@@ -32,6 +35,8 @@ export function requiredWhenWordType(type: WordType): ValidatorFn {
   selector: 'app-edit',
   templateUrl: './edit.component.html',
   styleUrls: ['./edit.component.scss'],
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, IconsModule, DecknamePipe],
   animations: [
     FLY_IN_OUT_ANIMATION,
     ROLL_IN_OUT_ANIMATION
