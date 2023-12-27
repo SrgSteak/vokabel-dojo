@@ -1,0 +1,39 @@
+<div class="content">
+    <a routerLink="" class="backlink muted">
+        <i-feather name="chevron-left"></i-feather>Home
+    </a>
+    <div class="flex-progress">
+        <span>{{ currentExerciseIndex }}</span>
+        <app-progress [current]="currentExerciseIndex" [total]="exercises.length"></app-progress>
+        <span>{{ exercises.length }}</span>
+    </div>
+    <ng-container *ngIf="currentExerciseIndex < exercises.length else result">
+        <ng-container [ngSwitch]="currentExercise?.type">
+            <!-- https://angular.io/guide/template-typecheck#disabling-type-checking-using-any-->
+            <app-buildingblock [exercise]="$any(currentExercise)" (success)="handleResponse($event)"
+                *ngSwitchCase="ExerciseType.buildingblock"></app-buildingblock>
+            <app-buildingblock [exercise]="$any(currentExercise)" (success)="handleResponse($event)"
+                *ngSwitchCase="ExerciseType.select"></app-buildingblock>
+            <app-buildingblock [exercise]="$any(currentExercise)" (success)="handleResponse($event)"
+                *ngSwitchCase="ExerciseType.transform"></app-buildingblock>
+        </ng-container>
+        <div class="continue success" *ngIf="success === true" @flyInOutTrigger>
+            <div class="pb-3 d-flex align-items-center">
+                <i-feather name="check-circle" class="feather"></i-feather> Gut gemacht!
+            </div>
+            <button class="button" (click)="next()">Weiter</button>
+        </div>
+        <div class="continue error" *ngIf="success === false" @flyInOutTrigger>
+            <div class="pb-3 d-flex align-items-center">
+                <i-feather name="check-circle" class="feather"></i-feather> Hoppla!
+            </div>
+            <button class="button" (click)="next()">Weiter</button>
+        </div>
+    </ng-container>
+    <ng-template #result>
+        <h1 class="text-center" [class.hits]="score > 85" [class.misses]="score < 65">{{ score }}%</h1>
+        <button class="button" (click)="closeExercise()">Schließen</button>
+    </ng-template>
+</div>
+<app-menu>
+</app-menu>

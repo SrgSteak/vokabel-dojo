@@ -11,6 +11,7 @@ import { Learnmode } from 'src/app/learn/choose-mode/choose-mode.component';
   selector: 'app-mode-select',
   templateUrl: './mode-select.component.html',
   styleUrls: ['./mode-select.component.scss'],
+  host :{class :'light'},
   animations: [
     FLY_IN_OUT_ANIMATION
   ]

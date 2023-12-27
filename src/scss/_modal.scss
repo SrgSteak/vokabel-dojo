@@ -1,38 +1,119 @@
 @import "_variables";
 
+$windowPadding: 2rem;
+
 :host {
-    position: fixed;
-    width: 720px;
-    background: $darkBackground;
-    color: white;
-    padding: 0.5rem;
-    border-radius: 0.5rem;
-    height: 80%;
-    left: 0;
-    right: 0;
-    margin: auto;
-    top: 3rem;
-    @media only screen and (max-width: 736px) {
-      width: calc(100% - 16px);
-      top: initial;
-      bottom: 0;
-      border-bottom-left-radius: 0px;
-      border-bottom-right-radius: 0px;
-    }
-    &.light {
-      background: $lightBackground
+  overscroll-behavior: contain;
+  overflow: auto;
+  position: fixed;
+  width: 720px;
+  background: $primaryBackgroundColor;
+  color: $secondaryTextColor;
+  padding: $windowPadding;
+  border-radius: 0.5rem;
+  height: 80%;
+  left: 0;
+  right: 0;
+  margin: auto;
+  top: 3rem;
+
+  @media only screen and (max-width: 736px) {
+    padding: $windowPadding / 2;
+    width: calc(100% - 16px);
+    top: initial;
+    height: 80vh;
+    bottom: 0;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+
+  &.light {
+    color: unset;
+    background: $lightBackground;
+
+    .header {
+      box-shadow: none;
+      background: $lightBackground;
     }
   }
 
+  &::-webkit-scrollbar {
+    width: 0 !important
+  }
+}
+
 .header {
   position: sticky;
-  top: -0.5rem;
-  background: $mainColor;
+  top: -$windowPadding;
+
+  @media only screen and (max-width: 736px) {
+    top: -$windowPadding / 2;
+  }
+
+  background: $primaryBackgroundColor;
   z-index: 10;
-  padding: 5px 0px;
+  padding: .5rem 0px;
   box-shadow: 0px 0px 1px 2px $mainColor;
+
   h1 {
     margin: 0;
     font-size: 1.4em;
+  }
+}
+
+.action-shortcuts {
+  z-index: 11;
+  position: sticky;
+  float: right;
+  margin-top: -100vh; // so that overscroll won't move it 'in'
+  top: -$windowPadding;
+
+  @media only screen and (max-width: 736px) {
+    top: -$windowPadding / 2;
+  }
+
+  right: 5px;
+
+  a {
+    vertical-align: top;
+    display: inline-block;
+    margin-right: 6px;
+    text-decoration: none;
+    color: white;
+    background: $mainColor;
+    padding: 5px 8px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    transition: all 0.2s;
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    &:hover {
+      @media(hover: hover) {
+        padding-top: 8px;
+      }
+    }
+
+    &.danger:hover {
+      color: red;
+    }
+
+    &.save:hover {
+      color: $checkmark_checked;
+    }
+
+    &.repeat {
+      color: $checkmark_checked;
+    }
+  }
+
+  &.negative {
+    a {
+      border-left: white 1px solid;
+      border-right: white 1px solid;
+      border-bottom: white 1px solid;
+    }
   }
 }

@@ -1,0 +1,43 @@
+@import '_variables';
+
+.flex-progress {
+    display: flex;
+    justify-content: center;
+
+    span,
+    app-progress {
+        padding-inline: .5rem;
+    }
+
+    // width: 200px;
+    app-progress {
+        flex-grow: 1;
+    }
+}
+
+.continue {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: stretch;
+    color: $secondaryTextColor;
+    @include padding(3);
+    @include top-radius(2);
+
+    i-feather {
+        margin-right: .5rem;
+    }
+
+    &.success {
+        background-color: $conjunctionColor;
+    }
+
+    &.error {
+        background-color: $verbColor;
+    }
+}

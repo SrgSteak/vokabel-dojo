@@ -44,6 +44,7 @@
   min-height: 40px;
   max-height: 90%;
   overflow: auto;
+  overscroll-behavior: contain;
   /* scroll-behavior: auto; */
   border-bottom-left-radius: 4px;
   transition: all .3s ease;

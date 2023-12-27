@@ -90,8 +90,8 @@ export const LEARNMODE_ANIMATION =
 export const ROLL_IN_OUT_ANIMATION =
   trigger('rollInOutAnimation', [
     transition(':enter', [
-      style({ height: 0, overflow: 'hidden' }),
-      animate(`250ms ${easeInOutCubic}`, style({ height: '*', overflow: 'show' })),
+      style({ height: 0, 'margin-top': 0, 'margin-bottom': 0, 'padding-top': 0, 'padding-bottom': 0 }),
+      animate(`250ms ${easeInOutCubic}`, style({ height: '*', 'margin-top': '*', 'margin-bottom': '*', 'padding-top': '*', 'padding-bottom': '*' })),
     ]),
     transition(':leave', [
       animate(`250ms ${easeInOutCubic}`, style({ height: '0px', padding: '0px', margin: '0px' })),

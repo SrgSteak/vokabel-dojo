@@ -2,6 +2,7 @@
 
 :host {
   overflow: auto;
+  overscroll-behavior: contain;
   position: fixed;
   height: 60%;
   left: 0;
@@ -83,6 +84,7 @@
 .content {
   padding: 0px 15px;
   overflow: auto;
+  overscroll-behavior: contain;
   height: 100%;
 }
 

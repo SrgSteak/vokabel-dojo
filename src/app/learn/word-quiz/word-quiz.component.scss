@@ -6,7 +6,7 @@ p {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  height: 100%;
+  // height: 100%;
   width: 100%;
 }
 
@@ -15,6 +15,7 @@ p {
 }
 
 .card {
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -22,17 +23,20 @@ p {
   width: 100%;
   padding: 10px;
   padding-top: 20px;
+
   @media screen and (max-width: 799px) {
     font-size: 40px;
   }
+
   @media screen and (min-width: 800px) {
-       font-size: 100px;
+    font-size: 100px;
   }
+
   text-align: center;
 }
 
 .answers {
-  padding-bottom: 20px;
+  // padding-bottom: 20px;
   width: 100%;
   align-self: flex-end;
   display: flex;
@@ -62,7 +66,7 @@ p {
 
 .answer:hover {
   @media(hover: hover) {
-    background-color: rgb(0,100,100);
+    background-color: rgb(0, 100, 100);
   }
 }
 

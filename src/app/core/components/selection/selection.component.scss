@@ -50,6 +50,7 @@
 
 .selectbox {
   overflow: auto;
+  overscroll-behavior: contain;
   height: 100%;
   padding: 0px 5px;
 }

@@ -1,6 +1,6 @@
 import { SnapshotOptions, DocumentData, QueryDocumentSnapshot } from "firebase/firestore";
 import { CardInterface } from "./card-interface";
-import { CardType, WordType, VerbType, AdjectiveType, VerbContext } from './card-type';
+import { WordType, VerbType, AdjectiveType, VerbContext } from './card-type';
 
 export const cardConverter = {
   toFirestore(card: Card): DocumentData {

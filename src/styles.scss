@@ -28,6 +28,10 @@ $contentInset: 40px;
   --wordtype-interjection: #6a4c93;
   --wordtype-kanji: #b5a6c9;
   --wordtype-background: #f7f7f7;
+
+  --grammar-dashed-border: #000;
+  --grammar-dashed-border-rule: #fff;
+  --grammar-button-color: #006464;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -42,6 +46,8 @@ $contentInset: 40px;
     --kanji-background-color: #000;
     --kanji-grid-color: #323232;
     --wordtype-background: #002828;
+
+    --grammar-dashed-border: #fff;
   }
 }
 
@@ -57,6 +63,19 @@ $contentInset: 40px;
       font-family: Baskerville, "Times New Roman", Times, serif;
     }
   }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  word-break: break-word;
+}
+
+ruby {
+  display: inline-block;
 }
 
 a {
@@ -98,9 +117,9 @@ a.deck-list-item {
   .banner {
     position: absolute;
     top: 6px;
-    right: -15px;
+    right: -20px;
     transform: rotate(45deg);
-    width: 60px;
+    width: 75px;
     text-align: center;
     background-color: #004343;
   }
@@ -207,8 +226,16 @@ a.deck-list-item {
   flex-wrap: wrap;
 }
 
+.f-nowrap {
+  flex-wrap: nowrap;
+}
+
 .f-gap-10 {
   gap: 10px
+}
+
+.f-gap-1 {
+  gap: 1em;
 }
 
 .a-items-start {
@@ -225,6 +252,10 @@ a.deck-list-item {
 
 .flex-shrink-0 {
   flex-shrink: 0;
+}
+
+.flex-grow-1 {
+  flex-grow: 1;
 }
 
 .f-flow-col {
@@ -252,6 +283,7 @@ a.deck-list-item {
 /* overflow */
 .ox-auto {
   overflow-x: auto;
+  overflow-y: hidden;
 }
 
 .ox-scroll {
@@ -327,10 +359,13 @@ i-feather {
 html {
   margin: 0;
   padding: 0;
-  height: 100%;
-  width: 100%;
   font-size: 16px;
-  // overflow: hidden;
+  overscroll-behavior: contain;
+
+  // prevents bright flash on dark mode screens (pwa bootup, browser scroll pull)
+  @media (prefers-color-scheme: dark) {
+    background-color: black;
+  }
 }
 
 /* the App background */
@@ -342,21 +377,39 @@ body {
   @supports (padding: max(0px)) {
     padding-left: env(safe-area-inset-left);
     padding-right: env(safe-area-inset-right);
+    padding-top: env(safe-area-inset-top);
     padding-bottom: env(safe-area-inset-bottom);
   }
 
-  height: 100%;
+  /* It targets only the app used with a system icon in standalone mode */
+  @media (display-mode: standalone) {
+    height: 100vh;
+  }
+
   width: 100%;
   overflow: auto;
   overflow-x: hidden;
 
+}
+
+/* mobile rubberband save scroll overflow background behind "everything" */
+.background {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
   @media not print {
     background-image: url(assets/background.png);
+    box-shadow: 0 55px 50px -15px rgba(175, 175, 175, 0.1) inset;
 
     @media (prefers-color-scheme: dark) {
+      box-shadow: none;
       background-image: url(assets/background_dark.png);
     }
   }
+
 }
 
 ul {
@@ -398,7 +451,7 @@ ul {
 /* the router component content*/
 .content {
   position: relative;
-  height: calc(100% - 40px);
+  height: calc(100vh - 40px);
   padding-top: 40px;
   padding-left: $contentInset;
   padding-right: 15px; // $contentInset;
@@ -460,7 +513,7 @@ a[disabled] {
 
 .disabled {
   cursor: not-allowed;
-  color: $mutedColor  !important;
+  color: $mutedColor !important;
   pointer-events: none;
   text-decoration-line: line-through;
   -webkit-text-decoration-line: line-through;

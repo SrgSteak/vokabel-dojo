@@ -48,7 +48,6 @@ $fourthBackgroundColor: white;
 $lightBackground: var(--light-background);
 $darkBackground: $mainColor;
 $showModalBackground: var(--show-modal-backg);
-$editModalBackground: var(--edit-modal-backg);
 $darkHoverBackground: var(--menu-hover);
 
 //kanji svg colors
@@ -56,6 +55,10 @@ $kanjiBackground: var(--kanji-grid-color); // color of the grid
 $kanjiBlockBackground: var(--kanji-background-color); //color of the nine boxes
 $kanjiStrokeColor: var(--kanji-stroke-color);
 //kanji svg colors end
+
+$grammarDashedBorder: var(--grammar-dashed-border);
+$grammarRuleDashedBorder: var(--grammar-dashed-border-rule);
+$grammarButtonColor: var(--grammar-button-color);
 
 
 // mixins and scss function stuff
@@ -66,6 +69,40 @@ $breakpoints: (
   md: 992px,
   lg: 1200px
 );
+
+$sizes: (
+  1: .25rem,
+  2: .5rem,
+  3: 1rem,
+  4: 1.5rem,
+  5: 2rem
+);
+
+@mixin padding($size) {
+  @if map-has-key($sizes, $size) {
+    padding: map-get($sizes, $size);
+  }
+}
+
+@mixin margin($size) {
+  @if map-has-key($sizes, $size) {
+    margin: map-get($sizes, $size);
+  }
+}
+
+@mixin radius($size) {
+  @if map-has-key($sizes, $size) {
+    border-radius: map-get($sizes, $size);
+  }
+}
+
+@mixin top-radius($size) {
+  @if map-has-key($sizes, $size) {
+    border-top-right-radius: map-get($sizes, $size);
+    border-top-left-radius: map-get($sizes, $size);
+  }
+}
+
 
 @mixin bigger-than($breakpoint) {
 

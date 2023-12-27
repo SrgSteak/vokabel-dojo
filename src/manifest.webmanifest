@@ -9,6 +9,31 @@
   "orientation": "portrait",
   "scope": "/",
   "start_url": "/",
+  "shortcuts": [
+    {
+      "name": "Home",
+      "url": "/",
+      "description": "Alle Funktionen"
+    },
+    {
+      "name": "Alle Decks",
+      "url": "/decks",
+      "description": "Alle öffentlichen Decks"
+    },
+    {
+      "name": "Meine Decks",
+      "url": "/decks/user",
+      "description": "Alle meine Decks"
+    },
+    {
+      "name": "Wörterbuch",
+      "url": "/home(modal:dictionary)"
+    },
+    {
+      "name": "Silbentabelle",
+      "url": "/syllables"
+    }
+  ],
   "icons": [
     {
       "src": "assets/icons/icon-72x72.png",

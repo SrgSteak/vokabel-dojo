@@ -2,41 +2,47 @@
 @import "_modal";
 
 .edit {
+  overscroll-behavior: contain;
   overflow: auto;
   height: 100%;
 }
-.edit::-webkit-scrollbar { width: 0 !important }
 
-.header {
-  position: sticky;
-  top: -8px;
-  background: $mainColor;
-  z-index: 10;
-  padding: 5px 0px;
-  box-shadow: 0px 0px 1px 2px $mainColor;
-  h1 {
-    margin: 0;
-    font-size: 1.4em;
-  }
+.edit::-webkit-scrollbar {
+  width: 0 !important
 }
+
+// .header {
+//   position: sticky;
+//   top: -8px;
+//   background: $mainColor;
+//   z-index: 10;
+//   padding: 5px 0px;
+//   box-shadow: 0px 0px 1px 2px $mainColor;
+
+//   h1 {
+//     margin: 0;
+//     font-size: 1.4em;
+//   }
+// }
 
 .error {
   color: $errorColor;
   display: block;
 }
 
-form {
-  padding: 20px;
-}
+// form {
+//   padding: 20px;
+// }
 
 .formgroup {
   margin-bottom: 15px;
   padding: 5px;
+
   &.collapsible {
     border-radius: 5px;
     background: #002828;
-    box-shadow:  7px 7px 10px #001010,
-                 -7px -7px 10px #003030;
+    box-shadow: 7px 7px 10px #001010,
+      -7px -7px 10px #003030;
   }
 }
 
@@ -46,48 +52,4 @@ form {
   display: inline-block;
   padding-top: 8px;
   padding-bottom: 8px;
-}
-
-.action-shortcuts {
-  z-index: 11;
-  position: absolute;
-  float: right;
-  top: 0;
-  right: 5px;
-  a {
-    vertical-align:top;
-    display: inline-block;
-    margin-right: 6px;
-    text-decoration: none;
-    color: white;
-    background: $mainColor;
-    padding: 5px 8px;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
-    transition: all 0.2s;
-  }
-  a:last-child {
-    margin-right: 0;
-  }
-  a:hover {
-    @media(hover: hover) {
-      padding-top: 8px;
-    }
-  }
-  a.danger:hover {
-    color: red;
-  }
-  a.save:hover {
-    color: $checkmark_checked;
-  }
-  a.repeat {
-    color: $checkmark_checked;
-  }
-}
-.action-shortcuts.negative {
-  a {
-    border-left: white 1px solid;
-    border-right: white 1px solid;
-    border-bottom: white 1px solid;
-  }
 }

@@ -1,4 +1,4 @@
-<div class="edit" *ngIf="user">
+<ng-container *ngIf="user">
   <ng-container *ngIf="!uid else editDeckHeader">
     <div class="action-shortcuts negative">
       <a [class.disabled]="!deckForm.valid" (click)="onSubmit()" class="save" title="Speichern">
@@ -44,4 +44,4 @@
       <input type="text" id="description" formControlName="description">
     </div>
   </form>
-</div>
+</ng-container>

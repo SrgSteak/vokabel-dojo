@@ -1,0 +1,46 @@
+<div class="content" *ngIf="lession">
+    <a routerLink="/grammar" class="backlink muted">
+        <i-feather name="chevron-left"></i-feather>Alle Grammatikpunkte
+    </a>
+    <h1>{{ lession.title }}</h1>
+    <p *ngFor="let paragraph of lession.description" [ngClass]="{ info: paragraph.type === 1 }">{{ paragraph.text }}
+    </p>
+    <ng-container *ngFor="let section of lession.sections; let i = index;">
+        <div class="section">
+            <p class="italic align-c">{{ section.explanation }}</p>
+            <div class="rule d-flex f-nowrap f-gap-1 ox-auto">
+                <div class="part flex-shrink-0"
+                    [ngClass]="{ 'placeholder': part.placeholders.length, 'highlight': part.highlight, 'strikethrough': part.strikethrough }"
+                    *ngFor="let part of section.grammarpoints" [innerHTML]="part.text | onyomi:'':part.highlight">
+                </div>
+            </div>
+            <div class="examples d-flex f-nowrap f-gap-1 ox-auto">
+                <div class="part flex-shrink-0"
+                    [ngClass]="{ 'placeholder': example.placeholders.length, 'highlight': example.highlight, 'strikethrough': example.strikethrough }"
+                    *ngFor="let example of section.grammarpoints">
+                    <ng-container *ngIf="example.placeholders.length else text">
+                        <div class="placeholder">
+                            <div *ngFor="let placeholder of example.placeholders"
+                                [innerHTML]="placeholder.japanese | onyomi:placeholder.reading:placeholder.highlight">
+                            </div>
+                        </div>
+                    </ng-container>
+                    <ng-template #text>
+                        <div [innerHTML]="example.text | onyomi:'':example.highlight"></div>
+                    </ng-template>
+                </div>
+            </div>
+            <!-- <ol class="sentences">
+                <li *ngFor="let sentence of section.translations">
+                    {{ sentence }}
+                </li>
+            </ol> -->
+        </div>
+        <ng-container *ngIf="section.exercises">
+            <a [routerLink]="['/', 'grammar',  lession.slug, i]">EXERCISES</a>
+        </ng-container>
+        <hr *ngIf="lession.sections.length > 1">
+    </ng-container>
+</div>
+<app-menu>
+</app-menu>

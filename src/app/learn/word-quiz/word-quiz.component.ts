@@ -160,7 +160,14 @@ export class WordQuizComponent implements OnInit, OnDestroy {
   }
 
   answerSelect(question: CardInterface, answer: CardInterface) {
-    if (question.uid == answer.uid) { // TODO: sometimes answers can be the same strings - that should count as valid hit as well!
+    console.log(question, answer);
+    if (
+      question.uid == answer.uid
+      || Array.isArray(question[this.answerMode]) ? question[this.answerMode].join() : question[this.answerMode] ===
+      Array.isArray(answer[this.answerMode]) ? answer[this.answerMode].join() : answer[this.answerMode]
+      || Array.isArray(question[this.questionMode]) ? question[this.questionMode].join() : question[this.questionMode] ===
+      Array.isArray(answer[this.questionMode]) ? answer[this.questionMode].join() : answer[this.questionMode]
+    ) { // TODO: sometimes answers can be the same strings - that should count as valid hit as well!
       this.deckService.totalHits++;
       if (!this.displayError) {
         question.hits++;

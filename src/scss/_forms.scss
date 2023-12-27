@@ -15,6 +15,21 @@ form {
     border-radius: 3px;
     box-sizing: border-box;
     font-size: 1rem;
+    background-color: canvas;
+
+    .light & {
+      background-color: $lightInputBackground;
+    }
+  }
+
+  textarea {
+    width: 100%;
+    padding: 0.5rem;
+    box-sizing: border-box;
+    appearance: none;
+    border: none;
+    border-radius: 3px;
+    font-size: 1rem;
 
     .light & {
       background-color: $lightInputBackground;
@@ -41,10 +56,33 @@ form {
   }
 }
 
-.formgroup>textarea {
-  width: 100%;
-  padding: 5px;
-  box-sizing: border-box;
+.formgroup {
+  flex-grow: 1;
+  margin-bottom: 1rem;
+
+  >textarea {
+    width: 100%;
+    padding: 5px;
+    box-sizing: border-box;
+    display: block;
+    resize: vertical;
+  }
+
+  &.collapsible {
+    .formgroup-header {
+      display: inline-block; // make me inline-flex when adding a chevron icon
+      width: 100%;
+      padding: 0.5rem;
+    }
+
+    margin-bottom: 15px;
+    // padding: 5px;
+    transition: all 0.2s;
+    border-radius: 5px;
+    background: $thirdBackgroundColor;
+    box-shadow: 7px 7px 10px #001010,
+    -7px -7px 10px #003030;
+  }
 }
 
 .form_array {
@@ -59,7 +97,7 @@ form {
   padding: 0.5rem 0;
   align-items: center;
 
-  button {
+  .add-remove-button {
     margin: 0;
     width: 1.5rem;
     display: inline-block;
@@ -71,9 +109,19 @@ form {
   }
 }
 
-
 .form_array .button {
   border: solid;
   border-width: 1px;
   border-color: white;
+}
+
+.collapsible {
+  overflow: hidden;
+
+  &.closed:hover {
+    @media(hover: hover) {
+      background-color: $hoverColor;
+      cursor: pointer;
+    }
+  }
 }

@@ -45,7 +45,6 @@ export function requiredWhenWordType(type: WordType): ValidatorFn {
 export class EditComponent implements OnInit {
 
   @HostBinding('@flyInOutTrigger') flyInOutTrigger = 'in';
-  @ViewChild('editWindow', { static: true }) editWindow: ElementRef;
   @ViewChild('searchWindow', { static: false }) searchWindow: ElementRef;
 
   cardForm = this.fb.group({
