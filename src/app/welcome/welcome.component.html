@@ -1,5 +1,13 @@
 <div class="content">
   <div class="welcome">
+    <div [ngSwitch]="holiday" style="text-align: center;">
+      <p *ngSwitchCase="'valentin'">💘 Liebe liegt in der Luft 💘</p>
+      <p *ngSwitchCase="'staatsfeiertag'">🇦🇹 Schönen Staatsfeiertag 🇦🇹</p>
+      <p *ngSwitchCase="'pirateDay'">🏴‍☠️ Arr, es ist Piratentag! 🏴‍☠️</p>
+      <p *ngSwitchCase="'spooktober'">🎃 It's the spooky season 🎃</p>
+      <p *ngSwitchCase="'xmas'">🎄 Frohes Winterhauchfest 🎄</p>
+      <p *ngSwitchCase="'newYear'">🎆 Frohes neues Jahr! 🎆</p>
+    </div>
     <ng-container *ngIf="user else guest">
       <ng-container *ngIf="user.displayName else nameless">
         <p>Willkommen zurück, {{ user.displayName }}. Was möchtest du heute trainieren?</p>
@@ -36,6 +44,12 @@
         </p>
         <span class="choice">Silbentabelle</span>
       </a>
+      <!-- <a routerLink="/grammar" class="grid-content">
+        <p>
+          <i-feather name="grid" class="feather"></i-feather>
+        </p>
+        <span class="choice">Grammatik</span>
+      </a> -->
       <a routerLink="/jouyou-kanji" class="grid-content">
         <p>
           <i-feather name="book" class="feather"></i-feather>

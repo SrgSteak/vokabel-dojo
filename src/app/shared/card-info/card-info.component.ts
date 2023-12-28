@@ -8,7 +8,6 @@ import { CardType, WordType, AdjectiveType, VerbType } from 'src/app/core/entiti
 import { SelectService } from 'src/app/core/services/select.service';
 import { AuthService, User } from 'src/app/core/auth.service';
 import { FontSwitcherService } from 'src/app/core/services/font-switcher.service';
-import { FeatherModule } from 'angular-feather';
 import { CommonModule } from '@angular/common';
 import { KanjiModule } from '../kanji/kanji.module';
 import { WordTypeComponent } from '../word-type/word-type.component';

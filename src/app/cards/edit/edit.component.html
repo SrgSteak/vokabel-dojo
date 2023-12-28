@@ -1,321 +1,319 @@
-<div class="edit" #editWindow>
-  <!-- create header -->
-  <ng-container *ngIf="!uid else editHeader">
-    <div class="action-shortcuts negative">
-      <a (click)="repeat = !repeat" [class.repeat]="repeat" title="Gleich noch eine anlegen">
-        <i-feather name="repeat"></i-feather>
-      </a>
-      <a [class.disabled]="!cardForm.valid" (click)="onSubmit()" class="save" title="Speichern">
-        <i-feather name="save"></i-feather>
-      </a>
-      <a [routerLink]="['', { outlets: { modal: null } }]" title="Schließen">
-        <i-feather name="x"></i-feather>
-      </a>
-    </div>
-    <div class="header">
-      <h1>
-        Lernkarte anlegen
-      </h1>
-    </div>
-  </ng-container>
-  <!-- edit header -->
-  <ng-template #editHeader>
-    <div class="action-shortcuts negative">
-      <a (click)="onDelete()" class="danger">
-        <i-feather name="trash"></i-feather>
-      </a>
-      <a [class.disabled]="!cardForm.valid" (click)="onSubmit()" class="save">
-        <i-feather name="save"></i-feather>
-      </a>
-      <a [routerLink]="['', { outlets: { modal: null } }]">
-        <i-feather name="x"></i-feather>
-      </a>
-    </div>
-    <div class="header">
-      <h1>
-        Lernkarte bearbeiten
-      </h1>
-    </div>
-  </ng-template>
-  <!-- header end -->
-  <form [formGroup]="cardForm" (ngSubmit)="onSubmit()">
-    <!-- wordType -->
-    <div class="formgroup collapsible" [class.closed]="!wordTypeToggle" @rollInOutAnimation>
-      <label (click)="wordTypeToggle = !wordTypeToggle" class="formgroup-header"><span class="muted">Kartentyp</span>
-        <ng-container [ngSwitch]="wordType.value">
-          <span *ngSwitchCase="wordTypes.simple"> Einfach</span>
-          <span *ngSwitchCase="wordTypes.noun"> Nomen</span>
-          <span *ngSwitchCase="wordTypes.surunoun"> する-Nomen</span>
-          <span *ngSwitchCase="wordTypes.verb"> Verb</span>
-          <span *ngSwitchCase="wordTypes.adjective"> Adjektiv</span>
-          <span *ngSwitchCase="wordTypes.adverb"> Adverb</span>
-          <span *ngSwitchCase="wordTypes.pronoun"> Pronomen</span>
-          <span *ngSwitchCase="wordTypes.preposition"> Präposition</span>
-          <span *ngSwitchCase="wordTypes.conjunction"> Konjunktion</span>
-          <span *ngSwitchCase="wordTypes.numeral"> Numeral</span>
-          <span *ngSwitchCase="wordTypes.interjection"> Interjektion</span>
-          <span *ngSwitchCase="wordTypes.kanji"> Kanji</span>
-        </ng-container>
+<!-- create header -->
+<ng-container *ngIf="!uid else editHeader">
+  <div class="action-shortcuts negative">
+    <a (click)="repeat = !repeat" [class.repeat]="repeat" title="Gleich noch eine anlegen">
+      <i-feather name="repeat"></i-feather>
+    </a>
+    <a [class.disabled]="!cardForm.valid" (click)="onSubmit()" class="save" title="Speichern">
+      <i-feather name="save"></i-feather>
+    </a>
+    <a [routerLink]="['', { outlets: { modal: null } }]" title="Schließen">
+      <i-feather name="x"></i-feather>
+    </a>
+  </div>
+  <div class="header">
+    <h1>
+      Lernkarte anlegen
+    </h1>
+  </div>
+</ng-container>
+<!-- edit header -->
+<ng-template #editHeader>
+  <div class="action-shortcuts negative">
+    <a (click)="onDelete()" class="danger">
+      <i-feather name="trash"></i-feather>
+    </a>
+    <a [class.disabled]="!cardForm.valid" (click)="onSubmit()" class="save">
+      <i-feather name="save"></i-feather>
+    </a>
+    <a [routerLink]="['', { outlets: { modal: null } }]">
+      <i-feather name="x"></i-feather>
+    </a>
+  </div>
+  <div class="header">
+    <h1>
+      Lernkarte bearbeiten
+    </h1>
+  </div>
+</ng-template>
+<!-- header end -->
+<form [formGroup]="cardForm" (ngSubmit)="onSubmit()">
+  <!-- wordType -->
+  <div class="formgroup collapsible" [class.closed]="!wordTypeToggle" @rollInOutAnimation>
+    <label (click)="wordTypeToggle = !wordTypeToggle" class="formgroup-header"><span class="muted">Kartentyp</span>
+      <ng-container [ngSwitch]="wordType.value">
+        <span *ngSwitchCase="wordTypes.simple"> Einfach</span>
+        <span *ngSwitchCase="wordTypes.noun"> Nomen</span>
+        <span *ngSwitchCase="wordTypes.surunoun"> する-Nomen</span>
+        <span *ngSwitchCase="wordTypes.verb"> Verb</span>
+        <span *ngSwitchCase="wordTypes.adjective"> Adjektiv</span>
+        <span *ngSwitchCase="wordTypes.adverb"> Adverb</span>
+        <span *ngSwitchCase="wordTypes.pronoun"> Pronomen</span>
+        <span *ngSwitchCase="wordTypes.preposition"> Präposition</span>
+        <span *ngSwitchCase="wordTypes.conjunction"> Konjunktion</span>
+        <span *ngSwitchCase="wordTypes.numeral"> Numeral</span>
+        <span *ngSwitchCase="wordTypes.interjection"> Interjektion</span>
+        <span *ngSwitchCase="wordTypes.kanji"> Kanji</span>
+      </ng-container>
+    </label>
+    <div *ngIf="wordTypeToggle" @rollInOutAnimation>
+      <label class="container">Einfach <span class="muted">Lernkarte</span>
+        <input type="radio" [formControl]="wordType" value="{{ wordTypes.simple }}" name="wordType">
+        <span class="checkmark">
+          <span class="checkmark_inner"></span>
+        </span>
       </label>
-      <div *ngIf="wordTypeToggle" @rollInOutAnimation>
-        <label class="container">Einfach <span class="muted">Lernkarte</span>
-          <input type="radio" [formControl]="wordType" value="{{ wordTypes.simple }}" name="wordType">
-          <span class="checkmark">
-            <span class="checkmark_inner"></span>
-          </span>
-        </label>
-        <label class="container">Nomen <span class="muted">Hauptwort</span>
-          <input type="radio" [formControl]="wordType" value="{{wordTypes.noun}}" name="wordType">
-          <span class="checkmark">
-            <span class="checkmark_inner"></span>
-          </span>
-        </label>
-        <label class="container">する-Nomen <span class="muted">Hauptwort das auch als Verb fungiert</span>
-          <input type="radio" [formControl]="wordType" value="{{wordTypes.surunoun}}" name="wordType">
-          <span class="checkmark">
-            <span class="checkmark_inner"></span>
-          </span>
-        </label>
-        <label class="container">Verb <span class="muted">Tätigkeitswort</span>
-          <input type="radio" [formControl]="wordType" value="{{wordTypes.verb}}" name="wordType">
-          <span class="checkmark">
-            <span class="checkmark_inner"></span>
-          </span>
-        </label>
-        <label class="container">Adjektiv <span class="muted">Eigenschaftswort</span>
-          <input type="radio" [formControl]="wordType" value="{{wordTypes.adjective}}" name="wordType">
-          <span class="checkmark">
-            <span class="checkmark_inner"></span>
-          </span>
-        </label>
-        <label class="container">Adverb <span class="muted">Nebenwort</span>
-          <input type="radio" [formControl]="wordType" value="{{wordTypes.adverb}}" name="wordType">
-          <span class="checkmark">
-            <span class="checkmark_inner"></span>
-          </span>
-        </label>
-        <label class="container">Pronomen <span class="muted">Fürwort</span>
-          <input type="radio" [formControl]="wordType" value="{{wordTypes.pronoun}}" name="wordType">
-          <span class="checkmark">
-            <span class="checkmark_inner"></span>
-          </span>
-        </label>
-        <label class="container">Präposition <span class="muted">Verhältnis- oder Lagewort</span>
-          <input type="radio" [formControl]="wordType" value="{{wordTypes.preposition}}" name="wordType">
-          <span class="checkmark">
-            <span class="checkmark_inner"></span>
-          </span>
-        </label>
-        <label class="container">Konjunktion <span class="muted">Bindewort</span>
-          <input type="radio" [formControl]="wordType" value="{{wordTypes.conjunction}}" name="wordType">
-          <span class="checkmark">
-            <span class="checkmark_inner"></span>
-          </span>
-        </label>
-        <label class="container">Numeral <span class="muted">Zahlwort</span>
-          <input type="radio" [formControl]="wordType" value="{{wordTypes.numeral}}" name="wordType">
-          <span class="checkmark">
-            <span class="checkmark_inner"></span>
-          </span>
-        </label>
-        <label class="container">Interjektion <span class="muted">Ausrufewort</span>
-          <input type="radio" [formControl]="wordType" value="{{wordTypes.interjection}}" name="wordType">
-          <span class="checkmark">
-            <span class="checkmark_inner"></span>
-          </span>
-        </label>
-        <label class="container">Kanji <span class="muted">Schriftzeichen</span>
-          <input type="radio" [formControl]="wordType" value="{{wordTypes.kanji}}" name="wordType">
-          <span class="checkmark">
-            <span class="checkmark_inner"></span>
-          </span>
-        </label>
-      </div>
-    </div>
-
-    <!-- verbType -->
-    <div class="formgroup collapsible" [class.closed]="!verbTypeToggle" *ngIf="wordType.value == wordTypes.verb"
-      @rollInOutAnimation>
-      <label (click)="verbTypeToggle = !verbTypeToggle" class="formgroup-header">Verb-Gruppe
-        <ng-container [ngSwitch]="verbType.value">
-          <span class="muted" *ngSwitchCase="verbTypes.single">Einstufig</span>
-          <span class="muted" *ngSwitchCase="verbTypes.five">Fünfstufig</span>
-        </ng-container>
+      <label class="container">Nomen <span class="muted">Hauptwort</span>
+        <input type="radio" [formControl]="wordType" value="{{wordTypes.noun}}" name="wordType">
+        <span class="checkmark">
+          <span class="checkmark_inner"></span>
+        </span>
       </label>
-      <div *ngIf="verbTypeToggle" @rollInOutAnimation>
-        <label class="container">Einstufig
-          <input type="radio" [formControl]="verbType" value="{{ verbTypes.single}}" name="verbType">
-          <span class="checkmark">
-            <span class="checkmark_inner"></span>
-          </span>
-        </label>
-        <label class="container">Fünfstufig
-          <input type="radio" [formControl]="verbType" value="{{ verbTypes.five}}" name="verbType">
-          <span class="checkmark">
-            <span class="checkmark_inner"></span>
-          </span>
-        </label>
-      </div>
-    </div>
-
-    <!-- verbContext -->
-    <div class="formgroup collapsible" [class.closed]="!verbContextToggle" *ngIf="wordType.value == wordTypes.verb"
-      @rollInOutAnimation>
-      <label (click)="verbContextToggle = !verbContextToggle" class="formgroup-header">Verb-Art
-        <ng-container [ngSwitch]="verbContext.value">
-          <span class="muted" *ngSwitchCase="verbContexts.transitive">Transitiv</span>
-          <span class="muted" *ngSwitchCase="verbContexts.intransitive">Intransitiv</span>
-        </ng-container>
+      <label class="container">する-Nomen <span class="muted">Hauptwort das auch als Verb fungiert</span>
+        <input type="radio" [formControl]="wordType" value="{{wordTypes.surunoun}}" name="wordType">
+        <span class="checkmark">
+          <span class="checkmark_inner"></span>
+        </span>
       </label>
-      <div *ngIf="verbContextToggle" @rollInOutAnimation>
-        <label class="container">Transitiv (消す - Ich lösche das Licht)
-          <input type="radio" [formControl]="verbContext" value="{{ verbContexts.transitive}}" name="verbContext">
-          <span class="checkmark">
-            <span class="checkmark_inner"></span>
-          </span>
-        </label>
-        <label class="container">Intransitiv (消える - Das Licht geht *von alleine*
-          aus)
-          <input type="radio" [formControl]="verbContext" value="{{ verbContexts.intransitive}}" name="verbContext">
-          <span class="checkmark">
-            <span class="checkmark_inner"></span>
-          </span>
-        </label>
-        <label class="container">Nicht zutreffend / Unbekannt
-          <input type="radio" [formControl]="verbContext" value="{{ verbContexts.unknown}}" name="verbContext">
-          <span class="checkmark">
-            <span class="checkmark_inner"></span>
-          </span>
-        </label>
-      </div>
-    </div>
-
-    <!-- adjectiveType -->
-    <div class="formgroup collapsible" [class.closed]="!adjectiveTypeToggle"
-      *ngIf="wordType.value == wordTypes.adjective" @rollInOutAnimation>
-      <label (click)="adjectiveTypeToggle = !adjectiveTypeToggle" class="formgroup-header">Adjektiv-Art
-        <ng-container [ngSwitch]="adjectiveType.value">
-          <span class="muted" *ngSwitchCase="adjectiveTypes.iAdjective">い-Adjektiv</span>
-          <span class="muted" *ngSwitchCase="adjectiveTypes.naAdjective">な-Adjektiv</span>
-        </ng-container>
+      <label class="container">Verb <span class="muted">Tätigkeitswort</span>
+        <input type="radio" [formControl]="wordType" value="{{wordTypes.verb}}" name="wordType">
+        <span class="checkmark">
+          <span class="checkmark_inner"></span>
+        </span>
       </label>
-      <div *ngIf="adjectiveTypeToggle" @rollInOutAnimation>
-        <label class="container">い-Adjektiv
-          <input type="radio" [formControl]="adjectiveType" value="{{ adjectiveTypes.iAdjective}}" name="adjectiveType">
-          <span class="checkmark">
-            <span class="checkmark_inner"></span>
-          </span>
-        </label>
-        <label class="container">な-Adjektiv
-          <input type="radio" [formControl]="adjectiveType" value="{{ adjectiveTypes.naAdjective}}"
-            name="adjectiveType">
-          <span class="checkmark">
-            <span class="checkmark_inner"></span>
-          </span>
-        </label>
-        <label class="container">Unbekannt / Nicht zutreffend
-          <input type="radio" [formControl]="adjectiveType" value="{{ adjectiveTypes.unknown}}" name="adjectiveType">
-          <span class="checkmark">
-            <span class="checkmark_inner"></span>
-          </span>
-        </label>
-      </div>
-    </div>
-
-    <!-- japanese -->
-    <div class="formgroup">
-      <label for="japanese">
-        Japanisch
+      <label class="container">Adjektiv <span class="muted">Eigenschaftswort</span>
+        <input type="radio" [formControl]="wordType" value="{{wordTypes.adjective}}" name="wordType">
+        <span class="checkmark">
+          <span class="checkmark_inner"></span>
+        </span>
       </label>
-      <input type="text" id="japanese" formControlName="japanese" placeholder="漢字、ひらがな、カタカナ">
+      <label class="container">Adverb <span class="muted">Nebenwort</span>
+        <input type="radio" [formControl]="wordType" value="{{wordTypes.adverb}}" name="wordType">
+        <span class="checkmark">
+          <span class="checkmark_inner"></span>
+        </span>
+      </label>
+      <label class="container">Pronomen <span class="muted">Fürwort</span>
+        <input type="radio" [formControl]="wordType" value="{{wordTypes.pronoun}}" name="wordType">
+        <span class="checkmark">
+          <span class="checkmark_inner"></span>
+        </span>
+      </label>
+      <label class="container">Präposition <span class="muted">Verhältnis- oder Lagewort</span>
+        <input type="radio" [formControl]="wordType" value="{{wordTypes.preposition}}" name="wordType">
+        <span class="checkmark">
+          <span class="checkmark_inner"></span>
+        </span>
+      </label>
+      <label class="container">Konjunktion <span class="muted">Bindewort</span>
+        <input type="radio" [formControl]="wordType" value="{{wordTypes.conjunction}}" name="wordType">
+        <span class="checkmark">
+          <span class="checkmark_inner"></span>
+        </span>
+      </label>
+      <label class="container">Numeral <span class="muted">Zahlwort</span>
+        <input type="radio" [formControl]="wordType" value="{{wordTypes.numeral}}" name="wordType">
+        <span class="checkmark">
+          <span class="checkmark_inner"></span>
+        </span>
+      </label>
+      <label class="container">Interjektion <span class="muted">Ausrufewort</span>
+        <input type="radio" [formControl]="wordType" value="{{wordTypes.interjection}}" name="wordType">
+        <span class="checkmark">
+          <span class="checkmark_inner"></span>
+        </span>
+      </label>
+      <label class="container">Kanji <span class="muted">Schriftzeichen</span>
+        <input type="radio" [formControl]="wordType" value="{{wordTypes.kanji}}" name="wordType">
+        <span class="checkmark">
+          <span class="checkmark_inner"></span>
+        </span>
+      </label>
     </div>
+  </div>
 
-    <!-- german -->
-    <div class="formgroup">
-      <div class="form_array" formArrayName="german">
-        <label for="german" (click)="addReading(german)">
-          <button class="button">+</button>Übersetzung/Bedeutung
-        </label>
-        <div class="input_group" *ngFor="let _german of german.controls; let i = index">
-          <button class="button" (click)="removeReadingAtIndex(german, i)">-</button>
-          <input type="text" [formControlName]="i" placeholder="Kanji, Hiragana, Katakana Übersetzung">
-        </div>
+  <!-- verbType -->
+  <div class="formgroup collapsible" [class.closed]="!verbTypeToggle" *ngIf="wordType.value == wordTypes.verb"
+    @rollInOutAnimation>
+    <label (click)="verbTypeToggle = !verbTypeToggle" class="formgroup-header">Verb-Gruppe
+      <ng-container [ngSwitch]="verbType.value">
+        <span class="muted" *ngSwitchCase="verbTypes.single">Einstufig</span>
+        <span class="muted" *ngSwitchCase="verbTypes.five">Fünfstufig</span>
+      </ng-container>
+    </label>
+    <div *ngIf="verbTypeToggle" @rollInOutAnimation>
+      <label class="container">Einstufig
+        <input type="radio" [formControl]="verbType" value="{{ verbTypes.single}}" name="verbType">
+        <span class="checkmark">
+          <span class="checkmark_inner"></span>
+        </span>
+      </label>
+      <label class="container">Fünfstufig
+        <input type="radio" [formControl]="verbType" value="{{ verbTypes.five}}" name="verbType">
+        <span class="checkmark">
+          <span class="checkmark_inner"></span>
+        </span>
+      </label>
+    </div>
+  </div>
+
+  <!-- verbContext -->
+  <div class="formgroup collapsible" [class.closed]="!verbContextToggle" *ngIf="wordType.value == wordTypes.verb"
+    @rollInOutAnimation>
+    <label (click)="verbContextToggle = !verbContextToggle" class="formgroup-header">Verb-Art
+      <ng-container [ngSwitch]="verbContext.value">
+        <span class="muted" *ngSwitchCase="verbContexts.transitive">Transitiv</span>
+        <span class="muted" *ngSwitchCase="verbContexts.intransitive">Intransitiv</span>
+      </ng-container>
+    </label>
+    <div *ngIf="verbContextToggle" @rollInOutAnimation>
+      <label class="container">Transitiv (消す - Ich lösche das Licht)
+        <input type="radio" [formControl]="verbContext" value="{{ verbContexts.transitive}}" name="verbContext">
+        <span class="checkmark">
+          <span class="checkmark_inner"></span>
+        </span>
+      </label>
+      <label class="container">Intransitiv (消える - Das Licht geht *von alleine*
+        aus)
+        <input type="radio" [formControl]="verbContext" value="{{ verbContexts.intransitive}}" name="verbContext">
+        <span class="checkmark">
+          <span class="checkmark_inner"></span>
+        </span>
+      </label>
+      <label class="container">Nicht zutreffend / Unbekannt
+        <input type="radio" [formControl]="verbContext" value="{{ verbContexts.unknown}}" name="verbContext">
+        <span class="checkmark">
+          <span class="checkmark_inner"></span>
+        </span>
+      </label>
+    </div>
+  </div>
+
+  <!-- adjectiveType -->
+  <div class="formgroup collapsible" [class.closed]="!adjectiveTypeToggle" *ngIf="wordType.value == wordTypes.adjective"
+    @rollInOutAnimation>
+    <label (click)="adjectiveTypeToggle = !adjectiveTypeToggle" class="formgroup-header">Adjektiv-Art
+      <ng-container [ngSwitch]="adjectiveType.value">
+        <span class="muted" *ngSwitchCase="adjectiveTypes.iAdjective">い-Adjektiv</span>
+        <span class="muted" *ngSwitchCase="adjectiveTypes.naAdjective">な-Adjektiv</span>
+      </ng-container>
+    </label>
+    <div *ngIf="adjectiveTypeToggle" @rollInOutAnimation>
+      <label class="container">い-Adjektiv
+        <input type="radio" [formControl]="adjectiveType" value="{{ adjectiveTypes.iAdjective}}" name="adjectiveType">
+        <span class="checkmark">
+          <span class="checkmark_inner"></span>
+        </span>
+      </label>
+      <label class="container">な-Adjektiv
+        <input type="radio" [formControl]="adjectiveType" value="{{ adjectiveTypes.naAdjective}}" name="adjectiveType">
+        <span class="checkmark">
+          <span class="checkmark_inner"></span>
+        </span>
+      </label>
+      <label class="container">Unbekannt / Nicht zutreffend
+        <input type="radio" [formControl]="adjectiveType" value="{{ adjectiveTypes.unknown}}" name="adjectiveType">
+        <span class="checkmark">
+          <span class="checkmark_inner"></span>
+        </span>
+      </label>
+    </div>
+  </div>
+
+  <!-- japanese -->
+  <div class="formgroup">
+    <label for="japanese">
+      Japanisch
+    </label>
+    <input type="text" id="japanese" formControlName="japanese" placeholder="漢字、ひらがな、カタカナ">
+  </div>
+
+  <!-- german -->
+  <div class="formgroup">
+    <div class="form_array" formArrayName="german">
+      <label for="german" (click)="addReading(german)">
+        <button class="button">+</button>Übersetzung/Bedeutung
+      </label>
+      <div class="input_group" *ngFor="let _german of german.controls; let i = index">
+        <button class="button" (click)="removeReadingAtIndex(german, i)">-</button>
+        <input type="text" [formControlName]="i" placeholder="Kanji, Hiragana, Katakana Übersetzung">
       </div>
     </div>
+  </div>
 
-    <!-- japanese readings -->
-    <div class="formgroup">
-      <div class="form_array" formArrayName="japanese_readings">
-        <label for="japanese_readings" (click)="addReading(japanese_readings)">
-          <button class="button">+</button>Japanische Lesungen <span class="muted"><ruby>訓<rt>くん</rt>読<rt>よ</rt>
-              み</ruby></span>
-        </label>
-        <div class="input_group" *ngFor="let japanese_reading of japanese_readings.controls; let i = index">
-          <button class="button" (click)="removeReadingAtIndex(japanese_readings,i)">-</button>
-          <input type="text" [formControlName]="i" placeholder="ひと">
-        </div>
+  <!-- japanese readings -->
+  <div class="formgroup">
+    <div class="form_array" formArrayName="japanese_readings">
+      <label for="japanese_readings" (click)="addReading(japanese_readings)">
+        <button class="button">+</button>Japanische Lesungen <span class="muted"><ruby>訓<rt>くん</rt>読<rt>よ</rt>
+            み</ruby></span>
+      </label>
+      <div class="input_group" *ngFor="let japanese_reading of japanese_readings.controls; let i = index">
+        <button class="button" (click)="removeReadingAtIndex(japanese_readings,i)">-</button>
+        <input type="text" [formControlName]="i" placeholder="ひと">
       </div>
     </div>
+  </div>
 
-    <!-- chinese readings -->
-    <div class="formgroup">
-      <div class="form_array" formArrayName="chinese_readings">
-        <label for="chinese_readings" (click)="addReading(chinese_readings)">
-          <button class="button">+</button>Chinesische Lesungen <span class="muted"><ruby>音<rt>おん</rt>読<rt>よ</rt>
-              み</ruby></span>
-        </label>
-        <div class="input_group" *ngFor="let chinese_reading of chinese_readings.controls; let i = index">
-          <button class="button" (click)="removeReadingAtIndex(chinese_readings,i)">-</button>
-          <input type="text" [formControlName]="i" placeholder="ジン">
-        </div>
+  <!-- chinese readings -->
+  <div class="formgroup">
+    <div class="form_array" formArrayName="chinese_readings">
+      <label for="chinese_readings" (click)="addReading(chinese_readings)">
+        <button class="button">+</button>Chinesische Lesungen <span class="muted"><ruby>音<rt>おん</rt>読<rt>よ</rt>
+            み</ruby></span>
+      </label>
+      <div class="input_group" *ngFor="let chinese_reading of chinese_readings.controls; let i = index">
+        <button class="button" (click)="removeReadingAtIndex(chinese_readings,i)">-</button>
+        <input type="text" [formControlName]="i" placeholder="ジン">
       </div>
     </div>
+  </div>
 
-    <!-- examples -->
-    <div class="formgroup">
-      <div class="form_array">
-        <label for="examples" (click)="addExample(examples)">
-          <button class="button">+</button>Beispiele
-        </label>
-        <ng-container formArrayName="examples" *ngFor="let example of examples.controls; let i = index">
-          <div class="input_group" [formGroupName]="i" @rollInOutAnimation>
-            <button class="button top" (click)="$event.preventDefault(); removeReadingAtIndex(examples,i)">-</button>
-            <div class="formgroup">
+  <!-- examples -->
+  <div class="formgroup">
+    <div class="form_array">
+      <label for="examples" (click)="addExample(examples)">
+        <button class="button">+</button>Beispiele
+      </label>
+      <ng-container formArrayName="examples" *ngFor="let example of examples.controls; let i = index">
+        <div class="input_group" [formGroupName]="i" @rollInOutAnimation>
+          <button class="button top" (click)="$event.preventDefault(); removeReadingAtIndex(examples,i)">-</button>
+          <div class="formgroup">
 
-              <label>Japanisch</label>
-              <input type="text" formControlName="japanese">
+            <label>Japanisch</label>
+            <input type="text" formControlName="japanese">
 
-              <label>Lesung</label>
-              <input type="text" formControlName="reading">
+            <label>Lesung</label>
+            <input type="text" formControlName="reading">
 
-              <label>Übersetzung</label>
-              <input type="text" formControlName="german">
-            </div>
+            <label>Übersetzung</label>
+            <input type="text" formControlName="german">
           </div>
-        </ng-container>
-      </div>
-    </div>
-
-    <div class="formgroup">
-      <label>Allgemeininformationen</label>
-      <textarea type="text" class="info_text" [formControl]="information"></textarea>
-    </div>
-
-    <!-- deck search and decks-->
-    <div class="formgroup searchcontainer" formArrayName="deck_uids">
-      <label>Decks</label>
-      <input type="search" class="deck_search" (keyup)="updatedPhrase($event)" (focus)="toggleSearch = true">
-      <div class="searchahead collapsible" *ngIf="toggleSearch" #searchWindow @rollInOutAnimation>
-        <div class="suggestion" *ngFor="let suggestion of suggestions | async"
-          (click)="toggleSearch = false; addDeckToCard(suggestion)">
-          {{ suggestion.name }}
         </div>
-      </div>
-      <label class="container collapsible" *ngFor="let deck of deckForm.controls; let i = index" @rollInOutAnimation>
-        <i-feather name="minus-circle" class="v-align-middle" (click)="removeDeckFromCard(i)"></i-feather>
-        {{ deck.value | deckname }}
-        <input type="text" [formControlName]="i">
-      </label>
+      </ng-container>
     </div>
-  </form>
-</div>
+  </div>
+
+  <div class="formgroup">
+    <label>Allgemeininformationen</label>
+    <textarea type="text" class="info_text" [formControl]="information"></textarea>
+  </div>
+
+  <!-- deck search and decks-->
+  <div class="formgroup searchcontainer" formArrayName="deck_uids">
+    <label>Decks</label>
+    <input type="search" placeholder="Hinzufügen zu Deck" class="deck_search" (keyup)="updatedPhrase($event)"
+      (focus)="toggleSearch = true">
+    <div class="searchahead collapsible" *ngIf="toggleSearch" #searchWindow @rollInOutAnimation>
+      <div class="suggestion" *ngFor="let suggestion of suggestions | async"
+        (click)="toggleSearch = false; addDeckToCard(suggestion)">
+        {{ suggestion.name }}
+      </div>
+    </div>
+    <label class="container collapsible" *ngFor="let deck of deckForm.controls; let i = index" @rollInOutAnimation>
+      <i-feather name="minus-circle" class="v-align-middle" (click)="removeDeckFromCard(i)"></i-feather>
+      {{ deck.value | deckname }}
+      <input type="text" [formControlName]="i">
+    </label>
+  </div>
+</form>

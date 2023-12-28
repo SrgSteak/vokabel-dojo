@@ -1,0 +1,108 @@
+@import '_variables';
+
+.d-flex {
+    display: flex;
+}
+
+.align-items-center {
+    align-items: center;
+}
+
+.flex-column {
+    flex-direction: column;
+}
+
+.h-100 {
+    height: 100%;
+}
+
+.pb-3 {
+    padding-bottom: 1rem;
+}
+
+.button {
+    margin: 0;
+}
+
+.textbox {
+    // japanese vertical modo!
+    // writing-mode: vertical-rl;
+    // text-orientation: upright;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+    justify-content: start;
+    align-items: start;
+    line-height: 1rem;
+    min-height: 2.5rem;
+    color: $secondaryTextColor;
+
+    &.selection {
+        flex-grow: 1;
+
+        >span {
+            box-sizing: border-box;
+            padding: 2px 5px;
+            border-radius: 5px;
+            background-color: $grammarButtonColor;
+            min-height: 34px;
+            min-width: 34px;
+            justify-content: center;
+            align-items: end;
+            display: flex;
+
+            &.lifted {
+                opacity: .6;
+                cursor: grabbing;
+            }
+
+            &.dragover {
+                filter: brightness(1.4);
+            }
+        }
+    }
+
+    &.given {
+        justify-content: center;
+
+        .wrapper {
+            background-color: rgba(125, 125, 125, 0.1);
+            border-radius: 5px;
+            // cursor: pointer;
+
+            >span {
+                user-select: none;
+                // cursor: pointer;
+                display: block;
+                box-sizing: border-box;
+                padding: 2px 5px;
+                border-radius: 5px;
+                background-color: $grammarButtonColor;
+                min-height: 34px;
+                min-width: 34px;
+                justify-content: center;
+                align-items: end;
+                display: flex;
+            }
+        }
+    }
+}
+
+.inactive {
+    opacity: 0;
+    user-select: none;
+    cursor: default;
+}
+
+.wordle {
+    display: inline-flex;
+    justify-content: center;
+    align-items: end;
+    box-sizing: border-box;
+    padding: 2px 5px;
+    border-radius: 5px;
+    background-color: $grammarButtonColor;
+    min-height: 34px;
+    min-width: 34px;
+}

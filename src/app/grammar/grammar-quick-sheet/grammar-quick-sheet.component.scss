@@ -1,0 +1,70 @@
+@import "_variables";
+
+hr {
+    margin-bottom: 2em;
+}
+
+::ng-deep ruby.empty {
+    margin-top: 10px;
+    // display: inline-block;
+}
+
+::ng-deep .info {
+    display: block;
+    padding: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    border-radius: 10px;
+    background-color: orange;
+}
+
+.section {
+    display: grid;
+
+    .rule,
+    .examples {
+        justify-content: space-between;
+        padding: 0.5em;
+
+        .part {
+            padding: 1rem;
+            align-self: center;
+
+            &.highlight {
+                background-color: orange;
+                color: $secondaryTextColor;
+            }
+        }
+    }
+
+    .rule {
+        background-color: $secondaryBackgroundColor;
+        color: $secondaryTextColor;
+        margin-bottom: 1em;
+
+        .placeholder {
+            border: 1px dashed $grammarRuleDashedBorder;
+        }
+    }
+
+    .examples {
+        .part {
+            &.placeholder {
+                border: 1px dashed $grammarDashedBorder;
+            }
+        }
+    }
+}
+
+::ng-deep .circle {
+    border: 1px solid orange;
+    border-radius: 5px;
+}
+
+::ng-deep .highlight {
+    color: orange;
+}
+
+::ng-deep .strikethrough {
+    text-decoration: line-through;
+}

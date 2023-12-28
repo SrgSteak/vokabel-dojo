@@ -13,7 +13,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.x] #original: [12.x, 14.x, 16.x] but reduced because we only host current version on firebase
+        node-version: [18.x, 20.x] #original: [12.x, 14.x, 16.x] but reduced because we only host current version on firebase
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:

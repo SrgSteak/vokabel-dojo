@@ -3,8 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FeatherModule } from 'angular-feather';
 import { CheckCircle, Edit, Save, Trash, X, MinusCircle, Repeat } from 'angular-feather/icons';
 
-
-
 @NgModule({
   declarations: [],
   imports: [

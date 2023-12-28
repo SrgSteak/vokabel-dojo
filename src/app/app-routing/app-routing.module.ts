@@ -38,8 +38,12 @@ export const ROUTES: Routes = [
     path: 'jouyou-kanji',
     loadChildren: () => import('../jouyou-kanji/jouyou-kanji.module').then(m => m.JouyouKanjiModule)
   },
+  {
+    path: 'grammar',
+    loadChildren: () => import('../grammar/routes').then(mod => mod.ROUTES)
+  },
   // global named router outlets
-  { path: 'cards/new/:deckuid', loadComponent: () => import('../cards/edit/edit.component').then(c => CardEditComponent), outlet: 'modal', canActivate: [AuthGuard] },
+  { path: 'cards/new/:deckuid', loadComponent: () => import('../cards/edit/edit.component').then(c => c.EditComponent), outlet: 'modal', canActivate: [AuthGuard] },
   { path: 'cards/edit/:uid', component: CardEditComponent, outlet: 'modal', canActivate: [AuthGuard] },
   {
     path: 'cards/:card',

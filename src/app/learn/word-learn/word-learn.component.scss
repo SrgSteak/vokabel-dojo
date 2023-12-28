@@ -13,10 +13,8 @@
   box-shadow: 4px 4px 16px 0px rgba(0, 0, 0, 0.2);
 }
 
-
-
-.learn {
-  height: 100%;
+:host {
+  display: block;
 }
 
 .line {

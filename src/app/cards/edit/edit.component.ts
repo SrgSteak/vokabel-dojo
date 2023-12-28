@@ -1,6 +1,6 @@
 import { Component, OnInit, HostBinding, ViewChild, ElementRef } from '@angular/core';
 import { CardService } from 'src/app/core/services/card.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FormBuilder, Validators, FormArray, FormControl, ValidatorFn, AbstractControl, ValidationErrors, ReactiveFormsModule } from '@angular/forms';
 import { Deck, DeckService } from 'src/app/core/services/deck.service';
 import { WordType, VerbType, AdjectiveType, VerbContext } from 'src/app/core/entities/card-type';
@@ -36,7 +36,7 @@ export function requiredWhenWordType(type: WordType): ValidatorFn {
   templateUrl: './edit.component.html',
   styleUrls: ['./edit.component.scss'],
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, IconsModule, DecknamePipe],
+  imports: [CommonModule, ReactiveFormsModule, IconsModule, DecknamePipe, RouterModule],
   animations: [
     FLY_IN_OUT_ANIMATION,
     ROLL_IN_OUT_ANIMATION
@@ -45,7 +45,6 @@ export function requiredWhenWordType(type: WordType): ValidatorFn {
 export class EditComponent implements OnInit {
 
   @HostBinding('@flyInOutTrigger') flyInOutTrigger = 'in';
-  @ViewChild('editWindow', { static: true }) editWindow: ElementRef;
   @ViewChild('searchWindow', { static: false }) searchWindow: ElementRef;
 
   cardForm = this.fb.group({

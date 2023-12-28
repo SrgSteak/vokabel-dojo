@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
-
 import { AppComponent } from './app.component';
 import { VocabularyService } from './vocabulary.service';
 import { FlashcardService } from './flashcard.service';
@@ -13,7 +12,6 @@ import { connectFirestoreEmulator, enableMultiTabIndexedDbPersistence, getFirest
 import { connectFunctionsEmulator, FunctionsModule, getFunctions, provideFunctions } from '@angular/fire/functions';
 import { NumberPipe } from './shared/pipes/number.pipe';
 import { CoreModule } from './core/core.module';
-import { OnyomiPipe } from './shared/pipes/onyomi.pipe';
 import { AppRoutingModule } from './app-routing/app-routing.module';
 import { FeatherModule } from 'angular-feather';
 import { HelpCircle, X } from 'angular-feather/icons';
@@ -73,8 +71,7 @@ export const persistenceEnabled = new Promise<boolean>(resolve => {
   declarations: [
     AppComponent,
     SelectbubbleComponent,
-    NumberPipe,
-    OnyomiPipe
+    NumberPipe
   ],
   bootstrap: [AppComponent],
   providers: [VocabularyService, FlashcardService, AngularFirestore]

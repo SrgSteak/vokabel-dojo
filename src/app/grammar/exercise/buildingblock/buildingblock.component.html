@@ -1,0 +1,38 @@
+<div class="d-flex align-items-center flex-column h-100" *ngIf="exercise">
+    <h1 *ngIf="exercise.type === ExerciseType.buildingblock">Übersetze diese Vorgabe</h1>
+    <h1 *ngIf="exercise.type === ExerciseType.select">Fülle die Lücke</h1>
+    <h1 *ngIf="exercise.type === ExerciseType.transform">Beuge das Wort</h1>
+    <p *ngIf="!isArray(exercise.instruction)">{{ exercise.instruction }}</p>
+    <p
+        *ngIf="isArray(exercise.instruction) && (exercise.type === ExerciseType.transform || exercise.type === ExerciseType.buildingblock)">
+        <ng-container *ngFor="let part of $any(exercise).instruction">
+            <ng-container *ngIf="isString(part) else ony">{{ part }}</ng-container>
+            <ng-template #ony>
+                <span class="wordle" [innerHTML]="part | onyomi"></span>
+            </ng-template>
+        </ng-container>
+    </p>
+    <div class="textbox selection" appNgFlipAnimation>
+        <ng-container *ngIf="exercise.type === ExerciseType.select">
+            <span *ngFor="let item of getPreFillInstruction()" [innerHTML]="item | onyomi"></span>
+        </ng-container>
+        <span *ngIf="selectedItems.length === 0 && exercise.type === ExerciseType.select" @placeholder
+            style="overflow: 'hidden'">____</span>
+        <span *ngFor="let item of selectedItems; let i = index" @deselect (click)="removeFromSelection($event, i)"
+            class="c-pointer" [class.lifted]="i === draggedWord" [class.dragover]="i === draggedOver" draggable="true"
+            (dragstart)="dragStart($event, i)" (dragenter)="dragEnter($event, i)" (dragleave)="dragLeave($event)"
+            (dragend)="dragEnd()" (dragover)="dragOver($event)" (drop)="drop(i)"><span [innerHTML]="item | onyomi"
+                style="pointer-events: none; overflow: hidden; white-space: nowrap;"></span></span>
+        <ng-container *ngIf="exercise.type === ExerciseType.select">
+            <span *ngFor="let item of getPostFillInstruction()" [innerHTML]="item | onyomi"></span>
+        </ng-container>
+    </div>
+    <div class="textbox given">
+        <span class="wrapper" *ngFor="let word of options" appNgFlipAnimation>
+            <span (click)="addToSelection($event, word)" *ngIf="!selectedItems.includes(word)" class="c-pointer"><span
+                    [innerHTML]="word | onyomi" style="pointer-events: none;"></span></span>
+            <span [innerHTML]="word | onyomi" *ngIf="selectedItems.includes(word)" class="inactive"></span>
+        </span>
+    </div>
+    <button class="button" (click)="submit()">Absenden</button>
+</div>

@@ -1,0 +1,25 @@
+<div class="content">
+    <a routerLink="" class="backlink muted">
+        <i-feather name="chevron-left"></i-feather> Home
+    </a>
+    <div class="grammar_grid j-content-center">
+        <a class="grid-content flex-grow-1" [routerLink]="['/grammar', { outlets: { modal: ['new']}}]"
+            *ngIf="user?.role == 'admin'"><span>
+                <i-feather name="plus-circle"></i-feather> Neuen Grammatikpunkt anlegen
+            </span>
+        </a>
+        <a class="grid-content flex-grow-1" *ngFor="let grammarpoint of grammarList"
+            [routerLink]="['/', 'grammar', grammarpoint.slug]">
+            <h1>
+                {{ grammarpoint.title }}
+            </h1>
+            <p class="flex-grow-1">
+                {{ grammarpoint.description[0].text }}
+            </p>
+            <span class="muted">{{ grammarpoint.updatedAt.toDate() | date:'dd.MM.yy' }}</span>
+        </a>
+        <p *ngIf="!grammarList.length" class="align-c">Derzeit keine Grammatikpunkte in dieser Auswahl</p>
+    </div>
+</div>
+<app-menu>
+</app-menu>

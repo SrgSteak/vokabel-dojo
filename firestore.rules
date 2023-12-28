@@ -32,5 +32,11 @@ service cloud.firestore {
       allow create, update: if request.auth != null && request.auth.uid == userId && getAfter(/databases/$(database)/documents/users/$(userId)).data.role == 'user' || get(/databases/$(database)/documents/users/$(userId)).data.role == 'admin';
       allow read, delete: if request.auth != null && request.auth.uid == userId;
     }
+
+    match /Grammar/{grammar} {
+      allow read; // allow anyone to read
+      // only allow admin to creade, update, delete
+      allow create, update, delete: if request.auth != null && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
   }
 }

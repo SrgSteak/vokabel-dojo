@@ -1,0 +1,151 @@
+<div class="action-shortcuts negative">
+    <a [routerLink]="['/grammar', { outlets: { modal: null}}]">
+        <i-feather name="x"></i-feather>
+    </a>
+    <a [class.disabled]="!grammarForm.valid" (click)="onSubmit()" class="save" title="Speichern">
+        <i-feather name="save"></i-feather>
+    </a>
+</div>
+
+<div class="header">
+    <h1>Neuer Grammatikpunkt</h1>
+</div>
+<div class="body">
+    <form [formGroup]="grammarForm" (ngSubmit)="onSubmit()">
+        <div class="formgroup">
+            <label for="">Titel</label>
+            <input type="text" formControlName="title" placeholder="Das は Partikel" />
+        </div>
+        <div class="formgroup">
+            <div class="form_array d-flex f-flow-col">
+                <label>Beschreibung</label>
+                <ng-container formArrayName="description" *ngFor="let desc of descriptions; let i = index">
+                    <div class="input_group" [formGroupName]="i" @rollInOutAnimation>
+                        <button class="button add-remove-button top"
+                            (click)="$event.preventDefault(); removeDescription(i)"
+                            [class.disabled]="descriptions.length < 2">-</button>
+                        <div class="flex-grow-1">
+                            <div class="formgroup collapsible" @rollInOutAnimation>
+                                <label class="formgroup-header" (click)="toggleDescription(i)">
+                                    <span class="muted">Typ</span>
+                                    <ng-container [ngSwitch]="descriptions[i].get('type').value">
+                                        <span *ngSwitchCase="0"> Absatz</span>
+                                        <span *ngSwitchCase="1"> Info</span>
+                                    </ng-container>
+                                </label>
+                                <div @rollInOutAnimation *ngIf="toggleDescriptionAtIndex === i">
+                                    <label class="container">Absatz <span class="muted">Mengentext, Inhalt</span>
+                                        <input type="radio" formControlName="type" value="0">
+                                        <span class="checkmark">
+                                            <span class="checkmark_inner"></span>
+                                        </span>
+                                    </label>
+                                    <label class="container">Info <span class="muted">Wichtige Info</span>
+                                        <input type="radio" formControlName="type" value="1">
+                                        <span class="checkmark">
+                                            <span class="checkmark_inner"></span>
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="formgroup">
+                                <label for="text_{{i}}">Inhalt</label>
+                                <textarea id="text_{{i}}" rows="4" formControlName="text"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+                <button (click)="$event.preventDefault(); addDescription()" class="button" style="align-self: start;">+
+                    Weitere Beschreibung</button>
+            </div>
+        </div>
+        <div class="formgroup">
+            <div class="form_array d-flex f-flow-col">
+                <label>Sektionen</label>
+                <!-- sections -->
+                <ng-container formArrayName="sections" *ngFor="let section of sections; let sectionIndex = index">
+                    <div class="input_group" [formGroupName]="sectionIndex" @rollInOutAnimation>
+                        <button class="button add-remove-button top"
+                            (click)="$event.preventDefault(); removeSection(sectionIndex)"
+                            [class.disabled]="sections.length < 2">-</button>
+                        <div class="flex-grow-1">
+                            <div class="formgroup">
+                                <label for="">Erklärung</label>
+                                <input type="text" formControlName="explanation" placeholder="A entspricht B" />
+                                <!-- <button class="button" (click)="$event.preventDefault(); setRangeOption(sectionIndex, 'explanation', 'highlight')">Hervorheben</button>
+                                <button class="button">Durchstreichen</button> -->
+                            </div>
+                            <div class="formgroup">
+                                <div class="form_array d-flex f-flow-col">
+                                    <label>Grammatikpunkte</label>
+                                    <!-- section -> grammarpoints -->
+                                    <ng-container formArrayName="grammarpoints"
+                                        *ngFor="let grammarpoint of getGrammarpointFor(sectionIndex); let grammarpointIndex = index;">
+                                        <div class="input_group" [formGroupName]="grammarpointIndex"
+                                            @rollInOutAnimation>
+                                            <button class="button add-remove-button top"
+                                                (click)="$event.preventDefault(); removeGrammarpoint(sectionIndex, grammarpointIndex)">-</button>
+                                            <div class="flex-grow-1">
+                                                <div class="formgroup">
+                                                    <label for="">Text</label>
+                                                    <input type="text" formControlName="text" (select)="aaaa($event)"
+                                                        (selectionchange)="aaaa($event)" placeholder="A" />
+                                                    <div class="input_group" [formGroupName]="'highlight'">
+                                                        <input type="number" formControlName="from" />
+                                                        <input type="number" formControlName="to" />
+                                                    </div>
+                                                    <div class="input_group" [formGroupName]="'strikethrough'">
+                                                        <input type="number" formControlName="from" />
+                                                        <input type="number" formControlName="to" />
+                                                    </div>
+                                                    <button class="button"
+                                                        (click)="$event.preventDefault(); setRangeOption(sectionIndex, grammarpointIndex, 'highlight');">Hervorheben</button>
+                                                    <button class="button"
+                                                        (click)="$event.preventDefault(); setRangeOption(sectionIndex, grammarpointIndex, 'strikethrough')">Durchstreichen</button>
+                                                </div>
+                                                <div class="formgroup">
+                                                    <label>Beispiele</label>
+                                                    <!-- section[sectionIndex] -> grammarpoint[grammarpointIndex] -> placeholders -->
+                                                    <ng-container formArrayName="placeholders"
+                                                        *ngFor="let placeholder of getPlaceholderForGrammarpoint(sectionIndex, grammarpointIndex); let placeholderIndex = index;">
+                                                        <div class="input_group" [formGroupName]="placeholderIndex"
+                                                            @rollInOutAnimation>
+                                                            <button class="button add-remove-button top"
+                                                                (click)="$event.preventDefault(); removeFromGrammarpoint(sectionIndex, grammarpointIndex, placeholderIndex)">-</button>
+                                                            <div class="flex-grow-1">
+                                                                <div class="formgroup">
+                                                                    <label>Japanisch</label>
+                                                                    <input type="text" formControlName="japanese"
+                                                                        placeholder="出来ます" />
+                                                                </div>
+                                                                <div class="formgroup">
+                                                                    <label>Lesung</label>
+                                                                    <input type="text" formControlName="reading"
+                                                                        placeholder="で*き***" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </ng-container>
+                                                    <button
+                                                        (click)="$event.preventDefault(); addToGrammarpoint(sectionIndex, grammarpointIndex)"
+                                                        class="button" style="align-self: center;">+ Weiteres
+                                                        Beispiel</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                    <button (click)="$event.preventDefault(); addGrammarpoint(sectionIndex)"
+                                        class="button" style="align-self: start;">+ Weiterer Punkt</button>
+                                    <!-- section -> grammarpoints -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+                <button (click)="$event.preventDefault(); addSection()" class="button" style="align-self: start;">+
+                    Weitere Abschnitt</button>
+                <!-- sections end -->
+            </div>
+        </div>
+    </form>
+</div>

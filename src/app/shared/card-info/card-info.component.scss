@@ -60,6 +60,7 @@
 
 .scroll-content {
   overflow: auto;
+  overscroll-behavior: contain;
   height: 100%;
 }
 

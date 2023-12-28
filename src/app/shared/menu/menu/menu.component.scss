@@ -24,10 +24,12 @@
 
 ::ng-deep .menu {
   width: 100%;
+  padding-top: env(safe-area-inset-top);
   background-color: $backgroundColor;
   /* Sit on top */
   text-align: center;
   overflow: auto;
+  overscroll-behavior: contain;
 
   a {
     cursor: pointer;
@@ -85,10 +87,11 @@
   align-self: flex-start;
   align-items: flex-start;
   gap: 10px;
-  padding-top: 10px;
+  padding-top: calc(10px + env(safe-area-inset-top));
 
   ::ng-deep button {
     margin: 0;
+    margin-left: -1px; // remove graphical bug on mobile: gap between list and button
     background-color: $backgroundColor;
     border-top-right-radius: 4px;
     border-bottom-right-radius: 4px;
