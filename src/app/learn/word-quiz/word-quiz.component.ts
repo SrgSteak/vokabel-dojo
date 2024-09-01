@@ -1,22 +1,21 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { DeckService } from 'src/app/core/services/deck.service';
-import { CardInterface } from 'src/app/core/entities/card-interface';
-import { FontSwitcherService } from 'src/app/core/services/font-switcher.service';
-import { WordType } from 'src/app/core/entities/card-type';
-import { QuizModeService } from 'src/app/services/quiz-mode.service';
-import { AuthService } from 'src/app/core/auth.service';
-import { CardService } from 'src/app/core/services/card.service';
-import { MenuService } from 'src/app/shared/menu/menu.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { SelectService } from 'src/app/core/services/select.service';
+import { Component, OnDestroy, OnInit } from "@angular/core";
+import { DeckService } from "src/app/core/services/deck.service";
+import { CardInterface } from "src/app/core/entities/card-interface";
+import { FontSwitcherService } from "src/app/core/services/font-switcher.service";
+import { CardType, WordType } from "src/app/core/entities/card-type";
+import { QuizModeService } from "src/app/services/quiz-mode.service";
+import { AuthService } from "src/app/core/auth.service";
+import { CardService } from "src/app/core/services/card.service";
+import { MenuService } from "src/app/shared/menu/menu.service";
+import { ActivatedRoute, Router } from "@angular/router";
+import { SelectService } from "src/app/core/services/select.service";
 
 @Component({
-  selector: 'app-word-quiz',
-  templateUrl: './word-quiz.component.html',
-  styleUrls: ['./word-quiz.component.scss']
+  selector: "app-word-quiz",
+  templateUrl: "./word-quiz.component.html",
+  styleUrls: ["./word-quiz.component.scss"],
 })
 export class WordQuizComponent implements OnInit, OnDestroy {
-
   cards: Array<CardInterface>;
   showCard: CardInterface;
   answers: Array<CardInterface>;
@@ -39,15 +38,15 @@ export class WordQuizComponent implements OnInit, OnDestroy {
   protected paramSub: any;
 
   get questionMode() {
-    return this.quizModeService.modeForm.get('left').value;
+    return this.quizModeService.modeForm.get("left").value;
   }
 
   get answerMode() {
-    return this.quizModeService.modeForm.get('right').value;
+    return this.quizModeService.modeForm.get("right").value;
   }
 
   get rubi() {
-    return this.quizModeService.modeForm.get('rubi').value;
+    return this.quizModeService.modeForm.get("rubi").value;
   }
 
   constructor(
@@ -60,15 +59,15 @@ export class WordQuizComponent implements OnInit, OnDestroy {
     private selectService: SelectService,
     private route: ActivatedRoute,
     private router: Router
-  ) { }
+  ) {}
 
   get scoredWords() {
     return this.deck.sort((a, b) => {
       if (a.hits - a.misses > b.hits - b.misses) {
-        return -1
+        return -1;
       }
       if (a.hits - a.misses < b.hits - b.misses) {
-        return 1
+        return 1;
       }
       return 0;
     });
@@ -76,16 +75,18 @@ export class WordQuizComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.showSettings();
-    this.paramSub = this.route.paramMap.subscribe(params => {
-      this.source = params.get('uid');
-      if (this.source === 'selection') {
+    this.paramSub = this.route.paramMap.subscribe((params) => {
+      this.source = params.get("uid");
+      if (this.source === "selection") {
         this.cards = this.selectService.cards;
       } else {
-        this.authService.user.subscribe(user => {
-          this.cardSub = this.cardService.loadForDeckUid(params.get('uid'), user ? ['', user.uid] : ['']).subscribe(data => {
-            this.cards = data;
-          })
-        })
+        this.authService.user.subscribe((user) => {
+          this.cardSub = this.cardService
+            .loadForDeckUid(params.get("uid"), user ? ["", user.uid] : [""])
+            .subscribe((data) => {
+              this.cards = data;
+            });
+        });
       }
     });
   }
@@ -112,26 +113,29 @@ export class WordQuizComponent implements OnInit, OnDestroy {
   }
 
   leave() {
-    if (this.source === 'selection') {
-      this.router.navigate(['/', { outlets: { primary: ['home'], modal: ['selection']}}]);
+    if (this.source === "selection") {
+      this.router.navigate([
+        "/",
+        { outlets: { primary: ["home"], modal: ["selection"] } },
+      ]);
     } else {
-      this.router.navigate(['/', 'decks', this.source]);
+      this.router.navigate(["/", "decks", this.source]);
     }
   }
 
   prepareDeck() {
     this.deck = [];
-    this.cards.forEach(card => {
+    this.cards.forEach((card) => {
       switch (card.wordType) {
         case WordType.kanji:
-          card.examples.forEach(example => {
+          card.examples.forEach((example) => {
             this.deck.push({
               japanese: example.japanese,
               reading: example.reading,
               german: [example.german],
               hits: 0,
               misses: 0,
-              uid: card.uid
+              uid: card.uid,
             });
           });
           break;
@@ -148,7 +152,7 @@ export class WordQuizComponent implements OnInit, OnDestroy {
 
   reset() {
     this.displayError = false;
-    this.deck.forEach(card => {
+    this.deck.forEach((card) => {
       card.hits = 0;
       card.misses = 0;
     });
@@ -160,14 +164,8 @@ export class WordQuizComponent implements OnInit, OnDestroy {
   }
 
   answerSelect(question: CardInterface, answer: CardInterface) {
-    console.log(question, answer);
-    if (
-      question.uid == answer.uid
-      || Array.isArray(question[this.answerMode]) ? question[this.answerMode].join() : question[this.answerMode] ===
-      Array.isArray(answer[this.answerMode]) ? answer[this.answerMode].join() : answer[this.answerMode]
-      || Array.isArray(question[this.questionMode]) ? question[this.questionMode].join() : question[this.questionMode] ===
-      Array.isArray(answer[this.questionMode]) ? answer[this.questionMode].join() : answer[this.questionMode]
-    ) { // TODO: sometimes answers can be the same strings - that should count as valid hit as well!
+    if (this.isAnswerMatching(question, answer)) {
+      // TODO: sometimes answers can be the same strings - that should count as valid hit as well!
       this.deckService.totalHits++;
       if (!this.displayError) {
         question.hits++;
@@ -181,6 +179,24 @@ export class WordQuizComponent implements OnInit, OnDestroy {
         this.displayError = true;
       }
     }
+  }
+
+  private isAnswerMatching(
+    question: CardInterface,
+    answer: CardInterface
+  ): boolean {
+    if (question.uid == answer.uid) {
+      return true;
+    }
+
+    const rightAnswer = Array.isArray(question[this.answerMode])
+      ? question[this.answerMode].join()
+      : question[this.answerMode];
+    const givenAnswer = Array.isArray(answer[this.answerMode])
+      ? answer[this.answerMode].join()
+      : answer[this.answerMode];
+
+    return rightAnswer === givenAnswer;
   }
 
   newRound() {
@@ -198,7 +214,11 @@ export class WordQuizComponent implements OnInit, OnDestroy {
     } else {
       this.showCard = this.deck[this.index];
       this.answers = this.deckService.draw(
-        this.deckService.shuffle(this.deck.filter((value) => { return value.uid !== this.showCard.uid })),
+        this.deckService.shuffle(
+          this.deck.filter((value) => {
+            return value.uid !== this.showCard.uid;
+          })
+        ),
         this.numberAnswers
       );
       this.answers.push(this.showCard);
@@ -215,4 +235,3 @@ export class WordQuizComponent implements OnInit, OnDestroy {
     this.nextCard(true);
   }
 }
-
